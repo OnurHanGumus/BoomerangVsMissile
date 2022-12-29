@@ -48,6 +48,7 @@ namespace Controllers
                 return;
             }
             Move();
+            Spin();
         }
         public void Move()
         {
@@ -73,7 +74,12 @@ namespace Controllers
             }
 
         }
-
+        private void Spin()
+        {
+            //_rig.AddRelativeTorque(new Vector3(0, 0, _data.AngularSpeed * (_manager.IsRight ? 1 : -1)), ForceMode.Force);
+            _rig.angularVelocity = new Vector3(0, 0, _data.AngularSpeed * (_manager.IsRight ? 1 : -1));
+            _rig.maxAngularVelocity = 50;
+        }
         public void Throwed()
         {
             _manager.MissilePoints.Add(_initializePos);
@@ -94,6 +100,7 @@ namespace Controllers
             _isThrowed = false;
             _isPointMissed = false;
             _rig.velocity = Vector3.zero;
+            _rig.angularVelocity = Vector3.zero;
         }
 
         public void OnBoomerangRespawned()

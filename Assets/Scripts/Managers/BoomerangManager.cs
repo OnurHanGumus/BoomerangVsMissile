@@ -17,7 +17,7 @@ namespace Managers
         #region Public Variables
         public List<Vector3> MissilePoints;
         public int PointIndeks = 0;
-
+        public bool IsRight = true;
 
         #endregion
 
@@ -27,6 +27,7 @@ namespace Managers
         #region Private Variables
         private PlayerData _data;
         private BoomerangMovementController _movementController;
+
         #endregion
 
         #endregion
@@ -91,6 +92,7 @@ namespace Managers
                 return;
             }
             ++PointIndeks;
+            IsRight = !IsRight;
         }
 
         private void OnBoomerangReturned()

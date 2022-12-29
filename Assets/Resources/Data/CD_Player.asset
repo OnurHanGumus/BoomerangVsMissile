@@ -14,5 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Data:
     Speed: 10
+    AngularSpeed: 20
     InitializePosX: 0
     InitializePosY: 0
