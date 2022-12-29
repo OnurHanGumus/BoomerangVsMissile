@@ -103,7 +103,6 @@ namespace Managers
                         Vector3 hitPoint = hit.point;
                         hitPoint = new Vector3(hitPoint.x, hitPoint.y, 0);
                         InputSignals.Instance.onClicking?.Invoke(hitPoint);
-                        Debug.Log(hitPoint);
                         _lastHitTransform = hit.transform;
                     }
                 }

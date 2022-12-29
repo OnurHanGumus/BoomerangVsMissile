@@ -34,7 +34,6 @@ namespace Controllers
         {
             if (other.CompareTag("Missile"))
             {
-
                 PlayerSignals.Instance.onBoomerangNextTarget?.Invoke();
             }
             else if (other.CompareTag("BoomerangHand"))

@@ -11,7 +11,6 @@ namespace Controllers
         #region Self Variables
 
         #region Serialized Variables
-        [SerializeField] private Vector3 initializePos;
 
         #endregion
         #region Private Variables
@@ -21,7 +20,9 @@ namespace Controllers
 
         private bool _isNotStarted = true;
         private bool _isThrowed = false;
-        private bool _isPointMissed = false;
+        public bool _isPointMissed = false;
+        private Vector3 _initializePos;
+
 
         #endregion
         #endregion
@@ -36,7 +37,7 @@ namespace Controllers
             _rig = GetComponent<Rigidbody>();
             _manager = GetComponent<BoomerangManager>();
             _data = _manager.GetData();
-            initializePos = transform.position;
+            _initializePos = transform.position;
         }
 
 
@@ -62,14 +63,20 @@ namespace Controllers
             {
                 return;
             }
-            Vector3 dir = (_manager.MissilePoints[_manager.PointIndeks] - transform.position).normalized * 10;
+
+            Vector3 dir = (_manager.MissilePoints[_manager.PointIndeks] - transform.position).normalized * _data.Speed;
             _rig.velocity = dir;
+
+            if (Mathf.Abs((_manager.MissilePoints[_manager.PointIndeks] - transform.position).sqrMagnitude) <= new Vector3(0.1f, 0.1f, 0.1f).sqrMagnitude)
+            {
+                _isPointMissed = true;
+            }
 
         }
 
         public void Throwed()
         {
-            _manager.MissilePoints.Add(initializePos);
+            _manager.MissilePoints.Add(_initializePos);
             _isThrowed = true;
         }
 
@@ -85,7 +92,13 @@ namespace Controllers
         public void OnBoomerangHasReturned()
         {
             _isThrowed = false;
+            _isPointMissed = false;
             _rig.velocity = Vector3.zero;
+        }
+
+        public void OnBoomerangRespawned()
+        {
+            _isPointMissed = false;
         }
         public void OnLevelFailed()
         {

@@ -72,7 +72,7 @@ namespace Managers
 
         private async Task InstantiateMissile()
         {
-            Instantiate(missilePrefab, new Vector3(transform.position.x + Random.Range(-3f, 4f),transform.position.y), transform.rotation);
+            Instantiate(missilePrefab, new Vector3(transform.position.x + Random.Range(-2f, 3f),transform.position.y), transform.rotation);
             await Task.Delay(3000);
             await InstantiateMissile();
         }
