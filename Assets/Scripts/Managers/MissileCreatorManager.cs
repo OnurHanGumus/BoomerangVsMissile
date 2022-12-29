@@ -21,7 +21,6 @@ namespace Managers
         #endregion
 
         #region Serialized Variables
-        [SerializeField] private GameObject missilePrefab;
         #endregion
 
         #region Private Variables
@@ -72,7 +71,10 @@ namespace Managers
 
         private async Task InstantiateMissile()
         {
-            Instantiate(missilePrefab, new Vector3(transform.position.x + Random.Range(-2f, 3f),transform.position.y), transform.rotation);
+            //Instantiate(missilePrefab, new Vector3(transform.position.x + Random.Range(-2f, 3f),transform.position.y), transform.rotation);
+            GameObject missile = PoolSignals.Instance.onGetObject(PoolEnums.Missile);
+            missile.transform.position = new Vector3(transform.position.x + Random.Range(-2f, 3f), transform.position.y);
+            missile.SetActive(true);
             await Task.Delay(3000);
             await InstantiateMissile();
         }
