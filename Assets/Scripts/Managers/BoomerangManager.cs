@@ -57,6 +57,7 @@ namespace Managers
             InputSignals.Instance.onClicking += OnAddPoint;
             InputSignals.Instance.onInputReleased += OnInputRelease;
             PlayerSignals.Instance.onBoomerangNextTarget += OnBoomerangNextTarget;
+            PlayerSignals.Instance.onBoomerangNextTarget += _movementController.OnBoomerangNextTarget;
             PlayerSignals.Instance.onBoomerangHasReturned += OnBoomerangReturned;
             PlayerSignals.Instance.onBoomerangHasReturned += _movementController.OnBoomerangHasReturned;
             CoreGameSignals.Instance.onRestartLevel += OnResetLevel;
@@ -68,6 +69,7 @@ namespace Managers
             InputSignals.Instance.onClicking -= OnAddPoint;
             InputSignals.Instance.onInputReleased -= OnInputRelease;
             PlayerSignals.Instance.onBoomerangNextTarget -= OnBoomerangNextTarget;
+            PlayerSignals.Instance.onBoomerangNextTarget -= _movementController.OnBoomerangNextTarget;
             PlayerSignals.Instance.onBoomerangHasReturned -= OnBoomerangReturned;
             PlayerSignals.Instance.onBoomerangHasReturned -= _movementController.OnBoomerangHasReturned;
             CoreGameSignals.Instance.onRestartLevel -= OnResetLevel;

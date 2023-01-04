@@ -65,7 +65,7 @@ namespace Controllers
                 return;
             }
 
-            Vector3 dir = (_manager.MissilePoints[_manager.PointIndeks] - transform.position).normalized * _data.Speed;
+            Vector3 dir = (_manager.MissilePoints[_manager.PointIndeks] - transform.position).normalized * _data.Speed * (_manager.PointIndeks + 1);
             _rig.velocity = dir;
 
             if (Mathf.Abs((_manager.MissilePoints[_manager.PointIndeks] - transform.position).sqrMagnitude) <= new Vector3(0.1f, 0.1f, 0.1f).sqrMagnitude)
@@ -90,7 +90,6 @@ namespace Controllers
         public void OnPlay()
         {
 
-
         }
 
         
@@ -101,6 +100,15 @@ namespace Controllers
             _isPointMissed = false;
             _rig.velocity = Vector3.zero;
             _rig.angularVelocity = Vector3.zero;
+        }
+
+        public void OnBoomerangNextTarget()
+        {
+            if (_isPointMissed)
+            {
+                _manager.PointIndeks = _manager.MissilePoints.Count - 1;
+            }
+            _isPointMissed = false;
         }
 
         public void OnBoomerangRespawned()

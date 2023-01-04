@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: CD_Player
   m_EditorClassIdentifier: 
   Data:
-    Speed: 10
+    Speed: 5
     AngularSpeed: 20
     InitializePosX: 0
     InitializePosY: 0
