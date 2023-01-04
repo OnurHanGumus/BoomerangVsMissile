@@ -18,6 +18,7 @@ namespace Managers
         public List<Vector3> MissilePoints;
         public int PointIndeks = 0;
         public bool IsRight = true;
+        public bool IsThrowed = false;
 
         #endregion
 
@@ -108,11 +109,17 @@ namespace Managers
         }
         private void OnInputRelease()
         {
-            if (MissilePoints.Count <= 0)
+            if (MissilePoints.Count <= 0 || IsThrowed)
             {
                 return;
             }
+            PlayerSignals.Instance.onBoomerangThrowed?.Invoke();
             _movementController.Throwed();
+        }
+        private void OnBecameInvisible()
+        {
+            PlayerSignals.Instance.onBoomerangBecomeInvisible?.Invoke();
+            Debug.Log("invisible");
         }
         private void OnResetLevel()
         {

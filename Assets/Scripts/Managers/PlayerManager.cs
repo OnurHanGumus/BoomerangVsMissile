@@ -19,7 +19,7 @@ namespace Managers
         #endregion
 
         #region Serialized Variables
-
+        [SerializeField] private PlayerAnimationController animationController;
         #endregion
 
         #region Private Variables
@@ -57,6 +57,9 @@ namespace Managers
             CoreGameSignals.Instance.onLevelFailed += _movementController.OnLevelFailed;
             CoreGameSignals.Instance.onRestartLevel += _movementController.OnRestartLevel;
             CoreGameSignals.Instance.onRestartLevel += OnResetLevel;
+            PlayerSignals.Instance.onBoomerangBecomeInvisible += OnBoomerangBecomeInvisible;
+            PlayerSignals.Instance.onBoomerangThrowed += OnBoomerangThrowed;
+            PlayerSignals.Instance.onChangePlayerAnimation += animationController.OnChangeAnimation;
         }
 
         private void UnsubscribeEvents()
@@ -67,6 +70,9 @@ namespace Managers
             CoreGameSignals.Instance.onLevelFailed -= _movementController.OnLevelFailed;
             CoreGameSignals.Instance.onRestartLevel -= _movementController.OnRestartLevel;
             CoreGameSignals.Instance.onRestartLevel -= OnResetLevel;
+            PlayerSignals.Instance.onBoomerangBecomeInvisible -= OnBoomerangBecomeInvisible;
+            PlayerSignals.Instance.onBoomerangThrowed -= OnBoomerangThrowed;
+            PlayerSignals.Instance.onChangePlayerAnimation -= animationController.OnChangeAnimation;
         }
 
 
@@ -87,7 +93,15 @@ namespace Managers
             _playerUpgradeList = upgradeList;
         }
 
+        private void OnBoomerangThrowed()
+        {
+            PlayerSignals.Instance.onChangePlayerAnimation?.Invoke(PlayerAnimationStates.Throw);
+        }
 
+        private void OnBoomerangBecomeInvisible()
+        {
+            Debug.Log("Boomerang is invisible");
+        }
         private void OnResetLevel()
         {
 

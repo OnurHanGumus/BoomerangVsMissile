@@ -19,7 +19,6 @@ namespace Controllers
         private PlayerData _data;
 
         private bool _isNotStarted = true;
-        private bool _isThrowed = false;
         public bool _isPointMissed = false;
         private Vector3 _initializePos;
 
@@ -43,7 +42,7 @@ namespace Controllers
 
         private void FixedUpdate()
         {
-            if (!_isThrowed)
+            if (!_manager.IsThrowed)
             {
                 return;
             }
@@ -60,7 +59,7 @@ namespace Controllers
             {
                 return;
             }
-            if (!_isThrowed)
+            if (!_manager.IsThrowed)
             {
                 return;
             }
@@ -83,7 +82,7 @@ namespace Controllers
         public void Throwed()
         {
             _manager.MissilePoints.Add(_initializePos);
-            _isThrowed = true;
+            _manager.IsThrowed = true;
         }
 
 
@@ -96,7 +95,7 @@ namespace Controllers
 
         public void OnBoomerangHasReturned()
         {
-            _isThrowed = false;
+            _manager.IsThrowed = false;
             _isPointMissed = false;
             _rig.velocity = Vector3.zero;
             _rig.angularVelocity = Vector3.zero;
@@ -110,6 +109,7 @@ namespace Controllers
             }
             _isPointMissed = false;
         }
+
 
         public void OnBoomerangRespawned()
         {
