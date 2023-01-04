@@ -119,7 +119,6 @@ namespace Managers
         private void OnBecameInvisible()
         {
             PlayerSignals.Instance.onBoomerangBecomeInvisible?.Invoke();
-            Debug.Log("invisible");
         }
         private void OnResetLevel()
         {

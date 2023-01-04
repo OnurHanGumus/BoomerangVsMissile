@@ -60,6 +60,7 @@ namespace Managers
             PlayerSignals.Instance.onBoomerangBecomeInvisible += OnBoomerangBecomeInvisible;
             PlayerSignals.Instance.onBoomerangThrowed += OnBoomerangThrowed;
             PlayerSignals.Instance.onChangePlayerAnimation += animationController.OnChangeAnimation;
+            PlayerSignals.Instance.onBoomerangHasReturned += OnBoomerangHasReturned;
         }
 
         private void UnsubscribeEvents()
@@ -73,6 +74,7 @@ namespace Managers
             PlayerSignals.Instance.onBoomerangBecomeInvisible -= OnBoomerangBecomeInvisible;
             PlayerSignals.Instance.onBoomerangThrowed -= OnBoomerangThrowed;
             PlayerSignals.Instance.onChangePlayerAnimation -= animationController.OnChangeAnimation;
+            PlayerSignals.Instance.onBoomerangHasReturned -= OnBoomerangHasReturned;
         }
 
 
@@ -96,6 +98,10 @@ namespace Managers
         private void OnBoomerangThrowed()
         {
             PlayerSignals.Instance.onChangePlayerAnimation?.Invoke(PlayerAnimationStates.Throw);
+        }
+        private void OnBoomerangHasReturned()
+        {
+            PlayerSignals.Instance.onChangePlayerAnimation?.Invoke(PlayerAnimationStates.Catch);
         }
 
         private void OnBoomerangBecomeInvisible()
