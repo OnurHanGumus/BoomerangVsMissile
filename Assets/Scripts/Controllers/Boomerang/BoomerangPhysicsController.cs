@@ -34,11 +34,11 @@ namespace Controllers
         {
             if (other.CompareTag("Missile"))
             {
-                PlayerSignals.Instance.onBoomerangNextTarget?.Invoke();
+                BoomerangSignals.Instance.onBoomerangNextTarget?.Invoke();
             }
             else if (other.CompareTag("BoomerangHand"))
             {
-                PlayerSignals.Instance.onBoomerangHasReturned?.Invoke();
+                BoomerangSignals.Instance.onBoomerangHasReturned?.Invoke();
             }
         }
     }

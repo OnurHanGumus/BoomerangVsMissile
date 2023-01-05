@@ -61,7 +61,7 @@ namespace Managers
             InputSignals.Instance.onDisableInput += OnDisableInput;
             CoreGameSignals.Instance.onPlay += OnPlay;
             CoreGameSignals.Instance.onReset += OnReset;
-            PlayerSignals.Instance.onBoomerangHasReturned += OnBoomerangReturned;
+            BoomerangSignals.Instance.onBoomerangHasReturned += OnBoomerangReturned;
         }
 
         private void UnsubscribeEvents()
@@ -70,7 +70,7 @@ namespace Managers
             InputSignals.Instance.onDisableInput -= OnDisableInput;
             CoreGameSignals.Instance.onPlay -= OnPlay;
             CoreGameSignals.Instance.onReset -= OnReset;
-            PlayerSignals.Instance.onBoomerangHasReturned -= OnBoomerangReturned;
+            BoomerangSignals.Instance.onBoomerangHasReturned -= OnBoomerangReturned;
 
         }
 

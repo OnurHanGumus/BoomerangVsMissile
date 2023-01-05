@@ -57,10 +57,10 @@ namespace Managers
             CoreGameSignals.Instance.onPlay += OnPlay;
             InputSignals.Instance.onClicking += OnAddPoint;
             InputSignals.Instance.onInputReleased += OnInputRelease;
-            PlayerSignals.Instance.onBoomerangNextTarget += OnBoomerangNextTarget;
-            PlayerSignals.Instance.onBoomerangNextTarget += _movementController.OnBoomerangNextTarget;
-            PlayerSignals.Instance.onBoomerangHasReturned += OnBoomerangReturned;
-            PlayerSignals.Instance.onBoomerangHasReturned += _movementController.OnBoomerangHasReturned;
+            BoomerangSignals.Instance.onBoomerangNextTarget += OnBoomerangNextTarget;
+            BoomerangSignals.Instance.onBoomerangNextTarget += _movementController.OnBoomerangNextTarget;
+            BoomerangSignals.Instance.onBoomerangHasReturned += OnBoomerangReturned;
+            BoomerangSignals.Instance.onBoomerangHasReturned += _movementController.OnBoomerangHasReturned;
             CoreGameSignals.Instance.onRestartLevel += OnResetLevel;
         }
 
@@ -69,10 +69,10 @@ namespace Managers
             CoreGameSignals.Instance.onPlay -= OnPlay;
             InputSignals.Instance.onClicking -= OnAddPoint;
             InputSignals.Instance.onInputReleased -= OnInputRelease;
-            PlayerSignals.Instance.onBoomerangNextTarget -= OnBoomerangNextTarget;
-            PlayerSignals.Instance.onBoomerangNextTarget -= _movementController.OnBoomerangNextTarget;
-            PlayerSignals.Instance.onBoomerangHasReturned -= OnBoomerangReturned;
-            PlayerSignals.Instance.onBoomerangHasReturned -= _movementController.OnBoomerangHasReturned;
+            BoomerangSignals.Instance.onBoomerangNextTarget -= OnBoomerangNextTarget;
+            BoomerangSignals.Instance.onBoomerangNextTarget -= _movementController.OnBoomerangNextTarget;
+            BoomerangSignals.Instance.onBoomerangHasReturned -= OnBoomerangReturned;
+            BoomerangSignals.Instance.onBoomerangHasReturned -= _movementController.OnBoomerangHasReturned;
             CoreGameSignals.Instance.onRestartLevel -= OnResetLevel;
         }
 
@@ -113,12 +113,12 @@ namespace Managers
             {
                 return;
             }
-            PlayerSignals.Instance.onBoomerangThrowed?.Invoke();
+            BoomerangSignals.Instance.onBoomerangThrowed?.Invoke();
             _movementController.Throwed();
         }
         private void OnBecameInvisible()
         {
-            PlayerSignals.Instance.onBoomerangBecomeInvisible?.Invoke();
+            BoomerangSignals.Instance.onBoomerangBecomeInvisible?.Invoke();
         }
         private void OnResetLevel()
         {

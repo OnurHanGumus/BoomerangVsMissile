@@ -57,10 +57,10 @@ namespace Managers
             CoreGameSignals.Instance.onLevelFailed += _movementController.OnLevelFailed;
             CoreGameSignals.Instance.onRestartLevel += _movementController.OnRestartLevel;
             CoreGameSignals.Instance.onRestartLevel += OnResetLevel;
-            PlayerSignals.Instance.onBoomerangBecomeInvisible += OnBoomerangBecomeInvisible;
-            PlayerSignals.Instance.onBoomerangThrowed += OnBoomerangThrowed;
+            BoomerangSignals.Instance.onBoomerangBecomeInvisible += OnBoomerangBecomeInvisible;
+            BoomerangSignals.Instance.onBoomerangThrowed += OnBoomerangThrowed;
             PlayerSignals.Instance.onChangePlayerAnimation += animationController.OnChangeAnimation;
-            PlayerSignals.Instance.onBoomerangHasReturned += OnBoomerangHasReturned;
+            BoomerangSignals.Instance.onBoomerangHasReturned += OnBoomerangHasReturned;
         }
 
         private void UnsubscribeEvents()
@@ -71,10 +71,10 @@ namespace Managers
             CoreGameSignals.Instance.onLevelFailed -= _movementController.OnLevelFailed;
             CoreGameSignals.Instance.onRestartLevel -= _movementController.OnRestartLevel;
             CoreGameSignals.Instance.onRestartLevel -= OnResetLevel;
-            PlayerSignals.Instance.onBoomerangBecomeInvisible -= OnBoomerangBecomeInvisible;
-            PlayerSignals.Instance.onBoomerangThrowed -= OnBoomerangThrowed;
+            BoomerangSignals.Instance.onBoomerangBecomeInvisible -= OnBoomerangBecomeInvisible;
+            BoomerangSignals.Instance.onBoomerangThrowed -= OnBoomerangThrowed;
             PlayerSignals.Instance.onChangePlayerAnimation -= animationController.OnChangeAnimation;
-            PlayerSignals.Instance.onBoomerangHasReturned -= OnBoomerangHasReturned;
+            BoomerangSignals.Instance.onBoomerangHasReturned -= OnBoomerangHasReturned;
         }
 
 
