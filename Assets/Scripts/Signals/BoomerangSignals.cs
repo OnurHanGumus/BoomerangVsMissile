@@ -9,7 +9,8 @@ namespace Signals
     {
         public UnityAction onBoomerangHasReturned = delegate { };
         public UnityAction onBoomerangNextTarget = delegate { };
-        public UnityAction onBoomerangBecomeInvisible = delegate { };
         public UnityAction onBoomerangThrowed = delegate { };
+        public UnityAction onBoomerangDisapeared = delegate { };
+        public UnityAction onBoomerangRebuilded = delegate { };
     }
 }

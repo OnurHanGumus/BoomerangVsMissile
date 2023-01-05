@@ -57,10 +57,12 @@ namespace Managers
             CoreGameSignals.Instance.onLevelFailed += _movementController.OnLevelFailed;
             CoreGameSignals.Instance.onRestartLevel += _movementController.OnRestartLevel;
             CoreGameSignals.Instance.onRestartLevel += OnResetLevel;
-            BoomerangSignals.Instance.onBoomerangBecomeInvisible += OnBoomerangBecomeInvisible;
+            BoomerangSignals.Instance.onBoomerangDisapeared += OnBoomerangBecomeInvisible;
             BoomerangSignals.Instance.onBoomerangThrowed += OnBoomerangThrowed;
-            PlayerSignals.Instance.onChangePlayerAnimation += animationController.OnChangeAnimation;
             BoomerangSignals.Instance.onBoomerangHasReturned += OnBoomerangHasReturned;
+            BoomerangSignals.Instance.onBoomerangRebuilded += OnBoomerangRebuilded;
+            PlayerSignals.Instance.onChangePlayerAnimation += animationController.OnChangeAnimation;
+            PlayerSignals.Instance.onAnimationSpeedIncreased += IncreaseAnimationSpeed;
         }
 
         private void UnsubscribeEvents()
@@ -71,10 +73,12 @@ namespace Managers
             CoreGameSignals.Instance.onLevelFailed -= _movementController.OnLevelFailed;
             CoreGameSignals.Instance.onRestartLevel -= _movementController.OnRestartLevel;
             CoreGameSignals.Instance.onRestartLevel -= OnResetLevel;
-            BoomerangSignals.Instance.onBoomerangBecomeInvisible -= OnBoomerangBecomeInvisible;
+            BoomerangSignals.Instance.onBoomerangDisapeared -= OnBoomerangBecomeInvisible;
             BoomerangSignals.Instance.onBoomerangThrowed -= OnBoomerangThrowed;
-            PlayerSignals.Instance.onChangePlayerAnimation -= animationController.OnChangeAnimation;
             BoomerangSignals.Instance.onBoomerangHasReturned -= OnBoomerangHasReturned;
+            BoomerangSignals.Instance.onBoomerangRebuilded -= OnBoomerangRebuilded;
+            PlayerSignals.Instance.onChangePlayerAnimation -= animationController.OnChangeAnimation;
+            PlayerSignals.Instance.onAnimationSpeedIncreased -= IncreaseAnimationSpeed;
         }
 
 
@@ -103,10 +107,19 @@ namespace Managers
         {
             PlayerSignals.Instance.onChangePlayerAnimation?.Invoke(PlayerAnimationStates.Catch);
         }
+        private void OnBoomerangRebuilded()
+        {
+            PlayerSignals.Instance.onChangePlayerAnimation?.Invoke(PlayerAnimationStates.Idle);
+        }
 
         private void OnBoomerangBecomeInvisible()
         {
-            Debug.Log("Boomerang is invisible");
+            PlayerSignals.Instance.onChangePlayerAnimation?.Invoke(PlayerAnimationStates.BuildBoomerang);
+        }
+
+        private void IncreaseAnimationSpeed()
+        {
+            animationController.OnChangeAnimationSpeed();
         }
         private void OnResetLevel()
         {

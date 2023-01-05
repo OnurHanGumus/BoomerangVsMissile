@@ -115,6 +115,12 @@ namespace Controllers
         {
             _isPointMissed = false;
         }
+        public void OnBoomerangRebuilded()
+        {
+            _rig.velocity = Vector3.zero;
+            _rig.angularVelocity = Vector3.zero;
+            transform.position = _initializePos;
+        }
         public void OnLevelFailed()
         {
 

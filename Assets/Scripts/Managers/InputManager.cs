@@ -35,6 +35,8 @@ namespace Managers
         private bool _isPlayerDead = false;
         private Ray _ray;
         private Transform _lastHitTransform;
+
+        private bool _isBoomerangDisapeared = false;
         #endregion
 
         #endregion
@@ -62,6 +64,9 @@ namespace Managers
             CoreGameSignals.Instance.onPlay += OnPlay;
             CoreGameSignals.Instance.onReset += OnReset;
             BoomerangSignals.Instance.onBoomerangHasReturned += OnBoomerangReturned;
+            BoomerangSignals.Instance.onBoomerangDisapeared += OnBoomerangDisapeared;
+            BoomerangSignals.Instance.onBoomerangRebuilded += OnBoomerangRebuilded;
+
         }
 
         private void UnsubscribeEvents()
@@ -71,6 +76,8 @@ namespace Managers
             CoreGameSignals.Instance.onPlay -= OnPlay;
             CoreGameSignals.Instance.onReset -= OnReset;
             BoomerangSignals.Instance.onBoomerangHasReturned -= OnBoomerangReturned;
+            BoomerangSignals.Instance.onBoomerangDisapeared -= OnBoomerangDisapeared;
+            BoomerangSignals.Instance.onBoomerangRebuilded -= OnBoomerangRebuilded;
 
         }
 
@@ -83,6 +90,13 @@ namespace Managers
 
         private void Update()
         {
+            if (_isBoomerangDisapeared)
+            {
+                if(Input.GetMouseButtonUp(0))
+                {
+                    PlayerSignals.Instance.onAnimationSpeedIncreased?.Invoke();
+                }
+            }
             if (Input.GetMouseButton(0))
             {
                 if (_isPlayerDead)
@@ -127,6 +141,16 @@ namespace Managers
         private void OnPlay()
         {
             
+        }
+
+        private void OnBoomerangDisapeared()
+        {
+            _isBoomerangDisapeared = true;
+        }
+
+        private void OnBoomerangRebuilded()
+        {
+            _isBoomerangDisapeared = false;
         }
 
         private void OnBoomerangReturned()

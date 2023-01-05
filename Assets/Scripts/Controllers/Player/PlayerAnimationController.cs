@@ -19,6 +19,12 @@ public class PlayerAnimationController : MonoBehaviour
 
     public void OnChangeAnimation(PlayerAnimationStates nextAnimation)
     {
+        animator.speed = 0.5f;
         animator.SetTrigger(nextAnimation.ToString());
+        animator.speed = 0.5f;
+    }
+    public void OnChangeAnimationSpeed()
+    {
+        animator.speed += 0.1f;
     }
 }
