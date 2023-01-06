@@ -123,7 +123,7 @@ namespace Managers
         }
         private void OnResetLevel()
         {
-
+            PlayerSignals.Instance.onChangePlayerAnimation?.Invoke(PlayerAnimationStates.Idle);
         }
     }
 }

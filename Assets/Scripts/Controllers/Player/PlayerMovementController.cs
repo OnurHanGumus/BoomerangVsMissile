@@ -65,7 +65,7 @@ namespace Controllers
         public void OnRestartLevel()
         {
             _isNotStarted = true;
-            transform.position = new Vector3(_data.InitializePosX, _data.InitializePosY);
+            //transform.position = new Vector3(_data.InitializePosX, _data.InitializePosY);
         }
     }
 }

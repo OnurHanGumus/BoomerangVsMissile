@@ -51,13 +51,13 @@ namespace Managers
         private void SubscribeEvents()
         {
             CoreGameSignals.Instance.onPlay += OnPlay;
-            CoreGameSignals.Instance.onRestartLevel += OnResetLevel;
+            CoreGameSignals.Instance.onLevelFailed += OnLevelFailed;
         }
 
         private void UnsubscribeEvents()
         {
             CoreGameSignals.Instance.onPlay -= OnPlay;
-            CoreGameSignals.Instance.onRestartLevel -= OnResetLevel;
+            CoreGameSignals.Instance.onLevelFailed -= OnLevelFailed;
         }
 
 
@@ -75,15 +75,19 @@ namespace Managers
             missile.transform.position = new Vector3(transform.position.x + Random.Range(-2f, 3f), transform.position.y);
             missile.SetActive(true);
             await Task.Delay(2000);
-            await InstantiateMissile();
+            if (_isStarted)
+            {
+                await InstantiateMissile();
+            }
         }
         private void OnPlay()
         {
+            _isStarted = true;
             InstantiateMissile();
         }
-        private void OnResetLevel()
+        private void OnLevelFailed()
         {
-
+            _isStarted = false;
         }
     }
 }

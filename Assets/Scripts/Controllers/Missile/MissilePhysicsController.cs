@@ -36,6 +36,10 @@ namespace Controllers
             {
                 transform.parent.gameObject.SetActive(false);
             }
+            else if (other.CompareTag("SafeArea"))
+            {
+                CoreGameSignals.Instance.onLevelFailed?.Invoke();
+            }
 
         }
     }
