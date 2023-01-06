@@ -35,19 +35,7 @@ namespace Controllers
 
         private void FixedUpdate()
         {
-            Move();
-        }
 
-
-
-        private void Move()
-        {
-            if (_isNotStarted)
-            {
-                return;
-            }
-
-            _rig.velocity = new Vector3(_rig.velocity.x, _rig.velocity.y, _data.Speed);
         }
 
         public void OnClicked()
@@ -57,37 +45,27 @@ namespace Controllers
 
         public void OnReleased()
         {
-        }
 
+        }
 
         public void OnPlay()
         {
             _isNotStarted = false;
-            _rig.useGravity = true;
-
-
         }
+
         public void OnLevelFailed()
         {
-            _rig.angularVelocity = Vector3.zero;
-            _rig.velocity = Vector3.zero;
-            _rig.useGravity = false;
 
         }
+
         public void OnLevelSuccess()
         {
-            _rig.angularVelocity = Vector3.zero;
-            _rig.velocity = Vector3.zero;
-            _rig.useGravity = false;
+
         }
         public void OnRestartLevel()
         {
             _isNotStarted = true;
-            _rig.angularVelocity = Vector3.zero;
-            _rig.velocity = Vector3.zero;
-            //_isNotStarted = true;
             transform.position = new Vector3(_data.InitializePosX, _data.InitializePosY);
-            transform.eulerAngles = Vector3.zero;
         }
     }
 }

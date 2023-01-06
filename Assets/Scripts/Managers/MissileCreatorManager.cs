@@ -25,6 +25,7 @@ namespace Managers
 
         #region Private Variables
         private PlayerData _data;
+        private bool _isStarted = false;
         #endregion
 
         #endregion
@@ -37,8 +38,6 @@ namespace Managers
         private void Init()
         {
             _data = GetData();
-            InstantiateMissile();
-
         }
         public PlayerData GetData() => Resources.Load<CD_Player>("Data/CD_Player").Data;
 
@@ -80,7 +79,7 @@ namespace Managers
         }
         private void OnPlay()
         {
-
+            InstantiateMissile();
         }
         private void OnResetLevel()
         {
