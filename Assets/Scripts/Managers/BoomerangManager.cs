@@ -19,6 +19,7 @@ namespace Managers
         public int PointIndeks = 0;
         public bool IsRight = true;
         public bool IsThrowed = false;
+        public bool IsRising = false;
 
         #endregion
 
@@ -117,6 +118,8 @@ namespace Managers
             {
                 return;
             }
+            transform.parent = null;
+            transform.localEulerAngles = Vector3.zero;
             BoomerangSignals.Instance.onBoomerangThrowed?.Invoke();
             _movementController.Throwed();
         }

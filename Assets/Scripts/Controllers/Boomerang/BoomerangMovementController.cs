@@ -81,6 +81,8 @@ namespace Controllers
         }
         public void Throwed()
         {
+            _manager.IsRising = true; ;
+
             _manager.MissilePoints.Add(_initializePos);
             _manager.IsThrowed = true;
         }
@@ -108,6 +110,11 @@ namespace Controllers
                 _manager.PointIndeks = _manager.MissilePoints.Count - 1;
             }
             _isPointMissed = false;
+
+            if (_manager.PointIndeks == _manager.MissilePoints.Count - 1)
+            {
+                _manager.IsRising = false;
+            }
         }
 
 

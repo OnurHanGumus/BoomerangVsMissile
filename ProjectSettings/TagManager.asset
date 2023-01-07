@@ -8,6 +8,7 @@ TagManager:
   - BoomerangHand
   - Boomerang
   - SafeArea
+  - CatchArea
   layers:
   - Default
   - TransparentFX

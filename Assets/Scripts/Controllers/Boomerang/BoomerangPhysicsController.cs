@@ -36,9 +36,20 @@ namespace Controllers
             {
                 BoomerangSignals.Instance.onBoomerangNextTarget?.Invoke();
             }
+            else if (other.CompareTag("CatchArea"))
+            {
+                if (manager.IsRising)
+                {
+                    return;
+                }
+                BoomerangSignals.Instance.onBoomerangHasReturned?.Invoke();
+                
+            }
             else if (other.CompareTag("BoomerangHand"))
             {
-                BoomerangSignals.Instance.onBoomerangHasReturned?.Invoke();
+                transform.parent.parent = other.transform;
+                transform.parent.localPosition = new Vector3(0.1360204f, 0.2610005f, -0.04199352f);
+                transform.parent.localEulerAngles = new Vector3(-9.304f, -9.275f, -107.476f);
             }
         }
     }
