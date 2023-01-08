@@ -20,7 +20,7 @@ namespace Controllers
 
         private bool _isNotStarted = true;
         public bool _isPointMissed = false;
-        private Vector3 _initializePos;
+        private Vector3 _initializePos = new Vector3(0,-4,0);
 
 
         #endregion
@@ -36,7 +36,6 @@ namespace Controllers
             _rig = GetComponent<Rigidbody>();
             _manager = GetComponent<BoomerangManager>();
             _data = _manager.GetData();
-            _initializePos = transform.position;
         }
 
 
@@ -90,7 +89,9 @@ namespace Controllers
 
         public void OnPlay()
         {
-
+            _rig.velocity = Vector3.zero;
+            _rig.angularVelocity = Vector3.zero;
+            transform.position = _initializePos;
         }
 
         
@@ -139,9 +140,8 @@ namespace Controllers
         }
         public void OnRestartLevel()
         {
-            _rig.velocity = Vector3.zero;
-            _rig.angularVelocity = Vector3.zero;
-            transform.position = _initializePos;
+            _manager.IsThrowed = false;
+            _isNotStarted = true;
         }
     }
 }

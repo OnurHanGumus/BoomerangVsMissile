@@ -56,6 +56,7 @@ namespace Managers
         private void SubscribeEvents()
         {
             CoreGameSignals.Instance.onPlay += OnPlay;
+            CoreGameSignals.Instance.onPlay += _movementController.OnPlay;
             InputSignals.Instance.onClicking += OnAddPoint;
             InputSignals.Instance.onInputReleased += OnInputRelease;
             BoomerangSignals.Instance.onBoomerangNextTarget += OnBoomerangNextTarget;
@@ -70,6 +71,7 @@ namespace Managers
         private void UnsubscribeEvents()
         {
             CoreGameSignals.Instance.onPlay -= OnPlay;
+            CoreGameSignals.Instance.onPlay -= _movementController.OnPlay;
             InputSignals.Instance.onClicking -= OnAddPoint;
             InputSignals.Instance.onInputReleased -= OnInputRelease;
             BoomerangSignals.Instance.onBoomerangNextTarget -= OnBoomerangNextTarget;
@@ -130,7 +132,9 @@ namespace Managers
 
         private void OnRestartLevel()
         {
-
+            transform.parent = null;
+            IsRising = false;
+            MissilePoints.Clear();
         }
     }
 }
