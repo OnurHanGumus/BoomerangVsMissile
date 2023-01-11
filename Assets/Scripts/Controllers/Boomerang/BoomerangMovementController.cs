@@ -3,6 +3,7 @@ using Managers;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using Signals;
 
 namespace Controllers
 {
@@ -115,6 +116,10 @@ namespace Controllers
             if (_manager.PointIndeks == _manager.MissilePoints.Count - 1)
             {
                 _manager.IsRising = false;
+            }
+            if (_manager.PointIndeks == _manager.MissilePoints.Count - 1)
+            {
+                BoomerangSignals.Instance.onBoomerangReturning?.Invoke();
             }
         }
 

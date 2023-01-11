@@ -43,6 +43,7 @@ namespace Controllers
                     return;
                 }
                 BoomerangSignals.Instance.onBoomerangHasReturned?.Invoke();
+                transform.parent.position = other.transform.position;
                 
             }
             else if (other.CompareTag("BoomerangHand"))

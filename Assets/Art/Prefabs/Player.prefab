@@ -107,8 +107,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.59129304, y: 0.5541055, z: 0.9029734}
-  m_Center: {x: 9.6038336e-17, y: 0.07771537, z: 4.767118e-17}
+  m_Size: {x: 2.083417, y: 1.3341149, z: 0.9029734}
+  m_Center: {x: -1.7001604e-16, y: 0.46771985, z: 7.276309e-18}
 --- !u!1 &1149153126665363100
 GameObject:
   m_ObjectHideFlags: 0
@@ -157,6 +157,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animationController: {fileID: 1149153126665363102}
+  catchObject: {fileID: 1149153126447827853}
+  boomerangHand: {fileID: 6038000414165878863}
 --- !u!114 &1149153126665363102
 MonoBehaviour:
   m_ObjectHideFlags: 0

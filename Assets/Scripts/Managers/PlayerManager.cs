@@ -20,6 +20,7 @@ namespace Managers
 
         #region Serialized Variables
         [SerializeField] private PlayerAnimationController animationController;
+        [SerializeField] private GameObject catchObject, boomerangHand;
         #endregion
 
         #region Private Variables
@@ -61,8 +62,10 @@ namespace Managers
             BoomerangSignals.Instance.onBoomerangThrowed += OnBoomerangThrowed;
             BoomerangSignals.Instance.onBoomerangHasReturned += OnBoomerangHasReturned;
             BoomerangSignals.Instance.onBoomerangRebuilded += OnBoomerangRebuilded;
+            BoomerangSignals.Instance.onBoomerangReturning += OnBoomerangReturning;
             PlayerSignals.Instance.onChangePlayerAnimation += animationController.OnChangeAnimation;
             PlayerSignals.Instance.onAnimationSpeedIncreased += IncreaseAnimationSpeed;
+
         }
 
         private void UnsubscribeEvents()
@@ -77,6 +80,7 @@ namespace Managers
             BoomerangSignals.Instance.onBoomerangThrowed -= OnBoomerangThrowed;
             BoomerangSignals.Instance.onBoomerangHasReturned -= OnBoomerangHasReturned;
             BoomerangSignals.Instance.onBoomerangRebuilded -= OnBoomerangRebuilded;
+            BoomerangSignals.Instance.onBoomerangReturning -= OnBoomerangReturning;
             PlayerSignals.Instance.onChangePlayerAnimation -= animationController.OnChangeAnimation;
             PlayerSignals.Instance.onAnimationSpeedIncreased -= IncreaseAnimationSpeed;
         }
@@ -102,6 +106,9 @@ namespace Managers
         private void OnBoomerangThrowed()
         {
             PlayerSignals.Instance.onChangePlayerAnimation?.Invoke(PlayerAnimationStates.Throw);
+            catchObject.SetActive(false);
+            boomerangHand.SetActive(false);
+            
         }
         private void OnBoomerangHasReturned()
         {
@@ -121,6 +128,13 @@ namespace Managers
         private void IncreaseAnimationSpeed()
         {
             animationController.OnChangeAnimationSpeed();
+        }
+        private void OnBoomerangReturning()
+        {
+            catchObject.SetActive(true);
+            boomerangHand.SetActive(true);
+
+
         }
         private void OnResetLevel()
         {
