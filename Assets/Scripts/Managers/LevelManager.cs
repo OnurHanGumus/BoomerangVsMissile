@@ -99,7 +99,7 @@ namespace Managers
             _levelID++;
             CoreGameSignals.Instance.onClearActiveLevel?.Invoke();
             CoreGameSignals.Instance.onRestartLevel?.Invoke();
-            SaveSignals.Instance.onSaveScore(_levelID, SaveLoadStates.Level, SaveFiles.GameOptions);
+            SaveSignals.Instance.onSaveScore(_levelID, SaveLoadStates.Level, SaveFiles.SaveFile);
 
         }
 

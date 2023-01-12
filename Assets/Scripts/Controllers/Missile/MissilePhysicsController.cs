@@ -35,6 +35,7 @@ namespace Controllers
             if (other.CompareTag("Boomerang"))
             {
                 transform.parent.gameObject.SetActive(false);
+                MissileSignals.Instance.onMissileDestroyed?.Invoke();
             }
             else if (other.CompareTag("SafeArea"))
             {

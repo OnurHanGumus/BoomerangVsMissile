@@ -113,7 +113,6 @@ namespace Managers
         private void OnBoomerangHasReturned()
         {
             PlayerSignals.Instance.onChangePlayerAnimation?.Invoke(PlayerAnimationStates.Catch);
-            Debug.Log("tetiklendi");
         }
         private void OnBoomerangRebuilded()
         {
