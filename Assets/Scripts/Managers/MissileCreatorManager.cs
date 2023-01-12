@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Commands;
@@ -25,7 +26,6 @@ namespace Managers
 
         #region Private Variables
         private PlayerData _data;
-        private bool _isStarted = false;
         #endregion
 
         #endregion
@@ -67,27 +67,23 @@ namespace Managers
         }
 
         #endregion
-
-        private async Task InstantiateMissile()
+       
+        private IEnumerator InstantiateMissile()
         {
             //Instantiate(missilePrefab, new Vector3(transform.position.x + Random.Range(-2f, 3f),transform.position.y), transform.rotation);
             GameObject missile = PoolSignals.Instance.onGetObject(PoolEnums.Missile);
             missile.transform.position = new Vector3(transform.position.x + Random.Range(-2f, 3f), transform.position.y);
             missile.SetActive(true);
-            await Task.Delay(2000);
-            if (_isStarted)
-            {
-                await InstantiateMissile();
-            }
+            yield return new WaitForSeconds(2);
+            StartCoroutine(InstantiateMissile());
         }
         private void OnPlay()
         {
-            _isStarted = true;
-            InstantiateMissile();
+            StartCoroutine(InstantiateMissile());
         }
         private void OnLevelFailed()
         {
-            _isStarted = false;
+            StopAllCoroutines();
         }
     }
 }
