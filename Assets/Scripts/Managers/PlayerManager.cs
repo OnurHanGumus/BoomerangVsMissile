@@ -98,11 +98,6 @@ namespace Managers
         {
         }
 
-        private void OnInitializePlayerUpgrades(List<int> upgradeList)
-        {
-            _playerUpgradeList = upgradeList;
-        }
-
         private void OnBoomerangThrowed()
         {
             PlayerSignals.Instance.onChangePlayerAnimation?.Invoke(PlayerAnimationStates.Throw);
@@ -116,7 +111,10 @@ namespace Managers
         }
         private void OnBoomerangRebuilded()
         {
-            PlayerSignals.Instance.onChangePlayerAnimation?.Invoke(PlayerAnimationStates.Idle);
+            catchObject.SetActive(true);
+            boomerangHand.SetActive(true);
+
+            PlayerSignals.Instance.onChangePlayerAnimation?.Invoke(PlayerAnimationStates.Catch);
         }
 
         private void OnBoomerangBecomeInvisible()
@@ -132,8 +130,6 @@ namespace Managers
         {
             catchObject.SetActive(true);
             boomerangHand.SetActive(true);
-
-
         }
         private void OnResetLevel()
         {

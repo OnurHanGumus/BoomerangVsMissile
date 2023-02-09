@@ -64,6 +64,7 @@ namespace Managers
             BoomerangSignals.Instance.onBoomerangHasReturned += OnBoomerangReturned;
             BoomerangSignals.Instance.onBoomerangHasReturned += _movementController.OnBoomerangHasReturned;
             BoomerangSignals.Instance.onBoomerangRebuilded += _movementController.OnBoomerangRebuilded;
+            BoomerangSignals.Instance.onBoomerangRebuilded += OnBoomerangRebuilded;
             CoreGameSignals.Instance.onRestartLevel += OnRestartLevel;
             CoreGameSignals.Instance.onRestartLevel += _movementController.OnRestartLevel;
         }
@@ -79,6 +80,7 @@ namespace Managers
             BoomerangSignals.Instance.onBoomerangHasReturned -= OnBoomerangReturned;
             BoomerangSignals.Instance.onBoomerangHasReturned -= _movementController.OnBoomerangHasReturned;
             BoomerangSignals.Instance.onBoomerangRebuilded -= _movementController.OnBoomerangRebuilded;
+            BoomerangSignals.Instance.onBoomerangRebuilded -= OnBoomerangRebuilded;
             CoreGameSignals.Instance.onRestartLevel -= OnRestartLevel;
             CoreGameSignals.Instance.onRestartLevel -= _movementController.OnRestartLevel;
         }
@@ -128,6 +130,14 @@ namespace Managers
         private void OnBecameInvisible()
         {
             BoomerangSignals.Instance.onBoomerangDisapeared?.Invoke();
+        }
+
+        private void OnBoomerangRebuilded()
+        {
+            IsRising = false;
+            IsThrowed = false;
+            PointIndeks = 0;
+            MissilePoints.Clear();
         }
 
         private void OnRestartLevel()

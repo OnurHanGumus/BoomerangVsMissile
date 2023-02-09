@@ -11,5 +11,6 @@ namespace Signals
         public Func<Transform> onGetPlayer = delegate { return null; };
         public UnityAction<PlayerAnimationStates> onChangePlayerAnimation = delegate { };
         public UnityAction onAnimationSpeedIncreased = delegate { };
+        public UnityAction<float> onSetAnimationSpeed = delegate { };
     }
 }

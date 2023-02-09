@@ -25,6 +25,6 @@ public class PlayerAnimationController : MonoBehaviour
     }
     public void OnChangeAnimationSpeed()
     {
-        animator.speed += 0.1f;
+        animator.speed += 0.5f;
     }
 }
