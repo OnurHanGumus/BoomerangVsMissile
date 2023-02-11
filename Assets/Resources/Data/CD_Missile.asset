@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Data:
     MissileData:
-    - MissileCount: 10
+    - MissileCount: 50
       MissilePrefabList:
       - {fileID: 3065065370417937671, guid: e4ac8bb04676f944499d7616a9cfeb56, type: 3}
       MissileMaxVelocity: 0

@@ -92,6 +92,7 @@ namespace Controllers
         {
             _rig.velocity = Vector3.zero;
             _rig.angularVelocity = Vector3.zero;
+            transform.parent = null;
             transform.position = _initializePos;
         }
 
