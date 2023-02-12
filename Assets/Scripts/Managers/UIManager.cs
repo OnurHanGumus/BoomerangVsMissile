@@ -17,6 +17,7 @@ namespace Managers
         [SerializeField] private GameOverPanelController gameOverPanelController;
         [SerializeField] private LevelPanelController levelPanelController;
         [SerializeField] private HighScorePanelController highScorePanelController;
+        [SerializeField] private UIBuildBoomerangController uiBuildBoomerangController;
 
         #endregion
         #region Private Variables
@@ -51,7 +52,10 @@ namespace Managers
             CoreGameSignals.Instance.onLevelFailed += OnLevelFailed;
             CoreGameSignals.Instance.onLevelSuccessful += OnLevelSuccessful;
             CoreGameSignals.Instance.onRestartLevel += levelPanelController.OnRestartLevel;
+            CoreGameSignals.Instance.onRestartLevel += uiBuildBoomerangController.OnRestartLevel;
             ScoreSignals.Instance.onHighScoreChanged += highScorePanelController.OnUpdateText;
+            PlayerSignals.Instance.onAnimationSpeedIncreased += uiBuildBoomerangController.OnAnimationSpeedIncreased;
+            BoomerangSignals.Instance.onBoomerangRebuilded += uiBuildBoomerangController.OnBoomerangRebulded;
         }
 
         private void UnsubscribeEvents()
@@ -63,7 +67,10 @@ namespace Managers
             CoreGameSignals.Instance.onLevelFailed -= OnLevelFailed;
             CoreGameSignals.Instance.onLevelSuccessful -= OnLevelSuccessful;
             CoreGameSignals.Instance.onRestartLevel -= levelPanelController.OnRestartLevel;
+            CoreGameSignals.Instance.onRestartLevel -= uiBuildBoomerangController.OnRestartLevel;
             ScoreSignals.Instance.onHighScoreChanged -= highScorePanelController.OnUpdateText;
+            PlayerSignals.Instance.onAnimationSpeedIncreased -= uiBuildBoomerangController.OnAnimationSpeedIncreased;
+            BoomerangSignals.Instance.onBoomerangRebuilded -= uiBuildBoomerangController.OnBoomerangRebulded;
         }
 
         private void OnDisable()

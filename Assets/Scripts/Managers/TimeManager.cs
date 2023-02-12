@@ -76,11 +76,14 @@ namespace Managers
 
         private void OnBoomerangDisapeared()
         {
+            UISignals.Instance.onOpenPanel?.Invoke(UIPanels.BoomerangPanel);
             Time.timeScale = 0.05f;
         }
         private void OnBoomerangRebuilded()
         {
             Time.timeScale = 1f;
+            UISignals.Instance.onClosePanel?.Invoke(UIPanels.BoomerangPanel);
+
         }
         private void OnRestartLevel()
         {
