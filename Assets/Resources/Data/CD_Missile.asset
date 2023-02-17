@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Data:
     MissileData:
-    - MissileCount: 50
+    - MissileCount: 10
       MissilePrefabList:
       - {fileID: 3065065370417937671, guid: e4ac8bb04676f944499d7616a9cfeb56, type: 3}
       MissileMaxVelocity: 0
@@ -29,5 +29,6 @@ MonoBehaviour:
       MissilePrefabList:
       - {fileID: 3065065370417937671, guid: e4ac8bb04676f944499d7616a9cfeb56, type: 3}
       - {fileID: 8501212187506561022, guid: 791d924faad76d741b7906b0cceaf780, type: 3}
+      - {fileID: 142762860748343663, guid: d7d665df603e7bf418fbae3fd5b4a840, type: 3}
       MissileMaxVelocity: 0
-      MissileCreateOffset: 2
+      MissileCreateOffset: 1.5

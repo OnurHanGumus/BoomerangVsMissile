@@ -15,6 +15,6 @@ namespace Data.ValueObject
         public int MissileCount = 10;
         public List<GameObject> MissilePrefabList;
         public int MissileMaxVelocity = 10;
-        public int MissileCreateOffset = 2;
+        public float MissileCreateOffset = 2;
     }
 }

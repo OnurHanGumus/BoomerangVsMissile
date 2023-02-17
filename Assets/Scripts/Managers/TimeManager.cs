@@ -24,6 +24,7 @@ namespace Managers
 
         #region Private Variables
         private PlayerData _data;
+        private bool _isLoosed = false;
         #endregion
 
         #endregion
@@ -49,6 +50,7 @@ namespace Managers
         private void SubscribeEvents()
         {
             CoreGameSignals.Instance.onPlay += OnPlay;
+            CoreGameSignals.Instance.onLevelFailed += OnLevelFailed;
             CoreGameSignals.Instance.onRestartLevel += OnRestartLevel;
             BoomerangSignals.Instance.onBoomerangDisapeared += OnBoomerangDisapeared;
             BoomerangSignals.Instance.onBoomerangRebuilded += OnBoomerangRebuilded;
@@ -57,6 +59,7 @@ namespace Managers
         private void UnsubscribeEvents()
         {
             CoreGameSignals.Instance.onPlay -= OnPlay;
+            CoreGameSignals.Instance.onLevelFailed -= OnLevelFailed;
             CoreGameSignals.Instance.onRestartLevel -= OnRestartLevel;
             BoomerangSignals.Instance.onBoomerangDisapeared -= OnBoomerangDisapeared;
             BoomerangSignals.Instance.onBoomerangRebuilded -= OnBoomerangRebuilded;
@@ -71,11 +74,17 @@ namespace Managers
         #endregion
         private void OnPlay()
         {
+            Time.timeScale = 1f;
+            UISignals.Instance.onClosePanel?.Invoke(UIPanels.BoomerangPanel);
 
         }
 
         private void OnBoomerangDisapeared()
         {
+            if (_isLoosed == true)
+            {
+                return;
+            }
             UISignals.Instance.onOpenPanel?.Invoke(UIPanels.BoomerangPanel);
             Time.timeScale = 0.05f;
         }
@@ -85,9 +94,16 @@ namespace Managers
             UISignals.Instance.onClosePanel?.Invoke(UIPanels.BoomerangPanel);
 
         }
+        private void OnLevelFailed()
+        {
+            UISignals.Instance.onClosePanel?.Invoke(UIPanels.BoomerangPanel);
+            _isLoosed = true;
+        }
         private void OnRestartLevel()
         {
             Time.timeScale = 1f;
+            _isLoosed = false;
+
         }
     }
 }

@@ -29,6 +29,7 @@ namespace Managers
         private int _levelId;
         private int _indeks = 0;
         private int _destroyedMissileCount = 0;
+        private float _lastPosX;
         #endregion
 
         #endregion
@@ -46,7 +47,6 @@ namespace Managers
 
         private void Start()
         {
-            _levelId = LevelSignals.Instance.onGetLevelId();
         }
         public MissileLevelData GetData() => Resources.Load<CD_Missile>("Data/CD_Missile").Data;
 
@@ -80,18 +80,25 @@ namespace Managers
         }
 
         #endregion
-       
+
         private IEnumerator InstantiateMissile()
         {
             _indeks++;
             if (_indeks >= _data.MissileData[_levelId].MissileCount)
             {
-                yield return new WaitForSeconds(1f);
                 StopAllCoroutines();
             }
+            int rand = Random.Range(0, _levelId + 1);
+            GameObject missile = PoolSignals.Instance.onGetObject((PoolEnums)rand);
+            float posX;
+            do
+            {
+                posX = transform.position.x + Random.Range(-2f, 3f);
 
-            GameObject missile = PoolSignals.Instance.onGetObject(PoolEnums.Missile);
-            missile.transform.position = new Vector3(transform.position.x + Random.Range(-2f, 3f), transform.position.y);
+            } while ((Mathf.Abs(_lastPosX - posX) <= 0.3f));
+            _lastPosX = posX;
+            Vector3 missilePos = new Vector3(posX, transform.position.y);
+            missile.transform.position = missilePos;
             missile.SetActive(true);
             yield return new WaitForSeconds(_data.MissileData[_levelId].MissileCreateOffset);
             StartCoroutine(InstantiateMissile());
@@ -99,6 +106,7 @@ namespace Managers
 
         private void OnPlay()
         {
+            _levelId = LevelSignals.Instance.onGetCurrentModdedLevel();
             StartCoroutine(InstantiateMissile());
         }
 

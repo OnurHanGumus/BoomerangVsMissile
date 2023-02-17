@@ -5,7 +5,11 @@ namespace Enums
     [Serializable]
     public enum PoolEnums
     {
-        Missile,
+        Missile0,
+        Missile1,
+        Missile2,
+        Missile3,
+        Missile4,
         Particle,
     }
 }

@@ -31,6 +31,7 @@ namespace Managers
 
         private int _levelID;
         private LevelData _data;
+        private int _currentModdedLevel = 0;
         #endregion
 
         #endregion
@@ -67,6 +68,7 @@ namespace Managers
             CoreGameSignals.Instance.onNextLevel += OnNextLevel;
             CoreGameSignals.Instance.onRestartLevel += OnRestartLevel;
             LevelSignals.Instance.onGetLevelId += OnGetLevelId;
+            LevelSignals.Instance.onGetCurrentModdedLevel += OnGetModdedLevel;
 
         }
 
@@ -79,6 +81,7 @@ namespace Managers
             CoreGameSignals.Instance.onNextLevel -= OnNextLevel;
             CoreGameSignals.Instance.onRestartLevel -= OnRestartLevel;
             LevelSignals.Instance.onGetLevelId -= OnGetLevelId;
+            LevelSignals.Instance.onGetCurrentModdedLevel -= OnGetModdedLevel;
 
         }
 
@@ -120,7 +123,13 @@ namespace Managers
         {
             UnityEngine.Object[] Levels = Resources.LoadAll("Levels");
             int newLevelId = _levelID % Levels.Length;
+            _currentModdedLevel = newLevelId;
             levelLoader.InitializeLevel((GameObject)Levels[newLevelId], levelHolder.transform);
+        }
+
+        private int OnGetModdedLevel()
+        {
+            return _currentModdedLevel;
         }
 
         private void OnClearActiveLevel()

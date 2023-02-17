@@ -55,7 +55,7 @@ namespace Managers
             CoreGameSignals.Instance.onRestartLevel += uiBuildBoomerangController.OnRestartLevel;
             ScoreSignals.Instance.onHighScoreChanged += highScorePanelController.OnUpdateText;
             PlayerSignals.Instance.onAnimationSpeedIncreased += uiBuildBoomerangController.OnAnimationSpeedIncreased;
-            BoomerangSignals.Instance.onBoomerangRebuilded += uiBuildBoomerangController.OnBoomerangRebulded;
+            BoomerangSignals.Instance.onBoomerangDisapeared += uiBuildBoomerangController.OnBoomerangDisapeared;
         }
 
         private void UnsubscribeEvents()
@@ -70,7 +70,7 @@ namespace Managers
             CoreGameSignals.Instance.onRestartLevel -= uiBuildBoomerangController.OnRestartLevel;
             ScoreSignals.Instance.onHighScoreChanged -= highScorePanelController.OnUpdateText;
             PlayerSignals.Instance.onAnimationSpeedIncreased -= uiBuildBoomerangController.OnAnimationSpeedIncreased;
-            BoomerangSignals.Instance.onBoomerangRebuilded -= uiBuildBoomerangController.OnBoomerangRebulded;
+            BoomerangSignals.Instance.onBoomerangDisapeared -= uiBuildBoomerangController.OnBoomerangDisapeared;
         }
 
         private void OnDisable()

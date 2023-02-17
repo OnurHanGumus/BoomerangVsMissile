@@ -10,7 +10,7 @@ public class PoolManager : MonoBehaviour
 
     #region Serialized Variables
 
-    [SerializeField] private GameObject missilePrefab;
+    [SerializeField] private GameObject missilePrefab0, missilePrefab1, missilePrefab2;
     [SerializeField] private GameObject particlePrefab;
 
     [SerializeField] private Dictionary<PoolEnums, List<GameObject>> poolDictionary;
@@ -34,8 +34,10 @@ public class PoolManager : MonoBehaviour
     {
         _levelId = LevelSignals.Instance.onGetCurrentModdedLevel();
         poolDictionary = new Dictionary<PoolEnums, List<GameObject>>();
-        InitializePool(PoolEnums.Missile, missilePrefab, amountMissile);
-        //InitializePool(PoolEnums.Particle, particlePrefab, amountParticle);
+        InitializePool(PoolEnums.Missile0, missilePrefab0, amountMissile);
+        InitializePool(PoolEnums.Missile1, missilePrefab1, amountMissile);
+        InitializePool(PoolEnums.Missile2, missilePrefab2, amountMissile);
+        InitializePool(PoolEnums.Particle, particlePrefab, amountParticle);
     }
 
 
@@ -105,8 +107,10 @@ public class PoolManager : MonoBehaviour
     private void OnReset()
     {
         //reset
-        ResetPool(PoolEnums.Missile);
-        //ResetPool(PoolEnums.Particle);
+        ResetPool(PoolEnums.Missile0);
+        ResetPool(PoolEnums.Missile1);
+        ResetPool(PoolEnums.Missile2);
+        ResetPool(PoolEnums.Particle);
     }
 
     private void ResetPool(PoolEnums type)

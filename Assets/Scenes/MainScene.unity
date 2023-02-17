@@ -2001,7 +2001,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0, g: 0, b: 0, a: 0.34901962}
-  m_RaycastTarget: 0
+  m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -2329,8 +2329,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5abcbf0e1b2cb7949b18fbd42a949757, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  missilePrefab: {fileID: 3065065370417937671, guid: e4ac8bb04676f944499d7616a9cfeb56, type: 3}
-  particlePrefab: {fileID: 0}
+  missilePrefab0: {fileID: 5872852307257060255, guid: c67f002005c5388489f17b5903e82cd8, type: 3}
+  missilePrefab1: {fileID: 7844580830099842777, guid: 2cda935985857f842a5996c8167867bd, type: 3}
+  missilePrefab2: {fileID: 6541382036004736301, guid: 42e4c831c90a88a4f9ea868c3d78111e, type: 3}
+  particlePrefab: {fileID: 1438490442891620284, guid: 96cbce23e7f4b2b468be86b75ff1d336, type: 3}
   amountMissile: 15
   amountParticle: 5
 --- !u!1 &749374685
@@ -4648,6 +4650,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scoreText: {fileID: 1290491371}
+  commentText: {fileID: 1482877506}
   pointer: {fileID: 1179417672}
   barImg: {fileID: 1357680589}
 --- !u!225 &1697627565

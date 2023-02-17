@@ -12,7 +12,7 @@ namespace Controllers
         #region Self Variables
 
         #region Serialized Variables
-        //[SerializeField] private BoomerangManager manager;
+        [SerializeField] private MissileManager manager;
         #endregion
         #region Private Variables
 
@@ -34,12 +34,25 @@ namespace Controllers
         {
             if (other.CompareTag("Boomerang"))
             {
-                transform.parent.gameObject.SetActive(false);
+                manager.Explode();
+
                 MissileSignals.Instance.onMissileDestroyed?.Invoke();
+                transform.parent.gameObject.SetActive(false);
             }
             else if (other.CompareTag("SafeArea"))
             {
+                manager.Explode();
+                transform.parent.gameObject.SetActive(false);
                 CoreGameSignals.Instance.onLevelFailed?.Invoke();
+            }
+            else if (other.CompareTag("Missile"))
+            {
+                GameObject particle = PoolSignals.Instance.onGetObject?.Invoke(Enums.PoolEnums.Particle);
+                particle.transform.position = transform.position;
+                particle.gameObject.SetActive(true);
+
+                transform.parent.gameObject.SetActive(false);
+                MissileSignals.Instance.onMissileDestroyed?.Invoke();
             }
 
         }

@@ -15,7 +15,7 @@ public class UIBuildBoomerangController : MonoBehaviour
     #region Public Variables
     #endregion
     #region SerializeField Variables
-    [SerializeField] private TextMeshProUGUI scoreText;
+    [SerializeField] private TextMeshProUGUI scoreText, commentText;
     [SerializeField] private Transform pointer;
 
     [SerializeField] private Image barImg;
@@ -23,6 +23,7 @@ public class UIBuildBoomerangController : MonoBehaviour
 
     #region Private Variables
     private int _counter = 0;
+    private int _counterMaksValue = 50;
     private int _positionIncreaseValue = 10;
     private float _textIncreaseValue = 0.5f;
 
@@ -38,14 +39,19 @@ public class UIBuildBoomerangController : MonoBehaviour
     }
     public void OnAnimationSpeedIncreased()
     {
+        if (_counter == 50)
+        {
+            return;
+        }
         ++_counter;
         pointer.transform.localPosition = new Vector3(pointer.transform.localPosition.x + _positionIncreaseValue, pointer.localPosition.y, 0);
         scoreText.text = ((double)(_counter * _textIncreaseValue)).ToString() + "x";
         barImg.color = Color.HSVToRGB((float)((_counter * 2)/250f),1, 1);
         scoreText.color = Color.HSVToRGB((float)((_counter * 2) / 250f), 1, 1);
+        commentText.color = Color.HSVToRGB((float)((_counter * 2) / 250f), 1, 1);
 
     }
-    public void OnBoomerangRebulded()
+    public void OnBoomerangDisapeared()
     {
         ResetValues();
     }
@@ -61,6 +67,7 @@ public class UIBuildBoomerangController : MonoBehaviour
         pointer.transform.localPosition = new Vector3(-250, pointer.localPosition.y, 0);
         barImg.color = Color.HSVToRGB(0, 1, 1);
         scoreText.color = Color.HSVToRGB(0, 1, 1);
+        commentText.color = Color.HSVToRGB(0, 1, 1);
 
     }
 }
