@@ -61,6 +61,7 @@ namespace Managers
             InputSignals.Instance.onInputReleased += OnInputRelease;
             BoomerangSignals.Instance.onBoomerangNextTarget += OnBoomerangNextTarget;
             BoomerangSignals.Instance.onBoomerangNextTarget += _movementController.OnBoomerangNextTarget;
+            BoomerangSignals.Instance.onBoomerangReturning += OnBoomerangReturning;
             BoomerangSignals.Instance.onBoomerangHasReturned += OnBoomerangReturned;
             BoomerangSignals.Instance.onBoomerangHasReturned += _movementController.OnBoomerangHasReturned;
             BoomerangSignals.Instance.onBoomerangRebuilded += _movementController.OnBoomerangRebuilded;
@@ -77,6 +78,7 @@ namespace Managers
             InputSignals.Instance.onInputReleased -= OnInputRelease;
             BoomerangSignals.Instance.onBoomerangNextTarget -= OnBoomerangNextTarget;
             BoomerangSignals.Instance.onBoomerangNextTarget -= _movementController.OnBoomerangNextTarget;
+            BoomerangSignals.Instance.onBoomerangReturning -= OnBoomerangReturning;
             BoomerangSignals.Instance.onBoomerangHasReturned -= OnBoomerangReturned;
             BoomerangSignals.Instance.onBoomerangHasReturned -= _movementController.OnBoomerangHasReturned;
             BoomerangSignals.Instance.onBoomerangRebuilded -= _movementController.OnBoomerangRebuilded;
@@ -106,7 +108,10 @@ namespace Managers
             ++PointIndeks;
             IsRight = !IsRight;
         }
-
+        private void OnBoomerangReturning()
+        {
+            BoomerangSignals.Instance.onCombo?.Invoke(PointIndeks);
+        }
         private void OnBoomerangReturned()
         {
             PointIndeks = 0;

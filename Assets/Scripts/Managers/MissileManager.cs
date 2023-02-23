@@ -15,6 +15,8 @@ namespace Managers
         #region Self Variables
 
         #region Public Variables
+        public PoolEnums ParticleType;
+        public bool IsPink = false;
 
         #endregion
 
@@ -51,6 +53,7 @@ namespace Managers
             CoreGameSignals.Instance.onPlay += OnPlay;
             CoreGameSignals.Instance.onLevelSuccessful += OnLevelSuccessful;
             CoreGameSignals.Instance.onRestartLevel += OnResetLevel;
+            MissileSignals.Instance.onPinkMissileDestroyed += OnPinkMissileDestroyed;
         }
 
         private void UnsubscribeEvents()
@@ -58,6 +61,7 @@ namespace Managers
             CoreGameSignals.Instance.onPlay -= OnPlay;
             CoreGameSignals.Instance.onLevelSuccessful -= OnLevelSuccessful;
             CoreGameSignals.Instance.onRestartLevel -= OnResetLevel;
+            MissileSignals.Instance.onPinkMissileDestroyed -= OnPinkMissileDestroyed;
         }
 
 
@@ -69,13 +73,29 @@ namespace Managers
         #endregion
         public void Explode()
         {
-            GameObject particle = PoolSignals.Instance.onGetObject?.Invoke(Enums.PoolEnums.Particle);
+            MissileSignals.Instance.onMissileDestroyed?.Invoke();
+
+            GameObject particle = PoolSignals.Instance.onGetObject?.Invoke(ParticleType);
             particle.transform.position = transform.position;
             particle.gameObject.SetActive(true);
+            if (IsPink)
+            {
+                MissileSignals.Instance.onPinkMissileDestroyed?.Invoke();
+            }
+            gameObject.SetActive(false);
         }
         private void OnPlay()
         {
 
+        }
+
+        private void OnPinkMissileDestroyed()
+        {
+            if (IsPink)
+            {
+                return;
+            }
+            Explode();
         }
         private void OnLevelSuccessful()
         {

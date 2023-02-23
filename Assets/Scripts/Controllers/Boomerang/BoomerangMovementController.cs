@@ -22,6 +22,7 @@ namespace Controllers
         private bool _isNotStarted = true;
         public bool _isPointMissed = false;
         private Vector3 _initializePos = new Vector3(0,-4,0);
+        private Vector3 _currentDir;
 
 
         #endregion
@@ -46,6 +47,7 @@ namespace Controllers
             {
                 return;
             }
+
             Move();
             Spin();
         }
@@ -64,14 +66,19 @@ namespace Controllers
                 return;
             }
 
-            Vector3 dir = (_manager.MissilePoints[_manager.PointIndeks] - transform.position).normalized * _data.Speed * (_manager.PointIndeks + 1);
-            _rig.velocity = dir;
+            _rig.velocity = _currentDir;
 
             if (Mathf.Abs((_manager.MissilePoints[_manager.PointIndeks] - transform.position).sqrMagnitude) <= new Vector3(0.1f, 0.1f, 0.1f).sqrMagnitude)
             {
                 _isPointMissed = true;
             }
 
+        }
+
+        private Vector3 GetDirection()
+        {
+            Vector3 dir = (_manager.MissilePoints[_manager.PointIndeks] - transform.position).normalized * _data.Speed * (_manager.PointIndeks + 1);
+            return dir;
         }
         private void Spin()
         {
@@ -84,6 +91,7 @@ namespace Controllers
             _manager.IsRising = true; ;
 
             _manager.MissilePoints.Add(_initializePos);
+            _currentDir = GetDirection();
             _manager.IsThrowed = true;
         }
 
@@ -108,6 +116,8 @@ namespace Controllers
 
         public void OnBoomerangNextTarget()
         {
+            _currentDir = GetDirection();
+
             if (_isPointMissed)
             {
                 _manager.PointIndeks = _manager.MissilePoints.Count - 1;
@@ -136,6 +146,7 @@ namespace Controllers
             transform.position = _initializePos;
             _isPointMissed = false;
         }
+
         public void OnLevelFailed()
         {
 

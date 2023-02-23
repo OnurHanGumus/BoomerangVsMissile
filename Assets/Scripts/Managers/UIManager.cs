@@ -18,6 +18,7 @@ namespace Managers
         [SerializeField] private LevelPanelController levelPanelController;
         [SerializeField] private HighScorePanelController highScorePanelController;
         [SerializeField] private UIBuildBoomerangController uiBuildBoomerangController;
+        [SerializeField] private ComboPanelController comboPanelController;
 
         #endregion
         #region Private Variables
@@ -56,6 +57,7 @@ namespace Managers
             ScoreSignals.Instance.onHighScoreChanged += highScorePanelController.OnUpdateText;
             PlayerSignals.Instance.onAnimationSpeedIncreased += uiBuildBoomerangController.OnAnimationSpeedIncreased;
             BoomerangSignals.Instance.onBoomerangDisapeared += uiBuildBoomerangController.OnBoomerangDisapeared;
+            BoomerangSignals.Instance.onCombo += comboPanelController.OnCombo;
         }
 
         private void UnsubscribeEvents()
@@ -71,6 +73,7 @@ namespace Managers
             ScoreSignals.Instance.onHighScoreChanged -= highScorePanelController.OnUpdateText;
             PlayerSignals.Instance.onAnimationSpeedIncreased -= uiBuildBoomerangController.OnAnimationSpeedIncreased;
             BoomerangSignals.Instance.onBoomerangDisapeared -= uiBuildBoomerangController.OnBoomerangDisapeared;
+            BoomerangSignals.Instance.onCombo -= comboPanelController.OnCombo;
         }
 
         private void OnDisable()

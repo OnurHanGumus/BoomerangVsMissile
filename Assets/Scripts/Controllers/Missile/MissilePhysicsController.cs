@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using Signals;
+using Enums;
 
 namespace Controllers
 {
@@ -36,7 +37,6 @@ namespace Controllers
             {
                 manager.Explode();
 
-                MissileSignals.Instance.onMissileDestroyed?.Invoke();
                 transform.parent.gameObject.SetActive(false);
             }
             else if (other.CompareTag("SafeArea"))
@@ -47,7 +47,7 @@ namespace Controllers
             }
             else if (other.CompareTag("Missile"))
             {
-                GameObject particle = PoolSignals.Instance.onGetObject?.Invoke(Enums.PoolEnums.Particle);
+                GameObject particle = PoolSignals.Instance.onGetObject?.Invoke(manager.ParticleType);
                 particle.transform.position = transform.position;
                 particle.gameObject.SetActive(true);
 
