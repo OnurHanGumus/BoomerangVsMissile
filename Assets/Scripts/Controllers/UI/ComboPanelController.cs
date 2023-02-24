@@ -20,6 +20,7 @@ public class ComboPanelController : MonoBehaviour
     #endregion
     #region Private Variables
     private ComboCommentsData _commentsData;
+    private GainMoneyData _gainMoneyData;
 
 
     #endregion
@@ -30,19 +31,18 @@ public class ComboPanelController : MonoBehaviour
     }
     private void Init()
     {
-        _commentsData = GetData();
+        _commentsData = GetCommentData();
+        _gainMoneyData = GetMoneyData();
         gameObject.transform.localScale = Vector3.zero;
     }
-    private ComboCommentsData GetData() => Resources.Load<CD_Comments>("Data/CD_Comments").Data;
+    private ComboCommentsData GetCommentData() => Resources.Load<CD_Comments>("Data/CD_Comments").Data;
+    private GainMoneyData GetMoneyData() => Resources.Load<CD_Money>("Data/CD_Money").Data;
 
     public void OnCombo(int value)
     {
         StartCoroutine(Effect());
-        if (value > 0)
-        {
-            commentTxt.text = _commentsData.CommentsList[value];
-            ScoreSignals.Instance.onScoreIncrease?.Invoke(ScoreTypeEnums.Score, value);
-        }
+        commentTxt.text = _commentsData.CommentsList[value];
+        ScoreSignals.Instance.onScoreIncrease?.Invoke(ScoreTypeEnums.Gem, _gainMoneyData.GainMoneyList[value]);
     }
 
 

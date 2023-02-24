@@ -110,7 +110,10 @@ namespace Managers
         }
         private void OnBoomerangReturning()
         {
-            BoomerangSignals.Instance.onCombo?.Invoke(PointIndeks);
+            if (PointIndeks > 1)
+            {
+                BoomerangSignals.Instance.onCombo?.Invoke(PointIndeks - 2);
+            }
         }
         private void OnBoomerangReturned()
         {

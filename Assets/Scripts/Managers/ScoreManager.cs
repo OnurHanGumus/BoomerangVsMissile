@@ -28,11 +28,13 @@ namespace Managers
 
         #region Private Variables
         private ScoreData _data;
-        private int _score;
-        public int Score
+        private int _gem;
+        public int Gem
         {
-            get { return _score; }
-            set { _score = value; }
+            get { return _gem; }
+            set { _gem = value;
+            UISignals.Instance.onSetChangedText?.Invoke(ScoreTypeEnums.Gem, Gem);
+            }
         }
 
 
@@ -46,7 +48,7 @@ namespace Managers
         }
         private void Init()
         {
-
+            Gem = SaveSignals.Instance.onGetScore(SaveLoadStates.Gem, SaveFiles.SaveFile);
         }
         #region Event Subscription
 
@@ -60,6 +62,7 @@ namespace Managers
             ScoreSignals.Instance.onScoreIncrease += OnScoreIncrease;
             ScoreSignals.Instance.onScoreDecrease += OnScoreDecrease;
             ScoreSignals.Instance.onGetScore += OnGetScore;
+            CoreGameSignals.Instance.onNextLevel += OnNextLevel;
             CoreGameSignals.Instance.onRestartLevel += OnRestartLevel;
         }
 
@@ -68,6 +71,7 @@ namespace Managers
             ScoreSignals.Instance.onScoreIncrease -= OnScoreIncrease;
             ScoreSignals.Instance.onScoreDecrease -= OnScoreDecrease;
             ScoreSignals.Instance.onGetScore -= OnGetScore;
+            CoreGameSignals.Instance.onNextLevel -= OnNextLevel;
             CoreGameSignals.Instance.onRestartLevel -= OnRestartLevel;
         }
 
@@ -80,24 +84,26 @@ namespace Managers
 
         private void OnScoreIncrease(ScoreTypeEnums type, int amount)
         {
-            Score += amount;
-            UISignals.Instance.onSetChangedText?.Invoke(type, Score);
+            Gem += amount;
         }
 
         private void OnScoreDecrease(ScoreTypeEnums type, int amount)
         {
-
+            Gem -= amount;
+            SaveSignals.Instance.onSaveScore(Gem, SaveLoadStates.Gem, SaveFiles.SaveFile);
         }
 
-
+        private void OnNextLevel()
+        {
+            SaveSignals.Instance.onSaveScore(Gem, SaveLoadStates.Gem, SaveFiles.SaveFile);
+        }
         private int OnGetScore()
         {
-            return Score;
+            return Gem;
         }
 
         private void OnRestartLevel()
         {
-            Score = 0;
         }
     }
 }

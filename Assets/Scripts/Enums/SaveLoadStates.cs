@@ -9,5 +9,6 @@ namespace Enums
         //Options
         SoundState,
         Level,
+        Gem,
     }
 }
