@@ -41,6 +41,7 @@ namespace Managers
             SaveSignals.Instance.onChangeSoundState += OnSaveData;
             SaveSignals.Instance.onGetScore += OnGetData;
             SaveSignals.Instance.onGetSoundState += OnGetData;
+            SaveSignals.Instance.onBuyItem += OnSaveList;
         }
 
         private void UnsubscribeEvents()
@@ -49,6 +50,7 @@ namespace Managers
             SaveSignals.Instance.onChangeSoundState -= OnSaveData;
             SaveSignals.Instance.onGetScore -= OnGetData;
             SaveSignals.Instance.onGetSoundState -= OnGetData;
+            SaveSignals.Instance.onBuyItem -= OnSaveList;
         }
 
         private void OnDisable()
@@ -58,7 +60,10 @@ namespace Managers
 
         #endregion
 
-
+        private void Start()
+        {
+            SendData();
+        }
 
         private void OnSaveData(int value, SaveLoadStates saveType, SaveFiles saveFiles)
         {
@@ -68,6 +73,21 @@ namespace Managers
         private int OnGetData(SaveLoadStates state, SaveFiles file)
         {
             return _loadGameCommand.OnLoadGameData(state, file.ToString());
+        }
+
+        private void OnSaveList(List<int> newList, SaveLoadStates saveType, SaveFiles saveFiles)
+        {
+            _saveGameCommand.OnSaveList(saveType, newList, saveFiles.ToString());
+            SendData();
+        }
+        private List<int> OnGetList(SaveLoadStates saveType, SaveFiles saveFiles)
+        {
+            return _loadGameCommand.OnLoadGameList(saveType, saveFiles.ToString());
+        }
+
+        private void SendData()
+        {
+            SaveSignals.Instance.onInitializeBuyedItems?.Invoke(OnGetList(SaveLoadStates.BuyItem, SaveFiles.SaveFile));
         }
     }
 }
