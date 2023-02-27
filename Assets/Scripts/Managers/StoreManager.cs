@@ -23,12 +23,13 @@ namespace Managers
 
         [SerializeField] private List<TextMeshProUGUI> levelTxt;
         [SerializeField] private List<TextMeshProUGUI> upgradeTxt;
-        [SerializeField] private List<int> itemLevels;
 
 
 
         #endregion
         private ItemPricesData _data;
+        private List<int> _itemLevels;
+
         #endregion
 
 
@@ -46,6 +47,10 @@ namespace Managers
         private ItemPricesData GetData() => Resources.Load<CD_Prices>("Data/CD_Prices").Data;
         private void Start()
         {
+            if (_itemLevels.Count.Equals(0))
+            {
+                _itemLevels = new List<int>() { 1, 0, 0, 0 };
+            }
             UpdateTexts();
 
         }
@@ -77,7 +82,7 @@ namespace Managers
 
         public void BuyItem(int id)
         {
-            if (itemLevels[id] >= 1)
+            if (_itemLevels[id] >= 1)
             {
                 BoomerangSignals.Instance.onSelectBoomerang?.Invoke(id);
                 return;
@@ -87,8 +92,8 @@ namespace Managers
             if (ScoreSignals.Instance.onGetGem() > _data.prices[id])
             {
                 ScoreSignals.Instance.onScoreDecrease(ScoreTypeEnums.Gem, _data.prices[id]);
-                itemLevels[id] = itemLevels[id] + 1;
-                SaveSignals.Instance.onBuyItem?.Invoke(itemLevels, SaveLoadStates.BuyItem, SaveFiles.SaveFile);
+                _itemLevels[id] = _itemLevels[id] + 1;
+                SaveSignals.Instance.onBuyItem?.Invoke(_itemLevels, SaveLoadStates.BuyItem, SaveFiles.SaveFile);
                 UpdateTexts();
                 //AudioSignals.Instance.onPlaySound?.Invoke(Enums.AudioSoundEnums.Click);
                 BoomerangSignals.Instance.onSelectBoomerang?.Invoke(id);
@@ -102,20 +107,25 @@ namespace Managers
 
         private void OnGetStoreLevels(List<int> levels)
         {
+            SetList(levels);
+            UpdateTexts();
+        }
+
+        private void SetList(List<int> levels)
+        {
             if (levels.Count.Equals(0))
             {
-                levels = new List<int>() { 1, 0, 0, 0 };
+                return;
             }
 
-            itemLevels = levels;
-            UpdateTexts();
+            _itemLevels = levels;
         }
 
         private void UpdateTexts()
         {
-            for (int i = 0; i < itemLevels.Count; i++)//textleri initialize et
+            for (int i = 0; i < _itemLevels.Count; i++)//textleri initialize et
             {
-                if (itemLevels[i] < 1)
+                if (_itemLevels[i] < 1)
                 {
 
                     //levelTxt[i].text = "LEVEL " + (itemLevels[i] + 1).ToString();
