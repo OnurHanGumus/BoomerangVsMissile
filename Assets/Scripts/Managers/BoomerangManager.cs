@@ -24,6 +24,8 @@ namespace Managers
         #endregion
 
         #region Serialized Variables
+        [SerializeField] private BoomerangMeshController meshController;
+
         #endregion
 
         #region Private Variables
@@ -66,6 +68,7 @@ namespace Managers
             BoomerangSignals.Instance.onBoomerangHasReturned += _movementController.OnBoomerangHasReturned;
             BoomerangSignals.Instance.onBoomerangRebuilded += _movementController.OnBoomerangRebuilded;
             BoomerangSignals.Instance.onBoomerangRebuilded += OnBoomerangRebuilded;
+            BoomerangSignals.Instance.onSelectBoomerang += meshController.OnSelectBoomerang;
             CoreGameSignals.Instance.onRestartLevel += OnRestartLevel;
             CoreGameSignals.Instance.onRestartLevel += _movementController.OnRestartLevel;
         }
@@ -83,6 +86,7 @@ namespace Managers
             BoomerangSignals.Instance.onBoomerangHasReturned -= _movementController.OnBoomerangHasReturned;
             BoomerangSignals.Instance.onBoomerangRebuilded -= _movementController.OnBoomerangRebuilded;
             BoomerangSignals.Instance.onBoomerangRebuilded -= OnBoomerangRebuilded;
+            BoomerangSignals.Instance.onSelectBoomerang -= meshController.OnSelectBoomerang;
             CoreGameSignals.Instance.onRestartLevel -= OnRestartLevel;
             CoreGameSignals.Instance.onRestartLevel -= _movementController.OnRestartLevel;
         }
@@ -147,7 +151,10 @@ namespace Managers
             PointIndeks = 0;
             MissilePoints.Clear();
         }
-
+        private void OnSelectBoomerang(string id)
+        {
+            Instantiate(Resources.Load<GameObject>("Prefabs/Boomerangs/" + id), Vector3.zero, Quaternion.identity); 
+        }
         private void OnRestartLevel()
         {
             transform.parent = null;

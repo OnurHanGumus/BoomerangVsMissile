@@ -75,22 +75,28 @@ namespace Managers
 
         #endregion
 
-        public void UpgradeItem(int id)
+        public void BuyItem(int id)
         {
-            if (itemLevels[id] >= 3)
+            if (itemLevels[id] >= 1)
             {
+                BoomerangSignals.Instance.onSelectBoomerang?.Invoke(id);
                 return;
             }
 
 
-            if (ScoreSignals.Instance.onGetMoney() > _data.prices[itemLevels[id]])
+            if (ScoreSignals.Instance.onGetGem() > _data.prices[id])
             {
-                ScoreSignals.Instance.onScoreDecrease(ScoreTypeEnums.Money, _data.prices[itemLevels[id]]);
+                ScoreSignals.Instance.onScoreDecrease(ScoreTypeEnums.Gem, _data.prices[id]);
                 itemLevels[id] = itemLevels[id] + 1;
                 SaveSignals.Instance.onBuyItem?.Invoke(itemLevels, SaveLoadStates.BuyItem, SaveFiles.SaveFile);
                 UpdateTexts();
                 //AudioSignals.Instance.onPlaySound?.Invoke(Enums.AudioSoundEnums.Click);
+                BoomerangSignals.Instance.onSelectBoomerang?.Invoke(id);
 
+            }
+            else
+            {
+                return;
             }
         }
 
@@ -98,7 +104,7 @@ namespace Managers
         {
             if (levels.Count.Equals(0))
             {
-                levels = new List<int>() { 0, 0, 0, 0 };
+                levels = new List<int>() { 1, 0, 0, 0 };
             }
 
             itemLevels = levels;

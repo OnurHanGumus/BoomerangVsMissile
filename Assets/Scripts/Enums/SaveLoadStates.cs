@@ -11,5 +11,6 @@ namespace Enums
         Level,
         Gem,
         BuyItem,
+        SelectedItem,
     }
 }

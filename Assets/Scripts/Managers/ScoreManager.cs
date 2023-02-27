@@ -61,7 +61,7 @@ namespace Managers
         {
             ScoreSignals.Instance.onScoreIncrease += OnScoreIncrease;
             ScoreSignals.Instance.onScoreDecrease += OnScoreDecrease;
-            ScoreSignals.Instance.onGetScore += OnGetScore;
+            ScoreSignals.Instance.onGetGem += OnGetGem;
             CoreGameSignals.Instance.onNextLevel += OnNextLevel;
             CoreGameSignals.Instance.onRestartLevel += OnRestartLevel;
         }
@@ -70,7 +70,7 @@ namespace Managers
         {
             ScoreSignals.Instance.onScoreIncrease -= OnScoreIncrease;
             ScoreSignals.Instance.onScoreDecrease -= OnScoreDecrease;
-            ScoreSignals.Instance.onGetScore -= OnGetScore;
+            ScoreSignals.Instance.onGetGem -= OnGetGem;
             CoreGameSignals.Instance.onNextLevel -= OnNextLevel;
             CoreGameSignals.Instance.onRestartLevel -= OnRestartLevel;
         }
@@ -90,14 +90,14 @@ namespace Managers
         private void OnScoreDecrease(ScoreTypeEnums type, int amount)
         {
             Gem -= amount;
-            SaveSignals.Instance.onSaveScore(Gem, SaveLoadStates.Gem, SaveFiles.SaveFile);
+            SaveSignals.Instance.onSave(Gem, SaveLoadStates.Gem, SaveFiles.SaveFile);
         }
 
         private void OnNextLevel()
         {
-            SaveSignals.Instance.onSaveScore(Gem, SaveLoadStates.Gem, SaveFiles.SaveFile);
+            SaveSignals.Instance.onSave(Gem, SaveLoadStates.Gem, SaveFiles.SaveFile);
         }
-        private int OnGetScore()
+        private int OnGetGem()
         {
             return Gem;
         }

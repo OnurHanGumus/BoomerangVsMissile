@@ -37,7 +37,7 @@ namespace Managers
 
         private void SubscribeEvents()
         {
-            SaveSignals.Instance.onSaveScore += OnSaveData;
+            SaveSignals.Instance.onSave += OnSaveData;
             SaveSignals.Instance.onChangeSoundState += OnSaveData;
             SaveSignals.Instance.onGetScore += OnGetData;
             SaveSignals.Instance.onGetSoundState += OnGetData;
@@ -46,7 +46,7 @@ namespace Managers
 
         private void UnsubscribeEvents()
         {
-            SaveSignals.Instance.onSaveScore -= OnSaveData;
+            SaveSignals.Instance.onSave -= OnSaveData;
             SaveSignals.Instance.onChangeSoundState -= OnSaveData;
             SaveSignals.Instance.onGetScore -= OnGetData;
             SaveSignals.Instance.onGetSoundState -= OnGetData;

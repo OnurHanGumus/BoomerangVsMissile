@@ -10,7 +10,7 @@ namespace Signals
 {
     public class SaveSignals : MonoSingleton<SaveSignals>
     {
-        public UnityAction<int, SaveLoadStates, SaveFiles> onSaveScore = delegate { };
+        public UnityAction<int, SaveLoadStates, SaveFiles> onSave = delegate { };
         public UnityAction<int, SaveLoadStates, SaveFiles> onChangeSoundState = delegate { };
         public UnityAction<List<int>, SaveLoadStates, SaveFiles> onBuyItem = delegate { };
         public UnityAction<List<int>> onInitializeBuyedItems = delegate { };
