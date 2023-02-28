@@ -8,6 +8,7 @@ using System;
 using Data.UnityObject;
 using DG.Tweening;
 using UnityEngine.UI;
+using Data.ValueObject;
 
 public class UIBuildBoomerangController : MonoBehaviour
 {
@@ -23,9 +24,9 @@ public class UIBuildBoomerangController : MonoBehaviour
 
     #region Private Variables
     private int _counter = 0;
-    private int _counterMaksValue = 50;
-    private int _positionIncreaseValue = 10;
-    private float _textIncreaseValue = 0.5f;
+    private float _counterMaksValue = 25;
+    private float _positionIncreaseValue = 20;
+    private UIData _data;
 
     #endregion
     #endregion
@@ -35,17 +36,21 @@ public class UIBuildBoomerangController : MonoBehaviour
     }
     private void Init()
     {
-
+        _data = GetData();
+        _positionIncreaseValue *= _data.ComboInputIncreaseAmount;
+        _counterMaksValue /= _data.ComboInputIncreaseAmount;
     }
+    public UIData GetData() => Resources.Load<CD_UI>("Data/CD_UI").Data;
+
     public void OnAnimationSpeedIncreased()
     {
-        if (_counter == 50)
+        if (_counter >= _counterMaksValue)
         {
             return;
         }
         ++_counter;
         pointer.transform.localPosition = new Vector3(pointer.transform.localPosition.x + _positionIncreaseValue, pointer.localPosition.y, 0);
-        scoreText.text = ((double)(_counter * _textIncreaseValue)).ToString() + "x";
+        scoreText.text = ((double)(_counter * _data.ComboInputIncreaseAmount)).ToString() + "x";
         barImg.color = Color.HSVToRGB((float)((_counter * 2)/250f),1, 1);
         scoreText.color = Color.HSVToRGB((float)((_counter * 2) / 250f), 1, 1);
         commentText.color = Color.HSVToRGB((float)((_counter * 2) / 250f), 1, 1);
@@ -63,7 +68,7 @@ public class UIBuildBoomerangController : MonoBehaviour
     private void ResetValues()
     {
         _counter = 0;
-        scoreText.text = (_counter * _textIncreaseValue).ToString() + "x";
+        scoreText.text = (_counter * _data.ComboInputIncreaseAmount).ToString() + "x";
         pointer.transform.localPosition = new Vector3(-250, pointer.localPosition.y, 0);
         barImg.color = Color.HSVToRGB(0, 1, 1);
         scoreText.color = Color.HSVToRGB(0, 1, 1);

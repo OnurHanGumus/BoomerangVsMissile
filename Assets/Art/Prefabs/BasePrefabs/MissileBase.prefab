@@ -94,9 +94,10 @@ GameObject:
   - component: {fileID: 3065065370417937668}
   - component: {fileID: 6877862797391950990}
   - component: {fileID: -4694992830584109621}
+  - component: {fileID: 4573692909795951065}
   m_Layer: 0
   m_Name: MissileBase
-  m_TagString: Missile
+  m_TagString: Clickable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -147,6 +148,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ParticleType: 5
+  IsPink: 0
+--- !u!65 &4573692909795951065
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3065065370417937671}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 2.7904816, z: 1}
+  m_Center: {x: 0, y: -0.1105237, z: 0}
 --- !u!1 &6075188875422282779
 GameObject:
   m_ObjectHideFlags: 0

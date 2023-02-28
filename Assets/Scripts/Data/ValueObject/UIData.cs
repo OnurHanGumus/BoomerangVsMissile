@@ -7,5 +7,6 @@ namespace Data.ValueObject
     public class UIData
     {
         public float AnimationTime = 0.5f;
+        public float ComboInputIncreaseAmount = 1f;
     }
 }

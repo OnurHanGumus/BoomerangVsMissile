@@ -108,7 +108,7 @@ namespace Managers
                 RaycastHit hit;
                 if (Physics.Raycast(_ray, out hit))
                 {
-                    if (hit.collider.CompareTag("Missile"))
+                    if (hit.collider.CompareTag("Clickable"))
                     {
                         if (hit.transform.Equals(_lastHitTransform))
                         {
