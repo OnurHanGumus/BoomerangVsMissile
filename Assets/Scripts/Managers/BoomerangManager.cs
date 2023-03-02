@@ -25,12 +25,14 @@ namespace Managers
 
         #region Serialized Variables
         [SerializeField] private BoomerangMeshController meshController;
+        [SerializeField] private BoomerangPhysicsController physicsController;
 
         #endregion
 
         #region Private Variables
         private PlayerData _data;
         private BoomerangMovementController _movementController;
+        private bool _isDisapeared = false;
 
         #endregion
 
@@ -141,20 +143,19 @@ namespace Managers
         }
         private void OnBecameInvisible()
         {
+            _isDisapeared = true; ;
             BoomerangSignals.Instance.onBoomerangDisapeared?.Invoke();
         }
 
         private void OnBoomerangRebuilded()
         {
+            _isDisapeared = false;
             IsRising = false;
             IsThrowed = false;
             PointIndeks = 0;
             MissilePoints.Clear();
         }
-        private void OnSelectBoomerang(string id)
-        {
-            Instantiate(Resources.Load<GameObject>("Prefabs/Boomerangs/" + id), Vector3.zero, Quaternion.identity); 
-        }
+
         private void OnRestartLevel()
         {
             transform.parent = null;

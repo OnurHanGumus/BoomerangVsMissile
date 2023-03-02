@@ -6841,7 +6841,6 @@ MonoBehaviour:
   - {fileID: 1405842589}
   - {fileID: 918279442}
   - {fileID: 1181518995}
-  itemLevels: 
 --- !u!1 &2071609494
 GameObject:
   m_ObjectHideFlags: 0

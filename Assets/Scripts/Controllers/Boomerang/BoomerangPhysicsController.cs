@@ -15,7 +15,7 @@ namespace Controllers
         [SerializeField] private BoomerangManager manager;
         #endregion
         #region Private Variables
-
+        private bool _isDisapeared = false;
 
         #endregion
         #endregion
@@ -34,6 +34,10 @@ namespace Controllers
         {
             if (other.CompareTag("Missile"))
             {
+                if (_isDisapeared)
+                {
+                    return;
+                }
                 BoomerangSignals.Instance.onBoomerangNextTarget?.Invoke();
             }
             else if (other.CompareTag("CatchArea"))

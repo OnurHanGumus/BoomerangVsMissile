@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Enums;
+using Data.ValueObject;
+using Data.UnityObject;
 
 public class PlayerAnimationController : MonoBehaviour
 {
@@ -13,10 +15,21 @@ public class PlayerAnimationController : MonoBehaviour
 
     #endregion
     #region Private Variables
+    private UIData _uiData;
 
     #endregion
     #endregion
 
+    public UIData GetData() => Resources.Load<CD_UI>("Data/CD_UI").Data;
+
+    private void Awake()
+    {
+        Init();
+    }
+    private void Init()
+    {
+        _uiData = GetData();
+    }
     public void OnChangeAnimation(PlayerAnimationStates nextAnimation)
     {
         animator.speed = 0.5f;
@@ -25,6 +38,6 @@ public class PlayerAnimationController : MonoBehaviour
     }
     public void OnChangeAnimationSpeed()
     {
-        animator.speed += 0.5f;
+        animator.speed += _uiData.ComboInputIncreaseAmount;
     }
 }
