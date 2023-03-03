@@ -32,6 +32,10 @@ namespace Controllers
 
         private void OnTriggerEnter(Collider other)
         {
+            if (manager.IsBoomerangOnPlayerHand)
+            {
+                return;
+            }
             if (other.CompareTag("Missile"))
             {
                 if (_isDisapeared)
@@ -55,6 +59,7 @@ namespace Controllers
                 transform.parent.parent = other.transform;
                 transform.parent.localPosition = new Vector3(0.1360204f, 0.2610005f, -0.04199352f);
                 transform.parent.localEulerAngles = new Vector3(-9.304f, -9.275f, -107.476f);
+                manager.IsBoomerangOnPlayerHand = true;
             }
         }
     }

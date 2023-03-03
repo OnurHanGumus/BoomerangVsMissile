@@ -56,6 +56,7 @@ namespace Managers
             CoreGameSignals.Instance.onPlay += _movementController.OnPlay;
             CoreGameSignals.Instance.onLevelSuccessful += _movementController.OnLevelSuccess;
             CoreGameSignals.Instance.onLevelFailed += _movementController.OnLevelFailed;
+            CoreGameSignals.Instance.onRestartLevel += animationController.OnRestartLevel;
             CoreGameSignals.Instance.onRestartLevel += _movementController.OnRestartLevel;
             CoreGameSignals.Instance.onRestartLevel += OnResetLevel;
             BoomerangSignals.Instance.onBoomerangDisapeared += OnBoomerangBecomeInvisible;
@@ -74,6 +75,7 @@ namespace Managers
             CoreGameSignals.Instance.onPlay -= _movementController.OnPlay;
             CoreGameSignals.Instance.onLevelSuccessful -= _movementController.OnLevelSuccess;
             CoreGameSignals.Instance.onLevelFailed -= _movementController.OnLevelFailed;
+            CoreGameSignals.Instance.onRestartLevel -= animationController.OnRestartLevel;
             CoreGameSignals.Instance.onRestartLevel -= _movementController.OnRestartLevel;
             CoreGameSignals.Instance.onRestartLevel -= OnResetLevel;
             BoomerangSignals.Instance.onBoomerangDisapeared -= OnBoomerangBecomeInvisible;

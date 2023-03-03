@@ -20,6 +20,7 @@ namespace Managers
         public bool IsRight = true;
         public bool IsThrowed = false;
         public bool IsRising = false;
+        public bool IsBoomerangOnPlayerHand = false;
 
         #endregion
 
@@ -139,6 +140,7 @@ namespace Managers
             transform.parent = null;
             transform.localEulerAngles = Vector3.zero;
             BoomerangSignals.Instance.onBoomerangThrowed?.Invoke();
+            IsBoomerangOnPlayerHand = false;
             _movementController.Throwed();
         }
         private void OnBecameInvisible()

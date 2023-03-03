@@ -40,4 +40,9 @@ public class PlayerAnimationController : MonoBehaviour
     {
         animator.speed += _uiData.ComboInputIncreaseAmount;
     }
+
+    public void OnRestartLevel()
+    {
+        animator.speed = 0.5f;
+    }
 }

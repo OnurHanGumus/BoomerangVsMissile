@@ -101,7 +101,7 @@ namespace Controllers
             _rig.velocity = Vector3.zero;
             _rig.angularVelocity = Vector3.zero;
             transform.parent = null;
-            transform.position = _initializePos;
+            //transform.position = _initializePos;
         }
 
         
@@ -144,6 +144,7 @@ namespace Controllers
             _rig.velocity = Vector3.zero;
             _rig.angularVelocity = Vector3.zero;
             transform.position = _initializePos;
+            transform.eulerAngles = Vector3.zero;
             _isPointMissed = false;
         }
 
