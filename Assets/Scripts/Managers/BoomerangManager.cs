@@ -21,19 +21,21 @@ namespace Managers
         public bool IsThrowed = false;
         public bool IsRising = false;
         public bool IsBoomerangOnPlayerHand = false;
+        public bool IsDisapeared = false;
+
 
         #endregion
 
         #region Serialized Variables
         [SerializeField] private BoomerangMeshController meshController;
         [SerializeField] private BoomerangPhysicsController physicsController;
+        [SerializeField] private BoomerangVisibilityController visibilityController;
 
         #endregion
 
         #region Private Variables
         private PlayerData _data;
         private BoomerangMovementController _movementController;
-        private bool _isDisapeared = false;
 
         #endregion
 
@@ -62,6 +64,7 @@ namespace Managers
         {
             CoreGameSignals.Instance.onPlay += OnPlay;
             CoreGameSignals.Instance.onPlay += _movementController.OnPlay;
+            CoreGameSignals.Instance.onLevelSuccessful += visibilityController.OnLevelSuccessful;
             InputSignals.Instance.onClicking += OnAddPoint;
             InputSignals.Instance.onInputReleased += OnInputRelease;
             BoomerangSignals.Instance.onBoomerangNextTarget += OnBoomerangNextTarget;
@@ -74,12 +77,14 @@ namespace Managers
             BoomerangSignals.Instance.onSelectBoomerang += meshController.OnSelectBoomerang;
             CoreGameSignals.Instance.onRestartLevel += OnRestartLevel;
             CoreGameSignals.Instance.onRestartLevel += _movementController.OnRestartLevel;
+            CoreGameSignals.Instance.onRestartLevel += visibilityController.OnRestartLevel;
         }
 
         private void UnsubscribeEvents()
         {
             CoreGameSignals.Instance.onPlay -= OnPlay;
             CoreGameSignals.Instance.onPlay -= _movementController.OnPlay;
+            CoreGameSignals.Instance.onLevelSuccessful -= visibilityController.OnLevelSuccessful;
             InputSignals.Instance.onClicking -= OnAddPoint;
             InputSignals.Instance.onInputReleased -= OnInputRelease;
             BoomerangSignals.Instance.onBoomerangNextTarget -= OnBoomerangNextTarget;
@@ -92,6 +97,7 @@ namespace Managers
             BoomerangSignals.Instance.onSelectBoomerang -= meshController.OnSelectBoomerang;
             CoreGameSignals.Instance.onRestartLevel -= OnRestartLevel;
             CoreGameSignals.Instance.onRestartLevel -= _movementController.OnRestartLevel;
+            CoreGameSignals.Instance.onRestartLevel -= visibilityController.OnRestartLevel;
         }
 
 
@@ -143,15 +149,10 @@ namespace Managers
             IsBoomerangOnPlayerHand = false;
             _movementController.Throwed();
         }
-        private void OnBecameInvisible()
-        {
-            _isDisapeared = true; ;
-            BoomerangSignals.Instance.onBoomerangDisapeared?.Invoke();
-        }
-
+        
         private void OnBoomerangRebuilded()
         {
-            _isDisapeared = false;
+            IsDisapeared = false;
             IsRising = false;
             IsThrowed = false;
             PointIndeks = 0;
