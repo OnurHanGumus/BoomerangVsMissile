@@ -29,9 +29,15 @@ MonoBehaviour:
     referenceMode: 2
     serializationDepthLimit: 64
     assemblyNames:
-    - Assembly-CSharp
     - Assembly-CSharp-firstpass
+    - Assembly-CSharp
+    - CFXRDemo
+    - CFXRRuntime
+    - KinoBloom.Runtime
+    - CFXREditor
     - PPv2URPConverters
+    - ToonyColorsPro.Demo.Editor
+    - CFXR.WelcomeScreen
     showAdvancedSettings: 0
   addMgrToSceneAutomatically: 0
   autoUpdateReferences: 1

@@ -10,6 +10,7 @@ TagManager:
   - SafeArea
   - CatchArea
   - Clickable
+  - ScreenBox
   layers:
   - Default
   - TransparentFX

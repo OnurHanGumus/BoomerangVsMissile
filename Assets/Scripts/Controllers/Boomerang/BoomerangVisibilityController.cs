@@ -35,6 +35,7 @@ namespace Controllers
             {
                 return;
             }
+
             manager.IsDisapeared = true;
             BoomerangSignals.Instance.onBoomerangDisapeared?.Invoke();
         }

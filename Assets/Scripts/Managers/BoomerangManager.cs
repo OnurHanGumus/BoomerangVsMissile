@@ -64,7 +64,10 @@ namespace Managers
         {
             CoreGameSignals.Instance.onPlay += OnPlay;
             CoreGameSignals.Instance.onPlay += _movementController.OnPlay;
-            CoreGameSignals.Instance.onLevelSuccessful += visibilityController.OnLevelSuccessful;
+            CoreGameSignals.Instance.onLevelSuccessful += physicsController.OnLevelSuccessful;
+            CoreGameSignals.Instance.onRestartLevel += OnRestartLevel;
+            CoreGameSignals.Instance.onRestartLevel += _movementController.OnRestartLevel;
+            CoreGameSignals.Instance.onRestartLevel += physicsController.OnRestartLevel;
             InputSignals.Instance.onClicking += OnAddPoint;
             InputSignals.Instance.onInputReleased += OnInputRelease;
             BoomerangSignals.Instance.onBoomerangNextTarget += OnBoomerangNextTarget;
@@ -75,16 +78,16 @@ namespace Managers
             BoomerangSignals.Instance.onBoomerangRebuilded += _movementController.OnBoomerangRebuilded;
             BoomerangSignals.Instance.onBoomerangRebuilded += OnBoomerangRebuilded;
             BoomerangSignals.Instance.onSelectBoomerang += meshController.OnSelectBoomerang;
-            CoreGameSignals.Instance.onRestartLevel += OnRestartLevel;
-            CoreGameSignals.Instance.onRestartLevel += _movementController.OnRestartLevel;
-            CoreGameSignals.Instance.onRestartLevel += visibilityController.OnRestartLevel;
         }
 
         private void UnsubscribeEvents()
         {
             CoreGameSignals.Instance.onPlay -= OnPlay;
             CoreGameSignals.Instance.onPlay -= _movementController.OnPlay;
-            CoreGameSignals.Instance.onLevelSuccessful -= visibilityController.OnLevelSuccessful;
+            CoreGameSignals.Instance.onLevelSuccessful -= physicsController.OnLevelSuccessful;
+            CoreGameSignals.Instance.onRestartLevel -= OnRestartLevel;
+            CoreGameSignals.Instance.onRestartLevel -= _movementController.OnRestartLevel;
+            CoreGameSignals.Instance.onRestartLevel -= physicsController.OnRestartLevel;
             InputSignals.Instance.onClicking -= OnAddPoint;
             InputSignals.Instance.onInputReleased -= OnInputRelease;
             BoomerangSignals.Instance.onBoomerangNextTarget -= OnBoomerangNextTarget;
@@ -95,9 +98,6 @@ namespace Managers
             BoomerangSignals.Instance.onBoomerangRebuilded -= _movementController.OnBoomerangRebuilded;
             BoomerangSignals.Instance.onBoomerangRebuilded -= OnBoomerangRebuilded;
             BoomerangSignals.Instance.onSelectBoomerang -= meshController.OnSelectBoomerang;
-            CoreGameSignals.Instance.onRestartLevel -= OnRestartLevel;
-            CoreGameSignals.Instance.onRestartLevel -= _movementController.OnRestartLevel;
-            CoreGameSignals.Instance.onRestartLevel -= visibilityController.OnRestartLevel;
         }
 
 

@@ -16,6 +16,8 @@ namespace Controllers
         #endregion
         #region Private Variables
         private bool _isDisapeared = false;
+        private bool _isLevelSuccessful = false;
+
 
         #endregion
         #endregion
@@ -61,6 +63,29 @@ namespace Controllers
                 transform.parent.localEulerAngles = new Vector3(-9.304f, -9.275f, -107.476f);
                 manager.IsBoomerangOnPlayerHand = true;
             }
+        }
+
+        private void OnTriggerExit(Collider other)
+        {
+            if (other.CompareTag("ScreenBox"))
+            {
+                if (_isLevelSuccessful)
+                {
+                    return;
+                }
+
+                manager.IsDisapeared = true;
+                BoomerangSignals.Instance.onBoomerangDisapeared?.Invoke();
+            }
+        }
+
+        public void OnLevelSuccessful()
+        {
+            _isLevelSuccessful = true;
+        }
+        public void OnRestartLevel()
+        {
+            _isLevelSuccessful = false;
         }
     }
 }
