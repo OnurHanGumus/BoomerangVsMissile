@@ -22,6 +22,7 @@ namespace Managers
         #endregion
 
         #region Serialized Variables
+
         #endregion
 
         #region Private Variables
@@ -30,6 +31,10 @@ namespace Managers
         private int _indeks = 0;
         private int _destroyedMissileCount = 0;
         private float _lastPosX;
+
+        private float _percentageIndeks = 0;
+        private List<Range> _rangeList;
+
         #endregion
 
         #endregion
@@ -42,7 +47,9 @@ namespace Managers
         private void Init()
         {
             _data = GetData();
-            
+            _rangeList = new List<Range>(); 
+
+
         }
 
         private void Start()
@@ -88,7 +95,23 @@ namespace Managers
             {
                 StopAllCoroutines();
             }
-            int rand = Random.Range(0, _levelId + 1);
+            int rand = Random.Range(0, 100);
+
+            for (int i = 0; i < _data.MissileData[_levelId].MissilePrefabList.Count; i++)
+            {
+                if (rand >= _rangeList[i].Start.Value && rand <= _rangeList[i].End.Value)
+                {
+                    rand = i;
+                    break;
+                }
+            }
+            if (rand > _data.MissileData.Count)
+            {
+                Debug.Log("hiçbiri ýolmadý");
+                rand = 0;
+            }
+            
+            //int rand = Random.Range(0, _levelId + 1);
             GameObject missile = PoolSignals.Instance.onGetObject((PoolEnums)rand);
             float posX;
             do
@@ -103,12 +126,36 @@ namespace Managers
             yield return new WaitForSeconds(_data.MissileData[_levelId].MissileCreateOffset);
             StartCoroutine(InstantiateMissile());
         }
+        private void SetRange()
+        {
+            float addedValue = 0f;
+            for (int i = 0; i < _data.MissileData[_levelId].MissilePrefabList.Count; i++)
+            {
+                addedValue += _data.PercentageList[i];
+            }
+            float unitValue = 100f / addedValue;
 
+            for (int i = 0; i < _data.MissileData[_levelId].MissilePrefabList.Count; i++)
+            {
+                int endValue = (int)(_percentageIndeks + unitValue * _data.PercentageList[i]);
+                _rangeList.Add(new Range((int)_percentageIndeks, endValue));
+                _percentageIndeks = endValue;
+            }
+            Debug.Log("list count: " + _rangeList.Count);
+            for (int i = 0; i < _rangeList.Count; i++)
+            {
+                Debug.Log(_rangeList[i]);
+
+            }
+        }
         private void OnPlay()
         {
             _levelId = LevelSignals.Instance.onGetCurrentModdedLevel();
+            SetRange();
             StartCoroutine(InstantiateMissile());
         }
+
+        
 
         private void OnMissileDestroyed()
         {
@@ -120,11 +167,17 @@ namespace Managers
         }
         private void OnLevelSuccess()
         {
-            _indeks = 0;
-            _destroyedMissileCount = 0;
-            StopAllCoroutines();
+            _percentageIndeks = 0;
+            _rangeList.Clear();
+            ResetSettings();
         }
         private void OnLevelFailed()
+        {
+            _percentageIndeks = 0;
+            _rangeList.Clear();
+            ResetSettings();
+        }
+        private void ResetSettings()
         {
             _indeks = 0;
             _destroyedMissileCount = 0;

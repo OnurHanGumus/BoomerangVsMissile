@@ -45,7 +45,6 @@ public class UIBuildBoomerangController : MonoBehaviour
         _counterMaksValue = Mathf.FloorToInt(_counterMaksValue);
 
         _colorIncreaseValue = _selectedHSVMaksValue / _counterMaksValue;
-        Debug.Log(_counterMaksValue);
     }
     public UIData GetData() => Resources.Load<CD_UI>("Data/CD_UI").Data;
 

@@ -8,6 +8,8 @@ namespace Data.ValueObject
     public class MissileLevelData
     {
         public List<MissileData> MissileData;
+        public List<float> PercentageList;
+
     }
     [Serializable]
     public class MissileData
