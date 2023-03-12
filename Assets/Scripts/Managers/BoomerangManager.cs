@@ -29,7 +29,6 @@ namespace Managers
         #region Serialized Variables
         [SerializeField] private BoomerangMeshController meshController;
         [SerializeField] private BoomerangPhysicsController physicsController;
-        [SerializeField] private BoomerangVisibilityController visibilityController;
 
         #endregion
 

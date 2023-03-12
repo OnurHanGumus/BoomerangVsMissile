@@ -22,6 +22,7 @@ namespace Controllers
         private bool _isNotStarted = true;
         public bool _isPointMissed = false;
         private Vector3 _initializePos = new Vector3(0,-4,0);
+        private Vector3 _playerHandPosition = new Vector3(-0.2f,-4.7f,0);
         private Vector3 _currentDir;
 
 
@@ -101,7 +102,12 @@ namespace Controllers
             _rig.velocity = Vector3.zero;
             _rig.angularVelocity = Vector3.zero;
             transform.parent = null;
-            //transform.position = _initializePos;
+            if (!_manager.IsBoomerangOnPlayerHand)
+            {
+                transform.position = _playerHandPosition;
+
+            }
+
         }
 
         
