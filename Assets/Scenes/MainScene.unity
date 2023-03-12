@@ -2817,10 +2817,10 @@ MonoBehaviour:
   missilePrefab0: {fileID: 5872852307257060255, guid: c67f002005c5388489f17b5903e82cd8, type: 3}
   missilePrefab1: {fileID: 7844580830099842777, guid: 2cda935985857f842a5996c8167867bd, type: 3}
   missilePrefab2: {fileID: 6541382036004736301, guid: 42e4c831c90a88a4f9ea868c3d78111e, type: 3}
-  explotionPrefab: {fileID: 3279582085279579923, guid: 4bda94453d2ca7444a0fff05b2d425f5, type: 3}
-  explotionPinkPrefab: {fileID: 1197010802093610, guid: 9512773bce5218343a8e521647e7865f, type: 3}
+  explotionPrefab: {fileID: 9167020858200917798, guid: b6b79ae32f0b09f4c9a2399065fb2dd3, type: 3}
+  explotionPinkPrefab: {fileID: 3279582085279579923, guid: 4bda94453d2ca7444a0fff05b2d425f5, type: 3}
   amountMissile: 15
-  amountParticle: 5
+  amountParticle: 10
 --- !u!1 &749374685
 GameObject:
   m_ObjectHideFlags: 0
@@ -9538,12 +9538,15 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2353254881449029698, guid: b5604aa6a39375a4e9c92754d845d980, type: 3}
+      propertyPath: visibilityController
+      value: 
+      objectReference: {fileID: 9056614759145303288, guid: b5604aa6a39375a4e9c92754d845d980, type: 3}
     - target: {fileID: 2353254881449029710, guid: b5604aa6a39375a4e9c92754d845d980, type: 3}
       propertyPath: m_Name
       value: Boomerang
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 9056614759145303288, guid: b5604aa6a39375a4e9c92754d845d980, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b5604aa6a39375a4e9c92754d845d980, type: 3}
 --- !u!114 &3014396350543190456
 MonoBehaviour:

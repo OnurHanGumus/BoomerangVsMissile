@@ -64,7 +64,9 @@ namespace Managers
         {
             CoreGameSignals.Instance.onPlay += OnPlay;
             CoreGameSignals.Instance.onPlay += _movementController.OnPlay;
+            CoreGameSignals.Instance.onPlay += meshController.OnPlay;
             CoreGameSignals.Instance.onLevelSuccessful += physicsController.OnLevelSuccessful;
+            CoreGameSignals.Instance.onLevelSuccessful += meshController.OnLevelSuccessful;
             CoreGameSignals.Instance.onRestartLevel += OnRestartLevel;
             CoreGameSignals.Instance.onRestartLevel += _movementController.OnRestartLevel;
             CoreGameSignals.Instance.onRestartLevel += physicsController.OnRestartLevel;
@@ -84,7 +86,9 @@ namespace Managers
         {
             CoreGameSignals.Instance.onPlay -= OnPlay;
             CoreGameSignals.Instance.onPlay -= _movementController.OnPlay;
+            CoreGameSignals.Instance.onPlay -= meshController.OnPlay;
             CoreGameSignals.Instance.onLevelSuccessful -= physicsController.OnLevelSuccessful;
+            CoreGameSignals.Instance.onLevelSuccessful -= meshController.OnLevelSuccessful;
             CoreGameSignals.Instance.onRestartLevel -= OnRestartLevel;
             CoreGameSignals.Instance.onRestartLevel -= _movementController.OnRestartLevel;
             CoreGameSignals.Instance.onRestartLevel -= physicsController.OnRestartLevel;
@@ -157,6 +161,10 @@ namespace Managers
             IsThrowed = false;
             PointIndeks = 0;
             MissilePoints.Clear();
+        }
+        private void OnLevelSuccessful()
+        {
+
         }
 
         private void OnRestartLevel()

@@ -13,6 +13,7 @@ namespace Controllers
 
         #region Serialized Variables
         [SerializeField] private List<GameObject> meshList;
+        [SerializeField] private GameObject boomerangMesh;
         #endregion
         #region Private Variables
 
@@ -45,6 +46,15 @@ namespace Controllers
             meshList[id].SetActive(true);
             _selectedGunId = id;
             SaveSignals.Instance.onSave?.Invoke(_selectedGunId, Enums.SaveLoadStates.SelectedItem, Enums.SaveFiles.SaveFile);
+        }
+
+        public void OnPlay()
+        {
+            boomerangMesh.SetActive(true);
+        }
+        public void OnLevelSuccessful()
+        {
+            boomerangMesh.SetActive(false);
         }
     }
 }
