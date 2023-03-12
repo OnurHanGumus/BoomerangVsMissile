@@ -165,6 +165,7 @@ namespace Controllers
         }
         public void OnRestartLevel()
         {
+            _manager.MissilePoints.Clear();
             _manager.IsThrowed = false;
             _isNotStarted = true;
         }

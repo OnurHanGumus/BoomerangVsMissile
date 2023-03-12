@@ -81,6 +81,11 @@ namespace Managers
             if (IsPink)
             {
                 MissileSignals.Instance.onPinkMissileDestroyed?.Invoke();
+                AudioSignals.Instance.onPlaySound(AudioSoundEnums.Explosion1);
+            }
+            else
+            {
+                AudioSignals.Instance.onPlaySound(AudioSoundEnums.Explosion2);
             }
             gameObject.SetActive(false);
         }
