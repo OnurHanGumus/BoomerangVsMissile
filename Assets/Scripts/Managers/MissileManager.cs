@@ -21,7 +21,7 @@ namespace Managers
         #endregion
 
         #region Serialized Variables
-
+        [SerializeField] private MissilePhysicsController physicsController;
         #endregion
 
         #region Private Variables
@@ -52,7 +52,9 @@ namespace Managers
         {
             CoreGameSignals.Instance.onPlay += OnPlay;
             CoreGameSignals.Instance.onLevelSuccessful += OnLevelSuccessful;
+            CoreGameSignals.Instance.onLevelFailed += physicsController.OnLevelFailed;
             CoreGameSignals.Instance.onRestartLevel += OnResetLevel;
+            CoreGameSignals.Instance.onRestartLevel += physicsController.OnRestartLevel;
             MissileSignals.Instance.onPinkMissileDestroyed += OnPinkMissileDestroyed;
         }
 
@@ -60,7 +62,9 @@ namespace Managers
         {
             CoreGameSignals.Instance.onPlay -= OnPlay;
             CoreGameSignals.Instance.onLevelSuccessful -= OnLevelSuccessful;
+            CoreGameSignals.Instance.onLevelFailed -= physicsController.OnLevelFailed;
             CoreGameSignals.Instance.onRestartLevel -= OnResetLevel;
+            CoreGameSignals.Instance.onRestartLevel -= physicsController.OnRestartLevel;
             MissileSignals.Instance.onPinkMissileDestroyed -= OnPinkMissileDestroyed;
         }
 

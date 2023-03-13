@@ -54,6 +54,9 @@ namespace Managers
             CoreGameSignals.Instance.onRestartLevel += OnRestartLevel;
             BoomerangSignals.Instance.onBoomerangDisapeared += OnBoomerangDisapeared;
             BoomerangSignals.Instance.onBoomerangRebuilded += OnBoomerangRebuilded;
+
+            InputSignals.Instance.onClicking += OnClicking;
+            InputSignals.Instance.onInputReleased += OnInputReleased;
         }
 
         private void UnsubscribeEvents()
@@ -63,6 +66,9 @@ namespace Managers
             CoreGameSignals.Instance.onRestartLevel -= OnRestartLevel;
             BoomerangSignals.Instance.onBoomerangDisapeared -= OnBoomerangDisapeared;
             BoomerangSignals.Instance.onBoomerangRebuilded -= OnBoomerangRebuilded;
+
+            InputSignals.Instance.onClicking -= OnClicking;
+            InputSignals.Instance.onInputReleased -= OnInputReleased;
         }
 
 
@@ -98,6 +104,17 @@ namespace Managers
         {
             UISignals.Instance.onClosePanel?.Invoke(UIPanels.BoomerangPanel);
             _isLoosed = true;
+        }
+
+        private void OnClicking(Vector3 empty)
+        {
+            Time.timeScale = 0.5f;
+
+        }
+        private void OnInputReleased()
+        {
+            Time.timeScale = 1f;
+
         }
         private void OnRestartLevel()
         {

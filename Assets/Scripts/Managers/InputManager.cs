@@ -6,6 +6,7 @@ using Keys;
 using Signals;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using Enums;
 
 namespace Managers
 {
@@ -118,6 +119,7 @@ namespace Managers
                         hitPoint = new Vector3(hitPoint.x, hitPoint.y, 0);
                         InputSignals.Instance.onClicking?.Invoke(hitPoint);
                         _lastHitTransform = hit.transform;
+                        AudioSignals.Instance.onPlaySound(AudioSoundEnums.Pitch);
                     }
                 }
             }

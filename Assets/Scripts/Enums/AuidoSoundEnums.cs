@@ -10,5 +10,7 @@ namespace Enums
         Loose,
         Explosion1,
         Explosion2,
+        Combo,
+        Pitch,
     }
 }

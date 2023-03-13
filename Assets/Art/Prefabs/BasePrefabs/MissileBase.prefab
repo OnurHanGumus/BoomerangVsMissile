@@ -149,6 +149,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ParticleType: 5
   IsPink: 0
+  physicsController: {fileID: 250072859452922981}
 --- !u!65 &4573692909795951065
 BoxCollider:
   m_ObjectHideFlags: 0

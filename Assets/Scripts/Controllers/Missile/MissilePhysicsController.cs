@@ -17,7 +17,7 @@ namespace Controllers
         #endregion
         #region Private Variables
 
-
+        private bool _isFailed = false;
         #endregion
         #endregion
 
@@ -43,7 +43,12 @@ namespace Controllers
             {
                 manager.Explode();
                 transform.parent.gameObject.SetActive(false);
-                CoreGameSignals.Instance.onLevelFailed?.Invoke();
+                if (!_isFailed)
+                {
+                    CoreGameSignals.Instance.onLevelFailed?.Invoke();
+                    AudioSignals.Instance.onPlaySound(AudioSoundEnums.Loose);
+                }
+                _isFailed = true;
             }
             else if (other.CompareTag("Missile"))
             {
@@ -54,7 +59,15 @@ namespace Controllers
                 transform.parent.gameObject.SetActive(false);
                 MissileSignals.Instance.onMissileDestroyed?.Invoke();
             }
+        }
+        public void OnLevelFailed()
+        {
+            _isFailed = true;
+        }
 
+        public void OnRestartLevel()
+        {
+            _isFailed = false;
         }
     }
 }

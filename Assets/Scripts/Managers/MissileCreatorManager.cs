@@ -163,6 +163,7 @@ namespace Managers
             if (_destroyedMissileCount == _data.MissileData[_levelId].MissileCount)
             {
                 CoreGameSignals.Instance.onLevelSuccessful?.Invoke();
+                AudioSignals.Instance.onPlaySound(AudioSoundEnums.Win);
             }
         }
         private void OnLevelSuccess()

@@ -43,6 +43,7 @@ public class ComboPanelController : MonoBehaviour
         StartCoroutine(Effect());
         commentTxt.text = _commentsData.CommentsList[value];
         ScoreSignals.Instance.onScoreIncrease?.Invoke(ScoreTypeEnums.Gem, _gainMoneyData.GainMoneyList[value]);
+        AudioSignals.Instance.onPlaySound(AudioSoundEnums.Combo);
     }
 
 
