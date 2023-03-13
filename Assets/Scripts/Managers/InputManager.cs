@@ -96,6 +96,7 @@ namespace Managers
                 if(Input.GetMouseButtonUp(0))
                 {
                     PlayerSignals.Instance.onAnimationSpeedIncreased?.Invoke();
+                    return;
                 }
             }
             if (Input.GetMouseButton(0))
