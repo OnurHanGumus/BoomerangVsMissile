@@ -15,7 +15,6 @@ namespace Controllers
         [SerializeField] private BoomerangManager manager;
         #endregion
         #region Private Variables
-        private bool _isDisapeared = false;
         private bool _isLevelSuccessful = false;
 
 
@@ -40,7 +39,7 @@ namespace Controllers
             }
             if (other.CompareTag("Missile"))
             {
-                if (_isDisapeared)
+                if (manager.IsDisapeared)
                 {
                     return;
                 }
