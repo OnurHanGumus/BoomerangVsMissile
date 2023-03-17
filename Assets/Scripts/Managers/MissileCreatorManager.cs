@@ -34,6 +34,7 @@ namespace Managers
 
         private float _percentageIndeks = 0;
         private List<Range> _rangeList;
+        private bool _isLevelFailed = false;
 
         #endregion
 
@@ -69,6 +70,7 @@ namespace Managers
             CoreGameSignals.Instance.onPlay += OnPlay;
             CoreGameSignals.Instance.onLevelFailed += OnLevelFailed;
             CoreGameSignals.Instance.onLevelSuccessful += OnLevelSuccess;
+            CoreGameSignals.Instance.onRestartLevel += OnRestartLevel;
             MissileSignals.Instance.onMissileDestroyed += OnMissileDestroyed;
         }
 
@@ -77,6 +79,7 @@ namespace Managers
             CoreGameSignals.Instance.onPlay -= OnPlay;
             CoreGameSignals.Instance.onLevelFailed -= OnLevelFailed;
             CoreGameSignals.Instance.onLevelSuccessful -= OnLevelSuccess;
+            CoreGameSignals.Instance.onRestartLevel -= OnRestartLevel;
             MissileSignals.Instance.onMissileDestroyed -= OnMissileDestroyed;
         }
 
@@ -162,6 +165,10 @@ namespace Managers
             ++_destroyedMissileCount;
             if (_destroyedMissileCount == _data.MissileData[_levelId].MissileCount)
             {
+                if (_isLevelFailed)
+                {
+                    return;
+                }
                 CoreGameSignals.Instance.onLevelSuccessful?.Invoke();
                 AudioSignals.Instance.onPlaySound(AudioSoundEnums.Win);
             }
@@ -174,6 +181,7 @@ namespace Managers
         }
         private void OnLevelFailed()
         {
+            _isLevelFailed = true;
             _percentageIndeks = 0;
             _rangeList.Clear();
             ResetSettings();
@@ -183,6 +191,11 @@ namespace Managers
             _indeks = 0;
             _destroyedMissileCount = 0;
             StopAllCoroutines();
+        }
+
+        private void OnRestartLevel()
+        {
+            _isLevelFailed = false;
         }
     }
 }
