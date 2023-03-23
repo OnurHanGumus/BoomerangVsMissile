@@ -91,6 +91,10 @@ namespace Managers
 
         private void Update()
         {
+            if (IsPointerOverUIElement())
+            {
+                return;
+            }
             if (_isBoomerangDisapeared)
             {
                 if(Input.GetMouseButtonUp(0))
@@ -130,7 +134,15 @@ namespace Managers
             }
 
         }
-
+        private bool IsPointerOverUIElement()
+        {
+            var eventData = new PointerEventData(EventSystem.current);
+            eventData.position = Input.mousePosition;
+            var results = new List<RaycastResult>();
+            EventSystem.current.RaycastAll(eventData, results);
+            return results.Count > 0;
+            //return EventSystem.current.IsPointerOverGameObject() && Input.GetMouseButtonDown(0);
+        }
         private void OnEnableInput()
         {
             

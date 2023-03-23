@@ -144,7 +144,8 @@ namespace Managers
         public void OptionsButton()
         {
             UISignals.Instance.onOpenPanel?.Invoke(UIPanels.OptionsPanel);
-            UISignals.Instance.onClosePanel?.Invoke(UIPanels.StartPanel);
+            Time.timeScale = 0f;
+            Debug.Log("Clicked");
         }
     }
 }

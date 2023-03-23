@@ -35,7 +35,6 @@ public class OptionsPanelController : MonoBehaviour
     public void CloseOptionsPanel()
     {
         UISignals.Instance.onClosePanel?.Invoke(UIPanels.OptionsPanel);
-        UISignals.Instance.onOpenPanel?.Invoke(UIPanels.StartPanel);
     }
     private void EnableAudioSource()
     {
