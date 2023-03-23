@@ -71,6 +71,10 @@ MonoBehaviour:
   IsRight: 1
   IsThrowed: 0
   IsRising: 0
+  IsBoomerangOnPlayerHand: 0
+  IsDisapeared: 0
+  meshController: {fileID: 0}
+  physicsController: {fileID: 0}
 --- !u!114 &2353254881449029699
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -237,6 +241,10 @@ PrefabInstance:
     - target: {fileID: 1343850737327243297, guid: a258d05202211b44aa105117b4e22196, type: 3}
       propertyPath: m_Name
       value: FireParticle
+      objectReference: {fileID: 0}
+    - target: {fileID: 1343850737327243297, guid: a258d05202211b44aa105117b4e22196, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1347324576545403009, guid: a258d05202211b44aa105117b4e22196, type: 3}
       propertyPath: m_RootOrder

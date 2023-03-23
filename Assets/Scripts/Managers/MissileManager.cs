@@ -54,7 +54,7 @@ namespace Managers
             CoreGameSignals.Instance.onLevelSuccessful += OnLevelSuccessful;
             CoreGameSignals.Instance.onLevelFailed += physicsController.OnLevelFailed;
             CoreGameSignals.Instance.onRestartLevel += OnResetLevel;
-            CoreGameSignals.Instance.onRestartLevel += physicsController.OnRestartLevel;
+            CoreGameSignals.Instance.onPlay += physicsController.OnPlay;
             MissileSignals.Instance.onPinkMissileDestroyed += OnPinkMissileDestroyed;
         }
 
@@ -64,7 +64,7 @@ namespace Managers
             CoreGameSignals.Instance.onLevelSuccessful -= OnLevelSuccessful;
             CoreGameSignals.Instance.onLevelFailed -= physicsController.OnLevelFailed;
             CoreGameSignals.Instance.onRestartLevel -= OnResetLevel;
-            CoreGameSignals.Instance.onRestartLevel -= physicsController.OnRestartLevel;
+            CoreGameSignals.Instance.onPlay -= physicsController.OnPlay;
             MissileSignals.Instance.onPinkMissileDestroyed -= OnPinkMissileDestroyed;
         }
 

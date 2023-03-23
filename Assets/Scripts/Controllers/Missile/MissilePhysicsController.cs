@@ -41,14 +41,15 @@ namespace Controllers
             }
             else if (other.CompareTag("SafeArea"))
             {
-                manager.Explode();
-                transform.parent.gameObject.SetActive(false);
+                //transform.parent.gameObject.SetActive(false);
                 if (!_isFailed)
                 {
                     CoreGameSignals.Instance.onLevelFailed?.Invoke();
                     AudioSignals.Instance.onPlaySound(AudioSoundEnums.Loose);
                 }
                 _isFailed = true;
+                manager.Explode();
+
             }
             else if (other.CompareTag("Missile"))
             {
@@ -60,14 +61,20 @@ namespace Controllers
                 MissileSignals.Instance.onMissileDestroyed?.Invoke();
             }
         }
+        public void OnPlay()
+        {
+            
+        }
         public void OnLevelFailed()
         {
             _isFailed = true;
         }
 
-        public void OnRestartLevel()
+        private void OnDisable()
         {
             _isFailed = false;
         }
+
+
     }
 }
