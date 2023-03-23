@@ -102,6 +102,8 @@ namespace Controllers
             _rig.velocity = Vector3.zero;
             _rig.angularVelocity = Vector3.zero;
             transform.parent = null;
+            _isPointMissed = false;
+
             if (!_manager.IsBoomerangOnPlayerHand)
             {
                 transform.position = _playerHandPosition;
@@ -168,6 +170,7 @@ namespace Controllers
             _manager.MissilePoints.Clear();
             _manager.IsThrowed = false;
             _isNotStarted = true;
+            _isPointMissed = false;
         }
     }
 }
