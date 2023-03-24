@@ -38,6 +38,7 @@ namespace Managers
         private Transform _lastHitTransform;
 
         private bool _isBoomerangDisapeared = false;
+        private bool _isPlayerDrawing = false;
         #endregion
 
         #endregion
@@ -91,16 +92,18 @@ namespace Managers
 
         private void Update()
         {
-            if (IsPointerOverUIElement())
-            {
-                return;
-            }
+            
             if (_isBoomerangDisapeared)
             {
                 if(Input.GetMouseButtonUp(0))
                 {
                     PlayerSignals.Instance.onAnimationSpeedIncreased?.Invoke();
                 }
+                return;
+            }
+            
+            if (IsPointerOverUIElement())
+            {
                 return;
             }
             if (Input.GetMouseButton(0))
@@ -125,13 +128,18 @@ namespace Managers
                         InputSignals.Instance.onClicking?.Invoke(hitPoint);
                         _lastHitTransform = hit.transform;
                         AudioSignals.Instance.onPlaySound(AudioSoundEnums.Pitch);
+                        _isPlayerDrawing = true;
+
                     }
                 }
             }
+
             if (Input.GetMouseButtonUp(0))
             {
+                _isPlayerDrawing = false;
                 InputSignals.Instance.onInputReleased?.Invoke();
             }
+
 
         }
         private bool IsPointerOverUIElement()
