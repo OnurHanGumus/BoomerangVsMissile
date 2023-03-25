@@ -39,6 +39,7 @@ namespace Managers
 
         private bool _isBoomerangDisapeared = false;
         private bool _isPlayerDrawing = false;
+        private bool _isBoomerangOnPlayer = true;
         #endregion
 
         #endregion
@@ -68,6 +69,7 @@ namespace Managers
             BoomerangSignals.Instance.onBoomerangHasReturned += OnBoomerangReturned;
             BoomerangSignals.Instance.onBoomerangDisapeared += OnBoomerangDisapeared;
             BoomerangSignals.Instance.onBoomerangRebuilded += OnBoomerangRebuilded;
+            BoomerangSignals.Instance.onBoomerangThrowed += OnBoomerangThrowed;
 
         }
 
@@ -80,6 +82,7 @@ namespace Managers
             BoomerangSignals.Instance.onBoomerangHasReturned -= OnBoomerangReturned;
             BoomerangSignals.Instance.onBoomerangDisapeared -= OnBoomerangDisapeared;
             BoomerangSignals.Instance.onBoomerangRebuilded -= OnBoomerangRebuilded;
+            BoomerangSignals.Instance.onBoomerangThrowed -= OnBoomerangThrowed;
 
         }
 
@@ -92,7 +95,10 @@ namespace Managers
 
         private void Update()
         {
-            
+            if (!_isBoomerangOnPlayer)
+            {
+                return;
+            }
             if (_isBoomerangDisapeared)
             {
                 if(Input.GetMouseButtonUp(0))
@@ -179,6 +185,11 @@ namespace Managers
         private void OnBoomerangReturned()
         {
             _lastHitTransform = null;
+            _isBoomerangOnPlayer = true;
+        }
+        private void OnBoomerangThrowed()
+        {
+            _isBoomerangOnPlayer = false;
         }
 
         //private bool IsPointerOverUIElement() //Joystick'i doðru konumlandýrýrsan buna gerek kalmaz
@@ -192,6 +203,7 @@ namespace Managers
 
         private void OnReset()
         {
+            _isBoomerangOnPlayer = true;
         }
 
         private void OnChangePlayerLivingState()
