@@ -174,7 +174,10 @@ namespace Managers
                 GameObject confeti = PoolSignals.Instance.onGetObject(PoolEnums.Confeti);
                 confeti.transform.position = Vector3.zero;
                 confeti.SetActive(true);
+
             }
+            Debug.Log("destroyed missile count: " + _destroyedMissileCount + "\ncount to pass level: " + _data.MissileData[_levelId].MissileCount);
+
         }
         private void OnLevelSuccess()
         {
@@ -199,6 +202,7 @@ namespace Managers
         private void OnRestartLevel()
         {
             _isLevelFailed = false;
+            ResetSettings();
         }
     }
 }
