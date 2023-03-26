@@ -116,6 +116,7 @@ namespace Managers
         public void Play()
         {
             CoreGameSignals.Instance.onPlay?.Invoke();
+            UISignals.Instance.onClosePanel?.Invoke(UIPanels.StorePanel);
         }
 
         public void NextLevel()
