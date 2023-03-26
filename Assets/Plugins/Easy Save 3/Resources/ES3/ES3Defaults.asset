@@ -34,10 +34,12 @@ MonoBehaviour:
     - CFXRDemo
     - CFXRRuntime
     - KinoBloom.Runtime
+    - DELTation.ToonShader
     - CFXREditor
     - PPv2URPConverters
     - ToonyColorsPro.Demo.Editor
     - CFXR.WelcomeScreen
+    - DELTation.ToonShader.Editor
     showAdvancedSettings: 0
   addMgrToSceneAutomatically: 0
   autoUpdateReferences: 1

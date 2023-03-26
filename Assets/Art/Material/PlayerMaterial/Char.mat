@@ -143,6 +143,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _RampMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _RimRamp:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -193,10 +197,13 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _AdditionalLights: 1
+    - _AdditionalLightsSpecular: 0
     - _AdvancedTab: 1
     - _AlphaClip: 0
     - _AlphaClipping: 0
     - _AlphaCutoff: 0.5
+    - _AnisoSpecular: 0
     - _Anisotropy: 0
     - _Artistic: 0
     - _ArtisticFrequency: 1
@@ -228,8 +235,14 @@ Material:
     - _DrawnClampMin: 0
     - _DrawnMapScale: 1
     - _DstBlend: 0
+    - _Emission: 0
+    - _EnvironmentLightingEnabled: 1
     - _EnvironmentReflections: 1
+    - _Fog: 1
+    - _Fresnel: 0
     - _FresnelHighlights: 1
+    - _FresnelSmoothness: 0.1
+    - _FresnelThickness: 0.45
     - _GlossMapScale: 1
     - _Glossiness: 0
     - _GlossyReflections: 1
@@ -264,8 +277,17 @@ Material:
     - _OutlineSize: 300
     - _OutlineTab: 1
     - _Parallax: 0.02
+    - _PureShadowColor: 0
     - _QueueOffset: 0
+    - _Ramp0: 0.17
+    - _Ramp1: 0.5
+    - _RampSmoothness: 0
+    - _RampTriple: 0
     - _ReceiveShadows: 1
+    - _ReflectionBlend: 0.5
+    - _ReflectionProbes: 0
+    - _ReflectionSmoothness: 0.5
+    - _Reflections: 0
     - _RenderFace: 2
     - _RenderPriority: 0
     - _Rim: 0
@@ -274,13 +296,16 @@ Material:
     - _RimThresholdOffset: 0.25
     - _Roughness: 0.5
     - _Saturation: 1
+    - _ShadowMask: 0
     - _SketchMapScale: 1
-    - _Smoothness: 0
+    - _Smoothness: 1
     - _SmoothnessTextureChannel: 0
     - _Specular: 1
+    - _SpecularExponent: 200
     - _SpecularHighlights: 1
     - _SpecularIntensity: 1
     - _SpecularSmoothness: 0
+    - _SpecularThreshold: 0.8
     - _SpecularThresholdOffset: 0.25
     - _SrcBlend: 1
     - _Stencil: 1
@@ -295,9 +320,11 @@ Material:
     - _Surface: 0
     - _ThresholdMapScale: 1
     - _UVSec: 0
+    - _UseRampMap: 0
     - _VertexAnimation: 0
     - _VertexAnimationIntensity: 0.05
     - _VertexAnimationStutter: 0
+    - _VertexColor: 0
     - _Workflow: 0
     - _WorkflowMode: 1
     - _WrappedLighting: 1
@@ -305,11 +332,12 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _AlbedoColor: {r: 0.19215685, g: 0.78823537, b: 0.9921569, a: 1}
-    - _BaseColor: {r: 0.27058825, g: 0.882353, b: 0.95294124, a: 1}
-    - _Color: {r: 0.2705882, g: 0.882353, b: 0.95294124, a: 1}
+    - _BaseColor: {r: 0, g: 0.81634027, b: 0.9529411, a: 1}
+    - _Color: {r: 0, g: 0.81634027, b: 0.9529411, a: 1}
     - _DetailColor: {r: 1, g: 1, b: 1, a: 1}
     - _DissolveBorderColor: {r: 1, g: 1, b: 1, a: 1}
-    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 0}
+    - _FresnelColor: {r: 1, g: 1, b: 1, a: 1}
     - _GoochBrightColor: {r: 1, g: 1, b: 1, a: 1}
     - _GoochDarkColor: {r: 0.8301887, g: 0.8301887, b: 0.8301887, a: 1}
     - _IridescenceColor: {r: 1, g: 1, b: 1, a: 0.5}
@@ -318,6 +346,7 @@ Material:
     - _RimBrightColor: {r: 1, g: 1, b: 1, a: 1}
     - _RimColor: {r: 1, g: 1, b: 1, a: 1}
     - _RimDarkColor: {r: 0, g: 0, b: 0, a: 1}
+    - _ShadowTint: {r: 0.6886792, g: 0.6886792, b: 0.6886792, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _SpecularColor: {r: 0.19999993, g: 0.19999993, b: 0.19999993, a: 1}
     - _VertexAnimationFrequency: {r: 2.5, g: 2.5, b: 2.5, a: 1}

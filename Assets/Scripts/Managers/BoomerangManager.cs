@@ -172,7 +172,10 @@ namespace Managers
         {
             transform.parent = null;
             IsRising = false;
+            IsDisapeared = false;
             MissilePoints.Clear();
+            IsBoomerangOnPlayerHand = true;
+            PointIndeks = 0;
         }
     }
 }

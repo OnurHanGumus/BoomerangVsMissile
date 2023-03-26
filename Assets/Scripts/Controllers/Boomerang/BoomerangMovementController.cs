@@ -19,7 +19,6 @@ namespace Controllers
         private BoomerangManager _manager;
         private PlayerData _data;
 
-        private bool _isNotStarted = true;
         public bool _isPointMissed = false;
         private Vector3 _initializePos = new Vector3(0,-4,0);
         private Vector3 _playerHandPosition = new Vector3(-0.2f,-4.7f,0);
@@ -169,7 +168,6 @@ namespace Controllers
         {
             _manager.MissilePoints.Clear();
             _manager.IsThrowed = false;
-            _isNotStarted = true;
             _isPointMissed = false;
         }
     }

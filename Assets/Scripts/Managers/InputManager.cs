@@ -204,6 +204,7 @@ namespace Managers
         private void OnReset()
         {
             _isBoomerangOnPlayer = true;
+            _lastHitTransform = null;
         }
 
         private void OnChangePlayerLivingState()
