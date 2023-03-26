@@ -15,5 +15,6 @@ namespace Enums
         OptionsPanel,
         GameOverPanel,
         BoomerangPanel,
+        StorePanel,
     }
 }

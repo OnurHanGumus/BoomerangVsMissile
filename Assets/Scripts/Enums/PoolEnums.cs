@@ -12,5 +12,6 @@ namespace Enums
         Missile4,
         ExplotionStandard,
         ExplotionPink,
+        Confeti,
     }
 }

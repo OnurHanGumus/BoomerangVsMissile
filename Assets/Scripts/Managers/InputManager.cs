@@ -95,10 +95,7 @@ namespace Managers
 
         private void Update()
         {
-            if (!_isBoomerangOnPlayer)
-            {
-                return;
-            }
+            
             if (_isBoomerangDisapeared)
             {
                 if(Input.GetMouseButtonUp(0))
@@ -107,7 +104,10 @@ namespace Managers
                 }
                 return;
             }
-            
+            if (!_isBoomerangOnPlayer)
+            {
+                return;
+            }
             if (IsPointerOverUIElement())
             {
                 return;

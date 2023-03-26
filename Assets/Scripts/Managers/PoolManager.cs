@@ -12,6 +12,7 @@ public class PoolManager : MonoBehaviour
 
     [SerializeField] private GameObject missilePrefab0, missilePrefab1, missilePrefab2;
     [SerializeField] private GameObject explotionPrefab, explotionPinkPrefab;
+    [SerializeField] private GameObject particlePrefab;
 
     [SerializeField] private Dictionary<PoolEnums, List<GameObject>> poolDictionary;
 
@@ -39,6 +40,7 @@ public class PoolManager : MonoBehaviour
         InitializePool(PoolEnums.Missile2, missilePrefab2, amountMissile);
         InitializePool(PoolEnums.ExplotionStandard, explotionPrefab, amountParticle);
         InitializePool(PoolEnums.ExplotionPink, explotionPinkPrefab, amountParticle);
+        InitializePool(PoolEnums.Confeti, particlePrefab, amountParticle);
     }
 
 

@@ -23,6 +23,7 @@ namespace Managers
         #endregion
         #region Private Variables
         private UIData _data;
+        private bool _isStorePanelOpened = false;
 
         #endregion
         #endregion
@@ -146,6 +147,20 @@ namespace Managers
             UISignals.Instance.onOpenPanel?.Invoke(UIPanels.OptionsPanel);
             Time.timeScale = 0f;
             Debug.Log("Clicked");
+        }
+
+        public void StoreButton()
+        {
+            if (!_isStorePanelOpened)
+            {
+                UISignals.Instance.onOpenPanel?.Invoke(UIPanels.StorePanel);
+            }
+            else
+            {
+                UISignals.Instance.onClosePanel?.Invoke(UIPanels.StorePanel);
+            }
+            _isStorePanelOpened = !_isStorePanelOpened;
+
         }
     }
 }

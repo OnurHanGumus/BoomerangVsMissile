@@ -24,21 +24,23 @@ public class OptionsPanelController : MonoBehaviour
     {
         _audioSourceActiveness = SaveSignals.Instance.onGetSoundState(SaveLoadStates.SoundState, SaveFiles.GameOptions) == 1;
         soundToggle.isOn = _audioSourceActiveness;
-        EnableAudioSource();
+        SetAudioSource();
     }
     public void OnValueChanged()
     {
         SaveSignals.Instance.onChangeSoundState?.Invoke(soundToggle.isOn ? 1 : 0, SaveLoadStates.SoundState, SaveFiles.GameOptions);
         _audioSourceActiveness = !_audioSourceActiveness;
-        EnableAudioSource();
+        SetAudioSource();
     }
     public void CloseOptionsPanel()
     {
         UISignals.Instance.onClosePanel?.Invoke(UIPanels.OptionsPanel);
     }
-    private void EnableAudioSource()
+    private void SetAudioSource()
     {
-        audioSource.enabled = _audioSourceActiveness;
+        //audioSource.enabled = _audioSourceActiveness;
+        //AudioListener.pause = _audioSourceActiveness;
+        AudioListener.volume = _audioSourceActiveness ? 1 : 0;
     }
 
 

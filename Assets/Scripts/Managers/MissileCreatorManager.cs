@@ -171,6 +171,9 @@ namespace Managers
                 }
                 CoreGameSignals.Instance.onLevelSuccessful?.Invoke();
                 AudioSignals.Instance.onPlaySound(AudioSoundEnums.Win);
+                GameObject confeti = PoolSignals.Instance.onGetObject(PoolEnums.Confeti);
+                confeti.transform.position = Vector3.zero;
+                confeti.SetActive(true);
             }
         }
         private void OnLevelSuccess()
