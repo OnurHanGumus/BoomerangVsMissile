@@ -147,7 +147,7 @@ namespace Managers
         {
             UISignals.Instance.onOpenPanel?.Invoke(UIPanels.OptionsPanel);
             Time.timeScale = 0f;
-            Debug.Log("Clicked");
+            //Debug.Log("Clicked");
         }
 
         public void StoreButton()

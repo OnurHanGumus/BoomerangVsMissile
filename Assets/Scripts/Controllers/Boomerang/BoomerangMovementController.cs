@@ -53,6 +53,7 @@ namespace Controllers
         }
         public void Move()
         {
+            transform.position = new Vector3(transform.position.x, transform.position.y, 0);
             if (_isPointMissed)//Gecikmekli bir þekilde yeni boomerang gelir. O geldiðinde bu deðer tekrar false olur.
             {
                 return;
@@ -78,7 +79,7 @@ namespace Controllers
         private Vector3 GetDirection()
         {
             Vector3 dir = (_manager.MissilePoints[_manager.PointIndeks] - transform.position).normalized * _data.Speed * (_manager.PointIndeks + 1);
-            return dir;
+            return new Vector3(dir.x, dir.y, 0);
         }
         private void Spin()
         {

@@ -110,7 +110,7 @@ namespace Managers
             }
             if (rand > _data.MissileData.Count)
             {
-                Debug.Log("hiçbiri ýolmadý");
+                //Debug.Log("hiçbiri ýolmadý");
                 rand = 0;
             }
             
@@ -144,10 +144,10 @@ namespace Managers
                 _rangeList.Add(new Range((int)_percentageIndeks, endValue));
                 _percentageIndeks = endValue;
             }
-            Debug.Log("list count: " + _rangeList.Count);
+            //Debug.Log("list count: " + _rangeList.Count);
             for (int i = 0; i < _rangeList.Count; i++)
             {
-                Debug.Log(_rangeList[i]);
+                //Debug.Log(_rangeList[i]);
 
             }
         }
@@ -176,7 +176,7 @@ namespace Managers
                 confeti.SetActive(true);
 
             }
-            Debug.Log("destroyed missile count: " + _destroyedMissileCount + "\ncount to pass level: " + _data.MissileData[_levelId].MissileCount);
+            //Debug.Log("destroyed missile count: " + _destroyedMissileCount + "\ncount to pass level: " + _data.MissileData[_levelId].MissileCount);
 
         }
         private void OnLevelSuccess()
