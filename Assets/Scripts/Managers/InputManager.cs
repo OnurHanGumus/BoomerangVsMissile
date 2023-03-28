@@ -130,7 +130,7 @@ namespace Managers
                             return;
                         }
                         Vector3 hitPoint = hit.point;
-                        hitPoint = new Vector3(hitPoint.x, hitPoint.y, 0);
+                        hitPoint = new Vector3(hit.transform.position.x, hitPoint.y, 0);
                         InputSignals.Instance.onClicking?.Invoke(hitPoint);
                         _lastHitTransform = hit.transform;
                         AudioSignals.Instance.onPlaySound(AudioSoundEnums.Pitch);

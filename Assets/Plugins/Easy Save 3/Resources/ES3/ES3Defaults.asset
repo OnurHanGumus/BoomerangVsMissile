@@ -33,11 +33,9 @@ MonoBehaviour:
     - Assembly-CSharp
     - CFXRDemo
     - CFXRRuntime
-    - DELTation.ToonShader
     - KinoBloom.Runtime
     - CFXREditor
     - PPv2URPConverters
-    - DELTation.ToonShader.Editor
     - ToonyColorsPro.Demo.Editor
     - CFXR.WelcomeScreen
     showAdvancedSettings: 0
