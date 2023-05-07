@@ -55,6 +55,7 @@ namespace Managers
 
         private void Start()
         {
+
         }
         public MissileLevelData GetData() => Resources.Load<CD_Missile>("Data/CD_Missile").Data;
 
@@ -83,17 +84,34 @@ namespace Managers
             MissileSignals.Instance.onMissileDestroyed -= OnMissileDestroyed;
         }
 
-
         private void OnDisable()
         {
             UnsubscribeEvents();
         }
-
         #endregion
 
         private IEnumerator InstantiateMissile()
         {
             _indeks++;
+
+            GameObject missile = PoolSignals.Instance.onGetObject((PoolEnums) GetMissileType());
+            float posX;
+            do
+            {
+                posX = transform.position.x + Random.Range(-2f, 3f);
+
+            } while ((Mathf.Abs(_lastPosX - posX) <= 0.3f));
+
+            _lastPosX = posX;
+            Vector3 missilePos = new Vector3(posX, transform.position.y);
+            missile.transform.position = missilePos;
+            missile.SetActive(true);
+            yield return new WaitForSeconds(_data.MissileData[_levelId].MissileCreateOffset);
+            StartCoroutine(InstantiateMissile());
+        }
+
+        private int GetMissileType()
+        {
             if (_indeks >= _data.MissileData[_levelId].MissileCount)
             {
                 StopAllCoroutines();
@@ -110,24 +128,10 @@ namespace Managers
             }
             if (rand > _data.MissileData.Count)
             {
-                //Debug.Log("hiçbiri ýolmadý");
                 rand = 0;
             }
-            
-            //int rand = Random.Range(0, _levelId + 1);
-            GameObject missile = PoolSignals.Instance.onGetObject((PoolEnums)rand);
-            float posX;
-            do
-            {
-                posX = transform.position.x + Random.Range(-2f, 3f);
 
-            } while ((Mathf.Abs(_lastPosX - posX) <= 0.3f));
-            _lastPosX = posX;
-            Vector3 missilePos = new Vector3(posX, transform.position.y);
-            missile.transform.position = missilePos;
-            missile.SetActive(true);
-            yield return new WaitForSeconds(_data.MissileData[_levelId].MissileCreateOffset);
-            StartCoroutine(InstantiateMissile());
+            return rand;
         }
         private void SetRange()
         {
@@ -141,15 +145,17 @@ namespace Managers
             for (int i = 0; i < _data.MissileData[_levelId].MissilePrefabList.Count; i++)
             {
                 int endValue = (int)(_percentageIndeks + unitValue * _data.PercentageList[i]);
-                _rangeList.Add(new Range((int)_percentageIndeks, endValue));
+                _rangeList.Add(new Range((int) _percentageIndeks, endValue));
                 _percentageIndeks = endValue;
             }
+            #region Print
             //Debug.Log("list count: " + _rangeList.Count);
             for (int i = 0; i < _rangeList.Count; i++)
             {
                 //Debug.Log(_rangeList[i]);
 
             }
+            #endregion
         }
         private void OnPlay()
         {
@@ -174,17 +180,16 @@ namespace Managers
                 GameObject confeti = PoolSignals.Instance.onGetObject(PoolEnums.Confeti);
                 confeti.transform.position = Vector3.zero;
                 confeti.SetActive(true);
-
             }
-            //Debug.Log("destroyed missile count: " + _destroyedMissileCount + "\ncount to pass level: " + _data.MissileData[_levelId].MissileCount);
-
         }
+
         private void OnLevelSuccess()
         {
             _percentageIndeks = 0;
             _rangeList.Clear();
             ResetSettings();
         }
+
         private void OnLevelFailed()
         {
             _isLevelFailed = true;
@@ -192,6 +197,7 @@ namespace Managers
             _rangeList.Clear();
             ResetSettings();
         }
+
         private void ResetSettings()
         {
             _indeks = 0;
