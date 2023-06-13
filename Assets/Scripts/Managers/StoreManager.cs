@@ -89,7 +89,7 @@ namespace Managers
             }
 
 
-            if (ScoreSignals.Instance.onGetGem() > _data.prices[id])
+            if (ScoreSignals.Instance.onGetGem() >= _data.prices[id])
             {
                 ScoreSignals.Instance.onScoreDecrease(ScoreTypeEnums.Gem, _data.prices[id]);
                 _itemLevels[id] = _itemLevels[id] + 1;

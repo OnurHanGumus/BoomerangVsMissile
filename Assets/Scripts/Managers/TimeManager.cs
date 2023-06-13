@@ -19,11 +19,10 @@ namespace Managers
         #endregion
 
         #region Serialized Variables
-
         #endregion
 
         #region Private Variables
-        private PlayerData _data;
+        private TimeData _data;
         private bool _isLoosed = false;
         #endregion
 
@@ -38,7 +37,8 @@ namespace Managers
         {
             _data = GetData();
         }
-        public PlayerData GetData() => Resources.Load<CD_Player>("Data/CD_Player").Data;
+
+        public TimeData GetData() => Resources.Load<CD_Time>("Data/CD_Time").Data;
 
         #region Event Subscription
 
@@ -71,7 +71,6 @@ namespace Managers
             InputSignals.Instance.onInputReleased -= OnInputReleased;
         }
 
-
         private void OnDisable()
         {
             UnsubscribeEvents();
@@ -80,9 +79,8 @@ namespace Managers
         #endregion
         private void OnPlay()
         {
-            Time.timeScale = 1f;
+            Time.timeScale = _data.NormalTimeScale;
             UISignals.Instance.onClosePanel?.Invoke(UIPanels.BoomerangPanel);
-
         }
 
         private void OnBoomerangDisapeared()
@@ -92,14 +90,15 @@ namespace Managers
                 return;
             }
             UISignals.Instance.onOpenPanel?.Invoke(UIPanels.BoomerangPanel);
-            Time.timeScale = 0.05f;
+            Time.timeScale = _data.MissingBoomerangTimeScale;
         }
+
         private void OnBoomerangRebuilded()
         {
-            Time.timeScale = 1f;
+            Time.timeScale = _data.NormalTimeScale;
             UISignals.Instance.onClosePanel?.Invoke(UIPanels.BoomerangPanel);
-
         }
+
         private void OnLevelFailed()
         {
             UISignals.Instance.onClosePanel?.Invoke(UIPanels.BoomerangPanel);
@@ -108,19 +107,18 @@ namespace Managers
 
         private void OnClicking(Vector3 empty)
         {
-            Time.timeScale = 0.5f;
-
+            Time.timeScale = _data.ClickingTimeScale;
         }
+
         private void OnInputReleased()
         {
-            Time.timeScale = 1f;
-
+            Time.timeScale = _data.NormalTimeScale;
         }
+
         private void OnRestartLevel()
         {
-            Time.timeScale = 1f;
+            Time.timeScale = _data.NormalTimeScale;
             _isLoosed = false;
-
         }
     }
 }
