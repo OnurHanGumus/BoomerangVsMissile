@@ -38,6 +38,7 @@ MonoBehaviour:
     - PPv2URPConverters
     - ToonyColorsPro.Demo.Editor
     - CFXR.WelcomeScreen
+    - GoogleMobileAds.Editor
     showAdvancedSettings: 0
   addMgrToSceneAutomatically: 0
   autoUpdateReferences: 1
