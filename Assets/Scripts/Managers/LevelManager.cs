@@ -46,13 +46,13 @@ namespace Managers
             _levelID = GetActiveLevel();
             _data = GetData();
         }
+
         private LevelData GetData() => Resources.Load<CD_Level>("Data/CD_Level").Data;
         private int GetActiveLevel()
         {
             if (!ES3.FileExists()) return 0;
             return ES3.KeyExists("Level") ? ES3.Load<int>("Level") : 0;
         }
-
 
         #region Event Subscription
 
@@ -95,6 +95,7 @@ namespace Managers
         private void Start()
         {
             OnInitializeLevel();
+            TutorialSignals.Instance.onTutorialActive?.Invoke(_levelID == 0);
         }
 
         private void OnNextLevel()
@@ -103,7 +104,6 @@ namespace Managers
             CoreGameSignals.Instance.onClearActiveLevel?.Invoke();
             CoreGameSignals.Instance.onRestartLevel?.Invoke();
             SaveSignals.Instance.onSave(_levelID, SaveLoadStates.Level, SaveFiles.SaveFile);
-
         }
 
         private void OnRestartLevel()
@@ -117,7 +117,6 @@ namespace Managers
         {
             return _levelID;
         }
-
 
         private void OnInitializeLevel()
         {

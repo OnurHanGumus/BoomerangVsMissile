@@ -50,6 +50,7 @@ namespace Managers
             _data = GetData();
             _movementController = GetComponent<BoomerangMovementController>();
         }
+
         public PlayerData GetData() => Resources.Load<CD_Player>("Data/CD_Player").Data;
 
         #region Event Subscription
@@ -115,6 +116,7 @@ namespace Managers
         {
 
         }
+
         public void OnBoomerangNextTarget()
         {
             if (MissilePoints.Count == (PointIndeks + 1))
@@ -124,6 +126,7 @@ namespace Managers
             ++PointIndeks;
             IsRight = !IsRight;
         }
+
         private void OnBoomerangReturning()
         {
             if (PointIndeks > 1)
@@ -131,15 +134,18 @@ namespace Managers
                 BoomerangSignals.Instance.onCombo?.Invoke(PointIndeks - 2);
             }
         }
+
         private void OnBoomerangReturned()
         {
             PointIndeks = 0;
             MissilePoints.Clear();
         }
+
         private void OnAddPoint(Vector3 pos)
         {
             MissilePoints.Add(pos);
         }
+
         private void OnInputRelease()
         {
             if (MissilePoints.Count <= 0 || IsThrowed)
@@ -161,12 +167,6 @@ namespace Managers
             PointIndeks = 0;
             MissilePoints.Clear();
         }
-        private void OnLevelSuccessful()
-        {
-
-        }
-
-
 
         private void OnRestartLevel()
         {

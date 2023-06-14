@@ -22,6 +22,7 @@ namespace Managers
         #endregion
 
         #region Serialized Variables
+        [SerializeField] private bool isTutorial = true;
 
         #endregion
 
@@ -49,14 +50,13 @@ namespace Managers
         {
             _data = GetData();
             _rangeList = new List<Range>(); 
-
-
         }
 
         private void Start()
         {
-
+            isTutorial = LevelSignals.Instance.onGetLevelId() == 0;
         }
+
         public MissileLevelData GetData() => Resources.Load<CD_Missile>("Data/CD_Missile").Data;
 
         #region Event Subscription
@@ -73,6 +73,7 @@ namespace Managers
             CoreGameSignals.Instance.onLevelSuccessful += OnLevelSuccess;
             CoreGameSignals.Instance.onRestartLevel += OnRestartLevel;
             MissileSignals.Instance.onMissileDestroyed += OnMissileDestroyed;
+            TutorialSignals.Instance.onTutorialSatisfied += OnTutorialSatisfied;
         }
 
         private void UnsubscribeEvents()
@@ -82,6 +83,7 @@ namespace Managers
             CoreGameSignals.Instance.onLevelSuccessful -= OnLevelSuccess;
             CoreGameSignals.Instance.onRestartLevel -= OnRestartLevel;
             MissileSignals.Instance.onMissileDestroyed -= OnMissileDestroyed;
+            TutorialSignals.Instance.onTutorialSatisfied -= OnTutorialSatisfied;
         }
 
         private void OnDisable()
@@ -92,7 +94,10 @@ namespace Managers
 
         private IEnumerator InstantiateMissile()
         {
-            _indeks++;
+            if (!isTutorial)
+            {
+                _indeks++;
+            }
 
             GameObject missile = PoolSignals.Instance.onGetObject((PoolEnums) GetMissileType());
             float posX;
@@ -116,6 +121,7 @@ namespace Managers
             {
                 StopAllCoroutines();
             }
+
             int rand = Random.Range(0, 100);
 
             for (int i = 0; i < _data.MissileData[_levelId].MissilePrefabList.Count; i++)
@@ -126,6 +132,7 @@ namespace Managers
                     break;
                 }
             }
+
             if (rand > _data.MissileData.Count)
             {
                 rand = 0;
@@ -133,13 +140,16 @@ namespace Managers
 
             return rand;
         }
+
         private void SetRange()
         {
             float addedValue = 0f;
+
             for (int i = 0; i < _data.MissileData[_levelId].MissilePrefabList.Count; i++)
             {
                 addedValue += _data.PercentageList[i];
             }
+
             float unitValue = 100f / addedValue;
 
             for (int i = 0; i < _data.MissileData[_levelId].MissilePrefabList.Count; i++)
@@ -148,6 +158,7 @@ namespace Managers
                 _rangeList.Add(new Range((int) _percentageIndeks, endValue));
                 _percentageIndeks = endValue;
             }
+
             #region Print
             //Debug.Log("list count: " + _rangeList.Count);
             for (int i = 0; i < _rangeList.Count; i++)
@@ -157,6 +168,7 @@ namespace Managers
             }
             #endregion
         }
+
         private void OnPlay()
         {
             _levelId = LevelSignals.Instance.onGetCurrentModdedLevel();
@@ -164,17 +176,20 @@ namespace Managers
             StartCoroutine(InstantiateMissile());
         }
 
-        
-
         private void OnMissileDestroyed()
         {
-            ++_destroyedMissileCount;
+            if (!isTutorial)
+            {
+                ++_destroyedMissileCount;
+            }
+            Debug.Log("destroyed missile count: "+_destroyedMissileCount + "\n instantiated missile count: " + _indeks);
             if (_destroyedMissileCount == _data.MissileData[_levelId].MissileCount)
             {
                 if (_isLevelFailed)
                 {
                     return;
                 }
+
                 CoreGameSignals.Instance.onLevelSuccessful?.Invoke();
                 AudioSignals.Instance.onPlaySound(AudioSoundEnums.Win);
                 GameObject confeti = PoolSignals.Instance.onGetObject(PoolEnums.Confeti);
@@ -209,6 +224,11 @@ namespace Managers
         {
             _isLevelFailed = false;
             ResetSettings();
+        }
+
+        private void OnTutorialSatisfied()
+        {
+            isTutorial = false;
         }
     }
 }
