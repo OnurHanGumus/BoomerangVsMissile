@@ -71,5 +71,13 @@ PrefabInstance:
       propertyPath: m_Name
       value: Missile0
       objectReference: {fileID: 0}
+    - target: {fileID: 7680616756633232136, guid: e4ac8bb04676f944499d7616a9cfeb56, type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7680616756633232136, guid: e4ac8bb04676f944499d7616a9cfeb56, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.72
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e4ac8bb04676f944499d7616a9cfeb56, type: 3}

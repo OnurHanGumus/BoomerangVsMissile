@@ -22,6 +22,7 @@ namespace Managers
 
         #region Serialized Variables
         [SerializeField] private MissilePhysicsController physicsController;
+        [SerializeField] private MissileLightController lightController;
         #endregion
 
         #region Private Variables
