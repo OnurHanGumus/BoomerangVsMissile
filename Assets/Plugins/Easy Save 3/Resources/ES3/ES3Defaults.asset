@@ -32,13 +32,13 @@ MonoBehaviour:
     - Assembly-CSharp-firstpass
     - Assembly-CSharp
     - CFXRDemo
-    - CFXRRuntime
-    - KinoBloom.Runtime
-    - CFXREditor
     - PPv2URPConverters
-    - ToonyColorsPro.Demo.Editor
-    - CFXR.WelcomeScreen
     - GoogleMobileAds.Editor
+    - CFXR.WelcomeScreen
+    - ToonyColorsPro.Demo.Editor
+    - CFXREditor
+    - KinoBloom.Runtime
+    - CFXRRuntime
     showAdvancedSettings: 0
   addMgrToSceneAutomatically: 0
   autoUpdateReferences: 1

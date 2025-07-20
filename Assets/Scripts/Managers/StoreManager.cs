@@ -134,7 +134,7 @@ namespace Managers
                 else
                 {
                     //levelTxt[i].text = "LEVEL " + (itemLevels[i] + 1).ToString();
-                    upgradeTxt[i].text = "BUYED";
+                    upgradeTxt[i].text = "BOUGHT";
                 }
             }
         }

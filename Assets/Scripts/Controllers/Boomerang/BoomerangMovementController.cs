@@ -54,7 +54,7 @@ namespace Controllers
         public void Move()
         {
             transform.position = new Vector3(transform.position.x, transform.position.y, 0);
-            if (_isPointMissed)//Gecikmekli bir þekilde yeni boomerang gelir. O geldiðinde bu deðer tekrar false olur.
+            if (_isPointMissed)//Gecikmekli bir ï¿½ekilde yeni boomerang gelir. O geldiï¿½inde bu deï¿½er tekrar false olur.
             {
                 return;
             }
@@ -67,7 +67,7 @@ namespace Controllers
                 return;
             }
 
-            _rig.velocity = _currentDir;
+            _rig.linearVelocity = _currentDir;
 
             if (Mathf.Abs((_manager.MissilePoints[_manager.PointIndeks] - transform.position).sqrMagnitude) <= new Vector3(0.1f, 0.1f, 0.1f).sqrMagnitude)
             {
@@ -99,7 +99,7 @@ namespace Controllers
 
         public void OnPlay()
         {
-            _rig.velocity = Vector3.zero;
+            _rig.linearVelocity = Vector3.zero;
             _rig.angularVelocity = Vector3.zero;
             transform.parent = null;
             _isPointMissed = false;
@@ -118,7 +118,7 @@ namespace Controllers
         {
             _manager.IsThrowed = false;
             _isPointMissed = false;
-            _rig.velocity = Vector3.zero;
+            _rig.linearVelocity = Vector3.zero;
             _rig.angularVelocity = Vector3.zero;
         }
 
@@ -149,7 +149,7 @@ namespace Controllers
         }
         public void OnBoomerangRebuilded()
         {
-            _rig.velocity = Vector3.zero;
+            _rig.linearVelocity = Vector3.zero;
             _rig.angularVelocity = Vector3.zero;
             transform.position = _initializePos;
             transform.eulerAngles = Vector3.zero;
