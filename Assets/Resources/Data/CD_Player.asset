@@ -19,6 +19,6 @@ MonoBehaviour:
     InitializePosY: 0
     BoomerangInitPosX: 0
     BoomerangInitPosY: -4.028
-    ReturnArcWidth: 1.2
-    ReturnArcHeight: 0.8
-    ReturnSpeedMultiplier: 1.25
+    ReturnArcWidth: -2
+    ReturnArcHeight: 3
+    ReturnSpeedMultiplier: 0.5

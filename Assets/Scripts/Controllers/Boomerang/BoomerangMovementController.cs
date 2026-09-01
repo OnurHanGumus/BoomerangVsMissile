@@ -29,6 +29,7 @@ namespace Controllers
         private bool _isReturning = false;
         private int _returnSegment = 0;
         private float _returnProgress = 0f;
+        private float _currentReturnSwingDir = 1f;
 
         #endregion
 
@@ -139,22 +140,22 @@ namespace Controllers
             Vector3 lastTarget = _manager.MissilePoints[lastTargetIndex];
 
             // Determine curve outward swing based on entry angle/direction
-            float swingDir = _manager.IsRight ? 1f : -1f;
+            _currentReturnSwingDir = _manager.IsRight ? 1f : -1f;
             if (Mathf.Abs(currentPos.x) > 0.3f)
             {
-                swingDir = Mathf.Sign(currentPos.x);
+                _currentReturnSwingDir = Mathf.Sign(currentPos.x);
             }
 
             // Apex loop point beyond the last target
             Vector3 apexPoint = new Vector3(
-                lastTarget.x + (swingDir * _data.ReturnArcWidth),
+                lastTarget.x + (_currentReturnSwingDir * _data.ReturnArcWidth),
                 lastTarget.y + _data.ReturnArcHeight,
                 0f
             );
 
             // Mid descent swoop point towards the return position
             Vector3 midDescentPoint = new Vector3(
-                (apexPoint.x + _initializePos.x) * 0.5f + (swingDir * _data.ReturnArcWidth * 0.4f),
+                (apexPoint.x + _initializePos.x) * 0.5f + (_currentReturnSwingDir * _data.ReturnArcWidth * 0.4f),
                 (apexPoint.y + _initializePos.y) * 0.5f,
                 0f
             );
@@ -224,6 +225,46 @@ namespace Controllers
 
         #endregion
 
+        #region Extra Return Arc Swing (Dynamic Hit in Return Phase)
+
+        private void TriggerExtraReturnSwing()
+        {
+            Vector3 currentPos = new Vector3(transform.position.x, transform.position.y, 0f);
+
+            // Swap swing direction on X axis each time an extra swing is triggered
+            _currentReturnSwingDir = -_currentReturnSwingDir;
+
+            // Apex loop point from the current hit position
+            Vector3 apexPoint = new Vector3(
+                currentPos.x + (_currentReturnSwingDir * _data.ReturnArcWidth),
+                currentPos.y + (_data.ReturnArcHeight * 0.75f),
+                0f
+            );
+
+            // Mid descent swoop point towards the return position
+            Vector3 midDescentPoint = new Vector3(
+                (apexPoint.x + _initializePos.x) * 0.5f + (_currentReturnSwingDir * _data.ReturnArcWidth * 0.35f),
+                (apexPoint.y + _initializePos.y) * 0.5f,
+                0f
+            );
+
+            List<Vector3> newReturnPoints = new List<Vector3>
+            {
+                currentPos,
+                apexPoint,
+                midDescentPoint,
+                _initializePos
+            };
+
+            _returnSpline.SetControlPoints(newReturnPoints);
+            _returnSegment = 0;
+            _returnProgress = 0f;
+
+            BoomerangSignals.Instance.onCombo?.Invoke(Mathf.Max(0, _manager.PointIndex - 1));
+        }
+
+        #endregion
+
         private void Spin()
         {
             _rig.angularVelocity = new Vector3(0, 0, _data.AngularSpeed * (_manager.IsRight ? 1 : -1));
@@ -244,6 +285,7 @@ namespace Controllers
         {
             if (_isReturning)
             {
+                TriggerExtraReturnSwing();
                 return;
             }
 
@@ -313,6 +355,7 @@ namespace Controllers
             _rig.angularVelocity = Vector3.zero;
             _returnSegment = 0;
             _returnProgress = 0f;
+            _currentReturnSwingDir = 1f;
         }
     }
 }

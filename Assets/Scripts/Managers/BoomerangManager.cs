@@ -94,10 +94,6 @@ namespace Managers
 
         public void OnBoomerangNextTarget()
         {
-            if (MissilePoints.Count == (PointIndex + 1))
-            {
-                return;
-            }
             ++PointIndex;
             IsRight = !IsRight;
         }
