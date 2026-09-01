@@ -1,10 +1,10 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using Commands;
 using Controllers;
 using Data.UnityObject;
 using Data.ValueObject;
-using Extentions;
+using Extensions;
 using Keys;
 using Signals;
 using UnityEngine;
@@ -37,6 +37,7 @@ namespace Managers
         private void Awake()
         {
             Init();
+            SubscribeEvents();
         }
 
 
@@ -57,25 +58,9 @@ namespace Managers
 
         #region Event Subscription
 
-        private void OnEnable()
-        {
-            SubscribeEvents();
-        }
-
         private void SubscribeEvents()
         {
-            SaveSignals.Instance.onInitializeBuyedItems += OnGetStoreLevels;
-        }
-
-        private void UnsubscribeEvents()
-        {
-            SaveSignals.Instance.onInitializeBuyedItems -= OnGetStoreLevels;
-
-        }
-
-        private void OnDisable()
-        {
-            UnsubscribeEvents();
+            SaveSignals.Instance.onInitializeBoughtItems += OnGetStoreLevels;
         }
 
         #endregion

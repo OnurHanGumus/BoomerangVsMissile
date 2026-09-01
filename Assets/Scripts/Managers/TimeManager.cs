@@ -23,7 +23,7 @@ namespace Managers
 
         #region Private Variables
         private TimeData _data;
-        private bool _isLoosed = false;
+        private bool _isLost = false;
         #endregion
 
         #endregion
@@ -31,6 +31,7 @@ namespace Managers
         private void Awake()
         {
             Init();
+            SubscribeEvents();
         }
 
         private void Init()
@@ -42,38 +43,16 @@ namespace Managers
 
         #region Event Subscription
 
-        private void OnEnable()
-        {
-            SubscribeEvents();
-        }
-
         private void SubscribeEvents()
         {
             CoreGameSignals.Instance.onPlay += OnPlay;
             CoreGameSignals.Instance.onLevelFailed += OnLevelFailed;
             CoreGameSignals.Instance.onRestartLevel += OnRestartLevel;
-            BoomerangSignals.Instance.onBoomerangDisapeared += OnBoomerangDisapeared;
-            BoomerangSignals.Instance.onBoomerangRebuilded += OnBoomerangRebuilded;
+            BoomerangSignals.Instance.onBoomerangDisappeared += OnBoomerangDisappeared;
+            BoomerangSignals.Instance.onBoomerangRebuilt += OnBoomerangRebuilt;
 
             InputSignals.Instance.onClicking += OnClicking;
             InputSignals.Instance.onInputReleased += OnInputReleased;
-        }
-
-        private void UnsubscribeEvents()
-        {
-            CoreGameSignals.Instance.onPlay -= OnPlay;
-            CoreGameSignals.Instance.onLevelFailed -= OnLevelFailed;
-            CoreGameSignals.Instance.onRestartLevel -= OnRestartLevel;
-            BoomerangSignals.Instance.onBoomerangDisapeared -= OnBoomerangDisapeared;
-            BoomerangSignals.Instance.onBoomerangRebuilded -= OnBoomerangRebuilded;
-
-            InputSignals.Instance.onClicking -= OnClicking;
-            InputSignals.Instance.onInputReleased -= OnInputReleased;
-        }
-
-        private void OnDisable()
-        {
-            UnsubscribeEvents();
         }
 
         #endregion
@@ -83,9 +62,9 @@ namespace Managers
             UISignals.Instance.onClosePanel?.Invoke(UIPanels.BoomerangPanel);
         }
 
-        private void OnBoomerangDisapeared()
+        private void OnBoomerangDisappeared()
         {
-            if (_isLoosed == true)
+            if (_isLost == true)
             {
                 return;
             }
@@ -93,7 +72,7 @@ namespace Managers
             Time.timeScale = _data.MissingBoomerangTimeScale;
         }
 
-        private void OnBoomerangRebuilded()
+        private void OnBoomerangRebuilt()
         {
             Time.timeScale = _data.NormalTimeScale;
             UISignals.Instance.onClosePanel?.Invoke(UIPanels.BoomerangPanel);
@@ -102,7 +81,7 @@ namespace Managers
         private void OnLevelFailed()
         {
             UISignals.Instance.onClosePanel?.Invoke(UIPanels.BoomerangPanel);
-            _isLoosed = true;
+            _isLost = true;
         }
 
         private void OnClicking(Vector3 empty)
@@ -118,7 +97,7 @@ namespace Managers
         private void OnRestartLevel()
         {
             Time.timeScale = _data.NormalTimeScale;
-            _isLoosed = false;
+            _isLost = false;
         }
     }
 }

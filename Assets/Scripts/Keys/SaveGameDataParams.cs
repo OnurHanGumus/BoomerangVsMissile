@@ -1,4 +1,4 @@
-namespace Keys
+﻿namespace Keys
 {
     public struct SaveGameDataParams
     {

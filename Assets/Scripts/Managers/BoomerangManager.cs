@@ -16,11 +16,11 @@ namespace Managers
 
         #region Public Variables
         public List<Vector3> MissilePoints;
-        public int PointIndeks = 0;
+        public int PointIndex = 0;
         public bool IsRight = true;
-        public bool IsThrowed = false;
+        public bool IsThrown = false;
         public bool IsRising = false;
-        public bool IsDisapeared = false;
+        public bool IsDisappeared = false;
 
 
         #endregion
@@ -42,6 +42,7 @@ namespace Managers
         private void Awake()
         {
             Init();
+            SubscribeEvents();
         }
 
         private void Init()
@@ -53,11 +54,6 @@ namespace Managers
         public PlayerData GetData() => Resources.Load<CD_Player>("Data/CD_Player").Data;
 
         #region Event Subscription
-
-        private void OnEnable()
-        {
-            SubscribeEvents();
-        }
 
         private void SubscribeEvents()
         {
@@ -78,47 +74,17 @@ namespace Managers
             BoomerangSignals.Instance.onBoomerangReturning += OnBoomerangReturning;
             BoomerangSignals.Instance.onBoomerangHasReturned += OnBoomerangReturned;
             BoomerangSignals.Instance.onBoomerangHasReturned += _movementController.OnBoomerangHasReturned;
-            BoomerangSignals.Instance.onBoomerangRebuilded += _movementController.OnBoomerangRebuilded;
-            BoomerangSignals.Instance.onBoomerangRebuilded += OnBoomerangRebuilded;
+            BoomerangSignals.Instance.onBoomerangRebuilt += _movementController.OnBoomerangRebuilt;
+            BoomerangSignals.Instance.onBoomerangRebuilt += OnBoomerangRebuilt;
             BoomerangSignals.Instance.onSelectBoomerang += meshController.OnSelectBoomerang;
         }
+
+        #endregion
 
         private void OnLevelFailed()
         {
             transform.GetChild(0).gameObject.SetActive(false);
         }
-
-        private void UnsubscribeEvents()
-        {
-            CoreGameSignals.Instance.onPlay -= OnPlay;
-            CoreGameSignals.Instance.onPlay -= _movementController.OnPlay;
-            CoreGameSignals.Instance.onPlay -= meshController.OnPlay;
-            CoreGameSignals.Instance.onLevelSuccessful -= physicsController.OnLevelEnded;
-            CoreGameSignals.Instance.onLevelFailed -= physicsController.OnLevelEnded;
-            CoreGameSignals.Instance.onLevelSuccessful -= meshController.OnLevelSuccessful;
-            CoreGameSignals.Instance.onRestartLevel -= OnRestartLevel;
-            CoreGameSignals.Instance.onLevelFailed -= OnLevelFailed;
-            CoreGameSignals.Instance.onRestartLevel -= _movementController.OnRestartLevel;
-            CoreGameSignals.Instance.onRestartLevel -= physicsController.OnRestartLevel;
-            InputSignals.Instance.onClicking -= OnAddPoint;
-            InputSignals.Instance.onInputReleased -= OnInputRelease;
-            BoomerangSignals.Instance.onBoomerangNextTarget -= OnBoomerangNextTarget;
-            BoomerangSignals.Instance.onBoomerangNextTarget -= _movementController.OnBoomerangNextTarget;
-            BoomerangSignals.Instance.onBoomerangReturning -= OnBoomerangReturning;
-            BoomerangSignals.Instance.onBoomerangHasReturned -= OnBoomerangReturned;
-            BoomerangSignals.Instance.onBoomerangHasReturned -= _movementController.OnBoomerangHasReturned;
-            BoomerangSignals.Instance.onBoomerangRebuilded -= _movementController.OnBoomerangRebuilded;
-            BoomerangSignals.Instance.onBoomerangRebuilded -= OnBoomerangRebuilded;
-            BoomerangSignals.Instance.onSelectBoomerang -= meshController.OnSelectBoomerang;
-        }
-
-
-        private void OnDisable()
-        {
-            //UnsubscribeEvents();
-        }
-
-        #endregion
 
         private void OnPlay()
         {
@@ -128,25 +94,25 @@ namespace Managers
 
         public void OnBoomerangNextTarget()
         {
-            if (MissilePoints.Count == (PointIndeks + 1))
+            if (MissilePoints.Count == (PointIndex + 1))
             {
                 return;
             }
-            ++PointIndeks;
+            ++PointIndex;
             IsRight = !IsRight;
         }
 
         private void OnBoomerangReturning()
         {
-            if (PointIndeks > 1)
+            if (PointIndex > 1)
             {
-                BoomerangSignals.Instance.onCombo?.Invoke(PointIndeks - 2);
+                BoomerangSignals.Instance.onCombo?.Invoke(PointIndex - 2);
             }
         }
 
         private void OnBoomerangReturned()
         {
-            PointIndeks = 0;
+            PointIndex = 0;
             MissilePoints.Clear();
         }
 
@@ -157,22 +123,22 @@ namespace Managers
 
         private void OnInputRelease()
         {
-            if (MissilePoints.Count <= 0 || IsThrowed)
+            if (MissilePoints.Count <= 0 || IsThrown)
             {
                 return;
             }
             transform.parent = null;
             transform.localEulerAngles = Vector3.zero;
-            BoomerangSignals.Instance.onBoomerangThrowed?.Invoke();
-            _movementController.Throwed();
+            BoomerangSignals.Instance.onBoomerangThrown?.Invoke();
+            _movementController.Thrown();
         }
         
-        private void OnBoomerangRebuilded()
+        private void OnBoomerangRebuilt()
         {
-            IsDisapeared = false;
+            IsDisappeared = false;
             IsRising = false;
-            IsThrowed = false;
-            PointIndeks = 0;
+            IsThrown = false;
+            PointIndex = 0;
             MissilePoints.Clear();
         }
 
@@ -180,9 +146,9 @@ namespace Managers
         {
             transform.parent = null;
             IsRising = false;
-            IsDisapeared = false;
+            IsDisappeared = false;
             MissilePoints.Clear();
-            PointIndeks = 0;
+            PointIndex = 0;
         }
     }
 }

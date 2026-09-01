@@ -1,9 +1,9 @@
 using Data.ValueObject;
+using Extensions;
 using Managers;
+using Signals;
 using System.Collections.Generic;
 using UnityEngine;
-using DG.Tweening;
-using Signals;
 
 namespace Controllers
 {
@@ -14,18 +14,24 @@ namespace Controllers
         #region Serialized Variables
 
         #endregion
+
         #region Private Variables
+
         private Rigidbody _rig;
         private BoomerangManager _manager;
         private PlayerData _data;
+        private CatmullRomSpline _returnSpline;
 
-        public bool _isPointMissed = false;
-        private Vector3 _initializePos = new Vector3(0,-4,0);
-        private Vector3 _playerHandPosition = new Vector3(-0.2f,-4.7f,0);
+        private Vector3 _initializePos = new Vector3(0, -4, 0);
         private Vector3 _currentDir;
+        public bool _isPointMissed = false;
 
+        private bool _isReturning = false;
+        private int _returnSegment = 0;
+        private float _returnProgress = 0f;
 
         #endregion
+
         #endregion
 
         private void Awake()
@@ -38,131 +44,275 @@ namespace Controllers
             _rig = GetComponent<Rigidbody>();
             _manager = GetComponent<BoomerangManager>();
             _data = _manager.GetData();
+            _returnSpline = new CatmullRomSpline();
         }
-
 
         private void FixedUpdate()
         {
-            if (!_manager.IsThrowed)
+            if (!_manager.IsThrown)
             {
                 return;
             }
 
-            Move();
+            if (_isReturning)
+            {
+                MoveAlongReturnSpline();
+            }
+            else
+            {
+                MoveDirectToTarget();
+            }
+
             Spin();
         }
-        public void Move()
+
+        #region Sharp Direct Phase
+
+        private void MoveDirectToTarget()
         {
-            transform.position = new Vector3(transform.position.x, transform.position.y, 0);
-            if (_isPointMissed)//Gecikmekli bir �ekilde yeni boomerang gelir. O geldi�inde bu de�er tekrar false olur.
-            {
-                return;
-            }
-            if (_manager.MissilePoints.Count <= 0)
-            {
-                return;
-            }
-            if (!_manager.IsThrowed)
+            transform.position = new Vector3(transform.position.x, transform.position.y, 0f);
+
+            if (_isPointMissed || _manager.MissilePoints == null || _manager.MissilePoints.Count == 0)
             {
                 return;
             }
 
             _rig.linearVelocity = _currentDir;
 
-            if (Mathf.Abs((_manager.MissilePoints[_manager.PointIndeks] - transform.position).sqrMagnitude) <= new Vector3(0.1f, 0.1f, 0.1f).sqrMagnitude)
+            // Check if boomerang reached the target point proximity threshold
+            Vector3 currentTarget = _manager.MissilePoints[_manager.PointIndex];
+            if ((currentTarget - transform.position).sqrMagnitude <= 0.04f) // ~0.2f distance
             {
-                _isPointMissed = true;
+                OnTargetReached();
             }
-
         }
 
         private Vector3 GetDirection()
         {
-            Vector3 dir = (_manager.MissilePoints[_manager.PointIndeks] - transform.position).normalized * _data.Speed * (_manager.PointIndeks + 1);
-            return new Vector3(dir.x, dir.y, 0);
+            if (_manager.MissilePoints == null || _manager.MissilePoints.Count == 0)
+            {
+                return Vector3.zero;
+            }
+
+            int index = Mathf.Clamp(_manager.PointIndex, 0, _manager.MissilePoints.Count - 1);
+            Vector3 target = _manager.MissilePoints[index];
+            Vector3 dir = (target - transform.position).normalized * _data.Speed * (index + 1);
+            return new Vector3(dir.x, dir.y, 0f);
         }
+
+        private void OnTargetReached()
+        {
+            int totalTargets = _manager.MissilePoints.Count;
+
+            // If we have reached the final missile, transition to the smooth return arc
+            if (_manager.PointIndex >= totalTargets - 1)
+            {
+                StartReturnArc();
+            }
+            else
+            {
+                _isPointMissed = false;
+                _manager.PointIndex++;
+                _manager.IsRight = !_manager.IsRight;
+                _currentDir = GetDirection();
+            }
+        }
+
+        #endregion
+
+        #region Smooth Return Arc Phase
+
+        private void StartReturnArc()
+        {
+            if (_isReturning)
+            {
+                return;
+            }
+
+            _isReturning = true;
+            _manager.IsRising = false;
+            BoomerangSignals.Instance.onBoomerangReturning?.Invoke();
+
+            // Build smooth Catmull-Rom return trajectory
+            Vector3 currentPos = new Vector3(transform.position.x, transform.position.y, 0f);
+            int lastTargetIndex = Mathf.Max(0, _manager.MissilePoints.Count - 1);
+            Vector3 lastTarget = _manager.MissilePoints[lastTargetIndex];
+
+            // Determine curve outward swing based on entry angle/direction
+            float swingDir = _manager.IsRight ? 1f : -1f;
+            if (Mathf.Abs(currentPos.x) > 0.3f)
+            {
+                swingDir = Mathf.Sign(currentPos.x);
+            }
+
+            // Apex loop point beyond the last target
+            Vector3 apexPoint = new Vector3(
+                lastTarget.x + (swingDir * _data.ReturnArcWidth),
+                lastTarget.y + _data.ReturnArcHeight,
+                0f
+            );
+
+            // Mid descent swoop point towards the return position
+            Vector3 midDescentPoint = new Vector3(
+                (apexPoint.x + _initializePos.x) * 0.5f + (swingDir * _data.ReturnArcWidth * 0.4f),
+                (apexPoint.y + _initializePos.y) * 0.5f,
+                0f
+            );
+
+            List<Vector3> returnPoints = new List<Vector3>
+            {
+                currentPos,
+                lastTarget,
+                apexPoint,
+                midDescentPoint,
+                _initializePos
+            };
+
+            _returnSpline.SetControlPoints(returnPoints);
+            _returnSegment = 0;
+            _returnProgress = 0f;
+        }
+
+        private void MoveAlongReturnSpline()
+        {
+            if (_returnSpline == null || _returnSpline.SegmentCount == 0)
+            {
+                return;
+            }
+
+            float currentSpeed = _data.Speed * (_manager.MissilePoints.Count + 1) * _data.ReturnSpeedMultiplier;
+            float segmentLength = _returnSpline.GetSegmentLength(_returnSegment);
+            if (segmentLength <= 0.0001f)
+            {
+                segmentLength = 0.001f;
+            }
+
+            _returnProgress += (currentSpeed * Time.fixedDeltaTime) / segmentLength;
+
+            while (_returnProgress >= 1f && _returnSegment < _returnSpline.SegmentCount)
+            {
+                _returnProgress -= 1f;
+                _returnSegment++;
+
+                if (_returnSegment >= _returnSpline.SegmentCount)
+                {
+                    // Completed return to player
+                    _isReturning = false;
+                    _manager.IsThrown = false;
+                    _rig.linearVelocity = Vector3.zero;
+                    _rig.angularVelocity = Vector3.zero;
+                    BoomerangSignals.Instance.onBoomerangHasReturned?.Invoke();
+                    return;
+                }
+
+                segmentLength = _returnSpline.GetSegmentLength(_returnSegment);
+                if (segmentLength <= 0.0001f)
+                {
+                    segmentLength = 0.001f;
+                }
+            }
+
+            // Sample curved position on the return spline
+            Vector3 targetPos = _returnSpline.EvaluateSegment(_returnSegment, Mathf.Clamp01(_returnProgress));
+            targetPos.z = 0f;
+
+            Vector3 delta = targetPos - transform.position;
+            delta.z = 0f;
+            _rig.linearVelocity = delta / Time.fixedDeltaTime;
+            transform.position = new Vector3(transform.position.x, transform.position.y, 0f);
+        }
+
+        #endregion
+
         private void Spin()
         {
-            //_rig.AddRelativeTorque(new Vector3(0, 0, _data.AngularSpeed * (_manager.IsRight ? 1 : -1)), ForceMode.Force);
             _rig.angularVelocity = new Vector3(0, 0, _data.AngularSpeed * (_manager.IsRight ? 1 : -1));
             _rig.maxAngularVelocity = 50;
         }
-        public void Throwed()
-        {
-            _manager.IsRising = true; ;
 
-            _manager.MissilePoints.Add(_initializePos);
+        public void Thrown()
+        {
+            _manager.IsRising = true;
+            _isReturning = false;
+            _isPointMissed = false;
+            _manager.PointIndex = 0;
             _currentDir = GetDirection();
-            _manager.IsThrowed = true;
-        }
-
-
-        public void OnPlay()
-        {
-            _rig.linearVelocity = Vector3.zero;
-            _rig.angularVelocity = Vector3.zero;
-            transform.parent = null;
-            _isPointMissed = false;
-        }
-
-        
-
-        public void OnBoomerangHasReturned()
-        {
-            _manager.IsThrowed = false;
-            _isPointMissed = false;
-            _rig.linearVelocity = Vector3.zero;
-            _rig.angularVelocity = Vector3.zero;
+            _manager.IsThrown = true;
         }
 
         public void OnBoomerangNextTarget()
         {
-            _currentDir = GetDirection();
-
-            if (_isPointMissed)
+            if (_isReturning)
             {
-                _manager.PointIndeks = _manager.MissilePoints.Count - 1;
+                return;
             }
-            _isPointMissed = false;
 
-            if (_manager.PointIndeks == _manager.MissilePoints.Count - 1)
+            int totalTargets = _manager.MissilePoints.Count;
+            if (_manager.PointIndex >= totalTargets - 1)
             {
-                _manager.IsRising = false;
+                StartReturnArc();
             }
-            if (_manager.PointIndeks == _manager.MissilePoints.Count - 1)
+            else
             {
-                BoomerangSignals.Instance.onBoomerangReturning?.Invoke();
+                _isPointMissed = false;
+                _currentDir = GetDirection();
             }
         }
 
+        public void OnPlay()
+        {
+            ResetFlight();
+        }
+
+        public void OnBoomerangHasReturned()
+        {
+            _manager.IsThrown = false;
+            ResetFlight();
+        }
 
         public void OnBoomerangRespawned()
         {
-            _isPointMissed = false;
+            ResetFlight();
         }
-        public void OnBoomerangRebuilded()
+
+        public void OnBoomerangRebuilt()
         {
-            _rig.linearVelocity = Vector3.zero;
-            _rig.angularVelocity = Vector3.zero;
+            ResetFlight();
             transform.position = _initializePos;
             transform.eulerAngles = Vector3.zero;
-            _isPointMissed = false;
         }
 
         public void OnLevelFailed()
         {
-
-
+            _manager.IsThrown = false;
+            _isReturning = false;
+            _rig.linearVelocity = Vector3.zero;
+            _rig.angularVelocity = Vector3.zero;
         }
+
         public void OnLevelSuccess()
         {
-
+            _manager.IsThrown = false;
+            _isReturning = false;
+            _rig.linearVelocity = Vector3.zero;
+            _rig.angularVelocity = Vector3.zero;
         }
+
         public void OnRestartLevel()
         {
             _manager.MissilePoints.Clear();
-            _manager.IsThrowed = false;
+            _manager.IsThrown = false;
+            ResetFlight();
+        }
+
+        private void ResetFlight()
+        {
+            _isReturning = false;
             _isPointMissed = false;
+            _rig.linearVelocity = Vector3.zero;
+            _rig.angularVelocity = Vector3.zero;
+            _returnSegment = 0;
+            _returnProgress = 0f;
         }
     }
 }

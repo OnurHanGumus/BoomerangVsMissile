@@ -34,6 +34,7 @@ namespace Managers
         private void Awake()
         {
             Init();
+            SubscribeEvents();
         }
 
         private void Init()
@@ -46,11 +47,6 @@ namespace Managers
 
         #region Event Subscription
 
-        private void OnEnable()
-        {
-            SubscribeEvents();
-        }
-
         private void SubscribeEvents()
         {
             CoreGameSignals.Instance.onPlay += OnPlay;
@@ -61,10 +57,10 @@ namespace Managers
             CoreGameSignals.Instance.onRestartLevel += animationController.OnRestartLevel;
             CoreGameSignals.Instance.onRestartLevel += _movementController.OnRestartLevel;
             CoreGameSignals.Instance.onRestartLevel += OnResetLevel;
-            BoomerangSignals.Instance.onBoomerangDisapeared += OnBoomerangBecomeInvisible;
-            BoomerangSignals.Instance.onBoomerangThrowed += OnBoomerangThrowed;
+            BoomerangSignals.Instance.onBoomerangDisappeared += OnBoomerangDisappeared;
+            BoomerangSignals.Instance.onBoomerangThrown += OnBoomerangThrown;
             BoomerangSignals.Instance.onBoomerangHasReturned += OnBoomerangHasReturned;
-            BoomerangSignals.Instance.onBoomerangRebuilded += OnBoomerangRebuilded;
+            BoomerangSignals.Instance.onBoomerangRebuilt += OnBoomerangRebuilt;
             BoomerangSignals.Instance.onBoomerangReturning += OnBoomerangReturning;
             PlayerSignals.Instance.onChangePlayerAnimation += animationController.OnChangeAnimation;
             PlayerSignals.Instance.onResetAnimation += animationController.OnResetAnimation;
@@ -87,7 +83,7 @@ namespace Managers
             boomerangHand.SetActive(true);
         }
 
-        private void OnBoomerangThrowed()
+        private void OnBoomerangThrown()
         {
             PlayerSignals.Instance.onChangePlayerAnimation?.Invoke(PlayerAnimationStates.Throw);
             catchObject.SetActive(false);
@@ -101,7 +97,7 @@ namespace Managers
             PlayerSignals.Instance.onChangePlayerAnimation?.Invoke(PlayerAnimationStates.Catch);
         }
 
-        private void OnBoomerangRebuilded()
+        private void OnBoomerangRebuilt()
         {
             catchObject.SetActive(true);
             boomerangHand.SetActive(true);
@@ -109,7 +105,7 @@ namespace Managers
             PlayerSignals.Instance.onChangePlayerAnimation?.Invoke(PlayerAnimationStates.Catch);
         }
 
-        private void OnBoomerangBecomeInvisible()
+        private void OnBoomerangDisappeared()
         {
             PlayerSignals.Instance.onChangePlayerAnimation?.Invoke(PlayerAnimationStates.BuildBoomerang);
         }

@@ -36,8 +36,8 @@ namespace Controllers
                 return;
             }
 
-            manager.IsDisapeared = true;
-            BoomerangSignals.Instance.onBoomerangDisapeared?.Invoke();
+            manager.IsDisappeared = true;
+            BoomerangSignals.Instance.onBoomerangDisappeared?.Invoke();
         }
         public void OnLevelSuccessful()
         {

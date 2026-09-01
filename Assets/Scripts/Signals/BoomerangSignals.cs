@@ -1,5 +1,5 @@
-using Enums;
-using Extentions;
+﻿using Enums;
+using Extensions;
 using System;
 using UnityEngine.Events;
 
@@ -9,9 +9,9 @@ namespace Signals
     {
         public UnityAction onBoomerangHasReturned = delegate { };
         public UnityAction onBoomerangNextTarget = delegate { };
-        public UnityAction onBoomerangThrowed = delegate { };
-        public UnityAction onBoomerangDisapeared = delegate { };
-        public UnityAction onBoomerangRebuilded = delegate { };
+        public UnityAction onBoomerangThrown = delegate { };
+        public UnityAction onBoomerangDisappeared = delegate { };
+        public UnityAction onBoomerangRebuilt = delegate { };
         public UnityAction onBoomerangReturning = delegate { }; //when all missile points has reached, only one point that return to player remain.
         public UnityAction<int> onCombo = delegate { }; 
         public UnityAction<int> onSelectBoomerang = delegate { }; 

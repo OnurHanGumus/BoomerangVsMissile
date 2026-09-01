@@ -1,9 +1,9 @@
-using System;
+﻿using System;
 using Controllers;
 using Data.UnityObject;
 using Data.ValueObject;
 using Enums;
-using Extentions;
+using Extensions;
 using Keys;
 using Signals;
 using UnityEngine;
@@ -39,6 +39,7 @@ namespace Managers
         private void Awake()
         {
             Init();
+            SubscribeEvents();
         }
 
         private void Init()
@@ -56,11 +57,6 @@ namespace Managers
 
         #region Event Subscription
 
-        private void OnEnable()
-        {
-            SubscribeEvents();
-        }
-
         private void SubscribeEvents()
         {
             CoreGameSignals.Instance.onLevelInitialize += OnInitializeLevel;
@@ -70,24 +66,6 @@ namespace Managers
             LevelSignals.Instance.onGetLevelId += OnGetLevelId;
             LevelSignals.Instance.onGetCurrentModdedLevel += OnGetModdedLevel;
 
-        }
-
-
-
-        private void UnsubscribeEvents()
-        {
-            CoreGameSignals.Instance.onLevelInitialize -= OnInitializeLevel;
-            CoreGameSignals.Instance.onClearActiveLevel -= OnClearActiveLevel;
-            CoreGameSignals.Instance.onNextLevel -= OnNextLevel;
-            CoreGameSignals.Instance.onRestartLevel -= OnRestartLevel;
-            LevelSignals.Instance.onGetLevelId -= OnGetLevelId;
-            LevelSignals.Instance.onGetCurrentModdedLevel -= OnGetModdedLevel;
-
-        }
-
-        private void OnDisable()
-        {
-            UnsubscribeEvents();
         }
 
         #endregion

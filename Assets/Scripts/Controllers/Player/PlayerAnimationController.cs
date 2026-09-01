@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Enums;
@@ -26,10 +26,12 @@ public class PlayerAnimationController : MonoBehaviour
     {
         Init();
     }
+
     private void Init()
     {
         _uiData = GetData();
     }
+    
     public void OnChangeAnimation(PlayerAnimationStates nextAnimation)
     {
         OnResetAnimation(nextAnimation);

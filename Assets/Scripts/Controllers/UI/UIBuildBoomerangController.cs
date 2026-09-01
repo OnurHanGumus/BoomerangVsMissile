@@ -24,9 +24,9 @@ public class UIBuildBoomerangController : MonoBehaviour
 
     #region Private Variables
     private int _counter = 0;
-    private float _counterMaksValue = 25;
+    private float _counterMaxValue = 25;
     private float _positionIncreaseValue = 20;
-    private const int _selectedHSVMaksValue = 120;
+    private const int _selectedHSVMaxValue = 120;
     private float _colorIncreaseValue;
 
     private UIData _data;
@@ -41,16 +41,16 @@ public class UIBuildBoomerangController : MonoBehaviour
     {
         _data = GetData();
         _positionIncreaseValue *= _data.ComboInputIncreaseAmount;
-        _counterMaksValue /= _data.ComboInputIncreaseAmount;
-        _counterMaksValue = Mathf.FloorToInt(_counterMaksValue);
+        _counterMaxValue /= _data.ComboInputIncreaseAmount;
+        _counterMaxValue = Mathf.FloorToInt(_counterMaxValue);
 
-        _colorIncreaseValue = _selectedHSVMaksValue / _counterMaksValue;
+        _colorIncreaseValue = _selectedHSVMaxValue / _counterMaxValue;
     }
     public UIData GetData() => Resources.Load<CD_UI>("Data/CD_UI").Data;
 
     public void OnAnimationSpeedIncreased()
     {
-        if (_counter >= _counterMaksValue)
+        if (_counter >= _counterMaxValue)
         {
             return;
         }
@@ -62,7 +62,7 @@ public class UIBuildBoomerangController : MonoBehaviour
         commentText.color = Color.HSVToRGB((float)((_counter * _colorIncreaseValue) / 255f), 1, 1);
 
     }
-    public void OnBoomerangDisapeared()
+    public void OnBoomerangDisappeared()
     {
         ResetValues();
     }

@@ -10,8 +10,8 @@ namespace Enums
         Missile2,
         Missile3,
         Missile4,
-        ExplotionStandard,
-        ExplotionPink,
-        Confeti,
+        ExplosionStandard,
+        ExplosionPink,
+        Confetti,
     }
 }

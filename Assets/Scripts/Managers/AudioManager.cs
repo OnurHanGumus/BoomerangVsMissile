@@ -18,26 +18,16 @@ namespace Managers
 
         #endregion
 
-        #region Event Subscriptions
-
-        private void OnEnable()
+        private void Awake()
         {
             SubscribeEvents();
         }
 
+        #region Event Subscriptions
+
         private void SubscribeEvents()
         {
             AudioSignals.Instance.onPlaySound += OnPlaySound;
-        }
-
-        private void UnsubscribeEvents()
-        {
-            AudioSignals.Instance.onPlaySound -= OnPlaySound;
-        }
-
-        private void OnDisable()
-        {
-            UnsubscribeEvents();
         }
 
         #endregion

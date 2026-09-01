@@ -45,7 +45,7 @@ namespace Controllers
                 if (!_isFailed)
                 {
                     CoreGameSignals.Instance.onLevelFailed?.Invoke();
-                    AudioSignals.Instance.onPlaySound(AudioSoundEnums.Loose);
+                    AudioSignals.Instance.onPlaySound(AudioSoundEnums.Lose);
                 }
                 _isFailed = true;
                 manager.Explode();

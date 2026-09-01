@@ -32,6 +32,7 @@ namespace Managers
         private void Awake()
         {
             Init();
+            SubscribeEvents();
         }
 
         private void Init()
@@ -40,10 +41,6 @@ namespace Managers
         }
 
         private UIData GetData() => Resources.Load<CD_UI>("Data/CD_UI").Data;
-        private void OnEnable()
-        {
-            SubscribeEvents();
-        }
 
         private void SubscribeEvents()
         {
@@ -57,29 +54,8 @@ namespace Managers
             CoreGameSignals.Instance.onRestartLevel += uiBuildBoomerangController.OnRestartLevel;
             ScoreSignals.Instance.onHighScoreChanged += highScorePanelController.OnUpdateText;
             PlayerSignals.Instance.onAnimationSpeedIncreased += uiBuildBoomerangController.OnAnimationSpeedIncreased;
-            BoomerangSignals.Instance.onBoomerangDisapeared += uiBuildBoomerangController.OnBoomerangDisapeared;
+            BoomerangSignals.Instance.onBoomerangDisappeared += uiBuildBoomerangController.OnBoomerangDisappeared;
             BoomerangSignals.Instance.onCombo += comboPanelController.OnCombo;
-        }
-
-        private void UnsubscribeEvents()
-        {
-            UISignals.Instance.onOpenPanel -= OnOpenPanel;
-            UISignals.Instance.onClosePanel -= OnClosePanel;
-            UISignals.Instance.onSetChangedText -= levelPanelController.OnScoreUpdateText;
-            CoreGameSignals.Instance.onPlay -= OnPlay;
-            CoreGameSignals.Instance.onLevelFailed -= OnLevelFailed;
-            CoreGameSignals.Instance.onLevelSuccessful -= OnLevelSuccessful;
-            CoreGameSignals.Instance.onRestartLevel -= levelPanelController.OnRestartLevel;
-            CoreGameSignals.Instance.onRestartLevel -= uiBuildBoomerangController.OnRestartLevel;
-            ScoreSignals.Instance.onHighScoreChanged -= highScorePanelController.OnUpdateText;
-            PlayerSignals.Instance.onAnimationSpeedIncreased -= uiBuildBoomerangController.OnAnimationSpeedIncreased;
-            BoomerangSignals.Instance.onBoomerangDisapeared -= uiBuildBoomerangController.OnBoomerangDisapeared;
-            BoomerangSignals.Instance.onCombo -= comboPanelController.OnCombo;
-        }
-
-        private void OnDisable()
-        {
-            UnsubscribeEvents();
         }
 
         #endregion

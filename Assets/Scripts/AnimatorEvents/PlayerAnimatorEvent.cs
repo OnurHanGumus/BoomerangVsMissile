@@ -7,6 +7,6 @@ public class PlayerAnimatorEvent : MonoBehaviour
 {
     public void DoSomething() //Designed for animator event
     {
-        BoomerangSignals.Instance.onBoomerangRebuilded?.Invoke();
+        BoomerangSignals.Instance.onBoomerangRebuilt?.Invoke();
     }
 }

@@ -34,6 +34,7 @@ namespace Managers
         private void Awake()
         {
             Init();
+            SubscribeEvents();
         }
 
         private void Init()
@@ -44,11 +45,6 @@ namespace Managers
 
         #region Event Subscription
 
-        private void OnEnable()
-        {
-            SubscribeEvents();
-        }
-
         private void SubscribeEvents()
         {
             CoreGameSignals.Instance.onPlay += OnPlay;
@@ -57,22 +53,6 @@ namespace Managers
             CoreGameSignals.Instance.onRestartLevel += OnResetLevel;
             CoreGameSignals.Instance.onPlay += physicsController.OnPlay;
             MissileSignals.Instance.onPinkMissileDestroyed += OnPinkMissileDestroyed;
-        }
-
-        private void UnsubscribeEvents()
-        {
-            CoreGameSignals.Instance.onPlay -= OnPlay;
-            CoreGameSignals.Instance.onLevelSuccessful -= OnLevelSuccessful;
-            CoreGameSignals.Instance.onLevelFailed -= physicsController.OnLevelFailed;
-            CoreGameSignals.Instance.onRestartLevel -= OnResetLevel;
-            CoreGameSignals.Instance.onPlay -= physicsController.OnPlay;
-            MissileSignals.Instance.onPinkMissileDestroyed -= OnPinkMissileDestroyed;
-        }
-
-
-        private void OnDisable()
-        {
-            UnsubscribeEvents();
         }
 
         #endregion
@@ -101,7 +81,7 @@ namespace Managers
 
         private void OnPinkMissileDestroyed()
         {
-            if (IsPink)
+            if (IsPink || !gameObject.activeInHierarchy)
             {
                 return;
             }
@@ -109,6 +89,10 @@ namespace Managers
         }
         private void OnLevelSuccessful()
         {
+            if (!gameObject.activeInHierarchy)
+            {
+                return;
+            }
             Explode();
         }
         private void OnResetLevel()

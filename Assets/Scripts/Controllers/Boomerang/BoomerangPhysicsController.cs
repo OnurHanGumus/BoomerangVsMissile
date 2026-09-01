@@ -35,7 +35,7 @@ namespace Controllers
         {
             if (other.CompareTag("Missile"))
             {
-                if (manager.IsDisapeared)
+                if (manager.IsDisappeared)
                 {
                     return;
                 }
@@ -68,8 +68,8 @@ namespace Controllers
                     return;
                 }
 
-                manager.IsDisapeared = true;
-                BoomerangSignals.Instance.onBoomerangDisapeared?.Invoke();
+                manager.IsDisappeared = true;
+                BoomerangSignals.Instance.onBoomerangDisappeared?.Invoke();
             }
         }
 

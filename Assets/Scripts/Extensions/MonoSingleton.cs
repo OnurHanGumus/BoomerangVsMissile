@@ -1,6 +1,6 @@
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace Extentions
+namespace Extensions
 {
     public class MonoSingleton<T> : MonoBehaviour where T : Component
     {

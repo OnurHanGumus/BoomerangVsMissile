@@ -7,7 +7,7 @@ namespace Enums
     {
         Click,
         Win,
-        Loose,
+        Lose,
         Explosion1,
         Explosion2,
         Combo,

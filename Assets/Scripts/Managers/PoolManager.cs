@@ -11,7 +11,7 @@ public class PoolManager : MonoBehaviour
     #region Serialized Variables
 
     [SerializeField] private GameObject missilePrefab0, missilePrefab1, missilePrefab2;
-    [SerializeField] private GameObject explotionPrefab, explotionPinkPrefab;
+    [SerializeField] private GameObject explosionPrefab, explosionPinkPrefab;
     [SerializeField] private GameObject particlePrefab;
 
     [SerializeField] private Dictionary<PoolEnums, List<GameObject>> poolDictionary;
@@ -30,6 +30,7 @@ public class PoolManager : MonoBehaviour
     private void Awake()
     {
         Init();
+        SubscribeEvents();
     }
     private void Init()
     {
@@ -38,19 +39,14 @@ public class PoolManager : MonoBehaviour
         InitializePool(PoolEnums.Missile0, missilePrefab0, amountMissile);
         InitializePool(PoolEnums.Missile1, missilePrefab1, amountMissile);
         InitializePool(PoolEnums.Missile2, missilePrefab2, amountMissile);
-        InitializePool(PoolEnums.ExplotionStandard, explotionPrefab, amountParticle);
-        InitializePool(PoolEnums.ExplotionPink, explotionPinkPrefab, amountParticle);
-        InitializePool(PoolEnums.Confeti, particlePrefab, amountParticle);
+        InitializePool(PoolEnums.ExplosionStandard, explosionPrefab, amountParticle);
+        InitializePool(PoolEnums.ExplosionPink, explosionPinkPrefab, amountParticle);
+        InitializePool(PoolEnums.Confetti, particlePrefab, amountParticle);
     }
 
 
 
     #region Event Subscriptions
-
-    private void OnEnable()
-    {
-        SubscribeEvents();
-    }
 
     private void SubscribeEvents()
     {
@@ -58,19 +54,6 @@ public class PoolManager : MonoBehaviour
         PoolSignals.Instance.onGetObject += OnGetObject;
         CoreGameSignals.Instance.onRestartLevel += OnReset;
 
-    }
-
-    private void UnsubscribeEvents()
-    {
-        PoolSignals.Instance.onGetPoolManagerObj -= OnGetPoolManagerObj;
-        PoolSignals.Instance.onGetObject -= OnGetObject;
-        CoreGameSignals.Instance.onRestartLevel -= OnReset;
-
-    }
-
-    private void OnDisable()
-    {
-        UnsubscribeEvents();
     }
 
     #endregion
@@ -113,8 +96,8 @@ public class PoolManager : MonoBehaviour
         ResetPool(PoolEnums.Missile0);
         ResetPool(PoolEnums.Missile1);
         ResetPool(PoolEnums.Missile2);
-        ResetPool(PoolEnums.ExplotionStandard);
-        ResetPool(PoolEnums.ExplotionPink);
+        ResetPool(PoolEnums.ExplosionStandard);
+        ResetPool(PoolEnums.ExplosionPink);
     }
 
     private void ResetPool(PoolEnums type)

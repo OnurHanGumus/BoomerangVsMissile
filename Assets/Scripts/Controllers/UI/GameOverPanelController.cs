@@ -80,6 +80,6 @@ public class GameOverPanelController : MonoBehaviour
     public void Open()
     {
         CoreGameSignals.Instance.onLevelFailed?.Invoke();
-        AudioSignals.Instance.onPlaySound(AudioSoundEnums.Loose);
+        AudioSignals.Instance.onPlaySound(AudioSoundEnums.Lose);
     }
 }

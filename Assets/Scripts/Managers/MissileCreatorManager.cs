@@ -29,11 +29,11 @@ namespace Managers
         #region Private Variables
         private MissileLevelData _data;
         private int _levelId;
-        private int _indeks = 0;
+        private int _index = 0;
         private int _destroyedMissileCount = 0;
         private float _lastPosX;
 
-        private float _percentageIndeks = 0;
+        private float _percentageIndex = 0;
         private List<Range> _rangeList;
         private bool _isLevelFailed = false;
 
@@ -44,6 +44,7 @@ namespace Managers
         private void Awake()
         {
             Init();
+            SubscribeEvents();
         }
 
         private void Init()
@@ -61,11 +62,6 @@ namespace Managers
 
         #region Event Subscription
 
-        private void OnEnable()
-        {
-            SubscribeEvents();
-        }
-
         private void SubscribeEvents()
         {
             CoreGameSignals.Instance.onPlay += OnPlay;
@@ -76,27 +72,13 @@ namespace Managers
             TutorialSignals.Instance.onTutorialSatisfied += OnTutorialSatisfied;
         }
 
-        private void UnsubscribeEvents()
-        {
-            CoreGameSignals.Instance.onPlay -= OnPlay;
-            CoreGameSignals.Instance.onLevelFailed -= OnLevelFailed;
-            CoreGameSignals.Instance.onLevelSuccessful -= OnLevelSuccess;
-            CoreGameSignals.Instance.onRestartLevel -= OnRestartLevel;
-            MissileSignals.Instance.onMissileDestroyed -= OnMissileDestroyed;
-            TutorialSignals.Instance.onTutorialSatisfied -= OnTutorialSatisfied;
-        }
-
-        private void OnDisable()
-        {
-            UnsubscribeEvents();
-        }
         #endregion
 
         private IEnumerator InstantiateMissile()
         {
             if (!isTutorial)
             {
-                _indeks++;
+                _index++;
             }
 
             GameObject missile = PoolSignals.Instance.onGetObject((PoolEnums) GetMissileType());
@@ -117,7 +99,7 @@ namespace Managers
 
         private int GetMissileType()
         {
-            if (_indeks >= _data.MissileData[_levelId].MissileCount)
+            if (_index >= _data.MissileData[_levelId].MissileCount)
             {
                 StopAllCoroutines();
             }
@@ -154,9 +136,9 @@ namespace Managers
 
             for (int i = 0; i < _data.MissileData[_levelId].MissilePrefabList.Count; i++)
             {
-                int endValue = (int)(_percentageIndeks + unitValue * _data.PercentageList[i]);
-                _rangeList.Add(new Range((int) _percentageIndeks, endValue));
-                _percentageIndeks = endValue;
+                int endValue = (int)(_percentageIndex + unitValue * _data.PercentageList[i]);
+                _rangeList.Add(new Range((int) _percentageIndex, endValue));
+                _percentageIndex = endValue;
             }
 
             #region Print
@@ -182,7 +164,7 @@ namespace Managers
             {
                 ++_destroyedMissileCount;
             }
-            Debug.Log("destroyed missile count: "+_destroyedMissileCount + "\n instantiated missile count: " + _indeks);
+            Debug.Log("destroyed missile count: "+_destroyedMissileCount + "\n instantiated missile count: " + _index);
             if (_destroyedMissileCount == _data.MissileData[_levelId].MissileCount)
             {
                 if (_isLevelFailed)
@@ -192,7 +174,7 @@ namespace Managers
 
                 CoreGameSignals.Instance.onLevelSuccessful?.Invoke();
                 AudioSignals.Instance.onPlaySound(AudioSoundEnums.Win);
-                GameObject confeti = PoolSignals.Instance.onGetObject(PoolEnums.Confeti);
+                GameObject confeti = PoolSignals.Instance.onGetObject(PoolEnums.Confetti);
                 confeti.transform.position = Vector3.zero;
                 confeti.SetActive(true);
             }
@@ -200,7 +182,7 @@ namespace Managers
 
         private void OnLevelSuccess()
         {
-            _percentageIndeks = 0;
+            _percentageIndex = 0;
             _rangeList.Clear();
             ResetSettings();
         }
@@ -208,14 +190,14 @@ namespace Managers
         private void OnLevelFailed()
         {
             _isLevelFailed = true;
-            _percentageIndeks = 0;
+            _percentageIndex = 0;
             _rangeList.Clear();
             ResetSettings();
         }
 
         private void ResetSettings()
         {
-            _indeks = 0;
+            _index = 0;
             _destroyedMissileCount = 0;
             StopAllCoroutines();
         }

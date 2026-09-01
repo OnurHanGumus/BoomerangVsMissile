@@ -21,6 +21,7 @@ namespace Managers
         private void Awake()
         {
             Init();
+            SubscribeEvents();
         }
         private void Init()
         {
@@ -30,11 +31,6 @@ namespace Managers
 
         #region Event Subscription
 
-        private void OnEnable()
-        {
-            SubscribeEvents();
-        }
-
         private void SubscribeEvents()
         {
             SaveSignals.Instance.onSave += OnSaveData;
@@ -42,20 +38,6 @@ namespace Managers
             SaveSignals.Instance.onGetScore += OnGetData;
             SaveSignals.Instance.onGetSoundState += OnGetData;
             SaveSignals.Instance.onBuyItem += OnSaveList;
-        }
-
-        private void UnsubscribeEvents()
-        {
-            SaveSignals.Instance.onSave -= OnSaveData;
-            SaveSignals.Instance.onChangeSoundState -= OnSaveData;
-            SaveSignals.Instance.onGetScore -= OnGetData;
-            SaveSignals.Instance.onGetSoundState -= OnGetData;
-            SaveSignals.Instance.onBuyItem -= OnSaveList;
-        }
-
-        private void OnDisable()
-        {
-            UnsubscribeEvents();
         }
 
         #endregion
@@ -87,7 +69,7 @@ namespace Managers
 
         private void SendData()
         {
-            SaveSignals.Instance.onInitializeBuyedItems?.Invoke(OnGetList(SaveLoadStates.BuyItem, SaveFiles.SaveFile));
+            SaveSignals.Instance.onInitializeBoughtItems?.Invoke(OnGetList(SaveLoadStates.BuyItem, SaveFiles.SaveFile));
         }
     }
 }

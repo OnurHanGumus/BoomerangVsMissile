@@ -31,6 +31,7 @@ namespace Managers
         private void Awake()
         {
             Init();
+            SubscribeEvents();
         }
 
         private void Init()
@@ -41,28 +42,11 @@ namespace Managers
 
         #region Event Subscription
 
-        private void OnEnable()
-        {
-            SubscribeEvents();
-        }
-
         private void SubscribeEvents()
         {
             CoreGameSignals.Instance.onPlay += OnPlay;
             CoreGameSignals.Instance.onRestartLevel += OnResetLevel;
            
-        }
-
-        private void UnsubscribeEvents()
-        {
-            CoreGameSignals.Instance.onPlay -= OnPlay;
-            CoreGameSignals.Instance.onRestartLevel -= OnResetLevel;
-        }
-
-
-        private void OnDisable()
-        {
-            UnsubscribeEvents();
         }
 
         #endregion

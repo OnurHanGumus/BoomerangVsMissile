@@ -26,7 +26,7 @@ namespace Managers
 
         #region Private Variables
         private TutorialData _data;
-        private int _textIndeks = 0;
+        private int _textIndex = 0;
         private bool _isFirstTime = true;
         #endregion
 
@@ -35,6 +35,7 @@ namespace Managers
         private void Awake()
         {
             Init();
+            SubscribeEvents();
         }
 
         private void Init()
@@ -46,11 +47,6 @@ namespace Managers
 
         #region Event Subscription
 
-        private void OnEnable()
-        {
-            SubscribeEvents();
-        }
-
         private void SubscribeEvents()
         {
             CoreGameSignals.Instance.onPlay += OnPlay;
@@ -60,24 +56,10 @@ namespace Managers
             TutorialSignals.Instance.onTutorialActive += OnTutorialActive;
         }
 
-        private void UnsubscribeEvents()
-        {
-            CoreGameSignals.Instance.onPlay -= OnPlay;
-            CoreGameSignals.Instance.onRestartLevel -= OnRestartLevel;
-            BoomerangSignals.Instance.onBoomerangNextTarget -= OnHitMissile;
-            TutorialSignals.Instance.onTutorialSatisfied -= OnTutorialSatisfied;
-            TutorialSignals.Instance.onTutorialActive -= OnTutorialActive;
-        }
-
-        private void OnDisable()
-        {
-            UnsubscribeEvents();
-        }
-
         #endregion
         private void OnPlay()
         {
-            tutorialText.text = _data.TextList[_textIndeks++];
+            tutorialText.text = _data.TextList[_textIndex++];
             tutorialText.DOFade(1, 0.3f);
         }
 
@@ -86,7 +68,7 @@ namespace Managers
             tutorialText.DOFade(0, 0.3f).OnComplete(()=> 
             { 
                 tutorialText.DOFade(1, 0.3f);
-                tutorialText.text = _data.TextList[_textIndeks];
+                tutorialText.text = _data.TextList[_textIndex];
             });
 
             if (_isFirstTime)
@@ -111,7 +93,7 @@ namespace Managers
 
         private void OnRestartLevel()
         {
-            _textIndeks = 0;
+            _textIndex = 0;
         }
     }
 }

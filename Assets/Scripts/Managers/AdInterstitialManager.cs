@@ -23,28 +23,16 @@ public class AdInterstitialManager : MonoBehaviour
     {
         Init();
         RequestAd();
+        SubscribeEvents();
     }
 
     #region Event Subscription
-    private void OnEnable()
-    {
-        SubscribeEvents();
-    }
 
     private void SubscribeEvents()
     {
         CoreGameSignals.Instance.onPlay += OnPlay;
     }
 
-    private void UnsubscribeEvents()
-    {
-        CoreGameSignals.Instance.onPlay -= OnPlay;
-    }
-
-    private void OnDisable()
-    {
-        UnsubscribeEvents();
-    }
     #endregion
 
     private void OnPlay()

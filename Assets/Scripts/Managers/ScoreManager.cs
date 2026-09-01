@@ -1,10 +1,10 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using Commands;
 using Controllers;
 using Data.UnityObject;
 using Data.ValueObject;
-using Extentions;
+using Extensions;
 using Keys;
 using Signals;
 using UnityEngine;
@@ -45,17 +45,13 @@ namespace Managers
         private void Awake()
         {
             Init();
+            SubscribeEvents();
         }
         private void Init()
         {
             Gem = SaveSignals.Instance.onGetScore(SaveLoadStates.Gem, SaveFiles.SaveFile);
         }
         #region Event Subscription
-
-        private void OnEnable()
-        {
-            SubscribeEvents();
-        }
 
         private void SubscribeEvents()
         {
@@ -64,20 +60,6 @@ namespace Managers
             ScoreSignals.Instance.onGetGem += OnGetGem;
             CoreGameSignals.Instance.onNextLevel += OnNextLevel;
             CoreGameSignals.Instance.onRestartLevel += OnRestartLevel;
-        }
-
-        private void UnsubscribeEvents()
-        {
-            ScoreSignals.Instance.onScoreIncrease -= OnScoreIncrease;
-            ScoreSignals.Instance.onScoreDecrease -= OnScoreDecrease;
-            ScoreSignals.Instance.onGetGem -= OnGetGem;
-            CoreGameSignals.Instance.onNextLevel -= OnNextLevel;
-            CoreGameSignals.Instance.onRestartLevel -= OnRestartLevel;
-        }
-
-        private void OnDisable()
-        {
-            UnsubscribeEvents();
         }
 
         #endregion

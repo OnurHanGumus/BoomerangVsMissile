@@ -33,7 +33,7 @@ namespace Managers
         private Ray _ray;
         private Transform _lastHitTransform;
 
-        private bool _isBoomerangDisapeared = false;
+        private bool _isBoomerangDisappeared = false;
         private bool _isBoomerangOnPlayer = true;
         #endregion
 
@@ -43,17 +43,13 @@ namespace Managers
         private void Awake()
         {
             Data = GetInputData();
+            SubscribeEvents();
         }
 
         private InputData GetInputData() => Resources.Load<CD_Input>("Data/CD_Input").Data;
 
 
         #region Event Subscriptions
-
-        private void OnEnable()
-        {
-            SubscribeEvents();
-        }
 
         private void SubscribeEvents()
         {
@@ -62,28 +58,10 @@ namespace Managers
             CoreGameSignals.Instance.onPlay += OnPlay;
             CoreGameSignals.Instance.onReset += OnReset;
             BoomerangSignals.Instance.onBoomerangHasReturned += OnBoomerangReturned;
-            BoomerangSignals.Instance.onBoomerangDisapeared += OnBoomerangDisapeared;
-            BoomerangSignals.Instance.onBoomerangRebuilded += OnBoomerangRebuilded;
-            BoomerangSignals.Instance.onBoomerangThrowed += OnBoomerangThrowed;
+            BoomerangSignals.Instance.onBoomerangDisappeared += OnBoomerangDisappeared;
+            BoomerangSignals.Instance.onBoomerangRebuilt += OnBoomerangRebuilt;
+            BoomerangSignals.Instance.onBoomerangThrown += OnBoomerangThrown;
 
-        }
-
-        private void UnsubscribeEvents()
-        {
-            InputSignals.Instance.onEnableInput -= OnEnableInput;
-            InputSignals.Instance.onDisableInput -= OnDisableInput;
-            CoreGameSignals.Instance.onPlay -= OnPlay;
-            CoreGameSignals.Instance.onReset -= OnReset;
-            BoomerangSignals.Instance.onBoomerangHasReturned -= OnBoomerangReturned;
-            BoomerangSignals.Instance.onBoomerangDisapeared -= OnBoomerangDisapeared;
-            BoomerangSignals.Instance.onBoomerangRebuilded -= OnBoomerangRebuilded;
-            BoomerangSignals.Instance.onBoomerangThrowed -= OnBoomerangThrowed;
-
-        }
-
-        private void OnDisable()
-        {
-            UnsubscribeEvents();
         }
 
         #endregion
@@ -91,7 +69,7 @@ namespace Managers
         private void Update()
         {
             
-            if (_isBoomerangDisapeared)
+            if (_isBoomerangDisappeared)
             {
                 if(Input.GetMouseButtonUp(0))
                 {
@@ -165,14 +143,14 @@ namespace Managers
             
         }
 
-        private void OnBoomerangDisapeared()
+        private void OnBoomerangDisappeared()
         {
-            _isBoomerangDisapeared = true;
+            _isBoomerangDisappeared = true;
         }
 
-        private void OnBoomerangRebuilded()
+        private void OnBoomerangRebuilt()
         {
-            _isBoomerangDisapeared = false;
+            _isBoomerangDisappeared = false;
         }
 
         private void OnBoomerangReturned()
@@ -180,12 +158,12 @@ namespace Managers
             _lastHitTransform = null;
             _isBoomerangOnPlayer = true;
         }
-        private void OnBoomerangThrowed()
+        private void OnBoomerangThrown()
         {
             _isBoomerangOnPlayer = false;
         }
 
-        //private bool IsPointerOverUIElement() //Joystick'i do�ru konumland�r�rsan buna gerek kalmaz
+        //private bool IsPointerOverUIElement() //Joystick'i doÄŸru konumlandÄ±rÄ±rsan buna gerek kalmaz
         //{
         //    var eventData = new PointerEventData(EventSystem.current);
         //    eventData.position = Input.mousePosition;
@@ -198,7 +176,7 @@ namespace Managers
         {
             _lastHitTransform = null;
             _isBoomerangOnPlayer = true;
-            _isBoomerangDisapeared = false;
+            _isBoomerangDisappeared = false;
         }
 
         private void OnChangePlayerLivingState()
