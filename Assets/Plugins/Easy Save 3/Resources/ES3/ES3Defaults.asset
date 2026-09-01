@@ -30,9 +30,11 @@ MonoBehaviour:
     serializationDepthLimit: 64
     assemblyNames:
     - Assembly-CSharp-firstpass
+    - MCPForUnity.Runtime
     - Assembly-CSharp
     - CFXRDemo
     - PPv2URPConverters
+    - MCPForUnity.Editor
     - GoogleMobileAds.Editor
     - CFXR.WelcomeScreen
     - ToonyColorsPro.Demo.Editor

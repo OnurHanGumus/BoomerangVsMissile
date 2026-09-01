@@ -41,6 +41,7 @@ namespace Managers
             _data = GetData();
             _movementController = GetComponent<PlayerMovementController>();
         }
+
         public PlayerData GetData() => Resources.Load<CD_Player>("Data/CD_Player").Data;
 
         #region Event Subscription
@@ -56,6 +57,7 @@ namespace Managers
             CoreGameSignals.Instance.onPlay += _movementController.OnPlay;
             CoreGameSignals.Instance.onLevelSuccessful += _movementController.OnLevelSuccess;
             CoreGameSignals.Instance.onLevelFailed += _movementController.OnLevelFailed;
+            CoreGameSignals.Instance.onLevelFailed += OnLevelFailed;
             CoreGameSignals.Instance.onRestartLevel += animationController.OnRestartLevel;
             CoreGameSignals.Instance.onRestartLevel += _movementController.OnRestartLevel;
             CoreGameSignals.Instance.onRestartLevel += OnResetLevel;
@@ -65,32 +67,15 @@ namespace Managers
             BoomerangSignals.Instance.onBoomerangRebuilded += OnBoomerangRebuilded;
             BoomerangSignals.Instance.onBoomerangReturning += OnBoomerangReturning;
             PlayerSignals.Instance.onChangePlayerAnimation += animationController.OnChangeAnimation;
+            PlayerSignals.Instance.onResetAnimation += animationController.OnResetAnimation;
+            PlayerSignals.Instance.onResetAnimator += animationController.OnResetAnimator;
             PlayerSignals.Instance.onAnimationSpeedIncreased += IncreaseAnimationSpeed;
 
         }
 
-        private void UnsubscribeEvents()
+        private void OnLevelFailed()
         {
-            CoreGameSignals.Instance.onPlay -= OnPlay;
-            CoreGameSignals.Instance.onPlay -= _movementController.OnPlay;
-            CoreGameSignals.Instance.onLevelSuccessful -= _movementController.OnLevelSuccess;
-            CoreGameSignals.Instance.onLevelFailed -= _movementController.OnLevelFailed;
-            CoreGameSignals.Instance.onRestartLevel -= animationController.OnRestartLevel;
-            CoreGameSignals.Instance.onRestartLevel -= _movementController.OnRestartLevel;
-            CoreGameSignals.Instance.onRestartLevel -= OnResetLevel;
-            BoomerangSignals.Instance.onBoomerangDisapeared -= OnBoomerangBecomeInvisible;
-            BoomerangSignals.Instance.onBoomerangThrowed -= OnBoomerangThrowed;
-            BoomerangSignals.Instance.onBoomerangHasReturned -= OnBoomerangHasReturned;
-            BoomerangSignals.Instance.onBoomerangRebuilded -= OnBoomerangRebuilded;
-            BoomerangSignals.Instance.onBoomerangReturning -= OnBoomerangReturning;
-            PlayerSignals.Instance.onChangePlayerAnimation -= animationController.OnChangeAnimation;
-            PlayerSignals.Instance.onAnimationSpeedIncreased -= IncreaseAnimationSpeed;
-        }
-
-
-        private void OnDisable()
-        {
-            UnsubscribeEvents();
+            PlayerSignals.Instance.onResetAnimator?.Invoke();
         }
 
         #endregion
@@ -98,6 +83,8 @@ namespace Managers
 
         private void OnPlay()
         {
+            catchObject.SetActive(true);
+            boomerangHand.SetActive(true);
         }
 
         private void OnBoomerangThrowed()
@@ -105,12 +92,15 @@ namespace Managers
             PlayerSignals.Instance.onChangePlayerAnimation?.Invoke(PlayerAnimationStates.Throw);
             catchObject.SetActive(false);
             boomerangHand.SetActive(false);
-            
+            PlayerSignals.Instance.onResetAnimation?.Invoke(PlayerAnimationStates.Catch);
+
         }
+
         private void OnBoomerangHasReturned()
         {
             PlayerSignals.Instance.onChangePlayerAnimation?.Invoke(PlayerAnimationStates.Catch);
         }
+
         private void OnBoomerangRebuilded()
         {
             catchObject.SetActive(true);
@@ -128,14 +118,17 @@ namespace Managers
         {
             animationController.OnChangeAnimationSpeed();
         }
+
         private void OnBoomerangReturning()
         {
             catchObject.SetActive(true);
             boomerangHand.SetActive(true);
         }
+
         private void OnResetLevel()
         {
             PlayerSignals.Instance.onChangePlayerAnimation?.Invoke(PlayerAnimationStates.Idle);
+            PlayerSignals.Instance.onResetAnimator?.Invoke();
         }
     }
 }

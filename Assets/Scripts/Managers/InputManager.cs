@@ -29,16 +29,11 @@ namespace Managers
 
         #region Private Variables
 
-
-        private float _currentVelocity; //ref type
-        private Vector2? _mousePosition; //ref type
-        private Vector3 _moveVector; //ref type
         private bool _isPlayerDead = false;
         private Ray _ray;
         private Transform _lastHitTransform;
 
         private bool _isBoomerangDisapeared = false;
-        private bool _isPlayerDrawing = false;
         private bool _isBoomerangOnPlayer = true;
         #endregion
 
@@ -134,7 +129,6 @@ namespace Managers
                         InputSignals.Instance.onClicking?.Invoke(hitPoint);
                         _lastHitTransform = hit.transform;
                         AudioSignals.Instance.onPlaySound(AudioSoundEnums.Pitch);
-                        _isPlayerDrawing = true;
 
                     }
                 }
@@ -142,7 +136,6 @@ namespace Managers
 
             if (Input.GetMouseButtonUp(0))
             {
-                _isPlayerDrawing = false;
                 InputSignals.Instance.onInputReleased?.Invoke();
             }
 
@@ -203,8 +196,9 @@ namespace Managers
 
         private void OnReset()
         {
-            _isBoomerangOnPlayer = true;
             _lastHitTransform = null;
+            _isBoomerangOnPlayer = true;
+            _isBoomerangDisapeared = false;
         }
 
         private void OnChangePlayerLivingState()

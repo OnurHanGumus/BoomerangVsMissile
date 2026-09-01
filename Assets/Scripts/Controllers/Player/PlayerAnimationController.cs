@@ -32,10 +32,23 @@ public class PlayerAnimationController : MonoBehaviour
     }
     public void OnChangeAnimation(PlayerAnimationStates nextAnimation)
     {
+        OnResetAnimation(nextAnimation);
         animator.speed = 0.5f;
         animator.SetTrigger(nextAnimation.ToString());
         animator.speed = 0.5f;
     }
+
+    public void OnResetAnimator()
+    {
+        animator.enabled = false;
+        animator.enabled = true;
+    }
+
+    public void OnResetAnimation(PlayerAnimationStates animation)
+    {
+        animator.ResetTrigger(animation.ToString());
+    }
+
     public void OnChangeAnimationSpeed()
     {
         animator.speed += _uiData.ComboInputIncreaseAmount;

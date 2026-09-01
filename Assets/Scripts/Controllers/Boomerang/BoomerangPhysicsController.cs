@@ -15,7 +15,7 @@ namespace Controllers
         [SerializeField] private BoomerangManager manager;
         #endregion
         #region Private Variables
-        private bool _isLevelSuccessful = false;
+        private bool _isLevelSuccessfulOrFailed = false;
 
 
         #endregion
@@ -33,10 +33,6 @@ namespace Controllers
 
         private void OnTriggerEnter(Collider other)
         {
-            if (manager.IsBoomerangOnPlayerHand)
-            {
-                return;
-            }
             if (other.CompareTag("Missile"))
             {
                 if (manager.IsDisapeared)
@@ -52,15 +48,14 @@ namespace Controllers
                     return;
                 }
                 BoomerangSignals.Instance.onBoomerangHasReturned?.Invoke();
-                transform.parent.position = other.transform.position;
+                transform.parent.parent.position = other.transform.position;
                 
             }
             else if (other.CompareTag("BoomerangHand"))
             {
-                transform.parent.parent = other.transform;
-                transform.parent.localPosition = new Vector3(0.1360204f, 0.2610005f, -0.04199352f);
-                transform.parent.localEulerAngles = new Vector3(-9.304f, -9.275f, -107.476f);
-                manager.IsBoomerangOnPlayerHand = true;
+                transform.parent.parent.parent = other.transform;
+                transform.parent.parent.localPosition = new Vector3(0.1360204f, 0.2610005f, -0.04199352f);
+                transform.parent.parent.localEulerAngles = new Vector3(-9.304f, -9.275f, -107.476f);
             }
         }
 
@@ -68,7 +63,7 @@ namespace Controllers
         {
             if (other.CompareTag("ScreenBox"))
             {
-                if (_isLevelSuccessful)
+                if (_isLevelSuccessfulOrFailed)
                 {
                     return;
                 }
@@ -78,13 +73,13 @@ namespace Controllers
             }
         }
 
-        public void OnLevelSuccessful()
+        public void OnLevelEnded()
         {
-            _isLevelSuccessful = true;
+            _isLevelSuccessfulOrFailed = true;
         }
         public void OnRestartLevel()
         {
-            _isLevelSuccessful = false;
+            _isLevelSuccessfulOrFailed = false;
         }
     }
 }

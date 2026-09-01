@@ -17,3 +17,5 @@ MonoBehaviour:
     AngularSpeed: 50
     InitializePosX: 0
     InitializePosY: 0
+    BoomerangInitPosX: 0
+    BoomerangInitPosY: -4.028

@@ -103,13 +103,6 @@ namespace Controllers
             _rig.angularVelocity = Vector3.zero;
             transform.parent = null;
             _isPointMissed = false;
-
-            if (!_manager.IsBoomerangOnPlayerHand)
-            {
-                transform.position = _playerHandPosition;
-
-            }
-
         }
 
         

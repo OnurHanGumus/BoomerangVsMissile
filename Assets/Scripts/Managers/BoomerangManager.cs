@@ -20,7 +20,6 @@ namespace Managers
         public bool IsRight = true;
         public bool IsThrowed = false;
         public bool IsRising = false;
-        public bool IsBoomerangOnPlayerHand = false;
         public bool IsDisapeared = false;
 
 
@@ -65,8 +64,10 @@ namespace Managers
             CoreGameSignals.Instance.onPlay += OnPlay;
             CoreGameSignals.Instance.onPlay += _movementController.OnPlay;
             CoreGameSignals.Instance.onPlay += meshController.OnPlay;
-            CoreGameSignals.Instance.onLevelSuccessful += physicsController.OnLevelSuccessful;
+            CoreGameSignals.Instance.onLevelSuccessful += physicsController.OnLevelEnded;
+            CoreGameSignals.Instance.onLevelFailed += physicsController.OnLevelEnded;
             CoreGameSignals.Instance.onLevelSuccessful += meshController.OnLevelSuccessful;
+            CoreGameSignals.Instance.onLevelFailed += OnLevelFailed;
             CoreGameSignals.Instance.onRestartLevel += OnRestartLevel;
             CoreGameSignals.Instance.onRestartLevel += _movementController.OnRestartLevel;
             CoreGameSignals.Instance.onRestartLevel += physicsController.OnRestartLevel;
@@ -82,14 +83,21 @@ namespace Managers
             BoomerangSignals.Instance.onSelectBoomerang += meshController.OnSelectBoomerang;
         }
 
+        private void OnLevelFailed()
+        {
+            transform.GetChild(0).gameObject.SetActive(false);
+        }
+
         private void UnsubscribeEvents()
         {
             CoreGameSignals.Instance.onPlay -= OnPlay;
             CoreGameSignals.Instance.onPlay -= _movementController.OnPlay;
             CoreGameSignals.Instance.onPlay -= meshController.OnPlay;
-            CoreGameSignals.Instance.onLevelSuccessful -= physicsController.OnLevelSuccessful;
+            CoreGameSignals.Instance.onLevelSuccessful -= physicsController.OnLevelEnded;
+            CoreGameSignals.Instance.onLevelFailed -= physicsController.OnLevelEnded;
             CoreGameSignals.Instance.onLevelSuccessful -= meshController.OnLevelSuccessful;
             CoreGameSignals.Instance.onRestartLevel -= OnRestartLevel;
+            CoreGameSignals.Instance.onLevelFailed -= OnLevelFailed;
             CoreGameSignals.Instance.onRestartLevel -= _movementController.OnRestartLevel;
             CoreGameSignals.Instance.onRestartLevel -= physicsController.OnRestartLevel;
             InputSignals.Instance.onClicking -= OnAddPoint;
@@ -107,14 +115,15 @@ namespace Managers
 
         private void OnDisable()
         {
-            UnsubscribeEvents();
+            //UnsubscribeEvents();
         }
 
         #endregion
 
         private void OnPlay()
         {
-
+            transform.GetChild(0).gameObject.SetActive(true);
+            transform.position = new Vector3(_data.BoomerangInitPosX, _data.BoomerangInitPosY, 0);
         }
 
         public void OnBoomerangNextTarget()
@@ -155,7 +164,6 @@ namespace Managers
             transform.parent = null;
             transform.localEulerAngles = Vector3.zero;
             BoomerangSignals.Instance.onBoomerangThrowed?.Invoke();
-            IsBoomerangOnPlayerHand = false;
             _movementController.Throwed();
         }
         
@@ -174,7 +182,6 @@ namespace Managers
             IsRising = false;
             IsDisapeared = false;
             MissilePoints.Clear();
-            IsBoomerangOnPlayerHand = true;
             PointIndeks = 0;
         }
     }

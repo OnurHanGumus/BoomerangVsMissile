@@ -8,5 +8,6 @@ namespace Data.ValueObject
     {
         public float Speed = 5, AngularSpeed = 10;
         public int InitializePosX, InitializePosY;
+        public float BoomerangInitPosX, BoomerangInitPosY;
     }
 }
