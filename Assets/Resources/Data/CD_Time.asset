@@ -15,4 +15,5 @@ MonoBehaviour:
   Data:
     ClickingTimeScale: 0.01
     NormalTimeScale: 1
-    MissingBoomerangTimeScale: 0.05
+    HitStopDuration: 0.05
+    HitStopTimeScale: 0.02

@@ -58,7 +58,7 @@ namespace Managers
             isTutorial = LevelSignals.Instance.onGetLevelId() == 0;
         }
 
-        public MissileLevelData GetData() => Resources.Load<CD_Missile>("Data/CD_Missile").Data;
+        public MissileLevelData GetData() => Resources.Load<CD_MissileCreator>("Data/CD_MissileCreator").Data;
 
         #region Event Subscription
 

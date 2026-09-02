@@ -19,7 +19,7 @@ MonoBehaviour:
     InitializePosY: 0
     BoomerangInitPosX: 0
     BoomerangInitPosY: -4.028
-    BoomerangHandLocalPosition: {x: 0.1360204, y: 0.2610005, z: -0.04199352}
+    BoomerangHandLocalPosition: {x: -0.003002518, y: 0.3050068, z: -0.07099203}
     BoomerangHandLocalEulerAngles: {x: -9.304, y: -9.275, z: -107.476}
     ReturnArcWidth: 1.2
     ReturnArcHeight: 0.8
@@ -29,3 +29,14 @@ MonoBehaviour:
     MinReturnArcHeight: 0.2
     MaxReturnArcHeight: 5
     ChargeDuration: 1
+    DirectSegments: 10
+    SplineSegments: 30
+    StartLineWidth: 0.08
+    EndLineWidth: 0.03
+    PreviewInitialColor: {r: 0.2, g: 0.9, b: 1, a: 0.85}
+    PreviewMidColor: {r: 1, g: 0.85, b: 0.2, a: 0.9}
+    PreviewMaxColor: {r: 1, g: 0.25, b: 0.35, a: 0.95}
+    ShakeDuration: 0.3
+    ShakeStrength: 0.05
+    ShakeVibrato: 14
+    ShakeRandomness: 90

@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 60b55eacc26e67c4499781120672a3e6, type: 3}
-  m_Name: CD_Missile
+  m_Name: CD_MissileCreator
   m_EditorClassIdentifier: 
   Data:
     MissileData:

@@ -25,5 +25,20 @@ namespace Data.ValueObject
         public float MinReturnArcHeight = 0.2f;
         public float MaxReturnArcHeight = 5.0f;
         public float ChargeDuration = 1.0f;
+
+        [Header("Trajectory Preview Settings")]
+        public int DirectSegments = 10;
+        public int SplineSegments = 30;
+        public float StartLineWidth = 0.08f;
+        public float EndLineWidth = 0.03f;
+        public Color PreviewInitialColor = new Color(0.2f, 0.9f, 1f, 0.85f);
+        public Color PreviewMidColor = new Color(1f, 0.85f, 0.2f, 0.9f);
+        public Color PreviewMaxColor = new Color(1f, 0.25f, 0.35f, 0.95f);
+
+        [Header("Impact Camera Shake Settings")]
+        public float ShakeDuration = 0.15f;
+        public float ShakeStrength = 0.25f;
+        public int ShakeVibrato = 14;
+        public float ShakeRandomness = 90f;
     }
 }

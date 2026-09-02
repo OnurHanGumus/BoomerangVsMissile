@@ -17001,10 +17001,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player2
       objectReference: {fileID: 0}
-    - target: {fileID: 5178033274698625631, guid: 9dab20dfed3e94e45892822bd22164dd, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1.392557
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

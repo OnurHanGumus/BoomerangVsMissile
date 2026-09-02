@@ -8,22 +8,19 @@ using Enums;
 using Signals;
 using UnityEngine;
 
+using DG.Tweening;
+
 namespace Managers
 {
     public class TimeManager : MonoBehaviour
     {
         #region Self Variables
 
-        #region Public Variables
-
-        #endregion
-
-        #region Serialized Variables
-        #endregion
-
         #region Private Variables
         private TimeData _data;
         private bool _isLost = false;
+        private bool _isClicking = false;
+        private Tween _hitStopTween;
         #endregion
 
         #endregion
@@ -48,36 +45,74 @@ namespace Managers
             CoreGameSignals.Instance.onPlay += OnPlay;
             CoreGameSignals.Instance.onLevelFailed += OnLevelFailed;
             CoreGameSignals.Instance.onRestartLevel += OnRestartLevel;
+            MissileSignals.Instance.onMissileDestroyed += OnTriggerHitStop;
 
             InputSignals.Instance.onClicking += OnClicking;
             InputSignals.Instance.onInputReleased += OnInputReleased;
         }
 
         #endregion
+
+        private void OnTriggerHitStop()
+        {
+            if (_isLost)
+            {
+                return;
+            }
+
+            Time.timeScale = _data.HitStopTimeScale;
+            _hitStopTween?.Kill();
+            _hitStopTween = DOVirtual.DelayedCall(_data.HitStopDuration, RestoreTimeScale, true);
+        }
+
+        private void RestoreTimeScale()
+        {
+            if (_isLost)
+            {
+                return;
+            }
+
+            Time.timeScale = _isClicking ? _data.ClickingTimeScale : _data.NormalTimeScale;
+        }
+
         private void OnPlay()
         {
+            _isLost = false;
+            _isClicking = false;
+            _hitStopTween?.Kill();
             Time.timeScale = _data.NormalTimeScale;
         }
 
         private void OnLevelFailed()
         {
+            _hitStopTween?.Kill();
             _isLost = true;
         }
 
         private void OnClicking(Vector3 empty)
         {
-            Time.timeScale = _data.ClickingTimeScale;
+            _isClicking = true;
+            if (_hitStopTween == null || !_hitStopTween.IsActive() || _hitStopTween.IsComplete())
+            {
+                Time.timeScale = _data.ClickingTimeScale;
+            }
         }
 
         private void OnInputReleased()
         {
-            Time.timeScale = _data.NormalTimeScale;
+            _isClicking = false;
+            if (_hitStopTween == null || !_hitStopTween.IsActive() || _hitStopTween.IsComplete())
+            {
+                Time.timeScale = _data.NormalTimeScale;
+            }
         }
 
         private void OnRestartLevel()
         {
-            Time.timeScale = _data.NormalTimeScale;
+            _hitStopTween?.Kill();
             _isLost = false;
+            _isClicking = false;
+            Time.timeScale = _data.NormalTimeScale;
         }
     }
 }

@@ -78,6 +78,31 @@ namespace Extensions
             return CalculateCatmullRom(p0, p1, p2, p3, u);
         }
 
+        public Vector3 Evaluate(float t)
+        {
+            if (_controlPoints.Count < 2)
+            {
+                return _controlPoints.Count > 0 ? _controlPoints[0] : Vector3.zero;
+            }
+
+            int count = SegmentCount;
+            if (count == 0)
+            {
+                return _controlPoints[0];
+            }
+
+            t = Mathf.Clamp01(t);
+            float scaledT = t * count;
+            int segmentIndex = Mathf.FloorToInt(scaledT);
+            if (segmentIndex >= count)
+            {
+                segmentIndex = count - 1;
+            }
+            float u = scaledT - segmentIndex;
+
+            return EvaluateSegment(segmentIndex, u);
+        }
+
         public Vector3 EvaluateSegmentTangent(int segmentIndex, float u)
         {
             if (_controlPoints.Count < 2)

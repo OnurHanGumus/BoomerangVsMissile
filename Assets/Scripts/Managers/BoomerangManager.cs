@@ -27,6 +27,7 @@ namespace Managers
         #region Serialized Variables
         [SerializeField] private BoomerangMeshController meshController;
         [SerializeField] private BoomerangPhysicsController physicsController;
+        [SerializeField] private Controllers.Boomerang.TrajectoryPreviewController trajectoryPreviewController;
 
         #endregion
 
@@ -48,6 +49,15 @@ namespace Managers
         {
             _data = GetData();
             _movementController = GetComponent<BoomerangMovementController>();
+            if (trajectoryPreviewController == null)
+            {
+                trajectoryPreviewController = FindFirstObjectByType<Controllers.Boomerang.TrajectoryPreviewController>();
+                if (trajectoryPreviewController == null)
+                {
+                    GameObject previewObj = new GameObject("TrajectoryPreviewController");
+                    trajectoryPreviewController = previewObj.AddComponent<Controllers.Boomerang.TrajectoryPreviewController>();
+                }
+            }
         }
 
         public PlayerData GetData() => Resources.Load<CD_Player>("Data/CD_Player").Data;
