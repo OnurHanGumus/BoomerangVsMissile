@@ -53,7 +53,7 @@ namespace Managers
 
         #endregion
 
-        private void OnTriggerHitStop()
+        private void OnTriggerHitStop(float strength = 0f)
         {
             if (_isLost)
             {

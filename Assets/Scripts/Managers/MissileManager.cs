@@ -23,10 +23,12 @@ namespace Managers
         #region Serialized Variables
         [SerializeField] private MissilePhysicsController physicsController;
         [SerializeField] private MissileLightController lightController;
+        [SerializeField] private CD_Missile cdMissile;
         #endregion
 
         #region Private Variables
         private PlayerData _data;
+        private MissileData _missileData;
         #endregion
 
         #endregion
@@ -40,6 +42,11 @@ namespace Managers
         private void Init()
         {
             _data = GetData();
+            if (cdMissile == null)
+            {
+                cdMissile = Resources.Load<CD_Missile>("Data/CD_Missile");
+            }
+            _missileData = cdMissile != null ? cdMissile.Data : new MissileData();
         }
         public PlayerData GetData() => Resources.Load<CD_Player>("Data/CD_Player").Data;
 
@@ -58,7 +65,8 @@ namespace Managers
         #endregion
         public void Explode()
         {
-            MissileSignals.Instance.onMissileDestroyed?.Invoke();
+            float shakeStrength = _missileData != null ? _missileData.ShakeStrength : 0.25f;
+            MissileSignals.Instance.onMissileDestroyed?.Invoke(shakeStrength);
 
             GameObject particle = PoolSignals.Instance.onGetObject?.Invoke(ParticleType);
             particle.transform.position = transform.position;

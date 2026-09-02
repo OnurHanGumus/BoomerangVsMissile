@@ -49,19 +49,21 @@ namespace Controllers.Camera
             CoreGameSignals.Instance.onPlay += ResetCamera;
         }
 
-        public void TriggerImpactShake()
+        public void TriggerImpactShake(float strength = -1f)
         {
             if (_playerData == null)
             {
                 _playerData = Resources.Load<CD_Player>("Data/CD_Player").Data;
             }
 
+            float actualStrength = strength > 0f ? strength : _playerData.ShakeStrength;
+
             _shakeTween?.Kill();
             transform.localPosition = _originalLocalPos;
 
             _shakeTween = transform.DOShakePosition(
                 _playerData.ShakeDuration,
-                _playerData.ShakeStrength,
+                actualStrength,
                 _playerData.ShakeVibrato,
                 _playerData.ShakeRandomness,
                 false,

@@ -53,12 +53,7 @@ namespace Controllers
             }
             else if (other.CompareTag("Missile"))
             {
-                GameObject particle = PoolSignals.Instance.onGetObject?.Invoke(manager.ParticleType);
-                particle.transform.position = transform.position;
-                particle.gameObject.SetActive(true);
-
-                transform.parent.gameObject.SetActive(false);
-                MissileSignals.Instance.onMissileDestroyed?.Invoke();
+                manager.Explode();
             }
         }
         public void OnPlay()

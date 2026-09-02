@@ -158,7 +158,7 @@ namespace Managers
             StartCoroutine(InstantiateMissile());
         }
 
-        private void OnMissileDestroyed()
+        private void OnMissileDestroyed(float strength = 0f)
         {
             if (!isTutorial)
             {

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,12 +7,12 @@ namespace Data.ValueObject
     [Serializable]
     public class MissileLevelData
     {
-        public List<MissileData> MissileData;
+        public List<MissileSpawnData> MissileData;
         public List<float> PercentageList;
 
     }
     [Serializable]
-    public class MissileData
+    public class MissileSpawnData
     {
         public int MissileCount = 10;
         public List<GameObject> MissilePrefabList;
