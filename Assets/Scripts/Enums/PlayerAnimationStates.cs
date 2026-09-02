@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace Enums
 {
@@ -8,6 +8,5 @@ namespace Enums
         Idle,
         Throw,
         Catch,
-        BuildBoomerang,
     }
 }

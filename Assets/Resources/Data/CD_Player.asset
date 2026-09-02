@@ -19,6 +19,13 @@ MonoBehaviour:
     InitializePosY: 0
     BoomerangInitPosX: 0
     BoomerangInitPosY: -4.028
-    ReturnArcWidth: -2
-    ReturnArcHeight: 3
-    ReturnSpeedMultiplier: 0.5
+    BoomerangHandLocalPosition: {x: 0.1360204, y: 0.2610005, z: -0.04199352}
+    BoomerangHandLocalEulerAngles: {x: -9.304, y: -9.275, z: -107.476}
+    ReturnArcWidth: 1.2
+    ReturnArcHeight: 0.8
+    ReturnSpeedMultiplier: 0.3
+    MinReturnArcWidth: 0.2
+    MaxReturnArcWidth: 5
+    MinReturnArcHeight: 0.2
+    MaxReturnArcHeight: 5
+    ChargeDuration: 1

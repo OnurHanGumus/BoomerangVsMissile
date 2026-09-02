@@ -31,6 +31,9 @@ namespace Controllers
         private float _returnProgress = 0f;
         private float _currentReturnSwingDir = 1f;
 
+        private float _chargedArcWidth = -1f;
+        private float _chargedArcHeight = -1f;
+
         #endregion
 
         #endregion
@@ -46,6 +49,13 @@ namespace Controllers
             _manager = GetComponent<BoomerangManager>();
             _data = _manager.GetData();
             _returnSpline = new CatmullRomSpline();
+            BoomerangSignals.Instance.onSetChargedArc += OnSetChargedArc;
+        }
+
+        private void OnSetChargedArc(float width, float height)
+        {
+            _chargedArcWidth = width;
+            _chargedArcHeight = height;
         }
 
         private void FixedUpdate()
@@ -103,20 +113,7 @@ namespace Controllers
 
         private void OnTargetReached()
         {
-            int totalTargets = _manager.MissilePoints.Count;
-
-            // If we have reached the final missile, transition to the smooth return arc
-            if (_manager.PointIndex >= totalTargets - 1)
-            {
-                StartReturnArc();
-            }
-            else
-            {
-                _isPointMissed = false;
-                _manager.PointIndex++;
-                _manager.IsRight = !_manager.IsRight;
-                _currentDir = GetDirection();
-            }
+            StartReturnArc();
         }
 
         #endregion
@@ -136,26 +133,40 @@ namespace Controllers
 
             // Build smooth Catmull-Rom return trajectory
             Vector3 currentPos = new Vector3(transform.position.x, transform.position.y, 0f);
-            int lastTargetIndex = Mathf.Max(0, _manager.MissilePoints.Count - 1);
-            Vector3 lastTarget = _manager.MissilePoints[lastTargetIndex];
+            Vector3 target = _manager.MissilePoints.Count > 0 ? _manager.MissilePoints[0] : currentPos;
 
-            // Determine curve outward swing based on entry angle/direction
-            _currentReturnSwingDir = _manager.IsRight ? 1f : -1f;
-            if (Mathf.Abs(currentPos.x) > 0.3f)
+            float arcWidth = _chargedArcWidth > 0 ? _chargedArcWidth : _data.ReturnArcWidth;
+            float arcHeight = _chargedArcHeight > 0 ? _chargedArcHeight : _data.ReturnArcHeight;
+
+            // Inward direction bias if target is near screen borders
+            if (target.x >= 0.5f)
             {
-                _currentReturnSwingDir = Mathf.Sign(currentPos.x);
+                _currentReturnSwingDir = -1f;
             }
+            else if (target.x < -0.5f)
+            {
+                _currentReturnSwingDir = 1f;
+            }
+            /*
+            else
+            {
+                _currentReturnSwingDir = _manager.IsRight ? 1f : -1f;
+                if (Mathf.Abs(currentPos.x) > 0.3f)
+                {
+                    _currentReturnSwingDir = Mathf.Sign(currentPos.x);
+                }
+            } */
 
-            // Apex loop point beyond the last target
+            // Apex loop point beyond the target
             Vector3 apexPoint = new Vector3(
-                lastTarget.x + (_currentReturnSwingDir * _data.ReturnArcWidth),
-                lastTarget.y + _data.ReturnArcHeight,
+                target.x + (_currentReturnSwingDir * arcWidth),
+                target.y + arcHeight,
                 0f
             );
 
             // Mid descent swoop point towards the return position
             Vector3 midDescentPoint = new Vector3(
-                (apexPoint.x + _initializePos.x) * 0.5f + (_currentReturnSwingDir * _data.ReturnArcWidth * 0.4f),
+                (apexPoint.x + _initializePos.x) * 0.5f + (_currentReturnSwingDir * arcWidth * 0.4f),
                 (apexPoint.y + _initializePos.y) * 0.5f,
                 0f
             );
@@ -163,7 +174,7 @@ namespace Controllers
             List<Vector3> returnPoints = new List<Vector3>
             {
                 currentPos,
-                lastTarget,
+                target,
                 apexPoint,
                 midDescentPoint,
                 _initializePos
@@ -231,19 +242,22 @@ namespace Controllers
         {
             Vector3 currentPos = new Vector3(transform.position.x, transform.position.y, 0f);
 
+            float arcWidth = _chargedArcWidth > 0 ? _chargedArcWidth : _data.ReturnArcWidth;
+            float arcHeight = _chargedArcHeight > 0 ? _chargedArcHeight : _data.ReturnArcHeight;
+
             // Swap swing direction on X axis each time an extra swing is triggered
             _currentReturnSwingDir = -_currentReturnSwingDir;
 
             // Apex loop point from the current hit position
             Vector3 apexPoint = new Vector3(
-                currentPos.x + (_currentReturnSwingDir * _data.ReturnArcWidth),
-                currentPos.y + (_data.ReturnArcHeight * 0.75f),
+                currentPos.x + (_currentReturnSwingDir * arcWidth),
+                currentPos.y + (arcHeight * 0.75f),
                 0f
             );
 
             // Mid descent swoop point towards the return position
             Vector3 midDescentPoint = new Vector3(
-                (apexPoint.x + _initializePos.x) * 0.5f + (_currentReturnSwingDir * _data.ReturnArcWidth * 0.35f),
+                (apexPoint.x + _initializePos.x) * 0.5f + (_currentReturnSwingDir * arcWidth * 0.35f),
                 (apexPoint.y + _initializePos.y) * 0.5f,
                 0f
             );
@@ -277,6 +291,19 @@ namespace Controllers
             _isReturning = false;
             _isPointMissed = false;
             _manager.PointIndex = 0;
+
+            // Ensure the list maintains the exact structure: only first selected target + return point
+            if (_manager.MissilePoints.Count > 1)
+            {
+                Vector3 firstTarget = _manager.MissilePoints[0];
+                _manager.MissilePoints.Clear();
+                _manager.MissilePoints.Add(firstTarget);
+            }
+            if (_manager.MissilePoints.Count == 1)
+            {
+                _manager.MissilePoints.Add(_initializePos);
+            }
+
             _currentDir = GetDirection();
             _manager.IsThrown = true;
         }
@@ -289,16 +316,7 @@ namespace Controllers
                 return;
             }
 
-            int totalTargets = _manager.MissilePoints.Count;
-            if (_manager.PointIndex >= totalTargets - 1)
-            {
-                StartReturnArc();
-            }
-            else
-            {
-                _isPointMissed = false;
-                _currentDir = GetDirection();
-            }
+            StartReturnArc();
         }
 
         public void OnPlay()
@@ -310,18 +328,6 @@ namespace Controllers
         {
             _manager.IsThrown = false;
             ResetFlight();
-        }
-
-        public void OnBoomerangRespawned()
-        {
-            ResetFlight();
-        }
-
-        public void OnBoomerangRebuilt()
-        {
-            ResetFlight();
-            transform.position = _initializePos;
-            transform.eulerAngles = Vector3.zero;
         }
 
         public void OnLevelFailed()
@@ -356,6 +362,8 @@ namespace Controllers
             _returnSegment = 0;
             _returnProgress = 0f;
             _currentReturnSwingDir = 1f;
+            _chargedArcWidth = -1f;
+            _chargedArcHeight = -1f;
         }
     }
 }

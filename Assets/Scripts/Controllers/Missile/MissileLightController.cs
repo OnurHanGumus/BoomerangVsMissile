@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
@@ -24,6 +24,10 @@ public class MissileLightController : MonoBehaviour
     private void Init()
     {
         _light = GetComponent<Light>();
+        if (_light != null)
+        {
+            _light.shadows = LightShadows.None;
+        }
         SetIntensity(2);
     }
 

@@ -48,8 +48,6 @@ namespace Managers
             CoreGameSignals.Instance.onPlay += OnPlay;
             CoreGameSignals.Instance.onLevelFailed += OnLevelFailed;
             CoreGameSignals.Instance.onRestartLevel += OnRestartLevel;
-            BoomerangSignals.Instance.onBoomerangDisappeared += OnBoomerangDisappeared;
-            BoomerangSignals.Instance.onBoomerangRebuilt += OnBoomerangRebuilt;
 
             InputSignals.Instance.onClicking += OnClicking;
             InputSignals.Instance.onInputReleased += OnInputReleased;
@@ -59,28 +57,10 @@ namespace Managers
         private void OnPlay()
         {
             Time.timeScale = _data.NormalTimeScale;
-            UISignals.Instance.onClosePanel?.Invoke(UIPanels.BoomerangPanel);
-        }
-
-        private void OnBoomerangDisappeared()
-        {
-            if (_isLost == true)
-            {
-                return;
-            }
-            UISignals.Instance.onOpenPanel?.Invoke(UIPanels.BoomerangPanel);
-            Time.timeScale = _data.MissingBoomerangTimeScale;
-        }
-
-        private void OnBoomerangRebuilt()
-        {
-            Time.timeScale = _data.NormalTimeScale;
-            UISignals.Instance.onClosePanel?.Invoke(UIPanels.BoomerangPanel);
         }
 
         private void OnLevelFailed()
         {
-            UISignals.Instance.onClosePanel?.Invoke(UIPanels.BoomerangPanel);
             _isLost = true;
         }
 

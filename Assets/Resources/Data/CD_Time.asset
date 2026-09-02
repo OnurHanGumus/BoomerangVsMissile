@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: CD_Time
   m_EditorClassIdentifier: 
   Data:
-    ClickingTimeScale: 0.2
+    ClickingTimeScale: 0.01
     NormalTimeScale: 1
     MissingBoomerangTimeScale: 0.05

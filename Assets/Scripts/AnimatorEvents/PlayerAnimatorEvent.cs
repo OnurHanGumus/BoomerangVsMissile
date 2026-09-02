@@ -5,8 +5,7 @@ using Signals;
 
 public class PlayerAnimatorEvent : MonoBehaviour
 {
-    public void DoSomething() //Designed for animator event
+    public void DoSomething() // Preserved for legacy animator event keyframes
     {
-        BoomerangSignals.Instance.onBoomerangRebuilt?.Invoke();
     }
 }

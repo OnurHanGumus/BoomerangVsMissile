@@ -15,9 +15,7 @@ namespace Controllers
         [SerializeField] private BoomerangManager manager;
         #endregion
         #region Private Variables
-        private bool _isLevelSuccessfulOrFailed = false;
-
-
+        private PlayerData _data;
         #endregion
         #endregion
 
@@ -28,17 +26,13 @@ namespace Controllers
 
         private void Init()
         {
-
+            _data = manager.GetData();
         }
 
         private void OnTriggerEnter(Collider other)
         {
             if (other.CompareTag("Missile"))
             {
-                if (manager.IsDisappeared)
-                {
-                    return;
-                }
                 BoomerangSignals.Instance.onBoomerangNextTarget?.Invoke();
             }
             else if (other.CompareTag("CatchArea"))
@@ -54,32 +48,9 @@ namespace Controllers
             else if (other.CompareTag("BoomerangHand"))
             {
                 transform.parent.parent.parent = other.transform;
-                transform.parent.parent.localPosition = new Vector3(0.1360204f, 0.2610005f, -0.04199352f);
-                transform.parent.parent.localEulerAngles = new Vector3(-9.304f, -9.275f, -107.476f);
+                transform.parent.parent.localPosition = _data.BoomerangHandLocalPosition;
+                transform.parent.parent.localEulerAngles = _data.BoomerangHandLocalEulerAngles;
             }
-        }
-
-        private void OnTriggerExit(Collider other)
-        {
-            if (other.CompareTag("ScreenBox"))
-            {
-                if (_isLevelSuccessfulOrFailed)
-                {
-                    return;
-                }
-
-                manager.IsDisappeared = true;
-                BoomerangSignals.Instance.onBoomerangDisappeared?.Invoke();
-            }
-        }
-
-        public void OnLevelEnded()
-        {
-            _isLevelSuccessfulOrFailed = true;
-        }
-        public void OnRestartLevel()
-        {
-            _isLevelSuccessfulOrFailed = false;
         }
     }
 }

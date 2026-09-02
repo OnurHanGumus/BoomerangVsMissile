@@ -31,13 +31,6 @@ namespace Controllers
         
         private void OnBecameInvisible()
         {
-            if (_isLevelSuccessful)
-            {
-                return;
-            }
-
-            manager.IsDisappeared = true;
-            BoomerangSignals.Instance.onBoomerangDisappeared?.Invoke();
         }
         public void OnLevelSuccessful()
         {

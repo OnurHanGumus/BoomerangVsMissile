@@ -1,4 +1,4 @@
-﻿using Extensions;
+using Extensions;
 using Keys;
 using UnityEngine;
 using UnityEngine.Events;
@@ -14,5 +14,7 @@ namespace Signals
         public UnityAction<Vector3> onClicking = delegate { };
         public UnityAction onInputReleased = delegate { };
         public UnityAction onClicked = delegate { };
+        public UnityAction<float, Vector3> onChargeUpdated = delegate { };
+        public UnityAction onChargeEnded = delegate { };
     }
 }

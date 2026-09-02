@@ -33,8 +33,9 @@ namespace Managers
         private Ray _ray;
         private Transform _lastHitTransform;
 
-        private bool _isBoomerangDisappeared = false;
         private bool _isBoomerangOnPlayer = true;
+        private float _chargeTimer = 0f;
+        private PlayerData _playerData;
         #endregion
 
         #endregion
@@ -43,10 +44,12 @@ namespace Managers
         private void Awake()
         {
             Data = GetInputData();
+            _playerData = GetPlayerData();
             SubscribeEvents();
         }
 
         private InputData GetInputData() => Resources.Load<CD_Input>("Data/CD_Input").Data;
+        private PlayerData GetPlayerData() => Resources.Load<CD_Player>("Data/CD_Player").Data;
 
 
         #region Event Subscriptions
@@ -58,8 +61,6 @@ namespace Managers
             CoreGameSignals.Instance.onPlay += OnPlay;
             CoreGameSignals.Instance.onReset += OnReset;
             BoomerangSignals.Instance.onBoomerangHasReturned += OnBoomerangReturned;
-            BoomerangSignals.Instance.onBoomerangDisappeared += OnBoomerangDisappeared;
-            BoomerangSignals.Instance.onBoomerangRebuilt += OnBoomerangRebuilt;
             BoomerangSignals.Instance.onBoomerangThrown += OnBoomerangThrown;
 
         }
@@ -68,15 +69,6 @@ namespace Managers
 
         private void Update()
         {
-            
-            if (_isBoomerangDisappeared)
-            {
-                if(Input.GetMouseButtonUp(0))
-                {
-                    PlayerSignals.Instance.onAnimationSpeedIncreased?.Invoke();
-                }
-                return;
-            }
             if (!_isBoomerangOnPlayer)
             {
                 return;
@@ -91,29 +83,48 @@ namespace Managers
                 {
                     return;
                 }
-                _ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-                RaycastHit hit;
-                if (Physics.Raycast(_ray, out hit))
+                if (_lastHitTransform == null)
                 {
-                    if (hit.collider.CompareTag("Clickable"))
-                    {
-                        if (hit.transform.Equals(_lastHitTransform))
-                        {
-                            return;
-                        }
-                        Vector3 hitPoint = hit.point;
-                        hitPoint = new Vector3(hit.transform.position.x, hitPoint.y, 0);
-                        InputSignals.Instance.onClicking?.Invoke(hitPoint);
-                        _lastHitTransform = hit.transform;
-                        AudioSignals.Instance.onPlaySound(AudioSoundEnums.Pitch);
+                    _ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
+                    RaycastHit hit;
+                    if (Physics.Raycast(_ray, out hit))
+                    {
+                        if (hit.collider.CompareTag("Clickable"))
+                        {
+                            Vector3 hitPoint = hit.point;
+                            hitPoint = new Vector3(hit.transform.position.x, hitPoint.y, 0);
+                            InputSignals.Instance.onClicking?.Invoke(hitPoint);
+                            _lastHitTransform = hit.transform;
+                            _chargeTimer = 0f;
+                            AudioSignals.Instance.onPlaySound(AudioSoundEnums.Pitch);
+
+                        }
                     }
+                }
+                else
+                {
+                    // Target already selected; charge arc based on hold duration
+                    _chargeTimer += Time.unscaledDeltaTime;
+                    float progress = Mathf.Clamp01(_chargeTimer / _playerData.ChargeDuration);
+                    Vector3 targetPos = _lastHitTransform != null ? _lastHitTransform.position : Vector3.zero;
+                    InputSignals.Instance.onChargeUpdated?.Invoke(progress, targetPos);
                 }
             }
 
             if (Input.GetMouseButtonUp(0))
             {
+                if (_lastHitTransform != null)
+                {
+                    float progress = Mathf.Clamp01(_chargeTimer / _playerData.ChargeDuration);
+                    float chargedWidth = Mathf.Lerp(_playerData.MinReturnArcWidth, _playerData.MaxReturnArcWidth, progress);
+                    float chargedHeight = Mathf.Lerp(_playerData.MinReturnArcHeight, _playerData.MaxReturnArcHeight, progress);
+                    BoomerangSignals.Instance.onSetChargedArc?.Invoke(chargedWidth, chargedHeight);
+                    InputSignals.Instance.onChargeEnded?.Invoke();
+                    _chargeTimer = 0f;
+                }
+
                 InputSignals.Instance.onInputReleased?.Invoke();
             }
 
@@ -143,16 +154,6 @@ namespace Managers
             
         }
 
-        private void OnBoomerangDisappeared()
-        {
-            _isBoomerangDisappeared = true;
-        }
-
-        private void OnBoomerangRebuilt()
-        {
-            _isBoomerangDisappeared = false;
-        }
-
         private void OnBoomerangReturned()
         {
             _lastHitTransform = null;
@@ -163,20 +164,10 @@ namespace Managers
             _isBoomerangOnPlayer = false;
         }
 
-        //private bool IsPointerOverUIElement() //Joystick'i doÄŸru konumlandÄ±rÄ±rsan buna gerek kalmaz
-        //{
-        //    var eventData = new PointerEventData(EventSystem.current);
-        //    eventData.position = Input.mousePosition;
-        //    var results = new List<RaycastResult>();
-        //    EventSystem.current.RaycastAll(eventData, results);
-        //    return results.Count > 0;
-        //}
-
         private void OnReset()
         {
             _lastHitTransform = null;
             _isBoomerangOnPlayer = true;
-            _isBoomerangDisappeared = false;
         }
 
         private void OnChangePlayerLivingState()

@@ -5,6 +5,8 @@ using UnityEngine;
 using Data.UnityObject;
 using Data.ValueObject;
 
+using Controllers.UI;
+
 namespace Managers
 {
     public class UIManager : MonoBehaviour
@@ -17,8 +19,8 @@ namespace Managers
         [SerializeField] private GameOverPanelController gameOverPanelController;
         [SerializeField] private LevelPanelController levelPanelController;
         [SerializeField] private HighScorePanelController highScorePanelController;
-        [SerializeField] private UIBuildBoomerangController uiBuildBoomerangController;
         [SerializeField] private ComboPanelController comboPanelController;
+        [SerializeField] private ChargeSliderController chargeSliderController;
 
         #endregion
         #region Private Variables
@@ -38,6 +40,15 @@ namespace Managers
         private void Init()
         {
             _data = GetData();
+            if (chargeSliderController == null)
+            {
+                chargeSliderController = FindFirstObjectByType<ChargeSliderController>();
+                if (chargeSliderController == null)
+                {
+                    GameObject chargeObj = new GameObject("ChargeSliderController");
+                    chargeSliderController = chargeObj.AddComponent<ChargeSliderController>();
+                }
+            }
         }
 
         private UIData GetData() => Resources.Load<CD_UI>("Data/CD_UI").Data;
@@ -51,10 +62,7 @@ namespace Managers
             CoreGameSignals.Instance.onLevelFailed += OnLevelFailed;
             CoreGameSignals.Instance.onLevelSuccessful += OnLevelSuccessful;
             CoreGameSignals.Instance.onRestartLevel += levelPanelController.OnRestartLevel;
-            CoreGameSignals.Instance.onRestartLevel += uiBuildBoomerangController.OnRestartLevel;
             ScoreSignals.Instance.onHighScoreChanged += highScorePanelController.OnUpdateText;
-            PlayerSignals.Instance.onAnimationSpeedIncreased += uiBuildBoomerangController.OnAnimationSpeedIncreased;
-            BoomerangSignals.Instance.onBoomerangDisappeared += uiBuildBoomerangController.OnBoomerangDisappeared;
             BoomerangSignals.Instance.onCombo += comboPanelController.OnCombo;
         }
 

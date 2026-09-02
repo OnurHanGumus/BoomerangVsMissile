@@ -20,7 +20,6 @@ namespace Managers
         public bool IsRight = true;
         public bool IsThrown = false;
         public bool IsRising = false;
-        public bool IsDisappeared = false;
 
 
         #endregion
@@ -60,13 +59,11 @@ namespace Managers
             CoreGameSignals.Instance.onPlay += OnPlay;
             CoreGameSignals.Instance.onPlay += _movementController.OnPlay;
             CoreGameSignals.Instance.onPlay += meshController.OnPlay;
-            CoreGameSignals.Instance.onLevelSuccessful += physicsController.OnLevelEnded;
-            CoreGameSignals.Instance.onLevelFailed += physicsController.OnLevelEnded;
             CoreGameSignals.Instance.onLevelSuccessful += meshController.OnLevelSuccessful;
-            CoreGameSignals.Instance.onLevelFailed += OnLevelFailed;
+            CoreGameSignals.Instance.onLevelSuccessful += OnLevelFailedOrSuccessful;
+            CoreGameSignals.Instance.onLevelFailed += OnLevelFailedOrSuccessful;
             CoreGameSignals.Instance.onRestartLevel += OnRestartLevel;
             CoreGameSignals.Instance.onRestartLevel += _movementController.OnRestartLevel;
-            CoreGameSignals.Instance.onRestartLevel += physicsController.OnRestartLevel;
             InputSignals.Instance.onClicking += OnAddPoint;
             InputSignals.Instance.onInputReleased += OnInputRelease;
             BoomerangSignals.Instance.onBoomerangNextTarget += OnBoomerangNextTarget;
@@ -74,14 +71,12 @@ namespace Managers
             BoomerangSignals.Instance.onBoomerangReturning += OnBoomerangReturning;
             BoomerangSignals.Instance.onBoomerangHasReturned += OnBoomerangReturned;
             BoomerangSignals.Instance.onBoomerangHasReturned += _movementController.OnBoomerangHasReturned;
-            BoomerangSignals.Instance.onBoomerangRebuilt += _movementController.OnBoomerangRebuilt;
-            BoomerangSignals.Instance.onBoomerangRebuilt += OnBoomerangRebuilt;
             BoomerangSignals.Instance.onSelectBoomerang += meshController.OnSelectBoomerang;
         }
 
         #endregion
 
-        private void OnLevelFailed()
+        private void OnLevelFailedOrSuccessful()
         {
             transform.GetChild(0).gameObject.SetActive(false);
         }
@@ -114,7 +109,10 @@ namespace Managers
 
         private void OnAddPoint(Vector3 pos)
         {
-            MissilePoints.Add(pos);
+            if (MissilePoints.Count == 0)
+            {
+                MissilePoints.Add(pos);
+            }
         }
 
         private void OnInputRelease()
@@ -128,21 +126,11 @@ namespace Managers
             BoomerangSignals.Instance.onBoomerangThrown?.Invoke();
             _movementController.Thrown();
         }
-        
-        private void OnBoomerangRebuilt()
-        {
-            IsDisappeared = false;
-            IsRising = false;
-            IsThrown = false;
-            PointIndex = 0;
-            MissilePoints.Clear();
-        }
 
         private void OnRestartLevel()
         {
             transform.parent = null;
             IsRising = false;
-            IsDisappeared = false;
             MissilePoints.Clear();
             PointIndex = 0;
         }

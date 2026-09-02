@@ -53,23 +53,21 @@ namespace Managers
             CoreGameSignals.Instance.onPlay += _movementController.OnPlay;
             CoreGameSignals.Instance.onLevelSuccessful += _movementController.OnLevelSuccess;
             CoreGameSignals.Instance.onLevelFailed += _movementController.OnLevelFailed;
-            CoreGameSignals.Instance.onLevelFailed += OnLevelFailed;
+            CoreGameSignals.Instance.onLevelFailed += OnLevelFailedOrSuccessful;
+            CoreGameSignals.Instance.onLevelSuccessful += OnLevelFailedOrSuccessful;
             CoreGameSignals.Instance.onRestartLevel += animationController.OnRestartLevel;
             CoreGameSignals.Instance.onRestartLevel += _movementController.OnRestartLevel;
             CoreGameSignals.Instance.onRestartLevel += OnResetLevel;
-            BoomerangSignals.Instance.onBoomerangDisappeared += OnBoomerangDisappeared;
             BoomerangSignals.Instance.onBoomerangThrown += OnBoomerangThrown;
             BoomerangSignals.Instance.onBoomerangHasReturned += OnBoomerangHasReturned;
-            BoomerangSignals.Instance.onBoomerangRebuilt += OnBoomerangRebuilt;
             BoomerangSignals.Instance.onBoomerangReturning += OnBoomerangReturning;
             PlayerSignals.Instance.onChangePlayerAnimation += animationController.OnChangeAnimation;
             PlayerSignals.Instance.onResetAnimation += animationController.OnResetAnimation;
             PlayerSignals.Instance.onResetAnimator += animationController.OnResetAnimator;
-            PlayerSignals.Instance.onAnimationSpeedIncreased += IncreaseAnimationSpeed;
 
         }
 
-        private void OnLevelFailed()
+        private void OnLevelFailedOrSuccessful()
         {
             PlayerSignals.Instance.onResetAnimator?.Invoke();
         }
@@ -95,24 +93,6 @@ namespace Managers
         private void OnBoomerangHasReturned()
         {
             PlayerSignals.Instance.onChangePlayerAnimation?.Invoke(PlayerAnimationStates.Catch);
-        }
-
-        private void OnBoomerangRebuilt()
-        {
-            catchObject.SetActive(true);
-            boomerangHand.SetActive(true);
-
-            PlayerSignals.Instance.onChangePlayerAnimation?.Invoke(PlayerAnimationStates.Catch);
-        }
-
-        private void OnBoomerangDisappeared()
-        {
-            PlayerSignals.Instance.onChangePlayerAnimation?.Invoke(PlayerAnimationStates.BuildBoomerang);
-        }
-
-        private void IncreaseAnimationSpeed()
-        {
-            animationController.OnChangeAnimationSpeed();
         }
 
         private void OnBoomerangReturning()

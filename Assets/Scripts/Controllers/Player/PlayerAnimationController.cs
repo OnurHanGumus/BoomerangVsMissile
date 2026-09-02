@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Enums;
@@ -14,30 +14,13 @@ public class PlayerAnimationController : MonoBehaviour
     [SerializeField] private Animator animator;
 
     #endregion
-    #region Private Variables
-    private UIData _uiData;
-
-    #endregion
     #endregion
 
-    public UIData GetData() => Resources.Load<CD_UI>("Data/CD_UI").Data;
-
-    private void Awake()
-    {
-        Init();
-    }
-
-    private void Init()
-    {
-        _uiData = GetData();
-    }
-    
     public void OnChangeAnimation(PlayerAnimationStates nextAnimation)
     {
         OnResetAnimation(nextAnimation);
         animator.speed = 0.5f;
         animator.SetTrigger(nextAnimation.ToString());
-        animator.speed = 0.5f;
     }
 
     public void OnResetAnimator()
@@ -49,11 +32,6 @@ public class PlayerAnimationController : MonoBehaviour
     public void OnResetAnimation(PlayerAnimationStates animation)
     {
         animator.ResetTrigger(animation.ToString());
-    }
-
-    public void OnChangeAnimationSpeed()
-    {
-        animator.speed += _uiData.ComboInputIncreaseAmount;
     }
 
     public void OnRestartLevel()

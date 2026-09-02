@@ -1,4 +1,4 @@
-﻿using Enums;
+using Enums;
 using Extensions;
 using System;
 using UnityEngine;
@@ -11,7 +11,6 @@ namespace Signals
         public Func<Transform> onGetPlayer = delegate { return null; };
         public UnityAction<PlayerAnimationStates> onChangePlayerAnimation = delegate { };
         public UnityAction<PlayerAnimationStates> onResetAnimation = delegate { };
-        public UnityAction onAnimationSpeedIncreased = delegate { };
         public UnityAction<float> onSetAnimationSpeed = delegate { };
         public UnityAction onResetAnimator = delegate { };
     }
