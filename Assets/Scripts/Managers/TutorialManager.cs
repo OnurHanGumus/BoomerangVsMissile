@@ -73,7 +73,6 @@ namespace Managers
 
             if (_isFirstTime)
             {
-                AudioSignals.Instance.onPlaySound(AudioSoundEnums.Win);
                 _isFirstTime = false;
             }
         }
