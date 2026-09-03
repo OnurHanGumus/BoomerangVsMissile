@@ -8,14 +8,13 @@ namespace Data.ValueObject
     public class MissileLevelData
     {
         public List<MissileSpawnData> MissileData;
-        public List<float> PercentageList;
-
     }
     [Serializable]
     public class MissileSpawnData
     {
         public int MissileCount = 10;
         public List<GameObject> MissilePrefabList;
+        public List<float> PercentageList;
         public int MissileMaxVelocity = 10;
         public float MissileCreateOffset = 2;
     }

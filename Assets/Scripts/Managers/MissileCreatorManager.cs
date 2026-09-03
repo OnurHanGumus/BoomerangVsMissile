@@ -104,51 +104,68 @@ namespace Managers
                 StopAllCoroutines();
             }
 
+            int prefabCount = _data.MissileData[_levelId].MissilePrefabList.Count;
+            if (prefabCount <= 1 || _rangeList.Count == 0)
+            {
+                return 0;
+            }
+
             int rand = Random.Range(0, 100);
 
-            for (int i = 0; i < _data.MissileData[_levelId].MissilePrefabList.Count; i++)
+            for (int i = 0; i < prefabCount; i++)
             {
-                if (rand >= _rangeList[i].Start.Value && rand <= _rangeList[i].End.Value)
+                if (i < _rangeList.Count && rand >= _rangeList[i].Start.Value && rand <= _rangeList[i].End.Value)
                 {
-                    rand = i;
-                    break;
+                    return i;
                 }
             }
 
-            if (rand > _data.MissileData.Count)
-            {
-                rand = 0;
-            }
-
-            return rand;
+            return 0;
         }
 
         private void SetRange()
         {
+            _percentageIndex = 0;
+            _rangeList.Clear();
+
+            var levelData = _data.MissileData[_levelId];
+            int prefabCount = levelData.MissilePrefabList != null ? levelData.MissilePrefabList.Count : 0;
+            if (prefabCount == 0)
+            {
+                return;
+            }
+
             float addedValue = 0f;
 
-            for (int i = 0; i < _data.MissileData[_levelId].MissilePrefabList.Count; i++)
+            for (int i = 0; i < prefabCount; i++)
             {
-                addedValue += _data.PercentageList[i];
+                float weight = 1f;
+                if (levelData.PercentageList != null && i < levelData.PercentageList.Count)
+                {
+                    weight = levelData.PercentageList[i];
+                }
+                addedValue += weight;
+            }
+
+            if (addedValue <= 0f)
+            {
+                addedValue = 1f;
             }
 
             float unitValue = 100f / addedValue;
 
-            for (int i = 0; i < _data.MissileData[_levelId].MissilePrefabList.Count; i++)
+            for (int i = 0; i < prefabCount; i++)
             {
-                int endValue = (int)(_percentageIndex + unitValue * _data.PercentageList[i]);
-                _rangeList.Add(new Range((int) _percentageIndex, endValue));
+                float weight = 1f;
+                if (levelData.PercentageList != null && i < levelData.PercentageList.Count)
+                {
+                    weight = levelData.PercentageList[i];
+                }
+
+                int endValue = (int)(_percentageIndex + unitValue * weight);
+                _rangeList.Add(new Range((int)_percentageIndex, endValue));
                 _percentageIndex = endValue;
             }
-
-            #region Print
-            //Debug.Log("list count: " + _rangeList.Count);
-            for (int i = 0; i < _rangeList.Count; i++)
-            {
-                //Debug.Log(_rangeList[i]);
-
-            }
-            #endregion
         }
 
         private void OnPlay()
