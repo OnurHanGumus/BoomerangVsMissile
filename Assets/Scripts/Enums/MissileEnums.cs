@@ -3,16 +3,13 @@ using System;
 namespace Enums
 {
     [Serializable]
-    public enum PoolEnums
+    public enum MissileEnums
     {
         Missile0,
         Missile1,
         Missile2,
         Missile3,
         Missile4,
-        ExplosionStandard,
-        ExplosionPink,
-        Confetti,
         Missile5,
         Missile6,
     }

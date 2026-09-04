@@ -4689,6 +4689,10 @@ MonoBehaviour:
   missilePrefab0: {fileID: 5872852307257060255, guid: c67f002005c5388489f17b5903e82cd8, type: 3}
   missilePrefab1: {fileID: 7844580830099842777, guid: 2cda935985857f842a5996c8167867bd, type: 3}
   missilePrefab2: {fileID: 6541382036004736301, guid: 42e4c831c90a88a4f9ea868c3d78111e, type: 3}
+  missilePrefab3: {fileID: 5872852307257060255, guid: aaf4a2b83177fde4f849a83e25abe885, type: 3}
+  missilePrefab4: {fileID: 5872852307257060255, guid: aaf4a2b83177fde4f849a83e25abe885, type: 3}
+  missilePrefab5: {fileID: 5872852307257060255, guid: 58d0699130689234da7f7eaaedd5f87f, type: 3}
+  missilePrefab6: {fileID: 5872852307257060255, guid: 24d72b984182b9b4aa036706aefeb61c, type: 3}
   explotionPrefab: {fileID: 9167020858200917798, guid: b6b79ae32f0b09f4c9a2399065fb2dd3, type: 3}
   explotionPinkPrefab: {fileID: 3279582085279579923, guid: 4bda94453d2ca7444a0fff05b2d425f5, type: 3}
   particlePrefab: {fileID: 7102495447825360187, guid: c0e7f02b967bf4c4e99878b7956b0d14, type: 3}

@@ -52,10 +52,11 @@ namespace Controllers
             BoomerangSignals.Instance.onSetChargedArc += OnSetChargedArc;
         }
 
-        private void OnSetChargedArc(float width, float height)
+        private void OnSetChargedArc(float width, float height, bool isFullyCharged)
         {
             _chargedArcWidth = width;
             _chargedArcHeight = height;
+            _manager.IsFullyCharged = isFullyCharged;
         }
 
         private void FixedUpdate()
@@ -364,6 +365,7 @@ namespace Controllers
             _currentReturnSwingDir = 1f;
             _chargedArcWidth = -1f;
             _chargedArcHeight = -1f;
+            _manager.IsFullyCharged = false;
         }
     }
 }

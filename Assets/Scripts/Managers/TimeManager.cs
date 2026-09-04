@@ -46,6 +46,7 @@ namespace Managers
             CoreGameSignals.Instance.onLevelFailed += OnLevelFailed;
             CoreGameSignals.Instance.onRestartLevel += OnRestartLevel;
             MissileSignals.Instance.onMissileDestroyed += OnTriggerHitStop;
+            MissileSignals.Instance.onMissileArmorHit += () => OnTriggerHitStop(0f);
 
             InputSignals.Instance.onClicking += OnClicking;
             InputSignals.Instance.onInputReleased += OnInputReleased;

@@ -35,9 +35,9 @@ namespace Controllers
         {
             if (other.CompareTag("Boomerang"))
             {
-                manager.Explode();
-
-                transform.parent.gameObject.SetActive(false);
+                var boomerangManager = other.GetComponentInParent<BoomerangManager>();
+                bool isFullyCharged = boomerangManager != null && boomerangManager.IsFullyCharged;
+                manager.TakeDamage(isFullyCharged ? 2 : 1);
             }
             else if (other.CompareTag("SafeArea"))
             {

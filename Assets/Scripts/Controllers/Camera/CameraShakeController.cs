@@ -44,9 +44,15 @@ namespace Controllers.Camera
         private void SubscribeEvents()
         {
             MissileSignals.Instance.onMissileDestroyed += TriggerImpactShake;
+            MissileSignals.Instance.onMissileArmorHit += OnArmorHit;
             CoreGameSignals.Instance.onRestartLevel += ResetCamera;
             CoreGameSignals.Instance.onLevelFailed += ResetCamera;
             CoreGameSignals.Instance.onPlay += ResetCamera;
+        }
+
+        private void OnArmorHit()
+        {
+            TriggerImpactShake(0.18f);
         }
 
         public void TriggerImpactShake(float strength = -1f)

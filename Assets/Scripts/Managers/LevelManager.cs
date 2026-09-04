@@ -76,6 +76,11 @@ namespace Managers
             TutorialSignals.Instance.onTutorialActive?.Invoke(_levelID == 0);
         }
 
+        private void OnEnable()
+        {
+            Debug.Log(_levelID);
+        }
+
         private void OnNextLevel()
         {
             _levelID++;

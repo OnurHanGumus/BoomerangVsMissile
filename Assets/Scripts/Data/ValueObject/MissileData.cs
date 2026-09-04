@@ -10,5 +10,9 @@ namespace Data.ValueObject
         public float ShakeStrength = 0.25f;
         public float ShakeDuration = 0.15f;
         public float HitStopDuration = 0.05f;
+
+        [Header("Armor & Health Settings")]
+        public int MaxHealth = 1;
+        public bool IsArmored = false;
     }
 }

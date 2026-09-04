@@ -15,67 +15,54 @@ MonoBehaviour:
   Data:
     MissileData:
     - MissileCount: 10
-      MissilePrefabList:
-      - {fileID: 5872852307257060255, guid: c67f002005c5388489f17b5903e82cd8, type: 3}
+      MissileTypeList: 00000000
       PercentageList:
       - 1
       MissileMaxVelocity: 0
       MissileCreateOffset: 2
     - MissileCount: 15
-      MissilePrefabList:
-      - {fileID: 5872852307257060255, guid: c67f002005c5388489f17b5903e82cd8, type: 3}
+      MissileTypeList: 05000000
       PercentageList:
       - 1
       MissileMaxVelocity: 0
       MissileCreateOffset: 1.5
     - MissileCount: 15
-      MissilePrefabList:
-      - {fileID: 5872852307257060255, guid: c67f002005c5388489f17b5903e82cd8, type: 3}
-      - {fileID: 7844580830099842777, guid: 2cda935985857f842a5996c8167867bd, type: 3}
+      MissileTypeList: 0000000001000000
       PercentageList:
       - 1
-      - 1
+      - 0.8
       MissileMaxVelocity: 0
       MissileCreateOffset: 2
     - MissileCount: 20
-      MissilePrefabList:
-      - {fileID: 5872852307257060255, guid: c67f002005c5388489f17b5903e82cd8, type: 3}
-      - {fileID: 7844580830099842777, guid: 2cda935985857f842a5996c8167867bd, type: 3}
+      MissileTypeList: 0000000001000000
       PercentageList:
       - 1
       - 1
       MissileMaxVelocity: 0
       MissileCreateOffset: 1.5
     - MissileCount: 20
-      MissilePrefabList:
-      - {fileID: 5872852307257060255, guid: c67f002005c5388489f17b5903e82cd8, type: 3}
-      - {fileID: 7844580830099842777, guid: 2cda935985857f842a5996c8167867bd, type: 3}
-      - {fileID: 6541382036004736301, guid: 42e4c831c90a88a4f9ea868c3d78111e, type: 3}
+      MissileTypeList: 000000000100000002000000
       PercentageList:
       - 1
       - 1
-      - 0
+      - 0.3
       MissileMaxVelocity: 0
       MissileCreateOffset: 1.5
     - MissileCount: 25
-      MissilePrefabList:
-      - {fileID: 5872852307257060255, guid: c67f002005c5388489f17b5903e82cd8, type: 3}
-      - {fileID: 7844580830099842777, guid: 2cda935985857f842a5996c8167867bd, type: 3}
-      - {fileID: 6541382036004736301, guid: 42e4c831c90a88a4f9ea868c3d78111e, type: 3}
+      MissileTypeList: 00000000010000000200000003000000
       PercentageList:
       - 1
       - 1
-      - 0
+      - 1
+      - 1
       MissileMaxVelocity: 0
       MissileCreateOffset: 1.5
     - MissileCount: 30
-      MissilePrefabList:
-      - {fileID: 5872852307257060255, guid: c67f002005c5388489f17b5903e82cd8, type: 3}
-      - {fileID: 7844580830099842777, guid: 2cda935985857f842a5996c8167867bd, type: 3}
-      - {fileID: 6541382036004736301, guid: 42e4c831c90a88a4f9ea868c3d78111e, type: 3}
+      MissileTypeList: 00000000010000000200000003000000
       PercentageList:
       - 1
       - 1
-      - 0
+      - 1
+      - 1
       MissileMaxVelocity: 0
       MissileCreateOffset: 1.5

@@ -36,6 +36,9 @@ namespace Managers
         private float _percentageIndex = 0;
         private List<Range> _rangeList;
         private bool _isLevelFailed = false;
+        private bool _isLevelCompleted = false;
+        private EnumCastCommand _enumCastCommand;
+        private int _additionalClusterMissiles = 0;
 
         #endregion
 
@@ -51,6 +54,7 @@ namespace Managers
         {
             _data = GetData();
             _rangeList = new List<Range>(); 
+            _enumCastCommand = new EnumCastCommand();
         }
 
         private void Start()
@@ -69,6 +73,7 @@ namespace Managers
             CoreGameSignals.Instance.onLevelSuccessful += OnLevelSuccess;
             CoreGameSignals.Instance.onRestartLevel += OnRestartLevel;
             MissileSignals.Instance.onMissileDestroyed += OnMissileDestroyed;
+            MissileSignals.Instance.onClusterSplit += OnClusterSplit;
             TutorialSignals.Instance.onTutorialSatisfied += OnTutorialSatisfied;
         }
 
@@ -81,7 +86,27 @@ namespace Managers
                 _index++;
             }
 
-            GameObject missile = PoolSignals.Instance.onGetObject((PoolEnums) GetMissileType());
+            int typeIndex = GetMissileType();
+            var typeList = _data.MissileData[_levelId].MissileTypeList;
+            MissileEnums missileType = (typeList != null && typeIndex < typeList.Count)
+                ? typeList[typeIndex]
+                : MissileEnums.Missile0;
+
+            PoolEnums poolType = _enumCastCommand.EnumToEnum<PoolEnums, MissileEnums>(missileType);
+            GameObject missile = PoolSignals.Instance.onGetObject(poolType);
+            if (missile == null)
+            {
+                yield return new WaitForSeconds(_data.MissileData[_levelId].MissileCreateOffset);
+                StartCoroutine(InstantiateMissile());
+                yield break;
+            }
+
+            var missileManager = missile.GetComponent<MissileManager>();
+            if (missileManager != null && missileManager.IsCluster)
+            {
+                OnClusterSplit(missileManager.ClusterChildCount);
+            }
+
             float posX;
             do
             {
@@ -104,15 +129,16 @@ namespace Managers
                 StopAllCoroutines();
             }
 
-            int prefabCount = _data.MissileData[_levelId].MissilePrefabList.Count;
-            if (prefabCount <= 1 || _rangeList.Count == 0)
+            var typeList = _data.MissileData[_levelId].MissileTypeList;
+            int typeCount = typeList != null ? typeList.Count : 0;
+            if (typeCount <= 1 || _rangeList.Count == 0)
             {
                 return 0;
             }
 
             int rand = Random.Range(0, 100);
 
-            for (int i = 0; i < prefabCount; i++)
+            for (int i = 0; i < typeCount; i++)
             {
                 if (i < _rangeList.Count && rand >= _rangeList[i].Start.Value && rand <= _rangeList[i].End.Value)
                 {
@@ -129,15 +155,17 @@ namespace Managers
             _rangeList.Clear();
 
             var levelData = _data.MissileData[_levelId];
-            int prefabCount = levelData.MissilePrefabList != null ? levelData.MissilePrefabList.Count : 0;
-            if (prefabCount == 0)
+            var typeList = levelData.MissileTypeList;
+            int typeCount = typeList != null ? typeList.Count : 0;
+            Debug.Log("type count: " + typeCount);
+            if (typeCount == 0)
             {
                 return;
             }
 
             float addedValue = 0f;
 
-            for (int i = 0; i < prefabCount; i++)
+            for (int i = 0; i < typeCount; i++)
             {
                 float weight = 1f;
                 if (levelData.PercentageList != null && i < levelData.PercentageList.Count)
@@ -154,7 +182,7 @@ namespace Managers
 
             float unitValue = 100f / addedValue;
 
-            for (int i = 0; i < prefabCount; i++)
+            for (int i = 0; i < typeCount; i++)
             {
                 float weight = 1f;
                 if (levelData.PercentageList != null && i < levelData.PercentageList.Count)
@@ -170,9 +198,19 @@ namespace Managers
 
         private void OnPlay()
         {
+            _isLevelFailed = false;
+            _isLevelCompleted = false;
             _levelId = LevelSignals.Instance.onGetCurrentModdedLevel();
             SetRange();
             StartCoroutine(InstantiateMissile());
+        }
+
+        private void OnClusterSplit(int childCount)
+        {
+            if (!isTutorial)
+            {
+                _additionalClusterMissiles += (childCount);
+            }
         }
 
         private void OnMissileDestroyed(float strength = 0f)
@@ -182,12 +220,10 @@ namespace Managers
                 ++_destroyedMissileCount;
             }
             Debug.Log("destroyed missile count: "+_destroyedMissileCount + "\n instantiated missile count: " + _index);
-            if (_destroyedMissileCount == _data.MissileData[_levelId].MissileCount)
+            int totalRequired = _data.MissileData[_levelId].MissileCount + _additionalClusterMissiles;
+            if (!_isLevelCompleted && !_isLevelFailed && _destroyedMissileCount >= totalRequired)
             {
-                if (_isLevelFailed)
-                {
-                    return;
-                }
+                _isLevelCompleted = true;
 
                 CoreGameSignals.Instance.onLevelSuccessful?.Invoke();
                 AudioSignals.Instance.onPlaySound(AudioSoundEnums.Win);
@@ -216,12 +252,15 @@ namespace Managers
         {
             _index = 0;
             _destroyedMissileCount = 0;
+            _additionalClusterMissiles = 0;
+            _isLevelCompleted = false;
             StopAllCoroutines();
         }
 
         private void OnRestartLevel()
         {
             _isLevelFailed = false;
+            _isLevelCompleted = false;
             ResetSettings();
         }
 

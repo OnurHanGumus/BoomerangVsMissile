@@ -10,7 +10,7 @@ public class PoolManager : MonoBehaviour
 
     #region Serialized Variables
 
-    [SerializeField] private GameObject missilePrefab0, missilePrefab1, missilePrefab2;
+    [SerializeField] private GameObject missilePrefab0, missilePrefab1, missilePrefab2, missilePrefab3, missilePrefab4, missilePrefab5, missilePrefab6;
     [SerializeField] private GameObject explosionPrefab, explosionPinkPrefab;
     [SerializeField] private GameObject particlePrefab;
 
@@ -36,12 +36,16 @@ public class PoolManager : MonoBehaviour
     {
         _levelId = LevelSignals.Instance.onGetCurrentModdedLevel();
         poolDictionary = new Dictionary<PoolEnums, List<GameObject>>();
-        InitializePool(PoolEnums.Missile0, missilePrefab0, amountMissile);
-        InitializePool(PoolEnums.Missile1, missilePrefab1, amountMissile);
-        InitializePool(PoolEnums.Missile2, missilePrefab2, amountMissile);
-        InitializePool(PoolEnums.ExplosionStandard, explosionPrefab, amountParticle);
-        InitializePool(PoolEnums.ExplosionPink, explosionPinkPrefab, amountParticle);
-        InitializePool(PoolEnums.Confetti, particlePrefab, amountParticle);
+        if (missilePrefab0 != null) InitializePool(PoolEnums.Missile0, missilePrefab0, amountMissile);
+        if (missilePrefab1 != null) InitializePool(PoolEnums.Missile1, missilePrefab1, amountMissile);
+        if (missilePrefab2 != null) InitializePool(PoolEnums.Missile2, missilePrefab2, amountMissile);
+        if (missilePrefab3 != null) InitializePool(PoolEnums.Missile3, missilePrefab3, amountMissile);
+        if (missilePrefab4 != null) InitializePool(PoolEnums.Missile4, missilePrefab4, amountMissile);
+        if (missilePrefab5 != null) InitializePool(PoolEnums.Missile5, missilePrefab5, amountMissile);
+        if (missilePrefab6 != null) InitializePool(PoolEnums.Missile6, missilePrefab6, amountMissile);
+        if (explosionPrefab != null) InitializePool(PoolEnums.ExplosionStandard, explosionPrefab, amountParticle);
+        if (explosionPinkPrefab != null) InitializePool(PoolEnums.ExplosionPink, explosionPinkPrefab, amountParticle);
+        if (particlePrefab != null) InitializePool(PoolEnums.Confetti, particlePrefab, amountParticle);
     }
 
 
@@ -74,6 +78,11 @@ public class PoolManager : MonoBehaviour
 
     public GameObject OnGetObject(PoolEnums type)
     {
+        if (!poolDictionary.ContainsKey(type) || poolDictionary[type] == null)
+        {
+            return null;
+        }
+
         for (int i = 0; i < poolDictionary[type].Count; i++)
         {
             if (!poolDictionary[type][i].activeInHierarchy)
@@ -93,11 +102,15 @@ public class PoolManager : MonoBehaviour
     private void OnReset()
     {
         //reset
-        ResetPool(PoolEnums.Missile0);
-        ResetPool(PoolEnums.Missile1);
-        ResetPool(PoolEnums.Missile2);
-        ResetPool(PoolEnums.ExplosionStandard);
-        ResetPool(PoolEnums.ExplosionPink);
+        if (poolDictionary.ContainsKey(PoolEnums.Missile0)) ResetPool(PoolEnums.Missile0);
+        if (poolDictionary.ContainsKey(PoolEnums.Missile1)) ResetPool(PoolEnums.Missile1);
+        if (poolDictionary.ContainsKey(PoolEnums.Missile2)) ResetPool(PoolEnums.Missile2);
+        if (poolDictionary.ContainsKey(PoolEnums.Missile3)) ResetPool(PoolEnums.Missile3);
+        if (poolDictionary.ContainsKey(PoolEnums.Missile4)) ResetPool(PoolEnums.Missile4);
+        if (poolDictionary.ContainsKey(PoolEnums.Missile5)) ResetPool(PoolEnums.Missile5);
+        if (poolDictionary.ContainsKey(PoolEnums.Missile6)) ResetPool(PoolEnums.Missile6);
+        if (poolDictionary.ContainsKey(PoolEnums.ExplosionStandard)) ResetPool(PoolEnums.ExplosionStandard);
+        if (poolDictionary.ContainsKey(PoolEnums.ExplosionPink)) ResetPool(PoolEnums.ExplosionPink);
     }
 
     private void ResetPool(PoolEnums type)

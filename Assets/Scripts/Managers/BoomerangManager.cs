@@ -20,6 +20,7 @@ namespace Managers
         public bool IsRight = true;
         public bool IsThrown = false;
         public bool IsRising = false;
+        public bool IsFullyCharged = false;
 
 
         #endregion
@@ -114,6 +115,7 @@ namespace Managers
         private void OnBoomerangReturned()
         {
             PointIndex = 0;
+            IsFullyCharged = false;
             MissilePoints.Clear();
         }
 
@@ -141,6 +143,7 @@ namespace Managers
         {
             transform.parent = null;
             IsRising = false;
+            IsFullyCharged = false;
             MissilePoints.Clear();
             PointIndex = 0;
         }

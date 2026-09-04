@@ -10,5 +10,7 @@ namespace Signals
     {
         public UnityAction<float> onMissileDestroyed = delegate { };
         public UnityAction onPinkMissileDestroyed = delegate { };
+        public UnityAction onMissileArmorHit = delegate { };
+        public UnityAction<int> onClusterSplit = delegate { };
     }
 }
