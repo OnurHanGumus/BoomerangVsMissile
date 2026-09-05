@@ -123,5 +123,26 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3065065370417937671, guid: e4ac8bb04676f944499d7616a9cfeb56, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5099251709284902079}
   m_SourcePrefab: {fileID: 100100000, guid: e4ac8bb04676f944499d7616a9cfeb56, type: 3}
+--- !u!1 &5872852307257060255 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3065065370417937671, guid: e4ac8bb04676f944499d7616a9cfeb56, type: 3}
+  m_PrefabInstance: {fileID: 8865860031828940440}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5099251709284902079
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5872852307257060255}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d2b04a06523684449de62cdea17afeb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Controllers.Missile.Abilities.ArmoredMissileAbility
+  cdArmoredMissile: {fileID: 11400000, guid: f54b0c908ebd2614b8ecdc184faf9f3a, type: 2}

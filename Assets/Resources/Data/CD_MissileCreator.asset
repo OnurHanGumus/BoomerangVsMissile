@@ -27,10 +27,9 @@ MonoBehaviour:
       MissileMaxVelocity: 0
       MissileCreateOffset: 1.5
     - MissileCount: 15
-      MissileTypeList: 0000000001000000
+      MissileTypeList: 04000000
       PercentageList:
       - 1
-      - 0.8
       MissileMaxVelocity: 0
       MissileCreateOffset: 2
     - MissileCount: 20

@@ -90,7 +90,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3065065370417937671, guid: e4ac8bb04676f944499d7616a9cfeb56, type: 3}
       propertyPath: m_Name
-      value: Missile2
+      value: Missile_3_Exploder
       objectReference: {fileID: 0}
     - target: {fileID: 4688291921866703404, guid: e4ac8bb04676f944499d7616a9cfeb56, type: 3}
       propertyPath: m_Size.x
@@ -115,5 +115,25 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3065065370417937671, guid: e4ac8bb04676f944499d7616a9cfeb56, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2575733780639520127}
   m_SourcePrefab: {fileID: 100100000, guid: e4ac8bb04676f944499d7616a9cfeb56, type: 3}
+--- !u!1 &6541382036004736301 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3065065370417937671, guid: e4ac8bb04676f944499d7616a9cfeb56, type: 3}
+  m_PrefabInstance: {fileID: 8092657346535469098}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2575733780639520127
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6541382036004736301}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2cdfe6665d8eee14a864684e0a4df63d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Controllers.Missile.Abilities.PinkMissileAbility

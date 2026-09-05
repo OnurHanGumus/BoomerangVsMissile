@@ -2,10 +2,12 @@ using System;
 using System.Collections.Generic;
 using Commands;
 using Controllers;
+using Controllers.Missile.Abilities;
 using Data.UnityObject;
 using Data.ValueObject;
 using DG.Tweening;
 using Enums;
+using Interfaces;
 using Signals;
 using UnityEngine;
 
@@ -17,10 +19,9 @@ namespace Managers
 
         #region Public Variables
         public PoolEnums ParticleType;
-        public bool IsPink = false;
-        public bool IsArmored => isArmored || (_missileData != null && _missileData.IsArmored);
-        public bool IsCluster => isCluster;
-        public int ClusterChildCount => clusterChildCount;
+        public bool IsPink => _hasPinkAbility || isPink;
+        public bool IsCluster => _clusterAbility != null || isCluster;
+        public int ClusterChildCount => _clusterAbility != null ? _clusterAbility.ChildCount : (isCluster ? clusterChildCount : 0);
         public int CurrentHealth => _currentHealth;
 
         #endregion
@@ -29,9 +30,10 @@ namespace Managers
         [SerializeField] private MissilePhysicsController physicsController;
         [SerializeField] private MissileLightController lightController;
         [SerializeField] private CD_Missile cdMissile;
-        [SerializeField] private bool isArmored = false;
 
-        [Header("Cluster Settings")]
+        [Header("Legacy Settings (Auto-migrated if abilities not attached)")]
+        [SerializeField] private bool isPink = false;
+        [SerializeField] private bool isArmored = false;
         [SerializeField] private bool isCluster = false;
         [SerializeField] private PoolEnums clusterChildType = PoolEnums.Missile6;
         [SerializeField] private int clusterChildCount = 1;
@@ -44,8 +46,15 @@ namespace Managers
         private MissileData _missileData;
         private int _currentHealth = 1;
         private float _lastDamageTime = -1f;
-        private MeshRenderer _meshRenderer;
-        private Tween _clusterDelayedCall;
+
+        private IMissileAbility[] _abilities;
+        private IMissileDeathEffect[] _deathEffects;
+        private IMissileDamageHandler[] _damageHandlers;
+        private IMissileHealthProvider[] _healthProviders;
+
+        private ClusterMissileAbility _clusterAbility;
+        private bool _hasPinkAbility;
+        private bool _hasArmoredAbility;
         #endregion
 
         #endregion
@@ -69,16 +78,66 @@ namespace Managers
                 cdMissile = Resources.Load<CD_Missile>("Data/CD_Missile");
             }
             _missileData = cdMissile != null ? cdMissile.Data : new MissileData();
-            _meshRenderer = GetComponentInChildren<MeshRenderer>();
+
+            InitAbilities();
             ResetHealth();
+        }
+
+        private void InitAbilities()
+        {
+            // Auto-migrate legacy serialized flags if specialized component is missing
+            if (isPink && GetComponent<PinkMissileAbility>() == null)
+            {
+                gameObject.AddComponent<PinkMissileAbility>();
+            }
+            if (isArmored && GetComponent<ArmoredMissileAbility>() == null)
+            {
+                gameObject.AddComponent<ArmoredMissileAbility>();
+            }
+            if (isCluster && GetComponent<ClusterMissileAbility>() == null)
+            {
+                var cluster = gameObject.AddComponent<ClusterMissileAbility>();
+                cluster.Configure(clusterChildType, clusterChildCount, clusterChildSpacing, clusterSpawnDelay);
+            }
+
+            _abilities = GetComponents<IMissileAbility>();
+            _deathEffects = GetComponents<IMissileDeathEffect>();
+            _damageHandlers = GetComponents<IMissileDamageHandler>();
+            _healthProviders = GetComponents<IMissileHealthProvider>();
+
+            _clusterAbility = GetComponent<ClusterMissileAbility>();
+            _hasPinkAbility = GetComponent<PinkMissileAbility>() != null;
+            _hasArmoredAbility = GetComponent<ArmoredMissileAbility>() != null;
+
+            if (_abilities != null)
+            {
+                for (int i = 0; i < _abilities.Length; i++)
+                {
+                    _abilities[i].Initialize(this);
+                }
+            }
         }
 
         public void ResetHealth()
         {
-            int maxHealth = _missileData != null && _missileData.MaxHealth > 0
+            int baseHealth = _missileData != null && _missileData.MaxHealth > 0
                 ? _missileData.MaxHealth
-                : (isArmored ? 2 : 1);
-            _currentHealth = maxHealth;
+                : 1;
+
+            int extraHealth = 0;
+            if (_healthProviders != null && _healthProviders.Length > 0)
+            {
+                for (int i = 0; i < _healthProviders.Length; i++)
+                {
+                    extraHealth += _healthProviders[i].GetAdditionalHealth();
+                }
+            }
+            else if (isArmored || (_missileData != null && _missileData.IsArmored))
+            {
+                extraHealth = 1;
+            }
+
+            _currentHealth = baseHealth + extraHealth;
         }
 
         public PlayerData GetData() => Resources.Load<CD_Player>("Data/CD_Player").Data;
@@ -118,27 +177,13 @@ namespace Managers
             }
             else
             {
-                OnArmorBroken();
-            }
-        }
-
-        private void OnArmorBroken()
-        {
-            // 1. Play metallic deflection sound
-            AudioSignals.Instance.onPlaySound(AudioSoundEnums.Pitch);
-
-            // 2. Trigger micro hit-stop & camera shake via signal
-            MissileSignals.Instance.onMissileArmorHit?.Invoke();
-
-            // 3. Physical flinch / recoil
-            transform.DOPunchScale(Vector3.one * 0.25f, 0.2f, 10, 1).SetUpdate(true);
-
-            // 4. Visual flash to indicate armor crack / damaged state
-            if (_meshRenderer != null && _meshRenderer.material != null)
-            {
-                _meshRenderer.material.DOColor(new Color(1f, 0.35f, 0.1f), 0.1f)
-                    .SetLoops(2, LoopType.Yoyo)
-                    .SetUpdate(true);
+                if (_damageHandlers != null)
+                {
+                    for (int i = 0; i < _damageHandlers.Length; i++)
+                    {
+                        _damageHandlers[i].OnDamageTaken(damage, _currentHealth);
+                    }
+                }
             }
         }
 
@@ -157,59 +202,24 @@ namespace Managers
                 particle.gameObject.SetActive(true);
             }
 
-            if (IsPink)
+            bool customAudioPlayed = false;
+            if (_deathEffects != null)
             {
-                if (!isLevelEnd)
+                for (int i = 0; i < _deathEffects.Length; i++)
                 {
-                    MissileSignals.Instance.onPinkMissileDestroyed?.Invoke();
+                    if (_deathEffects[i].OnMissileDeath(transform.position, isLevelEnd))
+                    {
+                        customAudioPlayed = true;
+                    }
                 }
-                AudioSignals.Instance.onPlaySound(AudioSoundEnums.Explosion1);
             }
-            else
+
+            if (!customAudioPlayed)
             {
                 AudioSignals.Instance.onPlaySound(AudioSoundEnums.Explosion2);
             }
 
-            if (isCluster && !isLevelEnd)
-            {
-                Vector3 spawnPos = transform.position;
-                if (clusterSpawnDelay > 0f)
-                {
-                    _clusterDelayedCall = DOVirtual.DelayedCall(clusterSpawnDelay, () =>
-                    {
-                        SpawnClusterChildren(spawnPos);
-                    });
-                }
-                else
-                {
-                    SpawnClusterChildren(spawnPos);
-                }
-            }
-
             gameObject.SetActive(false);
-        }
-
-        private void SpawnClusterChildren(Vector3 centerPos)
-        {
-            float halfSpacing = clusterChildSpacing * 1f;
-            for (int i = 0; i < clusterChildCount; i++)
-            {
-                GameObject child = PoolSignals.Instance.onGetObject?.Invoke(clusterChildType);
-                if (child != null)
-                {
-                    float yOffset = (clusterChildCount == 1) ? 0f : ((i == 0) ? halfSpacing : -halfSpacing);
-                    child.transform.position = centerPos + new Vector3(0, yOffset, 0);
-
-                    var rb = child.GetComponent<Rigidbody>();
-                    if (rb != null)
-                    {
-                        rb.linearVelocity = Vector3.zero;
-                        rb.angularVelocity = Vector3.zero;
-                    }
-
-                    child.SetActive(true);
-                }
-            }
         }
 
         private void OnPlay()
@@ -228,12 +238,12 @@ namespace Managers
 
         private void OnLevelFailed()
         {
-            _clusterDelayedCall?.Kill();
+            _clusterAbility?.CancelDelayedSpawn();
         }
 
         private void OnLevelSuccessful()
         {
-            _clusterDelayedCall?.Kill();
+            _clusterAbility?.CancelDelayedSpawn();
             if (!gameObject.activeInHierarchy)
             {
                 return;
@@ -243,12 +253,12 @@ namespace Managers
 
         private void OnResetLevel()
         {
-            _clusterDelayedCall?.Kill();
+            _clusterAbility?.CancelDelayedSpawn();
         }
 
         private void OnDestroy()
         {
-            _clusterDelayedCall?.Kill();
+            _clusterAbility?.CancelDelayedSpawn();
         }
     }
 }
