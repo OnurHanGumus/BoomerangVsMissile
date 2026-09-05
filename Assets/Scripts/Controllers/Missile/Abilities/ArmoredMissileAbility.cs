@@ -56,7 +56,7 @@ namespace Controllers.Missile.Abilities
         public void OnDamageTaken(int damage, int currentHealth)
         {
             // 1. Play metallic deflection sound
-            AudioSignals.Instance.onPlaySound(AudioSoundEnums.Pitch);
+            AudioSignals.Instance.onPlaySound(AudioSoundEnums.ShieldBroke);
 
             // 2. Trigger micro hit-stop & camera shake via signal
             MissileSignals.Instance.onMissileArmorHit?.Invoke();

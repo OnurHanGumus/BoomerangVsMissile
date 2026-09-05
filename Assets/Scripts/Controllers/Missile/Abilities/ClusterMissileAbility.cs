@@ -33,6 +33,24 @@ namespace Controllers.Missile.Abilities
         private MissileManager _manager;
         private Tween _clusterDelayedCall;
 
+        private void Awake()
+        {
+            SubscribeEvents();
+        }
+
+        private void SubscribeEvents()
+        {
+            CoreGameSignals.Instance.onLevelFailed += CancelDelayedSpawn;
+            CoreGameSignals.Instance.onLevelSuccessful += CancelDelayedSpawn;
+            CoreGameSignals.Instance.onRestartLevel += CancelDelayedSpawn;
+        }
+
+        private void UnsubscribeEvents()
+        {
+            CoreGameSignals.Instance.onLevelFailed -= CancelDelayedSpawn;
+            CoreGameSignals.Instance.onLevelSuccessful -= CancelDelayedSpawn;
+        }
+
         public void Initialize(MissileManager manager)
         {
             _manager = manager;
@@ -121,6 +139,7 @@ namespace Controllers.Missile.Abilities
         private void OnDestroy()
         {
             CancelDelayedSpawn();
+            UnsubscribeEvents();
         }
     }
 }

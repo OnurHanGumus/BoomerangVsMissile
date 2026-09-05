@@ -101,10 +101,9 @@ namespace Managers
                 yield break;
             }
 
-            var missileManager = missile.GetComponent<MissileManager>();
-            if (missileManager != null && missileManager.IsCluster)
+            if (missile.TryGetComponent<Controllers.Missile.Abilities.ClusterMissileAbility>(out var cluster))
             {
-                OnClusterSplit(missileManager.ClusterChildCount);
+                OnClusterSplit(cluster.ChildCount);
             }
 
             float posX;

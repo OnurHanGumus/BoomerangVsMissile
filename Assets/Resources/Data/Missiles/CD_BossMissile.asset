@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: CD_BossMissile
   m_EditorClassIdentifier: 
   Data:
-    ExplosionRadius: 4
+    ExplosionRadius: 4.5

@@ -16,4 +16,4 @@ MonoBehaviour:
     ClusterChildType: 9
     ClusterChildCount: 1
     ClusterChildSpacing: 0.8
-    ClusterSpawnDelay: 0.15
+    ClusterSpawnDelay: 0.25

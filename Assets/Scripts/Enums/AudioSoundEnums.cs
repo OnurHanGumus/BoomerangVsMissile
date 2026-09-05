@@ -12,5 +12,6 @@ namespace Enums
         Explosion2,
         Combo,
         Pitch,
+        ShieldBroke,
     }
 }

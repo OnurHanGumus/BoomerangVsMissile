@@ -19,8 +19,6 @@ namespace Managers
 
         #region Public Variables
         public PoolEnums ParticleType;
-        public bool IsCluster => _clusterAbility != null || isCluster;
-        public int ClusterChildCount => _clusterAbility != null ? _clusterAbility.ChildCount : (isCluster ? clusterChildCount : 0);
         public int CurrentHealth => _currentHealth;
         public bool IsDead => _isDead || !gameObject.activeInHierarchy;
 
@@ -34,11 +32,6 @@ namespace Managers
         [Header("Legacy Settings (Auto-migrated if abilities not attached)")]
         [SerializeField] private bool isBoss = false;
         [SerializeField] private bool isArmored = false;
-        [SerializeField] private bool isCluster = false;
-        [SerializeField] private PoolEnums clusterChildType = PoolEnums.Missile6;
-        [SerializeField] private int clusterChildCount = 1;
-        [SerializeField] private float clusterChildSpacing = 0.8f;
-        [SerializeField] private float clusterSpawnDelay = 0f;
         #endregion
 
         #region Private Variables
@@ -54,7 +47,6 @@ namespace Managers
         private IMissileDamageHandler[] _damageHandlers;
         private IMissileHealthProvider[] _healthProviders;
 
-        private ClusterMissileAbility _clusterAbility;
         private bool _hasBossAbility;
         private bool _hasArmoredAbility;
         #endregion
@@ -104,18 +96,12 @@ namespace Managers
             {
                 gameObject.AddComponent<ArmoredMissileAbility>();
             }
-            if (isCluster && GetComponent<ClusterMissileAbility>() == null)
-            {
-                var cluster = gameObject.AddComponent<ClusterMissileAbility>();
-                cluster.Configure(clusterChildType, clusterChildCount, clusterChildSpacing, clusterSpawnDelay);
-            }
 
             _abilities = GetComponents<IMissileAbility>();
             _deathEffects = GetComponents<IMissileDeathEffect>();
             _damageHandlers = GetComponents<IMissileDamageHandler>();
             _healthProviders = GetComponents<IMissileHealthProvider>();
 
-            _clusterAbility = GetComponent<ClusterMissileAbility>();
             _hasBossAbility = GetComponent<BossMissileAbility>() != null;
             _hasArmoredAbility = GetComponent<ArmoredMissileAbility>() != null;
 
@@ -158,9 +144,7 @@ namespace Managers
         {
             CoreGameSignals.Instance.onPlay += OnPlay;
             CoreGameSignals.Instance.onLevelSuccessful += OnLevelSuccessful;
-            CoreGameSignals.Instance.onLevelFailed += OnLevelFailed;
             CoreGameSignals.Instance.onLevelFailed += physicsController.OnLevelFailed;
-            CoreGameSignals.Instance.onRestartLevel += OnResetLevel;
             CoreGameSignals.Instance.onPlay += physicsController.OnPlay;
         }
 
@@ -258,29 +242,13 @@ namespace Managers
 
         }
 
-        private void OnLevelFailed()
-        {
-            _clusterAbility?.CancelDelayedSpawn();
-        }
-
         private void OnLevelSuccessful()
         {
-            _clusterAbility?.CancelDelayedSpawn();
             if (!gameObject.activeInHierarchy)
             {
                 return;
             }
             Explode(isLevelEnd: true);
-        }
-
-        private void OnResetLevel()
-        {
-            _clusterAbility?.CancelDelayedSpawn();
-        }
-
-        private void OnDestroy()
-        {
-            _clusterAbility?.CancelDelayedSpawn();
         }
     }
 }
