@@ -34,7 +34,7 @@ namespace Managers
         [Header("Cluster Settings")]
         [SerializeField] private bool isCluster = false;
         [SerializeField] private PoolEnums clusterChildType = PoolEnums.Missile6;
-        [SerializeField] private int clusterChildCount = 2;
+        [SerializeField] private int clusterChildCount = 1;
         [SerializeField] private float clusterChildSpacing = 0.8f;
         [SerializeField] private float clusterSpawnDelay = 0f;
         #endregion
@@ -197,7 +197,7 @@ namespace Managers
                 GameObject child = PoolSignals.Instance.onGetObject?.Invoke(clusterChildType);
                 if (child != null)
                 {
-                    float yOffset = (i == 0) ? halfSpacing : -halfSpacing;
+                    float yOffset = (clusterChildCount == 1) ? 0f : ((i == 0) ? halfSpacing : -halfSpacing);
                     child.transform.position = centerPos + new Vector3(0, yOffset, 0);
 
                     var rb = child.GetComponent<Rigidbody>();
