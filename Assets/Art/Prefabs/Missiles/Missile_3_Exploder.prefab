@@ -136,4 +136,5 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2cdfe6665d8eee14a864684e0a4df63d, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Controllers.Missile.Abilities.PinkMissileAbility
+  m_EditorClassIdentifier: Assembly-CSharp::Controllers.Missile.Abilities.BossMissileAbility
+  cdBossMissile: {fileID: 11400000, guid: 5c234e77cc57c86428999c46f5acbce7, type: 2}

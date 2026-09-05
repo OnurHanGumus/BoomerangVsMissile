@@ -19,10 +19,10 @@ namespace Managers
 
         #region Public Variables
         public PoolEnums ParticleType;
-        public bool IsPink => _hasPinkAbility || isPink;
         public bool IsCluster => _clusterAbility != null || isCluster;
         public int ClusterChildCount => _clusterAbility != null ? _clusterAbility.ChildCount : (isCluster ? clusterChildCount : 0);
         public int CurrentHealth => _currentHealth;
+        public bool IsDead => _isDead || !gameObject.activeInHierarchy;
 
         #endregion
 
@@ -32,7 +32,7 @@ namespace Managers
         [SerializeField] private CD_Missile cdMissile;
 
         [Header("Legacy Settings (Auto-migrated if abilities not attached)")]
-        [SerializeField] private bool isPink = false;
+        [SerializeField] private bool isBoss = false;
         [SerializeField] private bool isArmored = false;
         [SerializeField] private bool isCluster = false;
         [SerializeField] private PoolEnums clusterChildType = PoolEnums.Missile6;
@@ -46,6 +46,8 @@ namespace Managers
         private MissileData _missileData;
         private int _currentHealth = 1;
         private float _lastDamageTime = -1f;
+        private bool _isDead = false;
+        private Collider[] _colliders;
 
         private IMissileAbility[] _abilities;
         private IMissileDeathEffect[] _deathEffects;
@@ -53,7 +55,7 @@ namespace Managers
         private IMissileHealthProvider[] _healthProviders;
 
         private ClusterMissileAbility _clusterAbility;
-        private bool _hasPinkAbility;
+        private bool _hasBossAbility;
         private bool _hasArmoredAbility;
         #endregion
 
@@ -67,7 +69,14 @@ namespace Managers
 
         private void OnEnable()
         {
+            _isDead = false;
+            EnableColliders(true);
             ResetHealth();
+        }
+
+        private void OnDisable()
+        {
+            EnableColliders(false);
         }
 
         private void Init()
@@ -79,6 +88,7 @@ namespace Managers
             }
             _missileData = cdMissile != null ? cdMissile.Data : new MissileData();
 
+            _colliders = GetComponentsInChildren<Collider>(true);
             InitAbilities();
             ResetHealth();
         }
@@ -86,9 +96,9 @@ namespace Managers
         private void InitAbilities()
         {
             // Auto-migrate legacy serialized flags if specialized component is missing
-            if (isPink && GetComponent<PinkMissileAbility>() == null)
+            if (isBoss && GetComponent<BossMissileAbility>() == null)
             {
-                gameObject.AddComponent<PinkMissileAbility>();
+                gameObject.AddComponent<BossMissileAbility>();
             }
             if (isArmored && GetComponent<ArmoredMissileAbility>() == null)
             {
@@ -106,7 +116,7 @@ namespace Managers
             _healthProviders = GetComponents<IMissileHealthProvider>();
 
             _clusterAbility = GetComponent<ClusterMissileAbility>();
-            _hasPinkAbility = GetComponent<PinkMissileAbility>() != null;
+            _hasBossAbility = GetComponent<BossMissileAbility>() != null;
             _hasArmoredAbility = GetComponent<ArmoredMissileAbility>() != null;
 
             if (_abilities != null)
@@ -152,7 +162,6 @@ namespace Managers
             CoreGameSignals.Instance.onLevelFailed += physicsController.OnLevelFailed;
             CoreGameSignals.Instance.onRestartLevel += OnResetLevel;
             CoreGameSignals.Instance.onPlay += physicsController.OnPlay;
-            MissileSignals.Instance.onPinkMissileDestroyed += OnPinkMissileDestroyed;
         }
 
         #endregion
@@ -189,6 +198,13 @@ namespace Managers
 
         public void Explode(bool isLevelEnd = false)
         {
+            if (_isDead || !gameObject.activeInHierarchy)
+            {
+                return;
+            }
+            _isDead = true;
+            EnableColliders(false);
+
             float shakeStrength = _missileData != null ? _missileData.ShakeStrength : 0.25f;
             if (!isLevelEnd)
             {
@@ -222,18 +238,24 @@ namespace Managers
             gameObject.SetActive(false);
         }
 
+        private void EnableColliders(bool enable)
+        {
+            if (_colliders == null)
+            {
+                _colliders = GetComponentsInChildren<Collider>(true);
+            }
+            for (int i = 0; i < _colliders.Length; i++)
+            {
+                if (_colliders[i] != null)
+                {
+                    _colliders[i].enabled = enable;
+                }
+            }
+        }
+
         private void OnPlay()
         {
 
-        }
-
-        private void OnPinkMissileDestroyed()
-        {
-            if (IsPink || !gameObject.activeInHierarchy)
-            {
-                return;
-            }
-            Explode();
         }
 
         private void OnLevelFailed()
