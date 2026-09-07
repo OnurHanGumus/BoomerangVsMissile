@@ -14,3 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Data:
     ExplosionRadius: 4.5
+    FallSpeed: 3.5
+    PathCheckWidth: 0.8

@@ -16,3 +16,4 @@ MonoBehaviour:
     ShakeStrength: 0.05
     ShakeDuration: 0.15
     HitStopDuration: 0.05
+    Velocity: 2

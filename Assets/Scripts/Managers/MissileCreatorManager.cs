@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Threading.Tasks;
 using Commands;
 using Controllers;
@@ -23,7 +24,6 @@ namespace Managers
 
         #region Serialized Variables
         [SerializeField] private bool isTutorial = true;
-
         #endregion
 
         #region Private Variables
@@ -39,7 +39,7 @@ namespace Managers
         private bool _isLevelCompleted = false;
         private EnumCastCommand _enumCastCommand;
         private int _additionalClusterMissiles = 0;
-
+        private bool _isCreatingContinue = true;
         #endregion
 
         #endregion
@@ -75,37 +75,57 @@ namespace Managers
             MissileSignals.Instance.onMissileDestroyed += OnMissileDestroyed;
             MissileSignals.Instance.onClusterSplit += OnClusterSplit;
             TutorialSignals.Instance.onTutorialSatisfied += OnTutorialSatisfied;
+            MissileSignals.Instance.onBossMissileCreated += OnBossMissileCreated;
         }
 
         #endregion
 
         private IEnumerator InstantiateMissile()
         {
-            if (!isTutorial)
+            if (_index >= _data.MissileData[_levelId].MissileCount)
             {
-                _index++;
+                _isCreatingContinue = false;
+                yield break;
             }
 
             int typeIndex = GetMissileType();
             var typeList = _data.MissileData[_levelId].MissileTypeList;
-            MissileEnums missileType = (typeList != null && typeIndex < typeList.Count)
-                ? typeList[typeIndex]
-                : MissileEnums.Missile0;
+
+            MissileEnums missileType = typeList[typeIndex];
+            if (!isTutorial)
+            {
+                if (missileType != MissileEnums.Missile2)
+                {
+                    _index++;
+                }
+            }
 
             PoolEnums poolType = _enumCastCommand.EnumToEnum<PoolEnums, MissileEnums>(missileType);
             GameObject missile = PoolSignals.Instance.onGetObject(poolType);
-            if (missile == null)
+
+            ClusterMissileCheck(missile);
+            SetMissilePosition(missile);
+            
+            yield return new WaitForSeconds(_data.MissileData[_levelId].MissileCreateOffset);
+
+            if (_index >= _data.MissileData[_levelId].MissileCount)
             {
-                yield return new WaitForSeconds(_data.MissileData[_levelId].MissileCreateOffset);
-                StartCoroutine(InstantiateMissile());
+                _isCreatingContinue = false;
                 yield break;
             }
+            StartCoroutine(InstantiateMissile());
+        }
 
+        private void ClusterMissileCheck(GameObject missile)
+        {
             if (missile.TryGetComponent<Controllers.Missile.Abilities.ClusterMissileAbility>(out var cluster))
             {
                 OnClusterSplit(cluster.ChildCount);
             }
+        }
 
+        private void SetMissilePosition(GameObject missile)
+        {
             float posX;
             do
             {
@@ -117,17 +137,10 @@ namespace Managers
             Vector3 missilePos = new Vector3(posX, transform.position.y);
             missile.transform.position = missilePos;
             missile.SetActive(true);
-            yield return new WaitForSeconds(_data.MissileData[_levelId].MissileCreateOffset);
-            StartCoroutine(InstantiateMissile());
         }
 
         private int GetMissileType()
         {
-            if (_index >= _data.MissileData[_levelId].MissileCount)
-            {
-                StopAllCoroutines();
-            }
-
             var typeList = _data.MissileData[_levelId].MissileTypeList;
             int typeCount = typeList != null ? typeList.Count : 0;
             if (typeCount <= 1 || _rangeList.Count == 0)
@@ -201,6 +214,7 @@ namespace Managers
             _isLevelCompleted = false;
             _levelId = LevelSignals.Instance.onGetCurrentModdedLevel();
             SetRange();
+            _isCreatingContinue = true;
             StartCoroutine(InstantiateMissile());
         }
 
@@ -220,7 +234,7 @@ namespace Managers
             }
             Debug.Log("destroyed missile count: "+_destroyedMissileCount + "\n instantiated missile count: " + _index);
             int totalRequired = _data.MissileData[_levelId].MissileCount + _additionalClusterMissiles;
-            if (!_isLevelCompleted && !_isLevelFailed && _destroyedMissileCount >= totalRequired)
+            if (!_isLevelCompleted && !_isLevelFailed && _destroyedMissileCount >= totalRequired && !_isCreatingContinue)
             {
                 _isLevelCompleted = true;
 
@@ -230,6 +244,12 @@ namespace Managers
                 confeti.transform.position = Vector3.zero;
                 confeti.SetActive(true);
             }
+        }
+
+        private void OnBossMissileCreated()
+        {
+            ++_index;
+            Debug.Log("boss created, index is increased 1");
         }
 
         private void OnLevelSuccess()

@@ -12,5 +12,6 @@ namespace Signals
         public UnityAction onBossMissileDestroyed = delegate { };
         public UnityAction onMissileArmorHit = delegate { };
         public UnityAction<int> onClusterSplit = delegate { };
+        public UnityAction onBossMissileCreated = delegate { };
     }
 }

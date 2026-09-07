@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Commands;
 using Controllers;
+using Controllers.Missile;
 using Controllers.Missile.Abilities;
 using Data.UnityObject;
 using Data.ValueObject;
@@ -21,10 +22,12 @@ namespace Managers
         public PoolEnums ParticleType;
         public int CurrentHealth => _currentHealth;
         public bool IsDead => _isDead || !gameObject.activeInHierarchy;
+        public MissileData MissileData => _missileData;
 
         #endregion
 
         #region Serialized Variables
+        [SerializeField] private MissileMovementController movementController;
         [SerializeField] private MissilePhysicsController physicsController;
         [SerializeField] private MissileLightController lightController;
         [SerializeField] private CD_Missile cdMissile;
@@ -81,6 +84,14 @@ namespace Managers
             _missileData = cdMissile != null ? cdMissile.Data : new MissileData();
 
             _colliders = GetComponentsInChildren<Collider>(true);
+            if (movementController == null)
+            {
+                movementController = GetComponent<MissileMovementController>();
+                if (movementController == null)
+                {
+                    movementController = gameObject.AddComponent<MissileMovementController>();
+                }
+            }
             InitAbilities();
             ResetHealth();
         }

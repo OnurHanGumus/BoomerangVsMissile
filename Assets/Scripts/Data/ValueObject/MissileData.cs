@@ -14,5 +14,8 @@ namespace Data.ValueObject
         [Header("Armor & Health Settings")]
         public int MaxHealth = 1;
         public bool IsArmored = false;
+
+        [Header("Movement Settings")]
+        public float Velocity = 2f;
     }
 }
