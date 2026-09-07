@@ -88,6 +88,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: Missile_4_Armored
       objectReference: {fileID: 0}
+    - target: {fileID: 4573692909795951065, guid: e4ac8bb04676f944499d7616a9cfeb56, type: 3}
+      propertyPath: m_Size.x
+      value: 1.2032022
+      objectReference: {fileID: 0}
+    - target: {fileID: 4573692909795951065, guid: e4ac8bb04676f944499d7616a9cfeb56, type: 3}
+      propertyPath: m_Size.y
+      value: 3.2010093
+      objectReference: {fileID: 0}
+    - target: {fileID: 4573692909795951065, guid: e4ac8bb04676f944499d7616a9cfeb56, type: 3}
+      propertyPath: m_Center.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4573692909795951065, guid: e4ac8bb04676f944499d7616a9cfeb56, type: 3}
+      propertyPath: m_Center.y
+      value: -0.5503745
+      objectReference: {fileID: 0}
     - target: {fileID: 4688291921866703404, guid: e4ac8bb04676f944499d7616a9cfeb56, type: 3}
       propertyPath: m_Size.x
       value: 0.90059406

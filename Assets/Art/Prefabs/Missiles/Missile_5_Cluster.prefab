@@ -11,7 +11,7 @@ PrefabInstance:
     - target: {fileID: -4694992830584109621, guid: e4ac8bb04676f944499d7616a9cfeb56, type: 3}
       propertyPath: cdMissile
       value: 
-      objectReference: {fileID: 11400000, guid: 6215875578c151c47b4801e125225748, type: 2}
+      objectReference: {fileID: 11400000, guid: 7be229ff5f242754284c6456fe2cdee4, type: 2}
     - target: {fileID: -4694992830584109621, guid: e4ac8bb04676f944499d7616a9cfeb56, type: 3}
       propertyPath: isCluster
       value: 1

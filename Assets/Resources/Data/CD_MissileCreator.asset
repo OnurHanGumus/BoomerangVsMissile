@@ -37,6 +37,7 @@ MonoBehaviour:
       PercentageList:
       - 1
       - 1
+      - 1
       MissileMaxVelocity: 0
       MissileCreateOffset: 1.5
     - MissileCount: 20

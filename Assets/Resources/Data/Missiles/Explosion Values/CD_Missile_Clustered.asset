@@ -9,10 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f8212d95b7d9f7541868b70ef3ef614f, type: 3}
-  m_Name: CD_BossMissile
+  m_Script: {fileID: 11500000, guid: 3cbce719fe8efe140988ed263de2de12, type: 3}
+  m_Name: CD_Missile_Clustered
   m_EditorClassIdentifier: 
   Data:
-    ExplosionRadius: 4.5
-    FallSpeed: 3.5
-    PathCheckWidth: 0.2
+    ShakeStrength: 0.35
+    ShakeDuration: 0.18
+    HitStopDuration: 0.05
+    MaxHealth: 1
+    IsArmored: 1
+    Velocity: 2

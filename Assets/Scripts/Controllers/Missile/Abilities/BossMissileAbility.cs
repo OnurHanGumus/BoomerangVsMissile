@@ -136,7 +136,7 @@ namespace Controllers.Missile.Abilities
             float bottomY = -2f;
             float height = Mathf.Max(1f, currentY - bottomY);
             Vector3 boxCenter = new Vector3(currentX, currentY - height * 0.5f, currentZ);
-            Vector3 halfExtents = new Vector3(checkWidth, height * 0.5f, 2f);
+            Vector3 halfExtents = new Vector3(checkWidth, height * 0.5f, checkWidth);
 
             Collider[] colliders = Physics.OverlapBox(boxCenter, halfExtents, Quaternion.identity, ~0, QueryTriggerInteraction.Collide);
             for (int i = 0; i < colliders.Length; i++)
