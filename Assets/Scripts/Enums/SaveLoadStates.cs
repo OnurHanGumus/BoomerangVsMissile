@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace Enums
 {
@@ -12,5 +12,6 @@ namespace Enums
         Gem,
         BuyItem,
         SelectedItem,
+        BoomerangUpgrades,
     }
 }

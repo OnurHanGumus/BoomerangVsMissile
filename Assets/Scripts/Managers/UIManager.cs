@@ -101,6 +101,7 @@ namespace Managers
         {
             CoreGameSignals.Instance.onPlay?.Invoke();
             UISignals.Instance.onClosePanel?.Invoke(UIPanels.StorePanel);
+            _isStorePanelOpened = false;
         }
 
         public void NextLevel()
@@ -114,7 +115,13 @@ namespace Managers
         {
             CoreGameSignals.Instance.onRestartLevel?.Invoke();
             UISignals.Instance.onClosePanel?.Invoke(UIPanels.FailPanel);
+            UISignals.Instance.onClosePanel?.Invoke(UIPanels.LevelPanel);
             UISignals.Instance.onOpenPanel?.Invoke(UIPanels.StartPanel);
+        }
+
+        public void RestartButton()
+        {
+            RestartLevel();
         }
 
         public void PauseButton()
@@ -136,16 +143,16 @@ namespace Managers
 
         public void StoreButton()
         {
-            if (!_isStorePanelOpened)
-            {
-                UISignals.Instance.onOpenPanel?.Invoke(UIPanels.StorePanel);
-            }
-            else
-            {
-                UISignals.Instance.onClosePanel?.Invoke(UIPanels.StorePanel);
-            }
-            _isStorePanelOpened = !_isStorePanelOpened;
+            UISignals.Instance.onOpenPanel?.Invoke(UIPanels.StorePanel);
+            UISignals.Instance.onClosePanel?.Invoke(UIPanels.StartPanel);
+            _isStorePanelOpened = true;
+        }
 
+        public void CloseStoreButton()
+        {
+            UISignals.Instance.onClosePanel?.Invoke(UIPanels.StorePanel);
+            UISignals.Instance.onOpenPanel?.Invoke(UIPanels.StartPanel);
+            _isStorePanelOpened = false;
         }
     }
 }

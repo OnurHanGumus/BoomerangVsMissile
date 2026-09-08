@@ -108,7 +108,7 @@ namespace Controllers
 
             int index = Mathf.Clamp(_manager.PointIndex, 0, _manager.MissilePoints.Count - 1);
             Vector3 target = _manager.MissilePoints[index];
-            Vector3 dir = (target - transform.position).normalized * _data.Speed * (index + 1);
+            Vector3 dir = (target - transform.position).normalized * _manager.EffectiveSpeed * (index + 1);
             return new Vector3(dir.x, dir.y, 0f);
         }
 
@@ -193,7 +193,7 @@ namespace Controllers
                 return;
             }
 
-            float currentSpeed = _data.Speed * (_manager.MissilePoints.Count + 1) * _data.ReturnSpeedMultiplier;
+            float currentSpeed = _manager.EffectiveSpeed * (_manager.MissilePoints.Count + 1) * _manager.EffectiveReturnSpeedMultiplier;
             float segmentLength = _returnSpline.GetSegmentLength(_returnSegment);
             if (segmentLength <= 0.0001f)
             {

@@ -22,7 +22,27 @@ namespace Managers
         public bool IsRising = false;
         public bool IsFullyCharged = false;
 
+        public float EffectiveSpeed
+        {
+            get
+            {
+                float bonus = BoomerangUpgradeManager.Instance != null 
+                    ? BoomerangUpgradeManager.Instance.GetTotalBonus(BoomerangUpgradeType.Speed) 
+                    : 0f;
+                return (_data != null ? _data.Speed : 5f) + bonus;
+            }
+        }
 
+        public float EffectiveReturnSpeedMultiplier
+        {
+            get
+            {
+                float bonus = BoomerangUpgradeManager.Instance != null 
+                    ? BoomerangUpgradeManager.Instance.GetTotalBonus(BoomerangUpgradeType.ReturnSpeed) 
+                    : 0f;
+                return (_data != null ? _data.ReturnSpeedMultiplier : 1.25f) + bonus;
+            }
+        }
         #endregion
 
         #region Serialized Variables
@@ -63,6 +83,11 @@ namespace Managers
 
         public PlayerData GetData() => Resources.Load<CD_Player>("Data/CD_Player").Data;
 
+        private void Start()
+        {
+            ApplyUpgrades();
+        }
+
         #region Event Subscription
 
         private void SubscribeEvents()
@@ -83,9 +108,30 @@ namespace Managers
             BoomerangSignals.Instance.onBoomerangHasReturned += OnBoomerangReturned;
             BoomerangSignals.Instance.onBoomerangHasReturned += _movementController.OnBoomerangHasReturned;
             BoomerangSignals.Instance.onSelectBoomerang += meshController.OnSelectBoomerang;
+            BoomerangSignals.Instance.onBoomerangStatsChanged += ApplyUpgrades;
+        }
+
+        private void OnDestroy()
+        {
+            if (BoomerangSignals.Instance != null)
+            {
+                BoomerangSignals.Instance.onBoomerangStatsChanged -= ApplyUpgrades;
+            }
         }
 
         #endregion
+
+        public void ApplyUpgrades()
+        {
+            Transform parentChild = transform.Find("Parent");
+            if (parentChild != null)
+            {
+                float sizeBonus = BoomerangUpgradeManager.Instance != null 
+                    ? BoomerangUpgradeManager.Instance.GetTotalBonus(BoomerangUpgradeType.Size) 
+                    : 0f;
+                parentChild.localScale = Vector3.one * (1.0f + sizeBonus);
+            }
+        }
 
         private void OnLevelFailedOrSuccessful()
         {
@@ -94,6 +140,7 @@ namespace Managers
 
         private void OnPlay()
         {
+            ApplyUpgrades();
             transform.GetChild(0).gameObject.SetActive(true);
             transform.position = new Vector3(_data.BoomerangInitPosX, _data.BoomerangInitPosY, 0);
         }
@@ -141,6 +188,7 @@ namespace Managers
 
         private void OnRestartLevel()
         {
+            transform.GetChild(0).gameObject.SetActive(false);
             transform.parent = null;
             IsRising = false;
             IsFullyCharged = false;

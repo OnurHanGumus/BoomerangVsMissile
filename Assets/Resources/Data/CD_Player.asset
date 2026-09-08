@@ -25,9 +25,9 @@ MonoBehaviour:
     ReturnArcHeight: 0.8
     ReturnSpeedMultiplier: 0.3
     MinReturnArcWidth: 0.2
-    MaxReturnArcWidth: 5
+    MaxReturnArcWidth: 8
     MinReturnArcHeight: 0.2
-    MaxReturnArcHeight: 5
+    MaxReturnArcHeight: 8
     ChargeDuration: 1
     DirectSegments: 10
     SplineSegments: 30

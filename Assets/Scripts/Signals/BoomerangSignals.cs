@@ -14,5 +14,6 @@ namespace Signals
         public UnityAction<int> onCombo = delegate { }; 
         public UnityAction<int> onSelectBoomerang = delegate { }; 
         public UnityAction<float, float, bool> onSetChargedArc = delegate { }; 
+        public UnityAction onBoomerangStatsChanged = delegate { };
     }
 }
