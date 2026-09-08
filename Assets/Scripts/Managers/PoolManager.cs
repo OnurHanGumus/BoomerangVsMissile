@@ -36,12 +36,12 @@ public class PoolManager : MonoBehaviour
     {
         _levelId = LevelSignals.Instance.onGetCurrentModdedLevel();
         poolDictionary = new Dictionary<PoolEnums, List<GameObject>>();
-        if (missilePrefab0 != null) InitializePool(PoolEnums.Missile0, missilePrefab0, amountMissile);
-        if (missilePrefab1 != null) InitializePool(PoolEnums.Missile1, missilePrefab1, amountMissile);
-        if (missilePrefab2 != null) InitializePool(PoolEnums.Missile2, missilePrefab2, amountMissile);
-        if (missilePrefab3 != null) InitializePool(PoolEnums.Missile3, missilePrefab3, amountMissile);
-        if (missilePrefab4 != null) InitializePool(PoolEnums.Missile4, missilePrefab4, amountMissile);
-        if (missilePrefab5 != null) InitializePool(PoolEnums.Missile5, missilePrefab5, amountMissile);
+        if (missilePrefab0 != null) InitializePool(PoolEnums.Missile_1_Default, missilePrefab0, amountMissile);
+        if (missilePrefab1 != null) InitializePool(PoolEnums.Missile_2_Small, missilePrefab1, amountMissile);
+        if (missilePrefab2 != null) InitializePool(PoolEnums.Missile_3_Exploder, missilePrefab2, amountMissile);
+        if (missilePrefab3 != null) InitializePool(PoolEnums.Missile_4_Armored, missilePrefab3, amountMissile);
+        if (missilePrefab4 != null) InitializePool(PoolEnums.Missile_5_Cluster, missilePrefab4, amountMissile);
+        if (missilePrefab5 != null) InitializePool(PoolEnums.Missile_6_Cluster_Small, missilePrefab5, amountMissile);
         if (missilePrefab6 != null) InitializePool(PoolEnums.Missile6, missilePrefab6, amountMissile);
         if (explosionPrefab != null) InitializePool(PoolEnums.ExplosionStandard, explosionPrefab, amountParticle);
         if (explosionPinkPrefab != null) InitializePool(PoolEnums.ExplosionPink, explosionPinkPrefab, amountParticle);
@@ -102,12 +102,12 @@ public class PoolManager : MonoBehaviour
     private void OnReset()
     {
         //reset
-        if (poolDictionary.ContainsKey(PoolEnums.Missile0)) ResetPool(PoolEnums.Missile0);
-        if (poolDictionary.ContainsKey(PoolEnums.Missile1)) ResetPool(PoolEnums.Missile1);
-        if (poolDictionary.ContainsKey(PoolEnums.Missile2)) ResetPool(PoolEnums.Missile2);
-        if (poolDictionary.ContainsKey(PoolEnums.Missile3)) ResetPool(PoolEnums.Missile3);
-        if (poolDictionary.ContainsKey(PoolEnums.Missile4)) ResetPool(PoolEnums.Missile4);
-        if (poolDictionary.ContainsKey(PoolEnums.Missile5)) ResetPool(PoolEnums.Missile5);
+        if (poolDictionary.ContainsKey(PoolEnums.Missile_1_Default)) ResetPool(PoolEnums.Missile_1_Default);
+        if (poolDictionary.ContainsKey(PoolEnums.Missile_2_Small)) ResetPool(PoolEnums.Missile_2_Small);
+        if (poolDictionary.ContainsKey(PoolEnums.Missile_3_Exploder)) ResetPool(PoolEnums.Missile_3_Exploder);
+        if (poolDictionary.ContainsKey(PoolEnums.Missile_4_Armored)) ResetPool(PoolEnums.Missile_4_Armored);
+        if (poolDictionary.ContainsKey(PoolEnums.Missile_5_Cluster)) ResetPool(PoolEnums.Missile_5_Cluster);
+        if (poolDictionary.ContainsKey(PoolEnums.Missile_6_Cluster_Small)) ResetPool(PoolEnums.Missile_6_Cluster_Small);
         if (poolDictionary.ContainsKey(PoolEnums.Missile6)) ResetPool(PoolEnums.Missile6);
         if (poolDictionary.ContainsKey(PoolEnums.ExplosionStandard)) ResetPool(PoolEnums.ExplosionStandard);
         if (poolDictionary.ContainsKey(PoolEnums.ExplosionPink)) ResetPool(PoolEnums.ExplosionPink);

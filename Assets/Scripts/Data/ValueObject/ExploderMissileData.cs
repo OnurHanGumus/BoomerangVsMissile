@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Data.ValueObject
 {
     [Serializable]
-    public class BossMissileData
+    public class ExploderMissileData
     {
         public float ExplosionRadius = 4f;
         public float FallSpeed = 3.5f;

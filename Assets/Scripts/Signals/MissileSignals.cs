@@ -9,9 +9,9 @@ namespace Signals
     public class MissileSignals : MonoSingleton<MissileSignals>
     {
         public UnityAction<float> onMissileDestroyed = delegate { };
-        public UnityAction onBossMissileDestroyed = delegate { };
+        public UnityAction onExploderMissileDestroyed = delegate { };
         public UnityAction onMissileArmorHit = delegate { };
         public UnityAction<int> onClusterSplit = delegate { };
-        public UnityAction onBossMissileCreated = delegate { };
+        public UnityAction onExploderMissileCreated = delegate { };
     }
 }

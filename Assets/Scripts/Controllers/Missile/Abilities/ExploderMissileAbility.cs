@@ -9,13 +9,13 @@ using UnityEngine;
 
 namespace Controllers.Missile.Abilities
 {
-    public class BossMissileAbility : MonoBehaviour, IMissileDeathEffect
+    public class ExploderMissileAbility : MonoBehaviour, IMissileDeathEffect
     {
-        [Header("Boss Data")]
-        [SerializeField] private CD_BossMissile cdBossMissile;
+        [Header("Exploder Data")]
+        [SerializeField] private CD_ExploderMissile cdExploderMissile;
 
-        private BossMissileData _data;
-        public BossMissileData Data
+        private ExploderMissileData _data;
+        public ExploderMissileData Data
         {
             get
             {
@@ -60,13 +60,13 @@ namespace Controllers.Missile.Abilities
 
         private void LoadData()
         {
-            if (cdBossMissile == null)
+            if (cdExploderMissile == null)
             {
-                cdBossMissile = Resources.Load<CD_BossMissile>("Data/Missiles/CD_BossMissile");
+                cdExploderMissile = Resources.Load<CD_ExploderMissile>("Data/Missiles/CD_ExploderMissile");
             }
-            _data = cdBossMissile != null && cdBossMissile.Data != null 
-                ? cdBossMissile.Data 
-                : new BossMissileData();
+            _data = cdExploderMissile != null && cdExploderMissile.Data != null 
+                ? cdExploderMissile.Data 
+                : new ExploderMissileData();
         }
 
         private void OnEnable()
@@ -80,7 +80,7 @@ namespace Controllers.Missile.Abilities
                 gameObject.SetActive(false);
                 return;
             }
-            MissileSignals.Instance.onBossMissileCreated?.Invoke();
+            MissileSignals.Instance.onExploderMissileCreated?.Invoke();
 
             var movement = GetComponent<MissileMovementController>();
             if (movement != null)
@@ -126,7 +126,7 @@ namespace Controllers.Missile.Abilities
                     float distanceX = Mathf.Abs(other.transform.position.x - currentX);
                     if (distanceX <= checkWidth)
                     {
-                        Debug.Log($"[BossMissileAbility] Path blocked! Detected missile '{other.name}' below at pos ({other.transform.position.x:F2}, {other.transform.position.y:F2}). DistanceX: {distanceX:F2} <= {checkWidth:F2}");
+                        Debug.Log($"[ExploderMissileAbility] Path blocked! Detected missile '{other.name}' below at pos ({other.transform.position.x:F2}, {other.transform.position.y:F2}). DistanceX: {distanceX:F2} <= {checkWidth:F2}");
                         return false; // Path blocked!
                     }
                 }
@@ -152,7 +152,7 @@ namespace Controllers.Missile.Abilities
                 {
                     if (otherMissile.gameObject.activeInHierarchy && otherMissile.gameObject.activeSelf && !otherMissile.IsDead)
                     {
-                        Debug.Log($"[BossMissileAbility] Physics OverlapBox detected obstacle '{otherMissile.name}' on path!");
+                        Debug.Log($"[ExploderMissileAbility] Physics OverlapBox detected obstacle '{otherMissile.name}' on path!");
                         return false; // Path blocked!
                     }
                 }

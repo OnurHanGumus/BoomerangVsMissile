@@ -33,7 +33,7 @@ namespace Managers
         [SerializeField] private CD_Missile cdMissile;
 
         [Header("Legacy Settings (Auto-migrated if abilities not attached)")]
-        [SerializeField] private bool isBoss = false;
+        [SerializeField] private bool isExploder = false;
         [SerializeField] private bool isArmored = false;
         #endregion
 
@@ -50,7 +50,7 @@ namespace Managers
         private IMissileDamageHandler[] _damageHandlers;
         private IMissileHealthProvider[] _healthProviders;
 
-        private bool _hasBossAbility;
+        private bool _hasExploderAbility;
         private bool _hasArmoredAbility;
         #endregion
 
@@ -99,9 +99,9 @@ namespace Managers
         private void InitAbilities()
         {
             // Auto-migrate legacy serialized flags if specialized component is missing
-            if (isBoss && GetComponent<BossMissileAbility>() == null)
+            if (isExploder && GetComponent<ExploderMissileAbility>() == null)
             {
-                gameObject.AddComponent<BossMissileAbility>();
+                gameObject.AddComponent<ExploderMissileAbility>();
             }
             if (isArmored && GetComponent<ArmoredMissileAbility>() == null)
             {
@@ -113,7 +113,7 @@ namespace Managers
             _damageHandlers = GetComponents<IMissileDamageHandler>();
             _healthProviders = GetComponents<IMissileHealthProvider>();
 
-            _hasBossAbility = GetComponent<BossMissileAbility>() != null;
+            _hasExploderAbility = GetComponent<ExploderMissileAbility>() != null;
             _hasArmoredAbility = GetComponent<ArmoredMissileAbility>() != null;
 
             if (_abilities != null)

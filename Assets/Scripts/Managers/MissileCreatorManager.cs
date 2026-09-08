@@ -75,7 +75,7 @@ namespace Managers
             MissileSignals.Instance.onMissileDestroyed += OnMissileDestroyed;
             MissileSignals.Instance.onClusterSplit += OnClusterSplit;
             TutorialSignals.Instance.onTutorialSatisfied += OnTutorialSatisfied;
-            MissileSignals.Instance.onBossMissileCreated += OnBossMissileCreated;
+            MissileSignals.Instance.onExploderMissileCreated += OnExploderMissileCreated;
         }
 
         #endregion
@@ -94,7 +94,7 @@ namespace Managers
             MissileEnums missileType = typeList[typeIndex];
             if (!isTutorial)
             {
-                if (missileType != MissileEnums.Missile2)
+                if (missileType != MissileEnums.Missile_3_Exploder)
                 {
                     _index++;
                 }
@@ -129,7 +129,7 @@ namespace Managers
             float posX;
             do
             {
-                posX = transform.position.x + Random.Range(-2f, 3f);
+                posX = transform.position.x + Random.Range(-5f, 5f);
 
             } while ((Mathf.Abs(_lastPosX - posX) <= 0.3f));
 
@@ -246,10 +246,10 @@ namespace Managers
             }
         }
 
-        private void OnBossMissileCreated()
+        private void OnExploderMissileCreated()
         {
             ++_index;
-            Debug.Log("boss created, index is increased 1");
+            Debug.Log("exploder created, index is increased 1");
         }
 
         private void OnLevelSuccess()
