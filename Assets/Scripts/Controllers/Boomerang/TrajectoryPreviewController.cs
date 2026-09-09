@@ -16,6 +16,8 @@ namespace Controllers.Boomerang
 
         [Header("Line Settings (Optional Reference / Auto-Generated)")]
         [SerializeField] private LineRenderer lineRenderer;
+        [Header("Target Reticle Settings (Optional / Auto-Generated)")]
+        [SerializeField] private LineRenderer targetReticleRenderer;
 
         #endregion
 
@@ -26,6 +28,7 @@ namespace Controllers.Boomerang
         private bool _isAiming = false;
         private Material _lineMaterial;
         private float _textureOffset = 0f;
+        private float _reticleAngle = 0f;
 
         #endregion
 
@@ -49,6 +52,7 @@ namespace Controllers.Boomerang
             }
 
             SetupLineRenderer();
+            SetupTargetReticle();
         }
 
         private void SetupLineRenderer()
@@ -77,6 +81,35 @@ namespace Controllers.Boomerang
             lineRenderer.material = _lineMaterial;
         }
 
+        private void SetupTargetReticle()
+        {
+            if (targetReticleRenderer == null)
+            {
+                Transform reticleChild = transform.Find("TargetReticle");
+                if (reticleChild == null)
+                {
+                    GameObject reticleObj = new GameObject("TargetReticle");
+                    reticleObj.transform.SetParent(transform, false);
+                    reticleChild = reticleObj.transform;
+                }
+                targetReticleRenderer = reticleChild.GetComponent<LineRenderer>();
+                if (targetReticleRenderer == null)
+                {
+                    targetReticleRenderer = reticleChild.gameObject.AddComponent<LineRenderer>();
+                }
+            }
+
+            targetReticleRenderer.useWorldSpace = true;
+            targetReticleRenderer.loop = true;
+            targetReticleRenderer.positionCount = 24;
+            targetReticleRenderer.startWidth = 0.04f;
+            targetReticleRenderer.endWidth = 0.04f;
+            targetReticleRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+            targetReticleRenderer.receiveShadows = false;
+            targetReticleRenderer.material = _lineMaterial;
+            targetReticleRenderer.enabled = false;
+        }
+
         private void SubscribeEvents()
         {
             InputSignals.Instance.onChargeUpdated += OnChargeUpdated;
@@ -84,6 +117,21 @@ namespace Controllers.Boomerang
             CoreGameSignals.Instance.onRestartLevel += OnChargeEnded;
             CoreGameSignals.Instance.onLevelFailed += OnChargeEnded;
             CoreGameSignals.Instance.onPlay += OnChargeEnded;
+        }
+
+        private void OnDestroy()
+        {
+            if (InputSignals.Instance != null)
+            {
+                InputSignals.Instance.onChargeUpdated -= OnChargeUpdated;
+                InputSignals.Instance.onChargeEnded -= OnChargeEnded;
+            }
+            if (CoreGameSignals.Instance != null)
+            {
+                CoreGameSignals.Instance.onRestartLevel -= OnChargeEnded;
+                CoreGameSignals.Instance.onLevelFailed -= OnChargeEnded;
+                CoreGameSignals.Instance.onPlay -= OnChargeEnded;
+            }
         }
 
         private void Update()
@@ -95,6 +143,7 @@ namespace Controllers.Boomerang
 
             // Animate line texture scroll for energy flow feedback
             _textureOffset -= Time.unscaledDeltaTime * 2f;
+            _reticleAngle += Time.unscaledDeltaTime * 90f;
             if (_lineMaterial != null && _lineMaterial.HasProperty("_BaseMap"))
             {
                 _lineMaterial.SetTextureOffset("_BaseMap", new Vector2(_textureOffset, 0f));
@@ -117,15 +166,7 @@ namespace Controllers.Boomerang
             Vector3 target = new Vector3(targetWorldPos.x, targetWorldPos.y, 0f);
 
             // Determine swing direction (matching BoomerangMovementController)
-            float swingDir = 1f;
-            if (target.x >= 0.5f)
-            {
-                swingDir = -1f;
-            }
-            else if (target.x < -0.5f)
-            {
-                swingDir = 1f;
-            }
+            float swingDir = BoomerangMovementController.CalculateSwingDirection(target.x);
 
             // Apex loop point
             Vector3 apexPoint = new Vector3(
@@ -175,6 +216,25 @@ namespace Controllers.Boomerang
                 lineRenderer.SetPosition(directSegs + i, p);
             }
 
+            // 3. Render precision target reticle ring at exact clicked point
+            if (targetReticleRenderer != null)
+            {
+                targetReticleRenderer.enabled = true;
+                float reticleRadius = Mathf.Lerp(0.35f, 0.2f, progress);
+                int reticlePoints = 24;
+                targetReticleRenderer.positionCount = reticlePoints;
+                for (int i = 0; i < reticlePoints; i++)
+                {
+                    float angle = (i / (float)reticlePoints) * Mathf.PI * 2f + (_reticleAngle * Mathf.Deg2Rad);
+                    Vector3 reticlePoint = new Vector3(
+                        target.x + Mathf.Cos(angle) * reticleRadius,
+                        target.y + Mathf.Sin(angle) * reticleRadius,
+                        0f
+                    );
+                    targetReticleRenderer.SetPosition(i, reticlePoint);
+                }
+            }
+
             // Dynamic color gradient based on charge level
             UpdateLineColors(progress);
         }
@@ -217,6 +277,13 @@ namespace Controllers.Boomerang
                     _lineMaterial.SetColor("_BaseColor", currentColor);
                 }
             }
+
+            if (targetReticleRenderer != null)
+            {
+                targetReticleRenderer.startColor = currentColor;
+                targetReticleRenderer.endColor = currentColor;
+                targetReticleRenderer.colorGradient = gradient;
+            }
         }
 
         private void OnChargeEnded()
@@ -231,6 +298,11 @@ namespace Controllers.Boomerang
             {
                 lineRenderer.enabled = false;
                 lineRenderer.positionCount = 0;
+            }
+            if (targetReticleRenderer != null)
+            {
+                targetReticleRenderer.enabled = false;
+                targetReticleRenderer.positionCount = 0;
             }
         }
     }

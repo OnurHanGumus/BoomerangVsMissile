@@ -36,6 +36,7 @@ namespace Managers
         private bool _isBoomerangOnPlayer = true;
         private float _chargeTimer = 0f;
         private PlayerData _playerData;
+        private Vector3 _clickedPoint = Vector3.zero;
         #endregion
 
         #endregion
@@ -93,8 +94,8 @@ namespace Managers
                     {
                         if (hit.collider.CompareTag("Clickable"))
                         {
-                            Vector3 hitPoint = hit.point;
-                            hitPoint = new Vector3(hit.transform.position.x, hitPoint.y, 0);
+                            Vector3 hitPoint = new Vector3(hit.point.x, hit.point.y, 0f);
+                            _clickedPoint = hitPoint;
                             InputSignals.Instance.onClicking?.Invoke(hitPoint);
                             _lastHitTransform = hit.transform;
                             _chargeTimer = 0f;
@@ -105,11 +106,25 @@ namespace Managers
                 }
                 else
                 {
+                    if (_lastHitTransform != null)
+                    {
+                        _ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                        RaycastHit hit;
+                        if (Physics.Raycast(_ray, out hit))
+                        {
+                            if (hit.transform == _lastHitTransform || hit.transform.IsChildOf(_lastHitTransform))
+                            {
+                                Vector3 hitPoint = new Vector3(hit.transform.position.x, hit.point.y, 0f);
+                                _clickedPoint = hitPoint;
+                                InputSignals.Instance.onClicking?.Invoke(_clickedPoint);
+                            }
+                        }
+                    }
+
                     // Target already selected; charge arc based on hold duration
                     _chargeTimer += Time.unscaledDeltaTime;
                     float progress = Mathf.Clamp01(_chargeTimer / _playerData.ChargeDuration);
-                    Vector3 targetPos = _lastHitTransform != null ? _lastHitTransform.position : Vector3.zero;
-                    InputSignals.Instance.onChargeUpdated?.Invoke(progress, targetPos);
+                    InputSignals.Instance.onChargeUpdated?.Invoke(progress, _clickedPoint);
                 }
             }
 
@@ -142,22 +157,23 @@ namespace Managers
         }
         private void OnEnableInput()
         {
-            
+
         }
 
         private void OnDisableInput()
         {
-            
+
         }
 
         private void OnPlay()
         {
-            
+
         }
 
         private void OnBoomerangReturned()
         {
             _lastHitTransform = null;
+            _clickedPoint = Vector3.zero;
             _isBoomerangOnPlayer = true;
         }
         private void OnBoomerangThrown()
@@ -168,6 +184,7 @@ namespace Managers
         private void OnReset()
         {
             _lastHitTransform = null;
+            _clickedPoint = Vector3.zero;
             _isBoomerangOnPlayer = true;
         }
 

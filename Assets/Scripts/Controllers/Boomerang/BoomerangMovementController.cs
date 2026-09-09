@@ -33,6 +33,7 @@ namespace Controllers
 
         private float _chargedArcWidth = -1f;
         private float _chargedArcHeight = -1f;
+        private bool _firstHitHandled = false;
 
         #endregion
 
@@ -91,9 +92,12 @@ namespace Controllers
 
             _rig.linearVelocity = _currentDir;
 
-            // Check if boomerang reached the target point proximity threshold
+            // Check if boomerang reached the target point proximity threshold or passed it
             Vector3 currentTarget = _manager.MissilePoints[_manager.PointIndex];
-            if ((currentTarget - transform.position).sqrMagnitude <= 0.04f) // ~0.2f distance
+            Vector3 toTarget = currentTarget - transform.position;
+            toTarget.z = 0f;
+
+            if (toTarget.sqrMagnitude <= 0.09f || Vector3.Dot(_currentDir, toTarget) <= 0f)
             {
                 OnTargetReached();
             }
@@ -139,24 +143,8 @@ namespace Controllers
             float arcWidth = _chargedArcWidth > 0 ? _chargedArcWidth : _data.ReturnArcWidth;
             float arcHeight = _chargedArcHeight > 0 ? _chargedArcHeight : _data.ReturnArcHeight;
 
-            // Inward direction bias if target is near screen borders
-            if (target.x >= 0.5f)
-            {
-                _currentReturnSwingDir = -1f;
-            }
-            else if (target.x < -0.5f)
-            {
-                _currentReturnSwingDir = 1f;
-            }
-            /*
-            else
-            {
-                _currentReturnSwingDir = _manager.IsRight ? 1f : -1f;
-                if (Mathf.Abs(currentPos.x) > 0.3f)
-                {
-                    _currentReturnSwingDir = Mathf.Sign(currentPos.x);
-                }
-            } */
+            // Inward direction bias if target is near screen borders, matching TrajectoryPreviewController
+            _currentReturnSwingDir = CalculateSwingDirection(target.x);
 
             // Apex loop point beyond the target
             Vector3 apexPoint = new Vector3(
@@ -305,12 +293,36 @@ namespace Controllers
                 _manager.MissilePoints.Add(_initializePos);
             }
 
+            _firstHitHandled = false;
             _currentDir = GetDirection();
             _manager.IsThrown = true;
         }
 
+        public static float CalculateSwingDirection(float targetX)
+        {
+            if (targetX >= 0.5f)
+            {
+                return -1f;
+            }
+            if (targetX <= -0.5f)
+            {
+                return 1f;
+            }
+            return 1f;
+        }
+
         public void OnBoomerangNextTarget()
         {
+            if (!_firstHitHandled)
+            {
+                _firstHitHandled = true;
+                if (!_isReturning)
+                {
+                    StartReturnArc();
+                }
+                return;
+            }
+
             if (_isReturning)
             {
                 TriggerExtraReturnSwing();
@@ -365,6 +377,7 @@ namespace Controllers
             _currentReturnSwingDir = 1f;
             _chargedArcWidth = -1f;
             _chargedArcHeight = -1f;
+            _firstHitHandled = false;
             _manager.IsFullyCharged = false;
         }
     }

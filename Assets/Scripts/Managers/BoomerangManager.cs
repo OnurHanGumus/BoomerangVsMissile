@@ -168,9 +168,18 @@ namespace Managers
 
         private void OnAddPoint(Vector3 pos)
         {
+            if (MissilePoints == null)
+            {
+                MissilePoints = new List<Vector3>();
+            }
+
             if (MissilePoints.Count == 0)
             {
                 MissilePoints.Add(pos);
+            }
+            else if (!IsThrown)
+            {
+                MissilePoints[0] = pos;
             }
         }
 
