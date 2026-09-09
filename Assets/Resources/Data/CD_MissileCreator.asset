@@ -18,51 +18,417 @@ MonoBehaviour:
       MissileTypeList: 00000000
       PercentageList:
       - 1
-      MissileMaxVelocity: 0
       MissileCreateOffset: 2
-    - MissileCount: 3
-      MissileTypeList: 05000000
+    - MissileCount: 8
+      MissileTypeList: 0000000001000000
       PercentageList:
-      - 1
-      MissileMaxVelocity: 0
-      MissileCreateOffset: 1.5
-    - MissileCount: 15
-      MissileTypeList: 04000000
-      PercentageList:
-      - 1
-      MissileMaxVelocity: 0
+      - 0.85
+      - 0.15
       MissileCreateOffset: 2
-    - MissileCount: 20
-      MissileTypeList: 000000000100000002000000
+    - MissileCount: 9
+      MissileTypeList: 0000000001000000
       PercentageList:
-      - 1
-      - 1
-      - 1
-      MissileMaxVelocity: 0
-      MissileCreateOffset: 1.5
-    - MissileCount: 20
-      MissileTypeList: 000000000100000002000000
+      - 0.8
+      - 0.2
+      MissileCreateOffset: 1.95
+    - MissileCount: 10
+      MissileTypeList: 0000000001000000
       PercentageList:
-      - 1
-      - 1
+      - 0.75
+      - 0.25
+      MissileCreateOffset: 1.9
+    - MissileCount: 11
+      MissileTypeList: 0000000001000000
+      PercentageList:
+      - 0.7
       - 0.3
-      MissileMaxVelocity: 0
+      MissileCreateOffset: 1.85
+    - MissileCount: 12
+      MissileTypeList: 0000000001000000
+      PercentageList:
+      - 0.65
+      - 0.35
+      MissileCreateOffset: 1.8
+    - MissileCount: 13
+      MissileTypeList: 000000000100000002000000
+      PercentageList:
+      - 0.6
+      - 0.25
+      - 0.15
+      MissileCreateOffset: 1.75
+    - MissileCount: 14
+      MissileTypeList: 000000000100000002000000
+      PercentageList:
+      - 0.55
+      - 0.25
+      - 0.2
+      MissileCreateOffset: 1.7
+    - MissileCount: 15
+      MissileTypeList: 000000000100000002000000
+      PercentageList:
+      - 0.5
+      - 0.3
+      - 0.2
+      MissileCreateOffset: 1.65
+    - MissileCount: 16
+      MissileTypeList: 000000000100000002000000
+      PercentageList:
+      - 0.45
+      - 0.35
+      - 0.2
+      MissileCreateOffset: 1.6
+    - MissileCount: 17
+      MissileTypeList: 000000000100000002000000
+      PercentageList:
+      - 0.45
+      - 0.3
+      - 0.25
+      MissileCreateOffset: 1.55
+    - MissileCount: 18
+      MissileTypeList: 000000000100000002000000
+      PercentageList:
+      - 0.4
+      - 0.35
+      - 0.25
       MissileCreateOffset: 1.5
+    - MissileCount: 19
+      MissileTypeList: 000000000100000002000000
+      PercentageList:
+      - 0.4
+      - 0.3
+      - 0.3
+      MissileCreateOffset: 1.5
+    - MissileCount: 20
+      MissileTypeList: 00000000010000000200000003000000
+      PercentageList:
+      - 0.4
+      - 0.3
+      - 0.15
+      - 0.15
+      MissileCreateOffset: 1.45
+    - MissileCount: 21
+      MissileTypeList: 00000000010000000200000003000000
+      PercentageList:
+      - 0.35
+      - 0.3
+      - 0.15
+      - 0.2
+      MissileCreateOffset: 1.45
+    - MissileCount: 22
+      MissileTypeList: 00000000010000000200000003000000
+      PercentageList:
+      - 0.35
+      - 0.25
+      - 0.2
+      - 0.2
+      MissileCreateOffset: 1.4
+    - MissileCount: 22
+      MissileTypeList: 00000000010000000200000003000000
+      PercentageList:
+      - 0.3
+      - 0.3
+      - 0.15
+      - 0.25
+      MissileCreateOffset: 1.4
+    - MissileCount: 23
+      MissileTypeList: 00000000010000000200000003000000
+      PercentageList:
+      - 0.3
+      - 0.25
+      - 0.2
+      - 0.25
+      MissileCreateOffset: 1.35
+    - MissileCount: 24
+      MissileTypeList: 00000000010000000200000003000000
+      PercentageList:
+      - 0.25
+      - 0.3
+      - 0.2
+      - 0.25
+      MissileCreateOffset: 1.35
+    - MissileCount: 24
+      MissileTypeList: 00000000010000000200000003000000
+      PercentageList:
+      - 0.25
+      - 0.25
+      - 0.25
+      - 0.25
+      MissileCreateOffset: 1.3
     - MissileCount: 25
       MissileTypeList: 00000000010000000200000003000000
       PercentageList:
-      - 1
-      - 1
-      - 1
-      - 1
-      MissileMaxVelocity: 0
-      MissileCreateOffset: 1.5
-    - MissileCount: 30
-      MissileTypeList: 00000000010000000200000003000000
+      - 0.2
+      - 0.3
+      - 0.2
+      - 0.3
+      MissileCreateOffset: 1.3
+    - MissileCount: 26
+      MissileTypeList: 0000000001000000020000000300000004000000
       PercentageList:
-      - 1
-      - 1
-      - 1
-      - 1
-      MissileMaxVelocity: 0
-      MissileCreateOffset: 1.5
+      - 0.3
+      - 0.25
+      - 0.15
+      - 0.15
+      - 0.15
+      MissileCreateOffset: 1.25
+    - MissileCount: 27
+      MissileTypeList: 0000000001000000020000000300000004000000
+      PercentageList:
+      - 0.25
+      - 0.25
+      - 0.15
+      - 0.2
+      - 0.15
+      MissileCreateOffset: 1.25
+    - MissileCount: 28
+      MissileTypeList: 0000000001000000020000000300000004000000
+      PercentageList:
+      - 0.25
+      - 0.2
+      - 0.2
+      - 0.15
+      - 0.2
+      MissileCreateOffset: 1.2
+    - MissileCount: 28
+      MissileTypeList: 0000000001000000020000000300000004000000
+      PercentageList:
+      - 0.2
+      - 0.25
+      - 0.15
+      - 0.2
+      - 0.2
+      MissileCreateOffset: 1.2
+    - MissileCount: 29
+      MissileTypeList: 0000000001000000020000000300000004000000
+      PercentageList:
+      - 0.2
+      - 0.2
+      - 0.2
+      - 0.2
+      - 0.2
+      MissileCreateOffset: 1.15
+    - MissileCount: 30
+      MissileTypeList: 0000000001000000020000000300000004000000
+      PercentageList:
+      - 0.15
+      - 0.3
+      - 0.15
+      - 0.2
+      - 0.2
+      MissileCreateOffset: 1.15
+    - MissileCount: 31
+      MissileTypeList: 0000000001000000020000000300000004000000
+      PercentageList:
+      - 0.15
+      - 0.25
+      - 0.2
+      - 0.2
+      - 0.2
+      MissileCreateOffset: 1.15
+    - MissileCount: 32
+      MissileTypeList: 0000000001000000020000000300000004000000
+      PercentageList:
+      - 0.15
+      - 0.2
+      - 0.2
+      - 0.25
+      - 0.2
+      MissileCreateOffset: 1.1
+    - MissileCount: 32
+      MissileTypeList: 0000000001000000020000000300000004000000
+      PercentageList:
+      - 0.1
+      - 0.25
+      - 0.2
+      - 0.25
+      - 0.2
+      MissileCreateOffset: 1.1
+    - MissileCount: 33
+      MissileTypeList: 0000000001000000020000000300000004000000
+      PercentageList:
+      - 0.1
+      - 0.2
+      - 0.2
+      - 0.25
+      - 0.25
+      MissileCreateOffset: 1.05
+    - MissileCount: 34
+      MissileTypeList: 0000000001000000020000000300000004000000
+      PercentageList:
+      - 0.1
+      - 0.45
+      - 0.2
+      - 0.1
+      - 0.15
+      MissileCreateOffset: 1
+    - MissileCount: 35
+      MissileTypeList: 0000000001000000020000000300000004000000
+      PercentageList:
+      - 0.1
+      - 0.15
+      - 0.2
+      - 0.4
+      - 0.15
+      MissileCreateOffset: 1.05
+    - MissileCount: 35
+      MissileTypeList: 0000000001000000020000000300000004000000
+      PercentageList:
+      - 0.1
+      - 0.15
+      - 0.15
+      - 0.2
+      - 0.4
+      MissileCreateOffset: 1.05
+    - MissileCount: 36
+      MissileTypeList: 0000000001000000020000000300000004000000
+      PercentageList:
+      - 0.1
+      - 0.2
+      - 0.35
+      - 0.2
+      - 0.15
+      MissileCreateOffset: 1
+    - MissileCount: 36
+      MissileTypeList: 0000000001000000020000000300000004000000
+      PercentageList:
+      - 0.1
+      - 0.25
+      - 0.2
+      - 0.25
+      - 0.2
+      MissileCreateOffset: 0.98
+    - MissileCount: 37
+      MissileTypeList: 0000000001000000020000000300000004000000
+      PercentageList:
+      - 0.1
+      - 0.4
+      - 0.15
+      - 0.15
+      - 0.2
+      MissileCreateOffset: 0.95
+    - MissileCount: 38
+      MissileTypeList: 0000000001000000020000000300000004000000
+      PercentageList:
+      - 0.1
+      - 0.15
+      - 0.2
+      - 0.35
+      - 0.2
+      MissileCreateOffset: 0.95
+    - MissileCount: 38
+      MissileTypeList: 0000000001000000020000000300000004000000
+      PercentageList:
+      - 0.1
+      - 0.2
+      - 0.15
+      - 0.2
+      - 0.35
+      MissileCreateOffset: 0.92
+    - MissileCount: 39
+      MissileTypeList: 0000000001000000020000000300000004000000
+      PercentageList:
+      - 0.05
+      - 0.3
+      - 0.25
+      - 0.2
+      - 0.2
+      MissileCreateOffset: 0.9
+    - MissileCount: 40
+      MissileTypeList: 0000000001000000020000000300000004000000
+      PercentageList:
+      - 0.05
+      - 0.2
+      - 0.2
+      - 0.3
+      - 0.25
+      MissileCreateOffset: 0.9
+    - MissileCount: 41
+      MissileTypeList: 0000000001000000020000000300000004000000
+      PercentageList:
+      - 0.05
+      - 0.3
+      - 0.2
+      - 0.25
+      - 0.2
+      MissileCreateOffset: 0.88
+    - MissileCount: 42
+      MissileTypeList: 0000000001000000020000000300000004000000
+      PercentageList:
+      - 0.05
+      - 0.25
+      - 0.25
+      - 0.25
+      - 0.2
+      MissileCreateOffset: 0.86
+    - MissileCount: 43
+      MissileTypeList: 0000000001000000020000000300000004000000
+      PercentageList:
+      - 0.05
+      - 0.25
+      - 0.2
+      - 0.25
+      - 0.25
+      MissileCreateOffset: 0.84
+    - MissileCount: 44
+      MissileTypeList: 0000000001000000020000000300000004000000
+      PercentageList:
+      - 0.05
+      - 0.3
+      - 0.2
+      - 0.2
+      - 0.25
+      MissileCreateOffset: 0.82
+    - MissileCount: 45
+      MissileTypeList: 0000000001000000020000000300000004000000
+      PercentageList:
+      - 0.05
+      - 0.25
+      - 0.2
+      - 0.25
+      - 0.25
+      MissileCreateOffset: 0.8
+    - MissileCount: 46
+      MissileTypeList: 0000000001000000020000000300000004000000
+      PercentageList:
+      - 0.05
+      - 0.25
+      - 0.25
+      - 0.25
+      - 0.2
+      MissileCreateOffset: 0.78
+    - MissileCount: 47
+      MissileTypeList: 0000000001000000020000000300000004000000
+      PercentageList:
+      - 0.05
+      - 0.25
+      - 0.2
+      - 0.25
+      - 0.25
+      MissileCreateOffset: 0.76
+    - MissileCount: 48
+      MissileTypeList: 0000000001000000020000000300000004000000
+      PercentageList:
+      - 0.05
+      - 0.25
+      - 0.2
+      - 0.25
+      - 0.25
+      MissileCreateOffset: 0.75
+    - MissileCount: 49
+      MissileTypeList: 0000000001000000020000000300000004000000
+      PercentageList:
+      - 0.05
+      - 0.25
+      - 0.25
+      - 0.25
+      - 0.2
+      MissileCreateOffset: 0.75
+    - MissileCount: 50
+      MissileTypeList: 0000000001000000020000000300000004000000
+      PercentageList:
+      - 0.05
+      - 0.25
+      - 0.2
+      - 0.25
+      - 0.25
+      MissileCreateOffset: 0.7

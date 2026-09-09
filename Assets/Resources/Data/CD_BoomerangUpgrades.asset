@@ -15,7 +15,7 @@ MonoBehaviour:
   Upgrades:
   - Type: 0
     Title: SPEED
-    Icon: {fileID: 0}
+    Icon: {fileID: -2072982387, guid: bb35f13a1014d9e44b3f613e4a18bbd4, type: 3}
     MaxLevel: 20
     BonusPerLevel: 0.5
     BasePrice: 50
@@ -23,7 +23,7 @@ MonoBehaviour:
     ValueDisplayFormat: '+{0:F1} Spd'
   - Type: 1
     Title: RETURN SPEED
-    Icon: {fileID: 0}
+    Icon: {fileID: 1597868930, guid: bb35f13a1014d9e44b3f613e4a18bbd4, type: 3}
     MaxLevel: 10
     BonusPerLevel: 0.02
     BasePrice: 50
@@ -31,7 +31,7 @@ MonoBehaviour:
     ValueDisplayFormat: '+{0:F2} Ret Spd'
   - Type: 2
     Title: SIZE
-    Icon: {fileID: 0}
+    Icon: {fileID: -1856291607, guid: bb35f13a1014d9e44b3f613e4a18bbd4, type: 3}
     MaxLevel: 20
     BonusPerLevel: 0.025
     BasePrice: 40

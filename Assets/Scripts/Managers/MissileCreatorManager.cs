@@ -212,7 +212,20 @@ namespace Managers
         {
             _isLevelFailed = false;
             _isLevelCompleted = false;
-            _levelId = LevelSignals.Instance.onGetCurrentModdedLevel();
+            int rawLevel = LevelSignals.Instance.onGetLevelId();
+            int totalLevels = _data.MissileData != null ? _data.MissileData.Count : 0;
+            if (rawLevel < totalLevels)
+            {
+                _levelId = rawLevel;
+            }
+            else if (totalLevels > 1)
+            {
+                _levelId = 1 + ((rawLevel - 1) % (totalLevels - 1));
+            }
+            else
+            {
+                _levelId = 0;
+            }
             SetRange();
             _isCreatingContinue = true;
             StartCoroutine(InstantiateMissile());

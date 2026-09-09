@@ -31,8 +31,31 @@ namespace Controllers.UI
 
         public UpgradeDefinition Definition => _definition;
 
+        private void Awake()
+        {
+            FindIconImage();
+        }
+
+        private void FindIconImage()
+        {
+            if (iconImage != null)
+            {
+                return;
+            }
+
+            foreach (Image img in GetComponentsInChildren<Image>(true))
+            {
+                if (img.gameObject.name == "Image")
+                {
+                    iconImage = img;
+                    break;
+                }
+            }
+        }
+
         public void Setup(UpgradeDefinition definition)
         {
+            FindIconImage();
             _definition = definition;
             if (buyButton != null)
             {
@@ -40,6 +63,17 @@ namespace Controllers.UI
                 buyButton.onClick.AddListener(OnBuyClicked);
             }
             UpdateUI();
+        }
+
+        public void SetIcon(Sprite sprite)
+        {
+            FindIconImage();
+            if (iconImage != null && sprite != null)
+            {
+                iconImage.sprite = sprite;
+                iconImage.color = Color.black;
+                iconImage.gameObject.SetActive(true);
+            }
         }
 
         public void UpdateUI()
@@ -84,11 +118,17 @@ namespace Controllers.UI
             }
 
             // Icon
+            if (iconImage == null)
+            {
+                FindIconImage();
+            }
+
             if (iconImage != null)
             {
                 if (_definition.Icon != null)
                 {
                     iconImage.sprite = _definition.Icon;
+                    iconImage.color = Color.black;
                     iconImage.gameObject.SetActive(true);
                 }
                 else
@@ -108,7 +148,7 @@ namespace Controllers.UI
             // Price / Button State
             if (priceText != null)
             {
-                priceText.text = isMax ? "MAX" : $"{cost} 💎";
+                priceText.text = isMax ? "MAX" : $"{cost}";
             }
 
             if (buyButton != null)

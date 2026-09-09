@@ -118,6 +118,9 @@ namespace Controllers.UI
                 return;
             }
 
+            // Load ability icon sprites from Resources
+            Sprite[] abilitySprites = Resources.LoadAll<Sprite>("Store Boomerang Sprites/Store_Ability_icons");
+
             Transform container = cardsContainer != null ? cardsContainer : transform;
 
             // 1. If prefab provided, dynamically instantiate cards for every upgrade definition
@@ -128,9 +131,19 @@ namespace Controllers.UI
                     UpgradeDefinition def = config.Upgrades[i];
                     if (def == null) continue;
 
+                    Sprite icon = GetAbilityIcon(def.Type, abilitySprites);
+                    if (icon != null)
+                    {
+                        def.Icon = icon;
+                    }
+
                     StoreUpgradeCardUI card = Instantiate(cardPrefab, container);
                     card.gameObject.SetActive(true);
                     card.Setup(def);
+                    if (icon != null)
+                    {
+                        card.SetIcon(icon);
+                    }
                     _activeCards.Add(card);
                 }
             }
@@ -151,13 +164,58 @@ namespace Controllers.UI
                 {
                     if (_activeCards[i] != null && config.Upgrades[i] != null)
                     {
-                        _activeCards[i].Setup(config.Upgrades[i]);
+                        UpgradeDefinition def = config.Upgrades[i];
+                        Sprite icon = GetAbilityIcon(def.Type, abilitySprites);
+                        if (icon != null)
+                        {
+                            def.Icon = icon;
+                        }
+                        _activeCards[i].Setup(def);
+                        if (icon != null)
+                        {
+                            _activeCards[i].SetIcon(icon);
+                        }
                     }
                 }
             }
 
             _isInitialized = true;
             RefreshAllCards();
+        }
+
+        private Sprite GetAbilityIcon(BoomerangUpgradeType type, Sprite[] sprites)
+        {
+            if (sprites == null || sprites.Length == 0)
+            {
+                return null;
+            }
+
+            string expectedName = type switch
+            {
+                BoomerangUpgradeType.Speed => "Store_Ability_icons_0",
+                BoomerangUpgradeType.ReturnSpeed => "Store_Ability_icons_1",
+                BoomerangUpgradeType.Size => "Store_Ability_icons_2",
+                _ => null
+            };
+
+            if (!string.IsNullOrEmpty(expectedName))
+            {
+                for (int i = 0; i < sprites.Length; i++)
+                {
+                    if (sprites[i] != null && sprites[i].name == expectedName)
+                    {
+                        return sprites[i];
+                    }
+                }
+            }
+
+            int index = (int)type;
+            if (index >= 0 && index < sprites.Length)
+            {
+                return sprites[index];
+            }
+
+            return null;
         }
 
         public void RefreshAllCards()
