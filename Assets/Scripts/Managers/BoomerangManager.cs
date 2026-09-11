@@ -149,15 +149,17 @@ namespace Managers
         public void OnBoomerangNextTarget()
         {
             ++PointIndex;
+            Debug.Log(PointIndex);
+
             IsRight = !IsRight;
         }
 
         private void OnBoomerangReturning()
         {
-            if (PointIndex > 1)
-            {
-                BoomerangSignals.Instance.onCombo?.Invoke(PointIndex - 2);
-            }
+            //if (PointIndex > 1)
+            //{
+            //    //BoomerangSignals.Instance.onCombo?.Invoke(PointIndex - 2);
+            //}
         }
 
         private void OnBoomerangReturned()

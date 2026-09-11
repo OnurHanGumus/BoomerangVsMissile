@@ -41,6 +41,7 @@ public class ComboPanelController : MonoBehaviour
     public void OnCombo(int value)
     {
         StartCoroutine(Effect());
+        Debug.Log(value);
         commentTxt.text = _commentsData.CommentsList[value];
         ScoreSignals.Instance.onScoreIncrease?.Invoke(ScoreTypeEnums.Gem, _gainMoneyData.GainMoneyList[value]);
         AudioSignals.Instance.onPlaySound(AudioSoundEnums.Combo);
