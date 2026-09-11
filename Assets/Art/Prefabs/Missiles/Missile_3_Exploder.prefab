@@ -92,6 +92,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Missile_3_Exploder
       objectReference: {fileID: 0}
+    - target: {fileID: 4573692909795951065, guid: e4ac8bb04676f944499d7616a9cfeb56, type: 3}
+      propertyPath: m_Size.y
+      value: 2.7904818
+      objectReference: {fileID: 0}
+    - target: {fileID: 4573692909795951065, guid: e4ac8bb04676f944499d7616a9cfeb56, type: 3}
+      propertyPath: m_Size.z
+      value: 1.1621127
+      objectReference: {fileID: 0}
+    - target: {fileID: 4573692909795951065, guid: e4ac8bb04676f944499d7616a9cfeb56, type: 3}
+      propertyPath: m_Center.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4688291921866703404, guid: e4ac8bb04676f944499d7616a9cfeb56, type: 3}
       propertyPath: m_Size.x
       value: 0.5035746
@@ -137,4 +149,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2cdfe6665d8eee14a864684e0a4df63d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Controllers.Missile.Abilities.BossMissileAbility
-  cdBossMissile: {fileID: 11400000, guid: 5c234e77cc57c86428999c46f5acbce7, type: 2}
+  cdExploderMissile: {fileID: 0}
