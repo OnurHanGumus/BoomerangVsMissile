@@ -1,0 +1,75 @@
+{
+    "Metadata": {
+        "Version": 1,
+        "Created": "2022-06-17",
+        "Description": "生成自RichTap Creator Pro"
+    },
+    "Pattern": [
+        {
+            "Event": {
+                "Type": "continuous",
+                "Duration": 95,
+                "RelativeTime": 0,
+                "Parameters": {
+                    "Intensity": 100,
+                    "Frequency": 70,
+                    "Curve": [
+                        {
+                            "Time": 0,
+                            "Intensity": 0,
+                            "Frequency": 0
+                        },
+                        {
+                            "Time": 48,
+                            "Intensity": 0.34,
+                            "Frequency": 0
+                        },
+                        {
+                            "Time": 66,
+                            "Intensity": 1,
+                            "Frequency": 52
+                        },
+                        {
+                            "Time": 95,
+                            "Intensity": 0,
+                            "Frequency": 0
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "Event": {
+                "Type": "continuous",
+                "Duration": 35,
+                "RelativeTime": 101,
+                "Parameters": {
+                    "Intensity": 100,
+                    "Frequency": 50,
+                    "Curve": [
+                        {
+                            "Time": 0,
+                            "Intensity": 0,
+                            "Frequency": 0
+                        },
+                        {
+                            "Time": 11,
+                            "Intensity": 1,
+                            "Frequency": 0
+                        },
+                        {
+                            "Time": 26,
+                            "Intensity": 0.87,
+                            "Frequency": 0
+                        },
+                        {
+                            "Time": 35,
+                            "Intensity": 0,
+                            "Frequency": 0
+                        }
+                    ]
+                }
+            }
+        }
+    ]
+}

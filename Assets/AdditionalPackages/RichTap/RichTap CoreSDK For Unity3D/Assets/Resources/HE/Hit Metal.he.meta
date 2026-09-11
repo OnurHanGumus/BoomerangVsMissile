@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: b3bceaa5b9ea6e94d92bea06da5e2a09
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 11500000, guid: 7bfbe59e189a23344804851d458c55b0, type: 3}
+AssetOrigin:
+  serializedVersion: 1
+  productId: 254735
+  packageName: RichTap CoreSDK For Unity
+  packageVersion: 2023.1.0
+  assetPath: Assets/RichTap/RichTap CoreSDK For Unity3D/Assets/Resources/HE/Hit Metal.he
+  uploadId: 687532

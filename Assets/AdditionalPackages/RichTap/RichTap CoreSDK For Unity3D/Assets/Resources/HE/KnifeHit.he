@@ -1,0 +1,52 @@
+{
+    "Metadata": {
+        "Version": 1,
+        "Created": "2022-06-17",
+        "Description": "生成自RichTap Creator Pro"
+    },
+    "Pattern": [
+        {
+            "Event": {
+                "Type": "continuous",
+                "Duration": 70,
+                "RelativeTime": 0,
+                "Parameters": {
+                    "Intensity": 100,
+                    "Frequency": 100,
+                    "Curve": [
+                        {
+                            "Time": 0,
+                            "Intensity": 0,
+                            "Frequency": 0
+                        },
+                        {
+                            "Time": 27,
+                            "Intensity": 0.68,
+                            "Frequency": 0
+                        },
+                        {
+                            "Time": 42,
+                            "Intensity": 1,
+                            "Frequency": 0
+                        },
+                        {
+                            "Time": 70,
+                            "Intensity": 0,
+                            "Frequency": 0
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "Event": {
+                "Type": "transient",
+                "RelativeTime": 74,
+                "Parameters": {
+                    "Intensity": 100,
+                    "Frequency": 54
+                }
+            }
+        }
+    ]
+}
