@@ -230,6 +230,11 @@ namespace Managers
                 AudioSignals.Instance.onPlaySound(AudioSoundEnums.Explosion2);
             }
 
+            if (!isLevelEnd)
+            {
+                PitchSignals.Instance.onPlayPitch?.Invoke(PitchEnums.Explosion);
+            }
+
             gameObject.SetActive(false);
         }
 

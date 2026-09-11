@@ -35,12 +35,15 @@ MonoBehaviour:
     - CFXRDemo
     - PPv2URPConverters
     - MCPForUnity.Editor
+    - RichTap
+    - RichTap.Editor
     - GoogleMobileAds.Editor
     - CFXR.WelcomeScreen
     - ToonyColorsPro.Demo.Editor
     - CFXREditor
     - KinoBloom.Runtime
     - CFXRRuntime
+    - Richtap.IOS.Editor
     showAdvancedSettings: 0
   addMgrToSceneAutomatically: 0
   autoUpdateReferences: 1
