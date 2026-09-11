@@ -21,6 +21,7 @@ namespace Managers
         public bool IsThrown = false;
         public bool IsRising = false;
         public bool IsFullyCharged = false;
+        public bool IsEmergencyRecalling => _movementController != null && _movementController.IsEmergencyRecalling;
 
         public float EffectiveSpeed
         {

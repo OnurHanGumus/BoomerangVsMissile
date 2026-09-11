@@ -153,7 +153,7 @@ namespace Controllers.UI
             CoreGameSignals.Instance.onLevelFailed += OnChargeEnded;
         }
 
-        private void OnChargeUpdated(float progress, Vector3 worldPosition)
+        private void OnChargeUpdated(float progress, Vector3 worldPosition, float returnSwingDir)
         {
             transform.position = worldPosition + worldOffset;
 

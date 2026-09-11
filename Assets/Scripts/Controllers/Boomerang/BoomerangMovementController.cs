@@ -1,4 +1,5 @@
 using Data.ValueObject;
+using Enums;
 using Extensions;
 using Managers;
 using Signals;
@@ -34,10 +35,15 @@ namespace Controllers
         private float _chargedArcWidth = -1f;
         private float _chargedArcHeight = -1f;
         private bool _firstHitHandled = false;
+        private bool _hasSelectedReturnSwingDir = false;
+        private float _selectedReturnSwingDir = 1f;
+        private bool _isEmergencyRecalling = false;
 
         #endregion
 
         #endregion
+
+        public bool IsEmergencyRecalling => _isEmergencyRecalling;
 
         private void Awake()
         {
@@ -51,13 +57,42 @@ namespace Controllers
             _data = _manager.GetData();
             _returnSpline = new CatmullRomSpline();
             BoomerangSignals.Instance.onSetChargedArc += OnSetChargedArc;
+            BoomerangSignals.Instance.onEmergencyRecall += OnEmergencyRecall;
         }
 
-        private void OnSetChargedArc(float width, float height, bool isFullyCharged)
+        private void OnDestroy()
+        {
+            if (BoomerangSignals.Instance != null)
+            {
+                BoomerangSignals.Instance.onSetChargedArc -= OnSetChargedArc;
+                BoomerangSignals.Instance.onEmergencyRecall -= OnEmergencyRecall;
+            }
+        }
+
+        private void OnEmergencyRecall()
+        {
+            if (!_manager.IsThrown || _isEmergencyRecalling)
+            {
+                return;
+            }
+
+            _isEmergencyRecalling = true;
+            _isReturning = false;
+            _manager.IsRising = false;
+            _firstHitHandled = true;
+
+            BoomerangSignals.Instance.onBoomerangReturning?.Invoke();
+
+            AudioSignals.Instance.onPlaySound(AudioSoundEnums.Pitch);
+        }
+
+        private void OnSetChargedArc(float width, float height, bool isFullyCharged, float returnSwingDir)
         {
             _chargedArcWidth = width;
             _chargedArcHeight = height;
             _manager.IsFullyCharged = isFullyCharged;
+            _selectedReturnSwingDir = returnSwingDir;
+            _hasSelectedReturnSwingDir = true;
         }
 
         private void FixedUpdate()
@@ -67,7 +102,11 @@ namespace Controllers
                 return;
             }
 
-            if (_isReturning)
+            if (_isEmergencyRecalling)
+            {
+                MoveDirectToRecall();
+            }
+            else if (_isReturning)
             {
                 MoveAlongReturnSpline();
             }
@@ -78,6 +117,33 @@ namespace Controllers
 
             Spin();
         }
+
+        #region Emergency Recall Phase
+
+        private void MoveDirectToRecall()
+        {
+            transform.position = new Vector3(transform.position.x, transform.position.y, 0f);
+
+            Vector3 toTarget = _initializePos - transform.position;
+            toTarget.z = 0f;
+
+            float speed = _manager.EffectiveSpeed + (_manager.EffectiveSpeed * _manager.EffectiveReturnSpeedMultiplier);
+            Vector3 recallVelocity = toTarget.normalized * speed;
+            _rig.linearVelocity = recallVelocity;
+
+            if (toTarget.sqrMagnitude <= 0.25f || Vector3.Dot(recallVelocity, toTarget) <= 0f)
+            {
+                transform.position = _initializePos;
+                _isEmergencyRecalling = false;
+                _isReturning = false;
+                _manager.IsThrown = false;
+                _rig.linearVelocity = Vector3.zero;
+                _rig.angularVelocity = Vector3.zero;
+                BoomerangSignals.Instance.onBoomerangHasReturned?.Invoke();
+            }
+        }
+
+        #endregion
 
         #region Sharp Direct Phase
 
@@ -112,7 +178,7 @@ namespace Controllers
 
             int index = Mathf.Clamp(_manager.PointIndex, 0, _manager.MissilePoints.Count - 1);
             Vector3 target = _manager.MissilePoints[index];
-            Vector3 dir = (target - transform.position).normalized * _manager.EffectiveSpeed * (index + 1);
+            Vector3 dir = (target - transform.position).normalized * _manager.EffectiveSpeed;
             return new Vector3(dir.x, dir.y, 0f);
         }
 
@@ -143,8 +209,8 @@ namespace Controllers
             float arcWidth = _chargedArcWidth > 0 ? _chargedArcWidth : _data.ReturnArcWidth;
             float arcHeight = _chargedArcHeight > 0 ? _chargedArcHeight : _data.ReturnArcHeight;
 
-            // Inward direction bias if target is near screen borders, matching TrajectoryPreviewController
-            _currentReturnSwingDir = CalculateSwingDirection(target.x);
+            // Inward direction bias if target is near screen borders, or player-selected drag direction
+            _currentReturnSwingDir = _hasSelectedReturnSwingDir ? _selectedReturnSwingDir : CalculateSwingDirection(target.x);
 
             // Apex loop point beyond the target
             Vector3 apexPoint = new Vector3(
@@ -181,7 +247,7 @@ namespace Controllers
                 return;
             }
 
-            float currentSpeed = _manager.EffectiveSpeed * (_manager.MissilePoints.Count + 1) * _manager.EffectiveReturnSpeedMultiplier;
+            float currentSpeed = _manager.EffectiveSpeed + (_manager.EffectiveSpeed * _manager.EffectiveReturnSpeedMultiplier); ;
             float segmentLength = _returnSpline.GetSegmentLength(_returnSegment);
             if (segmentLength <= 0.0001f)
             {
@@ -313,6 +379,13 @@ namespace Controllers
 
         public void OnBoomerangNextTarget()
         {
+            if (_isEmergencyRecalling)
+            {
+                _manager.PointIndex++;
+                BoomerangSignals.Instance.onCombo?.Invoke(Mathf.Max(0, _manager.PointIndex - 1));
+                return;
+            }
+
             if (!_firstHitHandled)
             {
                 _firstHitHandled = true;
@@ -347,6 +420,7 @@ namespace Controllers
         {
             _manager.IsThrown = false;
             _isReturning = false;
+            _isEmergencyRecalling = false;
             _rig.linearVelocity = Vector3.zero;
             _rig.angularVelocity = Vector3.zero;
         }
@@ -355,6 +429,7 @@ namespace Controllers
         {
             _manager.IsThrown = false;
             _isReturning = false;
+            _isEmergencyRecalling = false;
             _rig.linearVelocity = Vector3.zero;
             _rig.angularVelocity = Vector3.zero;
         }
@@ -369,6 +444,7 @@ namespace Controllers
         private void ResetFlight()
         {
             _isReturning = false;
+            _isEmergencyRecalling = false;
             _isPointMissed = false;
             _rig.linearVelocity = Vector3.zero;
             _rig.angularVelocity = Vector3.zero;
@@ -378,6 +454,8 @@ namespace Controllers
             _chargedArcWidth = -1f;
             _chargedArcHeight = -1f;
             _firstHitHandled = false;
+            _hasSelectedReturnSwingDir = false;
+            _selectedReturnSwingDir = 1f;
             _manager.IsFullyCharged = false;
         }
     }

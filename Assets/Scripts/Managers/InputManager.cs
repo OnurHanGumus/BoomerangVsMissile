@@ -7,6 +7,7 @@ using Signals;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using Enums;
+using Controllers;
 
 namespace Managers
 {
@@ -24,6 +25,9 @@ namespace Managers
 
         //[SerializeField] FloatingJoystick joystick; //SimpleJoystick paketi eklenmeli
 
+        [Header("Drag Direction Settings")]
+        [SerializeField] private float dragThreshold = 0.25f;
+
 
         #endregion
 
@@ -37,6 +41,12 @@ namespace Managers
         private float _chargeTimer = 0f;
         private PlayerData _playerData;
         private Vector3 _clickedPoint = Vector3.zero;
+
+        private Vector3 _dragStartWorldPos;
+        private float _clickYOffset = 0f;
+        private float _currentReturnSwingDir = 1f;
+        private bool _hasSelectedDragDirection = false;
+        private float _lastThrowTime = -1f;
         #endregion
 
         #endregion
@@ -72,6 +82,13 @@ namespace Managers
         {
             if (!_isBoomerangOnPlayer)
             {
+                if (!_isPlayerDead && !IsPointerOverUIElement() && Input.GetMouseButtonDown(0))
+                {
+                    if (Time.unscaledTime - _lastThrowTime > 0.08f)
+                    {
+                        BoomerangSignals.Instance.onEmergencyRecall?.Invoke();
+                    }
+                }
                 return;
             }
             if (IsPointerOverUIElement())
@@ -96,9 +113,13 @@ namespace Managers
                         {
                             Vector3 hitPoint = new Vector3(hit.point.x, hit.point.y, 0f);
                             _clickedPoint = hitPoint;
-                            InputSignals.Instance.onClicking?.Invoke(hitPoint);
                             _lastHitTransform = hit.transform;
+                            _clickYOffset = hitPoint.y - _lastHitTransform.position.y;
+                            _dragStartWorldPos = GetWorldPointFromMouse(Input.mousePosition);
+                            _hasSelectedDragDirection = false;
+                            _currentReturnSwingDir = BoomerangMovementController.CalculateSwingDirection(_clickedPoint.x);
                             _chargeTimer = 0f;
+                            InputSignals.Instance.onClicking?.Invoke(hitPoint);
                             AudioSignals.Instance.onPlaySound(AudioSoundEnums.Pitch);
 
                         }
@@ -108,23 +129,34 @@ namespace Managers
                 {
                     if (_lastHitTransform != null)
                     {
-                        _ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                        RaycastHit hit;
-                        if (Physics.Raycast(_ray, out hit))
-                        {
-                            if (hit.transform == _lastHitTransform || hit.transform.IsChildOf(_lastHitTransform))
-                            {
-                                Vector3 hitPoint = new Vector3(hit.transform.position.x, hit.point.y, 0f);
-                                _clickedPoint = hitPoint;
-                                InputSignals.Instance.onClicking?.Invoke(_clickedPoint);
-                            }
-                        }
+                        // Target follows the missile position seamlessly during hold
+                        _clickedPoint = new Vector3(_lastHitTransform.position.x, _lastHitTransform.position.y + _clickYOffset, 0f);
+                        InputSignals.Instance.onClicking?.Invoke(_clickedPoint);
+                    }
+
+                    // Drag horizontal calculation relative to press point on missile
+                    Vector3 currentWorldPos = GetWorldPointFromMouse(Input.mousePosition);
+                    float deltaX = currentWorldPos.x - _dragStartWorldPos.x;
+
+                    if (deltaX > dragThreshold)
+                    {
+                        _currentReturnSwingDir = -1f; // Drag right -> return direction left
+                        _hasSelectedDragDirection = true;
+                    }
+                    else if (deltaX < -dragThreshold)
+                    {
+                        _currentReturnSwingDir = 1f; // Drag left -> return direction right
+                        _hasSelectedDragDirection = true;
+                    }
+                    else if (!_hasSelectedDragDirection)
+                    {
+                        _currentReturnSwingDir = BoomerangMovementController.CalculateSwingDirection(_clickedPoint.x);
                     }
 
                     // Target already selected; charge arc based on hold duration
                     _chargeTimer += Time.unscaledDeltaTime;
                     float progress = Mathf.Clamp01(_chargeTimer / _playerData.ChargeDuration);
-                    InputSignals.Instance.onChargeUpdated?.Invoke(progress, _clickedPoint);
+                    InputSignals.Instance.onChargeUpdated?.Invoke(progress, _clickedPoint, _currentReturnSwingDir);
                 }
             }
 
@@ -136,9 +168,10 @@ namespace Managers
                     float chargedWidth = Mathf.Lerp(_playerData.MinReturnArcWidth, _playerData.MaxReturnArcWidth, progress);
                     float chargedHeight = Mathf.Lerp(_playerData.MinReturnArcHeight, _playerData.MaxReturnArcHeight, progress);
                     bool isFullyCharged = progress >= 0.99f;
-                    BoomerangSignals.Instance.onSetChargedArc?.Invoke(chargedWidth, chargedHeight, isFullyCharged);
+                    BoomerangSignals.Instance.onSetChargedArc?.Invoke(chargedWidth, chargedHeight, isFullyCharged, _currentReturnSwingDir);
                     InputSignals.Instance.onChargeEnded?.Invoke();
                     _chargeTimer = 0f;
+                    ResetDragState();
                 }
 
                 InputSignals.Instance.onInputReleased?.Invoke();
@@ -174,18 +207,48 @@ namespace Managers
         {
             _lastHitTransform = null;
             _clickedPoint = Vector3.zero;
+            ResetDragState();
             _isBoomerangOnPlayer = true;
         }
         private void OnBoomerangThrown()
         {
             _isBoomerangOnPlayer = false;
+            _lastThrowTime = Time.unscaledTime;
         }
 
         private void OnReset()
         {
             _lastHitTransform = null;
             _clickedPoint = Vector3.zero;
+            ResetDragState();
             _isBoomerangOnPlayer = true;
+        }
+
+        private void ResetDragState()
+        {
+            _hasSelectedDragDirection = false;
+            _currentReturnSwingDir = 1f;
+            _clickYOffset = 0f;
+            _dragStartWorldPos = Vector3.zero;
+        }
+
+        private Vector3 GetWorldPointFromMouse(Vector3 mousePos)
+        {
+            if (Camera.main == null)
+            {
+                return Vector3.zero;
+            }
+
+            Ray ray = Camera.main.ScreenPointToRay(mousePos);
+            Plane plane = new Plane(Vector3.back, Vector3.zero);
+            if (plane.Raycast(ray, out float enter))
+            {
+                Vector3 point = ray.GetPoint(enter);
+                point.z = 0f;
+                return point;
+            }
+
+            return Vector3.zero;
         }
 
         private void OnChangePlayerLivingState()

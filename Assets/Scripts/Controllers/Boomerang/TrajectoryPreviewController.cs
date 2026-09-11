@@ -150,7 +150,7 @@ namespace Controllers.Boomerang
             }
         }
 
-        private void OnChargeUpdated(float progress, Vector3 targetWorldPos)
+        private void OnChargeUpdated(float progress, Vector3 targetWorldPos, float returnSwingDir)
         {
             _isAiming = true;
             lineRenderer.enabled = true;
@@ -165,8 +165,8 @@ namespace Controllers.Boomerang
             Vector3 initPos = new Vector3(_playerData.BoomerangInitPosX, _playerData.BoomerangInitPosY, 0f);
             Vector3 target = new Vector3(targetWorldPos.x, targetWorldPos.y, 0f);
 
-            // Determine swing direction (matching BoomerangMovementController)
-            float swingDir = BoomerangMovementController.CalculateSwingDirection(target.x);
+            // Determine swing direction (selected via drag or default)
+            float swingDir = returnSwingDir;
 
             // Apex loop point
             Vector3 apexPoint = new Vector3(
