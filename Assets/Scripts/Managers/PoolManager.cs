@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using Signals;
+using Data.UnityObject;
+using Data.ValueObject;
 using Enums;
+using Signals;
+using UnityEngine;
 
 public class PoolManager : MonoBehaviour
 {
@@ -10,85 +12,289 @@ public class PoolManager : MonoBehaviour
 
     #region Serialized Variables
 
-    [SerializeField] private GameObject Missile_1_Default, Missile_2_Small, Missile_3_Exploder, Missile_4_Armored, Missile_5_Cluster, Missile_6_Cluster_Small;
-    [SerializeField] private GameObject explosionPrefab, explosionPinkPrefab;
-    [SerializeField] private GameObject particlePrefab;
-
-    [SerializeField] private Dictionary<PoolEnums, List<GameObject>> poolDictionary;
-
-
-    [SerializeField] private int amountMissile = 50;
-    [SerializeField] private int amountParticle = 5;
-
-
+    [SerializeField] private List<CD_PoolSettings> pooledSettings = new List<CD_PoolSettings>();
 
     #endregion
+
     #region Private Variables
-    private int _levelId = 0;
+
+    private Dictionary<PoolEnums, List<GameObject>> _poolDictionary = new Dictionary<PoolEnums, List<GameObject>>();
+    private Dictionary<PoolEnums, GameObject> _prefabDictionary = new Dictionary<PoolEnums, GameObject>();
+
+    private int _totalPooledObjectCount = 0;
+    private int _createdPooledObjectCount = 0;
+
+    public int CreatedPoolObjectCount
+    {
+        get => _createdPooledObjectCount;
+        set
+        {
+            _createdPooledObjectCount = value;
+            if (_totalPooledObjectCount > 0)
+            {
+                PoolSignals.Instance.onAPoolObjectCreated?.Invoke((float)_createdPooledObjectCount / _totalPooledObjectCount);
+            }
+        }
+    }
+
     #endregion
+
     #endregion
+
+    #region Unity Lifecycle
+
+    private bool _isSubscribed = false;
+
     private void Awake()
     {
         Init();
         SubscribeEvents();
     }
-    private void Init()
+
+    private void OnEnable()
     {
-        _levelId = LevelSignals.Instance.onGetCurrentModdedLevel();
-        poolDictionary = new Dictionary<PoolEnums, List<GameObject>>();
-        if (Missile_1_Default != null) InitializePool(PoolEnums.Missile_1_Default, Missile_1_Default, amountMissile);
-        if (Missile_2_Small != null) InitializePool(PoolEnums.Missile_2_Small, Missile_2_Small, amountMissile);
-        if (Missile_3_Exploder != null) InitializePool(PoolEnums.Missile_3_Exploder, Missile_3_Exploder, amountMissile);
-        if (Missile_4_Armored != null) InitializePool(PoolEnums.Missile_4_Armored, Missile_4_Armored, amountMissile);
-        if (Missile_5_Cluster != null) InitializePool(PoolEnums.Missile_5_Cluster, Missile_5_Cluster, amountMissile);
-        if (Missile_6_Cluster_Small != null) InitializePool(PoolEnums.Missile_6_Cluster_Small, Missile_6_Cluster_Small, amountMissile);
-        if (explosionPrefab != null) InitializePool(PoolEnums.ExplosionStandard, explosionPrefab, amountParticle);
-        if (explosionPinkPrefab != null) InitializePool(PoolEnums.ExplosionPink, explosionPinkPrefab, amountParticle);
-        if (particlePrefab != null) InitializePool(PoolEnums.Confetti, particlePrefab, amountParticle);
+        SubscribeEvents();
     }
 
+    private void OnDisable()
+    {
+        UnsubscribeEvents();
+    }
 
+    private void OnDestroy()
+    {
+        UnsubscribeEvents();
+    }
+
+    #endregion
+
+    #region Initialization
+
+    private void Init()
+    {
+        if (pooledSettings == null || pooledSettings.Count == 0)
+        {
+            CD_PoolSettings defaultSettings = Resources.Load<CD_PoolSettings>("Data/PoolData/DefaultPoolSettings");
+            if (defaultSettings != null)
+            {
+                pooledSettings = new List<CD_PoolSettings> { defaultSettings };
+            }
+        }
+
+        BuildPrefabDictionary();
+        CalculateTotalPooledObjectCount();
+        StartCoroutine(WarmupPool());
+    }
+
+    private void BuildPrefabDictionary()
+    {
+        _prefabDictionary.Clear();
+        if (pooledSettings == null) return;
+
+        foreach (var setting in pooledSettings)
+        {
+            if (setting == null || setting.pooledObjects == null) continue;
+
+            foreach (var pooledObj in setting.pooledObjects)
+            {
+                if (pooledObj.TypeData != null && pooledObj.TypeData.Prefab != null)
+                {
+                    _prefabDictionary[pooledObj.TypeData.PoolEnums] = pooledObj.TypeData.Prefab;
+                }
+            }
+        }
+    }
+
+    private void CalculateTotalPooledObjectCount()
+    {
+        _totalPooledObjectCount = 0;
+        if (pooledSettings == null) return;
+
+        foreach (var setting in pooledSettings)
+        {
+            if (setting == null || setting.pooledObjects == null) continue;
+
+            foreach (var pooledObj in setting.pooledObjects)
+            {
+                _totalPooledObjectCount += pooledObj.Amounts;
+            }
+        }
+    }
+
+    private IEnumerator WarmupPool()
+    {
+        yield return null;
+
+        if (pooledSettings != null)
+        {
+            foreach (var setting in pooledSettings)
+            {
+                if (setting == null || setting.pooledObjects == null) continue;
+
+                foreach (var pooledObj in setting.pooledObjects)
+                {
+                    if (pooledObj.TypeData == null || pooledObj.TypeData.Prefab == null) continue;
+
+                    PoolEnums type = pooledObj.TypeData.PoolEnums;
+                    if (!_poolDictionary.ContainsKey(type))
+                    {
+                        _poolDictionary[type] = new List<GameObject>();
+                    }
+
+                    for (int i = 0; i < pooledObj.Amounts; i++)
+                    {
+                        GameObject obj = Instantiate(pooledObj.TypeData.Prefab, transform);
+                        obj.SetActive(false);
+                        _poolDictionary[type].Add(obj);
+                        CreatedPoolObjectCount++;
+
+                        if (CreatedPoolObjectCount % 10 == 0)
+                        {
+                            yield return null;
+                        }
+                    }
+                }
+            }
+        }
+
+        PoolSignals.Instance.onPoolInitialized?.Invoke();
+    }
+
+    #endregion
 
     #region Event Subscriptions
 
     private void SubscribeEvents()
     {
-        PoolSignals.Instance.onGetPoolManagerObj += OnGetPoolManagerObj;
-        PoolSignals.Instance.onGetObject += OnGetObject;
-        CoreGameSignals.Instance.onRestartLevel += OnReset;
+        if (_isSubscribed) return;
+        _isSubscribed = true;
 
+        PoolSignals.Instance.onGetObject += OnGetObject;
+        PoolSignals.Instance.onGetObjectAtPosition += OnGetObject;
+        PoolSignals.Instance.onGetObjectWithRotation += OnGetObject;
+        PoolSignals.Instance.onGetPoolManagerObj += OnGetPoolManagerObj;
+        PoolSignals.Instance.onGetPoolTransform += OnGetPoolManagerObj;
+        PoolSignals.Instance.onSetParentAsPool += OnSetParentAsPool;
+
+        if (CoreGameSignals.Instance != null)
+        {
+            CoreGameSignals.Instance.onRestartLevel += OnReset;
+            CoreGameSignals.Instance.onReset += OnReset;
+        }
+    }
+
+    private void UnsubscribeEvents()
+    {
+        if (!_isSubscribed) return;
+        _isSubscribed = false;
+
+        if (PoolSignals.Instance != null)
+        {
+            PoolSignals.Instance.onGetObject -= OnGetObject;
+            PoolSignals.Instance.onGetObjectAtPosition -= OnGetObject;
+            PoolSignals.Instance.onGetObjectWithRotation -= OnGetObject;
+            PoolSignals.Instance.onGetPoolManagerObj -= OnGetPoolManagerObj;
+            PoolSignals.Instance.onGetPoolTransform -= OnGetPoolManagerObj;
+            PoolSignals.Instance.onSetParentAsPool -= OnSetParentAsPool;
+        }
+
+        if (CoreGameSignals.Instance != null)
+        {
+            CoreGameSignals.Instance.onRestartLevel -= OnReset;
+            CoreGameSignals.Instance.onReset -= OnReset;
+        }
     }
 
     #endregion
 
-    private void InitializePool(PoolEnums type, GameObject prefab, int size)
-    {
-        List<GameObject> tempList = new List<GameObject>();
-        GameObject tmp;
-
-        for (int i = 0; i < size; i++)
-        {
-            tmp = Instantiate(prefab, transform);
-            tmp.SetActive(false);
-            tempList.Add(tmp);
-        }
-        poolDictionary.Add(type, tempList);
-    }
+    #region Pool Operations
 
     public GameObject OnGetObject(PoolEnums type)
     {
-        if (!poolDictionary.ContainsKey(type) || poolDictionary[type] == null)
+        if (!_poolDictionary.ContainsKey(type))
         {
+            _poolDictionary[type] = new List<GameObject>();
+        }
+
+        List<GameObject> poolList = _poolDictionary[type];
+        for (int i = 0; i < poolList.Count; i++)
+        {
+            if (poolList[i] != null && !poolList[i].activeInHierarchy)
+            {
+                return poolList[i];
+            }
+        }
+
+        return ExpandPool(type);
+    }
+
+    public GameObject OnGetObject(PoolEnums type, Vector3 position)
+    {
+        GameObject obj = OnGetObject(type);
+        if (obj != null)
+        {
+            obj.transform.position = position;
+        }
+        return obj;
+    }
+
+    public GameObject OnGetObject(PoolEnums type, Vector3 position, Quaternion rotation)
+    {
+        GameObject obj = OnGetObject(type);
+        if (obj != null)
+        {
+            obj.transform.position = position;
+            obj.transform.rotation = rotation;
+        }
+        return obj;
+    }
+
+    private GameObject ExpandPool(PoolEnums type)
+    {
+        GameObject prefab = GetPrefabForType(type);
+        if (prefab == null)
+        {
+            Debug.LogWarning($"[PoolManager] No prefab found for PoolEnums: {type}");
             return null;
         }
 
-        for (int i = 0; i < poolDictionary[type].Count; i++)
+        GameObject expandedObject = Instantiate(prefab, transform);
+        expandedObject.SetActive(false);
+
+        if (!_poolDictionary.ContainsKey(type))
         {
-            if (!poolDictionary[type][i].activeInHierarchy)
+            _poolDictionary[type] = new List<GameObject>();
+        }
+        _poolDictionary[type].Add(expandedObject);
+
+        return expandedObject;
+    }
+
+    private GameObject GetPrefabForType(PoolEnums type)
+    {
+        if (_prefabDictionary.TryGetValue(type, out GameObject prefab) && prefab != null)
+        {
+            return prefab;
+        }
+
+        // Fallback search through pooledSettings if dictionary missed it
+        if (pooledSettings != null)
+        {
+            foreach (var setting in pooledSettings)
             {
-                return poolDictionary[type][i];
+                if (setting == null || setting.pooledObjects == null) continue;
+
+                foreach (var pooledObj in setting.pooledObjects)
+                {
+                    if (pooledObj.TypeData != null && pooledObj.TypeData.PoolEnums == type && pooledObj.TypeData.Prefab != null)
+                    {
+                        _prefabDictionary[type] = pooledObj.TypeData.Prefab;
+                        return pooledObj.TypeData.Prefab;
+                    }
+                }
             }
         }
+
         return null;
     }
 
@@ -97,25 +303,35 @@ public class PoolManager : MonoBehaviour
         return transform;
     }
 
+    private void OnSetParentAsPool(Transform poolObject)
+    {
+        if (poolObject != null)
+        {
+            poolObject.SetParent(transform);
+        }
+    }
 
     private void OnReset()
     {
-        //reset
-        if (poolDictionary.ContainsKey(PoolEnums.Missile_1_Default)) ResetPool(PoolEnums.Missile_1_Default);
-        if (poolDictionary.ContainsKey(PoolEnums.Missile_2_Small)) ResetPool(PoolEnums.Missile_2_Small);
-        if (poolDictionary.ContainsKey(PoolEnums.Missile_3_Exploder)) ResetPool(PoolEnums.Missile_3_Exploder);
-        if (poolDictionary.ContainsKey(PoolEnums.Missile_4_Armored)) ResetPool(PoolEnums.Missile_4_Armored);
-        if (poolDictionary.ContainsKey(PoolEnums.Missile_5_Cluster)) ResetPool(PoolEnums.Missile_5_Cluster);
-        if (poolDictionary.ContainsKey(PoolEnums.Missile_6_Cluster_Small)) ResetPool(PoolEnums.Missile_6_Cluster_Small);
-        if (poolDictionary.ContainsKey(PoolEnums.ExplosionStandard)) ResetPool(PoolEnums.ExplosionStandard);
-        if (poolDictionary.ContainsKey(PoolEnums.ExplosionPink)) ResetPool(PoolEnums.ExplosionPink);
+        foreach (var poolPair in _poolDictionary)
+        {
+            ResetPool(poolPair.Key);
+        }
     }
 
     private void ResetPool(PoolEnums type)
     {
-        foreach (var i in poolDictionary[type])
+        if (!_poolDictionary.ContainsKey(type) || _poolDictionary[type] == null) return;
+
+        foreach (var obj in _poolDictionary[type])
         {
-            i.SetActive(false);
+            if (obj != null)
+            {
+                obj.transform.localScale = Vector3.one;
+                obj.SetActive(false);
+            }
         }
     }
+
+    #endregion
 }
