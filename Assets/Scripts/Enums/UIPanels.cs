@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace Enums
 {
@@ -16,5 +16,6 @@ namespace Enums
         GameOverPanel,
         BoomerangPanel,
         StorePanel,
+        SourcesPanel,
     }
 }

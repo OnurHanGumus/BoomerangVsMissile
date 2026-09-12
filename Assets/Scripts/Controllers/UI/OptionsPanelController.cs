@@ -62,6 +62,11 @@ public class OptionsPanelController : MonoBehaviour
     {
         OnPitchValueChanged();
     }
+    public void OpenSourcesPanel()
+    {
+        UISignals.Instance.onOpenPanel?.Invoke(UIPanels.SourcesPanel);
+    }
+
     public void CloseOptionsPanel()
     {
         UISignals.Instance.onClosePanel?.Invoke(UIPanels.OptionsPanel);

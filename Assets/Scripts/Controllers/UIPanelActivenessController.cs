@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using DG.Tweening;
 using Enums;
 using Managers;
@@ -20,13 +20,21 @@ namespace Controllers
 
         public void OpenMenu(UIPanels storeMenu)
         {
-            panels[(int)storeMenu].DOFade(1f, 0.5f).SetEase(Ease.OutBack).SetUpdate(true);
-            panels[(int)storeMenu].blocksRaycasts = true;
+            int index = (int)storeMenu;
+            if (index >= 0 && index < panels.Count && panels[index] != null)
+            {
+                panels[index].DOFade(1f, 0.5f).SetEase(Ease.OutBack).SetUpdate(true);
+                panels[index].blocksRaycasts = true;
+            }
         }
         public void CloseMenu(UIPanels storeMenu)
         {
-            panels[(int)storeMenu].DOFade(0f, 0.5f).SetUpdate(true);
-            panels[(int)storeMenu].blocksRaycasts = false;
+            int index = (int)storeMenu;
+            if (index >= 0 && index < panels.Count && panels[index] != null)
+            {
+                panels[index].DOFade(0f, 0.5f).SetUpdate(true);
+                panels[index].blocksRaycasts = false;
+            }
         }
     }
 }
