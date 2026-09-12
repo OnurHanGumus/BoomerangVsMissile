@@ -8,6 +8,7 @@ namespace Enums
         Score,
         //Options
         SoundState,
+        PitchState,
         Level,
         Gem,
         BuyItem,

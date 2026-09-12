@@ -1,4 +1,4 @@
-﻿using Enums;
+using Enums;
 using Signals;
 using System.Collections;
 using System.Collections.Generic;
@@ -13,24 +13,54 @@ public class OptionsPanelController : MonoBehaviour
     #endregion
     #region SerializeField Variables
     [SerializeField] private Toggle soundToggle;
+    [SerializeField] private Toggle pitchToggle;
     [SerializeField] private AudioSource audioSource;
     #endregion
     #region Private Variables
     private bool _audioSourceActiveness;
+    private bool _pitchActiveness;
     #endregion
     #endregion
 
     private void Start()
     {
         _audioSourceActiveness = SaveSignals.Instance.onGetSoundState(SaveLoadStates.SoundState, SaveFiles.GameOptions) == 1;
-        soundToggle.isOn = _audioSourceActiveness;
+        if (soundToggle != null)
+        {
+            soundToggle.isOn = _audioSourceActiveness;
+        }
         SetAudioSource();
+
+        if (pitchToggle != null)
+        {
+            _pitchActiveness = SaveSignals.Instance.onGetPitchState(SaveLoadStates.PitchState, SaveFiles.GameOptions) == 1;
+            pitchToggle.isOn = _pitchActiveness;
+            pitchToggle.onValueChanged.AddListener(OnPitchToggleValueChanged);
+        }
     }
+
     public void OnValueChanged()
     {
-        SaveSignals.Instance.onChangeSoundState?.Invoke(soundToggle.isOn ? 1 : 0, SaveLoadStates.SoundState, SaveFiles.GameOptions);
-        _audioSourceActiveness = !_audioSourceActiveness;
-        SetAudioSource();
+        if (soundToggle != null)
+        {
+            _audioSourceActiveness = soundToggle.isOn;
+            SaveSignals.Instance.onChangeSoundState?.Invoke(_audioSourceActiveness ? 1 : 0, SaveLoadStates.SoundState, SaveFiles.GameOptions);
+            SetAudioSource();
+        }
+    }
+
+    public void OnPitchValueChanged()
+    {
+        if (pitchToggle != null)
+        {
+            _pitchActiveness = pitchToggle.isOn;
+            SaveSignals.Instance.onChangePitchState?.Invoke(_pitchActiveness ? 1 : 0, SaveLoadStates.PitchState, SaveFiles.GameOptions);
+        }
+    }
+
+    private void OnPitchToggleValueChanged(bool isOn)
+    {
+        OnPitchValueChanged();
     }
     public void CloseOptionsPanel()
     {

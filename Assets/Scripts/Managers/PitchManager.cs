@@ -35,8 +35,11 @@ namespace Managers
         #region Private Variables
 
         private readonly Dictionary<PitchEnums, PitchPresetMapping> _mappingLookup = new Dictionary<PitchEnums, PitchPresetMapping>();
+        private bool _isPitchEnabled = true;
 
         #endregion
+
+        public bool IsPitchEnabled => _isPitchEnabled;
 
         private void Awake()
         {
@@ -44,6 +47,11 @@ namespace Managers
             BuildLookupTable();
             EnsureRichtapInitialized();
             SubscribeEvents();
+        }
+
+        private void Start()
+        {
+            _isPitchEnabled = SaveSignals.Instance.onGetPitchState(SaveLoadStates.PitchState, SaveFiles.GameOptions) == 1;
         }
 
         private void OnDestroy()
@@ -56,6 +64,7 @@ namespace Managers
         private void SubscribeEvents()
         {
             PitchSignals.Instance.onPlayPitch += OnPlayPitch;
+            SaveSignals.Instance.onChangePitchState += OnChangePitchState;
         }
 
         private void UnsubscribeEvents()
@@ -63,6 +72,19 @@ namespace Managers
             if (PitchSignals.Instance != null)
             {
                 PitchSignals.Instance.onPlayPitch -= OnPlayPitch;
+            }
+
+            if (SaveSignals.Instance != null)
+            {
+                SaveSignals.Instance.onChangePitchState -= OnChangePitchState;
+            }
+        }
+
+        private void OnChangePitchState(int state, SaveLoadStates saveState, SaveFiles saveFile)
+        {
+            if (saveState == SaveLoadStates.PitchState)
+            {
+                _isPitchEnabled = state == 1;
             }
         }
 
@@ -118,6 +140,11 @@ namespace Managers
 
         private void OnPlayPitch(PitchEnums id)
         {
+            if (!_isPitchEnabled)
+            {
+                return;
+            }
+
             try
             {
                 if (!_mappingLookup.TryGetValue(id, out var mapping))

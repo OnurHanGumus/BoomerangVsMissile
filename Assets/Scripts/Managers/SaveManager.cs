@@ -35,9 +35,30 @@ namespace Managers
         {
             SaveSignals.Instance.onSave += OnSaveData;
             SaveSignals.Instance.onChangeSoundState += OnSaveData;
+            SaveSignals.Instance.onChangePitchState += OnSaveData;
             SaveSignals.Instance.onGetScore += OnGetData;
             SaveSignals.Instance.onGetSoundState += OnGetData;
+            SaveSignals.Instance.onGetPitchState += OnGetData;
             SaveSignals.Instance.onBuyItem += OnSaveList;
+        }
+
+        private void UnsubscribeEvents()
+        {
+            if (SaveSignals.Instance != null)
+            {
+                SaveSignals.Instance.onSave -= OnSaveData;
+                SaveSignals.Instance.onChangeSoundState -= OnSaveData;
+                SaveSignals.Instance.onChangePitchState -= OnSaveData;
+                SaveSignals.Instance.onGetScore -= OnGetData;
+                SaveSignals.Instance.onGetSoundState -= OnGetData;
+                SaveSignals.Instance.onGetPitchState -= OnGetData;
+                SaveSignals.Instance.onBuyItem -= OnSaveList;
+            }
+        }
+
+        private void OnDestroy()
+        {
+            UnsubscribeEvents();
         }
 
         #endregion
