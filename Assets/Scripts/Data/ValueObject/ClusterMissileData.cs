@@ -7,7 +7,7 @@ namespace Data.ValueObject
     [Serializable]
     public class ClusterMissileData
     {
-        public PoolEnums ClusterChildType = PoolEnums.Missile6;
+        public PoolEnums ClusterChildType = PoolEnums.Missile_6_Cluster_Small;
         public int ClusterChildCount = 1;
         public float ClusterChildSpacing = 0.8f;
         public float ClusterSpawnDelay = 1f;

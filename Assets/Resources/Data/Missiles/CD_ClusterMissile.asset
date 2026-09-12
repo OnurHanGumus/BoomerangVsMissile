@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: CD_ClusterMissile
   m_EditorClassIdentifier: 
   Data:
-    ClusterChildType: 9
+    ClusterChildType: 8
     ClusterChildCount: 1
     ClusterChildSpacing: 0.8
     ClusterSpawnDelay: 0.25
