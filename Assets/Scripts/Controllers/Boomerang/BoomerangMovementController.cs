@@ -38,6 +38,7 @@ namespace Controllers
         private bool _hasSelectedReturnSwingDir = false;
         private float _selectedReturnSwingDir = 1f;
         private bool _isEmergencyRecalling = false;
+        private float _progress = 0f;
 
         #endregion
 
@@ -86,13 +87,14 @@ namespace Controllers
             AudioSignals.Instance.onPlaySound(AudioSoundEnums.Pitch);
         }
 
-        private void OnSetChargedArc(float width, float height, bool isFullyCharged, float returnSwingDir)
+        private void OnSetChargedArc(float width, float height, float returnSwingDir, float progres)
         {
             _chargedArcWidth = width;
             _chargedArcHeight = height;
-            _manager.IsFullyCharged = isFullyCharged;
+            _manager.IsFullyCharged = progres >= 0.99f;
             _selectedReturnSwingDir = returnSwingDir;
             _hasSelectedReturnSwingDir = true;
+            _progress = progres;
         }
 
         private void FixedUpdate()
@@ -178,7 +180,7 @@ namespace Controllers
 
             int index = Mathf.Clamp(_manager.PointIndex, 0, _manager.MissilePoints.Count - 1);
             Vector3 target = _manager.MissilePoints[index];
-            Vector3 dir = (target - transform.position).normalized * _manager.EffectiveSpeed;
+            Vector3 dir = (target - transform.position).normalized * (_manager.EffectiveSpeed + (_progress * 10));
             return new Vector3(dir.x, dir.y, 0f);
         }
 

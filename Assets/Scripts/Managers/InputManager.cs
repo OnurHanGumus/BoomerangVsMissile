@@ -168,7 +168,7 @@ namespace Managers
                     float chargedWidth = Mathf.Lerp(_playerData.MinReturnArcWidth, _playerData.MaxReturnArcWidth, progress);
                     float chargedHeight = Mathf.Lerp(_playerData.MinReturnArcHeight, _playerData.MaxReturnArcHeight, progress);
                     bool isFullyCharged = progress >= 0.99f;
-                    BoomerangSignals.Instance.onSetChargedArc?.Invoke(chargedWidth, chargedHeight, isFullyCharged, _currentReturnSwingDir);
+                    BoomerangSignals.Instance.onSetChargedArc?.Invoke(chargedWidth, chargedHeight, _currentReturnSwingDir, progress);
                     InputSignals.Instance.onChargeEnded?.Invoke();
                     _chargeTimer = 0f;
                     ResetDragState();

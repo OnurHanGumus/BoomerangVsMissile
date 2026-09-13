@@ -18,13 +18,13 @@ MonoBehaviour:
   - TypeData: {fileID: 11400000, guid: 99711b8903a5a9a4081a3073fc48add7, type: 2}
     Amounts: 15
   - TypeData: {fileID: 11400000, guid: b4f826c04f367524dbdd204ddfc7904a, type: 2}
-    Amounts: 15
+    Amounts: 10
   - TypeData: {fileID: 11400000, guid: 7e4a71734f739514385159a3b1c3646d, type: 2}
-    Amounts: 15
+    Amounts: 10
   - TypeData: {fileID: 11400000, guid: fe0eb24f4b215a14c9e6d42d316e73eb, type: 2}
-    Amounts: 15
+    Amounts: 10
   - TypeData: {fileID: 11400000, guid: 65c4d97ecae8caa40a95df6f0ca55531, type: 2}
-    Amounts: 15
+    Amounts: 10
   - TypeData: {fileID: 11400000, guid: 9503907ae2ed347459d01f08ed6f35f9, type: 2}
     Amounts: 10
   - TypeData: {fileID: 11400000, guid: 615711badfd65c5478f7c4d85e7b7f32, type: 2}
