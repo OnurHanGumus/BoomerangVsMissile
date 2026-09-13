@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using DG.Tweening;
 using Data.UnityObject;
 using Data.ValueObject;
@@ -31,7 +32,22 @@ namespace Controllers.Missile.Abilities
         public PoolEnums ChildType => Data.ClusterChildType;
 
         private MissileManager _manager;
-        private Tween _clusterDelayedCall;
+        private static readonly List<Tween> _activeClusterTweens = new List<Tween>();
+
+        public static bool HasPendingSpawns
+        {
+            get
+            {
+                for (int i = _activeClusterTweens.Count - 1; i >= 0; i--)
+                {
+                    if (_activeClusterTweens[i] == null || !_activeClusterTweens[i].IsActive() || _activeClusterTweens[i].IsComplete())
+                    {
+                        _activeClusterTweens.RemoveAt(i);
+                    }
+                }
+                return _activeClusterTweens.Count > 0;
+            }
+        }
 
         private void Awake()
         {
@@ -40,15 +56,16 @@ namespace Controllers.Missile.Abilities
 
         private void SubscribeEvents()
         {
-            CoreGameSignals.Instance.onLevelFailed += CancelDelayedSpawn;
-            CoreGameSignals.Instance.onLevelSuccessful += CancelDelayedSpawn;
-            CoreGameSignals.Instance.onRestartLevel += CancelDelayedSpawn;
+            CoreGameSignals.Instance.onLevelFailed += CancelAllPendingSpawns;
+            CoreGameSignals.Instance.onLevelSuccessful += CancelAllPendingSpawns;
+            CoreGameSignals.Instance.onRestartLevel += CancelAllPendingSpawns;
         }
 
         private void UnsubscribeEvents()
         {
-            CoreGameSignals.Instance.onLevelFailed -= CancelDelayedSpawn;
-            CoreGameSignals.Instance.onLevelSuccessful -= CancelDelayedSpawn;
+            CoreGameSignals.Instance.onLevelFailed -= CancelAllPendingSpawns;
+            CoreGameSignals.Instance.onLevelSuccessful -= CancelAllPendingSpawns;
+            CoreGameSignals.Instance.onRestartLevel -= CancelAllPendingSpawns;
         }
 
         public void Initialize(MissileManager manager)
@@ -87,10 +104,13 @@ namespace Controllers.Missile.Abilities
             float spawnDelay = Data.ClusterSpawnDelay;
             if (spawnDelay > 0f)
             {
-                _clusterDelayedCall = DOVirtual.DelayedCall(spawnDelay, () =>
+                Tween tween = null;
+                tween = DOVirtual.DelayedCall(spawnDelay, () =>
                 {
+                    _activeClusterTweens.Remove(tween);
                     SpawnClusterChildren(spawnPos);
                 });
+                _activeClusterTweens.Add(tween);
             }
             else
             {
@@ -126,19 +146,31 @@ namespace Controllers.Missile.Abilities
             }
         }
 
-        public void CancelDelayedSpawn()
+        public static void CancelAllPendingSpawns()
         {
-            _clusterDelayedCall?.Kill();
+
+            if (LevelSignals.Instance.isLevelSuccessful())
+            {
+                return;
+            }
+            for (int i = 0; i < _activeClusterTweens.Count; i++)
+            {
+                if (_activeClusterTweens[i] != null && _activeClusterTweens[i].IsActive())
+                {
+                    _activeClusterTweens[i].Kill();
+                }
+            }
+            _activeClusterTweens.Clear();
         }
 
-        private void OnEnable()
+        public void CancelDelayedSpawn()
         {
-            CancelDelayedSpawn();
+            CancelAllPendingSpawns();
         }
 
         private void OnDestroy()
         {
-            CancelDelayedSpawn();
+            CancelAllPendingSpawns();
             UnsubscribeEvents();
         }
     }

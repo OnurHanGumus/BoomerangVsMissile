@@ -32,6 +32,7 @@ namespace Managers
         private int _levelID;
         private LevelData _data;
         private int _currentModdedLevel = 0;
+        private bool _isLevelSuccessful = false;
         #endregion
 
         #endregion
@@ -62,10 +63,16 @@ namespace Managers
             CoreGameSignals.Instance.onLevelInitialize += OnInitializeLevel;
             CoreGameSignals.Instance.onClearActiveLevel += OnClearActiveLevel;
             CoreGameSignals.Instance.onNextLevel += OnNextLevel;
+            CoreGameSignals.Instance.onLevelSuccessful += OnLevelSuccessful;
             CoreGameSignals.Instance.onRestartLevel += OnRestartLevel;
             LevelSignals.Instance.onGetLevelId += OnGetLevelId;
             LevelSignals.Instance.onGetCurrentModdedLevel += OnGetModdedLevel;
 
+        }
+
+        private void OnLevelSuccessful()
+        {
+            _isLevelSuccessful = true;
         }
 
         #endregion
@@ -94,6 +101,7 @@ namespace Managers
             CoreGameSignals.Instance.onClearActiveLevel?.Invoke();
             CoreGameSignals.Instance.onReset?.Invoke();
             CoreGameSignals.Instance.onLevelInitialize?.Invoke();
+            _isLevelSuccessful = false;
         }
 
         private int OnGetLevelId()

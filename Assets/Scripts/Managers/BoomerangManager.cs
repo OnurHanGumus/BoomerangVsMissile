@@ -149,7 +149,6 @@ namespace Managers
         public void OnBoomerangNextTarget()
         {
             ++PointIndex;
-            Debug.Log(PointIndex);
 
             IsRight = !IsRight;
         }

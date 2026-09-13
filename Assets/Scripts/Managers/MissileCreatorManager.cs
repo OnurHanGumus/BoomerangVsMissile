@@ -73,7 +73,6 @@ namespace Managers
             CoreGameSignals.Instance.onLevelSuccessful += OnLevelSuccess;
             CoreGameSignals.Instance.onRestartLevel += OnRestartLevel;
             MissileSignals.Instance.onMissileDestroyed += OnMissileDestroyed;
-            MissileSignals.Instance.onClusterSplit += OnClusterSplit;
             TutorialSignals.Instance.onTutorialSatisfied += OnTutorialSatisfied;
             MissileSignals.Instance.onExploderMissileCreated += OnExploderMissileCreated;
         }
@@ -85,6 +84,7 @@ namespace Managers
             if (_index >= _data.MissileData[_levelId].MissileCount)
             {
                 _isCreatingContinue = false;
+                CheckWinCondition();
                 yield break;
             }
 
@@ -111,6 +111,7 @@ namespace Managers
             if (_index >= _data.MissileData[_levelId].MissileCount)
             {
                 _isCreatingContinue = false;
+                CheckWinCondition();
                 yield break;
             }
             StartCoroutine(InstantiateMissile());
@@ -236,6 +237,7 @@ namespace Managers
             if (!isTutorial)
             {
                 _additionalClusterMissiles += (childCount);
+                Debug.Log("cluster +1");
             }
         }
 
@@ -245,18 +247,46 @@ namespace Managers
             {
                 ++_destroyedMissileCount;
             }
-            Debug.Log("destroyed missile count: "+_destroyedMissileCount + "\n instantiated missile count: " + _index);
+            Debug.Log("destroyed missile count: " + _destroyedMissileCount + " additional: " + _additionalClusterMissiles + "\n instantiated missile count: " + _index);
+            CheckWinCondition();
+        }
+
+        private void CheckWinCondition()
+        {
+            if (_isLevelCompleted || _isLevelFailed || _isCreatingContinue || _destroyedMissileCount == 0)
+            {
+                return;
+            }
+
             int totalRequired = _data.MissileData[_levelId].MissileCount + _additionalClusterMissiles;
-            if (!_isLevelCompleted && !_isLevelFailed && _destroyedMissileCount >= totalRequired && !_isCreatingContinue)
+            bool countSatisfied = _destroyedMissileCount >= totalRequired;
+
+            if (countSatisfied)
             {
                 _isLevelCompleted = true;
 
                 CoreGameSignals.Instance.onLevelSuccessful?.Invoke();
                 AudioSignals.Instance.onPlaySound(AudioSoundEnums.Win);
                 GameObject confeti = PoolSignals.Instance.onGetObject(PoolEnums.Confetti);
-                confeti.transform.position = Vector3.zero;
-                confeti.SetActive(true);
+                if (confeti != null)
+                {
+                    confeti.transform.position = Vector3.zero;
+                    confeti.SetActive(true);
+                }
             }
+        }
+
+        private bool HasActiveMissiles()
+        {
+            var missiles = FindObjectsByType<MissileManager>(FindObjectsSortMode.None);
+            for (int i = 0; i < missiles.Length; i++)
+            {
+                if (missiles[i] != null && missiles[i].gameObject.activeInHierarchy && !missiles[i].IsDead)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         private void OnExploderMissileCreated()

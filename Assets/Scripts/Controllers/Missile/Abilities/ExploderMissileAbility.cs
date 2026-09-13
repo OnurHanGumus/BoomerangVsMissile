@@ -13,7 +13,7 @@ namespace Controllers.Missile.Abilities
     {
         [Header("Exploder Data")]
         [SerializeField] private CD_ExploderMissile cdExploderMissile;
-
+        private bool _isInitializedFirstTime = true;
         private ExploderMissileData _data;
         public ExploderMissileData Data
         {
@@ -71,6 +71,12 @@ namespace Controllers.Missile.Abilities
 
         private void OnEnable()
         {
+            if (_isInitializedFirstTime)
+            {
+                _isInitializedFirstTime = false;
+                return;
+            }
+
             EnsureInitialized();
 
             // Check if another missile is already in our fall path
@@ -80,6 +86,7 @@ namespace Controllers.Missile.Abilities
                 gameObject.SetActive(false);
                 return;
             }
+
             MissileSignals.Instance.onExploderMissileCreated?.Invoke();
 
             var movement = GetComponent<MissileMovementController>();
