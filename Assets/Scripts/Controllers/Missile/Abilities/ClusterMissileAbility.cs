@@ -149,7 +149,7 @@ namespace Controllers.Missile.Abilities
         public static void CancelAllPendingSpawns()
         {
 
-            if (LevelSignals.Instance.isLevelSuccessful())
+            if (LevelSignals.Instance != null && LevelSignals.Instance.isLevelSuccessful())
             {
                 return;
             }
@@ -170,8 +170,11 @@ namespace Controllers.Missile.Abilities
 
         private void OnDestroy()
         {
-            CancelAllPendingSpawns();
-            UnsubscribeEvents();
+            if (LevelSignals.Instance != null)
+            {
+                CancelAllPendingSpawns();
+                UnsubscribeEvents();
+            }
         }
     }
 }
