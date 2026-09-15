@@ -12,6 +12,7 @@ using Enums;
 using System.Collections;
 using TMPro;
 using DG.Tweening;
+using UnityEngine.UI;
 
 namespace Managers
 {
@@ -23,7 +24,7 @@ namespace Managers
 
         [SerializeField] private List<TextMeshProUGUI> levelTxt;
         [SerializeField] private List<TextMeshProUGUI> upgradeTxt;
-
+        [SerializeField] private List<Image> coinImages;
 
 
         #endregion
@@ -114,12 +115,13 @@ namespace Managers
                 {
 
                     //levelTxt[i].text = "LEVEL " + (itemLevels[i] + 1).ToString();
-                    upgradeTxt[i].text = _data.prices[i].ToString() + "$";
+                    upgradeTxt[i].text = _data.prices[i].ToString();
                 }
                 else
                 {
                     //levelTxt[i].text = "LEVEL " + (itemLevels[i] + 1).ToString();
-                    upgradeTxt[i].text = "BOUGHT";
+                    upgradeTxt[i].text = "You own this item";
+                    coinImages[i].enabled = false;
                 }
             }
         }
