@@ -24,6 +24,11 @@ namespace Managers
 
         #region Serialized Variables
         [SerializeField] private bool isTutorial = true;
+        [Header("Spawn Clearance Settings")]
+        [SerializeField] private float horizontalClearance = 1.0f;
+        [SerializeField] private float verticalClearance = 2.5f;
+        [SerializeField] private float spawnRangeX = 5.0f;
+        [SerializeField] private int maxPlacementAttempts = 20;
         #endregion
 
         #region Private Variables
@@ -31,7 +36,7 @@ namespace Managers
         private int _levelId;
         private int _index = 0;
         private int _destroyedMissileCount = 0;
-        private float _lastPosX;
+        private float _lastPosX = float.MinValue;
 
         private float _percentageIndex = 0;
         private List<Range> _rangeList;
@@ -127,17 +132,134 @@ namespace Managers
 
         private void SetMissilePosition(GameObject missile)
         {
-            float posX;
-            do
-            {
-                posX = transform.position.x + Random.Range(-5f, 5f);
-
-            } while ((Mathf.Abs(_lastPosX - posX) <= 0.3f));
-
-            _lastPosX = posX;
-            Vector3 missilePos = new Vector3(posX, transform.position.y);
+            Vector3 missilePos = DetermineSpawnPosition(missile);
+            _lastPosX = missilePos.x;
             missile.transform.position = missilePos;
             missile.SetActive(true);
+        }
+
+        private Vector3 DetermineSpawnPosition(GameObject missile)
+        {
+            for (int attempt = 0; attempt < maxPlacementAttempts; attempt++)
+            {
+                float posX = transform.position.x + Random.Range(-spawnRangeX, spawnRangeX);
+
+                if (_lastPosX > float.MinValue && Mathf.Abs(_lastPosX - posX) <= 0.3f)
+                {
+                    continue;
+                }
+
+                Vector3 candidatePos = new Vector3(posX, transform.position.y, 0f);
+
+                if (!IsLocationOccupied(candidatePos, missile))
+                {
+                    return candidatePos;
+                }
+            }
+
+            return FindBestAvailablePosition(missile);
+        }
+
+        private bool IsLocationOccupied(Vector3 candidatePosition, GameObject missileToSpawn = null)
+        {
+            // 1. Direct coordinate check on active living missiles
+            var activeMissiles = FindObjectsByType<MissileManager>(FindObjectsSortMode.None);
+            for (int i = 0; i < activeMissiles.Length; i++)
+            {
+                var other = activeMissiles[i];
+                if (other == null || !other.gameObject.activeInHierarchy || other.IsDead)
+                {
+                    continue;
+                }
+
+                if (missileToSpawn != null && other.gameObject == missileToSpawn)
+                {
+                    continue;
+                }
+
+                float diffX = Mathf.Abs(other.transform.position.x - candidatePosition.x);
+                float diffY = Mathf.Abs(other.transform.position.y - candidatePosition.y);
+
+                if (diffX < horizontalClearance && diffY < verticalClearance)
+                {
+                    return true;
+                }
+            }
+
+            // 2. Physics check with OverlapBox to catch any active colliders in the spawn clearance volume
+            Physics.SyncTransforms();
+            Vector3 boxCenter = candidatePosition - new Vector3(0f, verticalClearance * 0.5f, 0f);
+            Vector3 halfExtents = new Vector3(horizontalClearance * 0.5f, verticalClearance * 0.5f, 1f);
+            Collider[] colliders = Physics.OverlapBox(boxCenter, halfExtents, Quaternion.identity, ~0, QueryTriggerInteraction.Collide);
+
+            for (int i = 0; i < colliders.Length; i++)
+            {
+                var col = colliders[i];
+                if (col == null) continue;
+
+                if (missileToSpawn != null && (col.gameObject == missileToSpawn || col.transform.IsChildOf(missileToSpawn.transform)))
+                {
+                    continue;
+                }
+
+                var otherMissile = col.GetComponentInParent<MissileManager>();
+                if (otherMissile != null && otherMissile.gameObject.activeInHierarchy && !otherMissile.IsDead)
+                {
+                    if (missileToSpawn != null && otherMissile.gameObject == missileToSpawn)
+                    {
+                        continue;
+                    }
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private Vector3 FindBestAvailablePosition(GameObject missile)
+        {
+            var activeMissiles = FindObjectsByType<MissileManager>(FindObjectsSortMode.None);
+            float bestX = transform.position.x;
+            float maxMinDistance = -1f;
+
+            int samples = 20;
+            float step = (spawnRangeX * 2f) / samples;
+
+            for (int i = 0; i <= samples; i++)
+            {
+                float testX = (transform.position.x - spawnRangeX) + (i * step);
+                Vector3 testPos = new Vector3(testX, transform.position.y, 0f);
+
+                float minDistance = float.MaxValue;
+                bool missileNearby = false;
+
+                for (int j = 0; j < activeMissiles.Length; j++)
+                {
+                    var other = activeMissiles[j];
+                    if (other == null || !other.gameObject.activeInHierarchy || other.IsDead) continue;
+                    if (missile != null && other.gameObject == missile) continue;
+
+                    if (Mathf.Abs(other.transform.position.y - testPos.y) < verticalClearance)
+                    {
+                        missileNearby = true;
+                        float d = Mathf.Abs(other.transform.position.x - testX);
+                        if (d < minDistance) minDistance = d;
+                    }
+                }
+
+                if (!missileNearby)
+                {
+                    return testPos;
+                }
+
+                if (minDistance > maxMinDistance)
+                {
+                    maxMinDistance = minDistance;
+                    bestX = testX;
+                }
+            }
+
+            return new Vector3(bestX, transform.position.y, 0f);
         }
 
         private int GetMissileType()
@@ -316,6 +438,7 @@ namespace Managers
             _destroyedMissileCount = 0;
             _additionalClusterMissiles = 0;
             _isLevelCompleted = false;
+            _lastPosX = float.MinValue;
             StopAllCoroutines();
         }
 
@@ -329,6 +452,19 @@ namespace Managers
         private void OnTutorialSatisfied()
         {
             isTutorial = false;
+        }
+
+        private void OnDrawGizmosSelected()
+        {
+            Gizmos.color = Color.cyan;
+            Vector3 left = new Vector3(transform.position.x - spawnRangeX, transform.position.y, 0f);
+            Vector3 right = new Vector3(transform.position.x + spawnRangeX, transform.position.y, 0f);
+            Gizmos.DrawLine(left, right);
+
+            Gizmos.color = new Color(1f, 0.5f, 0f, 0.35f);
+            Vector3 center = new Vector3(transform.position.x, transform.position.y - verticalClearance * 0.5f, 0f);
+            Vector3 size = new Vector3(spawnRangeX * 2f + horizontalClearance, verticalClearance, 1f);
+            Gizmos.DrawWireCube(center, size);
         }
     }
 }
