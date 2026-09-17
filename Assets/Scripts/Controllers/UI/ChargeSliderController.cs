@@ -18,7 +18,7 @@ namespace Controllers.UI
         [SerializeField] private Image backgroundImage;
 
         [Header("Visual Tuning")]
-        [SerializeField] private Vector3 worldOffset = new Vector3(0f, 0.9f, 0f);
+        [SerializeField] private Vector3 worldOffset = new Vector3(0f, 0.9f, -0.5f);
         [SerializeField] private Gradient chargeGradient;
 
         #endregion
