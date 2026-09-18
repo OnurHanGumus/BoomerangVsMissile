@@ -91,7 +91,7 @@ namespace Controllers.UI
 
         private void OnScoreChanged(ScoreTypeEnums type, int amount)
         {
-            if (type == ScoreTypeEnums.Gem)
+            if (type == ScoreTypeEnums.Money)
             {
                 RefreshAllCards();
             }

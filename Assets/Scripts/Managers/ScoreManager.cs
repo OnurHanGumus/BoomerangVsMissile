@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Commands;
 using Controllers;
@@ -28,12 +28,12 @@ namespace Managers
 
         #region Private Variables
         private ScoreData _data;
-        private int _gem;
-        public int Gem
+        private int _money;
+        public int Money
         {
-            get { return _gem; }
-            set { _gem = value;
-            UISignals.Instance.onSetChangedText?.Invoke(ScoreTypeEnums.Gem, Gem);
+            get { return _money; }
+            set { _money = value;
+            UISignals.Instance.onSetChangedText?.Invoke(ScoreTypeEnums.Money, Money);
             }
         }
 
@@ -49,7 +49,7 @@ namespace Managers
         }
         private void Init()
         {
-            Gem = SaveSignals.Instance.onGetScore(SaveLoadStates.Gem, SaveFiles.SaveFile);
+            Money = SaveSignals.Instance.onGetScore(SaveLoadStates.Money, SaveFiles.SaveFile);
         }
         #region Event Subscription
 
@@ -57,7 +57,7 @@ namespace Managers
         {
             ScoreSignals.Instance.onScoreIncrease += OnScoreIncrease;
             ScoreSignals.Instance.onScoreDecrease += OnScoreDecrease;
-            ScoreSignals.Instance.onGetGem += OnGetGem;
+            ScoreSignals.Instance.onGetMoney += OnGetMoney;
             CoreGameSignals.Instance.onNextLevel += OnNextLevel;
             CoreGameSignals.Instance.onRestartLevel += OnRestartLevel;
         }
@@ -66,22 +66,23 @@ namespace Managers
 
         private void OnScoreIncrease(ScoreTypeEnums type, int amount)
         {
-            Gem += amount;
+            Money += amount;
+            SaveSignals.Instance.onSave(Money, SaveLoadStates.Money, SaveFiles.SaveFile);
         }
 
         private void OnScoreDecrease(ScoreTypeEnums type, int amount)
         {
-            Gem -= amount;
-            SaveSignals.Instance.onSave(Gem, SaveLoadStates.Gem, SaveFiles.SaveFile);
+            Money -= amount;
+            SaveSignals.Instance.onSave(Money, SaveLoadStates.Money, SaveFiles.SaveFile);
         }
 
         private void OnNextLevel()
         {
-            SaveSignals.Instance.onSave(Gem, SaveLoadStates.Gem, SaveFiles.SaveFile);
+            SaveSignals.Instance.onSave(Money, SaveLoadStates.Money, SaveFiles.SaveFile);
         }
-        private int OnGetGem()
+        private int OnGetMoney()
         {
-            return Gem;
+            return Money;
         }
 
         private void OnRestartLevel()

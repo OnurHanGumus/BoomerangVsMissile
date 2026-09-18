@@ -1,4 +1,4 @@
-﻿using Enums;
+using Enums;
 using System.Collections.Generic;
 using Unity.Collections;
 using UnityEngine;
@@ -12,6 +12,13 @@ namespace Commands
             if (fileName.Equals(SaveFiles.GameOptions.ToString()))
             {
                 return ES3.Load<int>(saveLoadStates.ToString(), fileName + ".es3", 1);
+            }
+            if (saveLoadStates == SaveLoadStates.Money && !ES3.KeyExists(saveLoadStates.ToString(), fileName + ".es3"))
+            {
+                if (ES3.KeyExists("Gem", fileName + ".es3"))
+                {
+                    return ES3.Load<int>("Gem", fileName + ".es3", 0);
+                }
             }
             //else if (!ES3.FileExists(fileName + ".es3")) { return 0; }
             return ES3.Load<int>(saveLoadStates.ToString(), fileName + ".es3", 0);

@@ -1,4 +1,4 @@
-﻿using Data.UnityObject;
+using Data.UnityObject;
 using Data.ValueObject;
 using DG.Tweening;
 using Enums;
@@ -42,7 +42,7 @@ public class ComboPanelController : MonoBehaviour
     {
         StartCoroutine(Effect());
         commentTxt.text = _commentsData.CommentsList[value];
-        ScoreSignals.Instance.onScoreIncrease?.Invoke(ScoreTypeEnums.Gem, _gainMoneyData.GainMoneyList[value]);
+        ScoreSignals.Instance.onScoreIncrease?.Invoke(ScoreTypeEnums.Money, _gainMoneyData.GainMoneyList[value]);
         AudioSignals.Instance.onPlaySound(AudioSoundEnums.Combo);
 
         TutorialSignals.Instance.onTutorialSatisfied?.Invoke();

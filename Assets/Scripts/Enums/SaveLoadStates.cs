@@ -10,7 +10,7 @@ namespace Enums
         SoundState,
         PitchState,
         Level,
-        Gem,
+        Money,
         BuyItem,
         SelectedItem,
         BoomerangUpgrades,

@@ -1,4 +1,4 @@
-﻿using Enums;
+using Enums;
 using Signals;
 using System.Collections;
 using System.Collections.Generic;
@@ -32,7 +32,7 @@ public class LevelPanelController : MonoBehaviour
     }
     public void OnScoreUpdateText(ScoreTypeEnums type, int score)
     {
-        if (type.Equals(ScoreTypeEnums.Gem))
+        if (type.Equals(ScoreTypeEnums.Money))
         {
             scoreText.text = score.ToString();
         }

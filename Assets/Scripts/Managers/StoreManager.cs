@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Commands;
 using Controllers;
@@ -75,9 +75,9 @@ namespace Managers
             }
 
 
-            if (ScoreSignals.Instance.onGetGem() >= _data.prices[id])
+            if (ScoreSignals.Instance.onGetMoney() >= _data.prices[id])
             {
-                ScoreSignals.Instance.onScoreDecrease(ScoreTypeEnums.Gem, _data.prices[id]);
+                ScoreSignals.Instance.onScoreDecrease(ScoreTypeEnums.Money, _data.prices[id]);
                 _itemLevels[id] = _itemLevels[id] + 1;
                 SaveSignals.Instance.onBuyItem?.Invoke(_itemLevels, SaveLoadStates.BuyItem, SaveFiles.SaveFile);
                 UpdateTexts();

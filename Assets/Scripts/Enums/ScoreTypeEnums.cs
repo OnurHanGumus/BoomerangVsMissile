@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace Enums
 {
@@ -6,7 +6,6 @@ namespace Enums
     public enum ScoreTypeEnums
     {
         Money,
-        Gem,
         Score,
     }
 }

@@ -121,8 +121,8 @@ namespace Managers
             }
 
             int cost = GetCost(type);
-            int currentGems = ScoreSignals.Instance.onGetGem();
-            return currentGems >= cost;
+            int currentMoney = ScoreSignals.Instance.onGetMoney();
+            return currentMoney >= cost;
         }
 
         public bool TryPurchaseUpgrade(BoomerangUpgradeType type)
@@ -133,15 +133,15 @@ namespace Managers
             }
 
             int cost = GetCost(type);
-            int currentGems = ScoreSignals.Instance.onGetGem();
+            int currentMoney = ScoreSignals.Instance.onGetMoney();
 
-            if (currentGems < cost)
+            if (currentMoney < cost)
             {
                 return false;
             }
 
             // Deduct cost
-            ScoreSignals.Instance.onScoreDecrease?.Invoke(ScoreTypeEnums.Gem, cost);
+            ScoreSignals.Instance.onScoreDecrease?.Invoke(ScoreTypeEnums.Money, cost);
 
             // Increment level
             int nextLevel = GetLevel(type) + 1;
