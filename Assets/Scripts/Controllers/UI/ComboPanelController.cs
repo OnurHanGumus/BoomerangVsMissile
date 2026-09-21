@@ -17,11 +17,13 @@ public class ComboPanelController : MonoBehaviour
     #region SerializeField Variables
     [SerializeField] private TextMeshProUGUI commentTxt;
     [SerializeField] private Transform comboPanel;
+    [SerializeField] private CD_ComboPanel cdComboPanel;
     #endregion
 
     #region Private Variables
     private ComboCommentsData _commentsData;
     private GainMoneyData _gainMoneyData;
+    private ComboPanelData _comboPanelData;
     private Sequence _comboSequence;
     private bool _isShowing;
     #endregion
@@ -43,11 +45,21 @@ public class ComboPanelController : MonoBehaviour
         _isShowing = false;
         _commentsData = GetCommentData();
         _gainMoneyData = GetMoneyData();
+        _comboPanelData = GetComboPanelData();
         comboPanel.localScale = Vector3.zero;
     }
 
     private ComboCommentsData GetCommentData() => Resources.Load<CD_Comments>("Data/CD_Comments")?.Data;
     private GainMoneyData GetMoneyData() => Resources.Load<CD_Money>("Data/CD_Money")?.Data;
+
+    private ComboPanelData GetComboPanelData()
+    {
+        if (cdComboPanel != null && cdComboPanel.Data != null)
+        {
+            return cdComboPanel.Data;
+        }
+        return Resources.Load<CD_ComboPanel>("Data/CD_ComboPanel")?.Data ?? new ComboPanelData();
+    }
 
     public void OnCombo(int value)
     {
@@ -69,7 +81,8 @@ public class ComboPanelController : MonoBehaviour
             int index = Mathf.Clamp(value, 0, _gainMoneyData.GainMoneyList.Count - 1);
             return _gainMoneyData.GainMoneyList[index];
         }
-        return 50 * (value + 1);
+        int multiplier = _comboPanelData != null ? _comboPanelData.DefaultMoneyMultiplier : 50;
+        return multiplier * (value + 1);
     }
 
     private string GetComment(int value)
@@ -79,7 +92,7 @@ public class ComboPanelController : MonoBehaviour
             int index = Mathf.Clamp(value, 0, _commentsData.CommentsList.Count - 1);
             return _commentsData.CommentsList[index];
         }
-        return "COMBO!";
+        return _comboPanelData != null ? _comboPanelData.DefaultComment : "COMBO!";
     }
 
     private void UpdateDisplayText(string comment, int earnedMoney, int value)
@@ -90,66 +103,39 @@ public class ComboPanelController : MonoBehaviour
         commentTxt.enableVertexGradient = true;
         //commentTxt.colorGradient = GetTierGradient(value);
 
-        commentTxt.text = $"<b>{comment.ToUpper()}</b>\n<size=70%><color=#FFE600>+{earnedMoney} Money</color></size>";
+        string hexColor = _comboPanelData != null ? _comboPanelData.MoneyColorHex : "#FFE600";
+        int sizePercent = _comboPanelData != null ? _comboPanelData.MoneyTextSizePercent : 70;
+
+        commentTxt.text = $"<b>{comment.ToUpper()}</b>\n<size={sizePercent}%><color={hexColor}>+{earnedMoney} Money</color></size>";
         commentTxt.ForceMeshUpdate();
     }
 
     private VertexGradient GetTierGradient(int value)
     {
-        switch (value)
+        if (_comboPanelData != null && _comboPanelData.TierGradients != null && _comboPanelData.TierGradients.Count > 0)
         {
-            case 0: // 2 Hits - Electric Cyan & Mint
-                return new VertexGradient(
-                    new Color(0.0f, 0.95f, 1.0f),   // Top-Left (Electric Cyan)
-                    new Color(0.0f, 1.0f, 0.7f),    // Top-Right (Neon Aquamarine)
-                    new Color(1.0f, 1.0f, 1.0f),    // Bottom-Left (Pure White)
-                    new Color(0.6f, 0.95f, 1.0f)    // Bottom-Right (Ice Blue)
-                );
-
-            case 1: // 3 Hits - Vibrant Gold & Warm Amber
-                return new VertexGradient(
-                    new Color(1.0f, 0.9f, 0.0f),    // Top-Left (Bright Gold)
-                    new Color(1.0f, 0.65f, 0.0f),   // Top-Right (Warm Amber)
-                    new Color(1.0f, 1.0f, 0.9f),    // Bottom-Left (Soft White-Gold)
-                    new Color(1.0f, 0.8f, 0.2f)     // Bottom-Right (Deep Gold)
-                );
-
-            case 2: // 4 Hits - Fiery Flame Orange & Hot Coral
-                return new VertexGradient(
-                    new Color(1.0f, 0.45f, 0.0f),   // Top-Left (Flame Orange)
-                    new Color(1.0f, 0.15f, 0.35f),  // Top-Right (Hot Coral)
-                    new Color(1.0f, 0.9f, 0.8f),    // Bottom-Left (Light Peach)
-                    new Color(1.0f, 0.3f, 0.1f)     // Bottom-Right (Fiery Red)
-                );
-
-            case 3: // 5 Hits - Cosmic Neon Violet & Electric Magenta
-                return new VertexGradient(
-                    new Color(0.85f, 0.2f, 1.0f),   // Top-Left (Neon Violet)
-                    new Color(1.0f, 0.1f, 0.65f),   // Top-Right (Electric Magenta)
-                    new Color(1.0f, 0.85f, 1.0f),   // Bottom-Left (Lavender)
-                    new Color(0.6f, 0.15f, 0.95f)   // Bottom-Right (Deep Purple)
-                );
-
-            default: // 6+ Hits - Radiant Hyper Crimson & Sunfire Gold
-                return new VertexGradient(
-                    new Color(1.0f, 0.05f, 0.3f),   // Top-Left (Hyper Crimson)
-                    new Color(1.0f, 0.85f, 0.1f),   // Top-Right (Sunfire Gold)
-                    new Color(1.0f, 1.0f, 1.0f),    // Bottom-Left (Pure White)
-                    new Color(1.0f, 0.1f, 0.8f)     // Bottom-Right (Cosmic Pink)
-                );
+            int index = Mathf.Clamp(value, 0, _comboPanelData.TierGradients.Count - 1);
+            return _comboPanelData.TierGradients[index].ToVertexGradient();
         }
+
+        return new VertexGradient(Color.white, Color.white, Color.white, Color.white);
     }
 
     private void PlayComboAnimation()
     {
+        float targetScale = _comboPanelData != null ? _comboPanelData.TargetScale : 1f;
+        float duration = _comboPanelData != null ? _comboPanelData.ScaleDuration : 0.5f;
+        Ease ease = _comboPanelData != null ? _comboPanelData.ScaleEase : Ease.Flash;
+        float displayInterval = _comboPanelData != null ? _comboPanelData.DisplayDuration : 1f;
+
         if (_isShowing)
         {
             _comboSequence?.Kill();
             comboPanel.DOKill();
-            comboPanel.localScale = Vector3.one;
+            comboPanel.localScale = Vector3.one * targetScale;
 
             _comboSequence = DOTween.Sequence();
-            _comboSequence.Append(comboPanel.DOScale(1, 0.5f).SetEase(Ease.Flash)).AppendInterval(1f)
+            _comboSequence.Append(comboPanel.DOScale(targetScale, duration).SetEase(ease)).AppendInterval(displayInterval)
                 .OnComplete(() =>
                 {
                     _isShowing = false;
@@ -166,7 +152,7 @@ public class ComboPanelController : MonoBehaviour
         comboPanel.localScale = Vector3.zero;
 
         _comboSequence = DOTween.Sequence();
-        _comboSequence.Append(comboPanel.DOScale(1, 0.5f).SetEase(Ease.Flash)).AppendInterval(1f)
+        _comboSequence.Append(comboPanel.DOScale(targetScale, duration).SetEase(ease)).AppendInterval(displayInterval)
         .OnComplete(() =>
         {
             _isShowing = false;
@@ -176,8 +162,12 @@ public class ComboPanelController : MonoBehaviour
 
     private void PlayFeedback(int value)
     {
+        float basePitch = _comboPanelData != null ? _comboPanelData.BasePitch : 1.0f;
+        float pitchStep = _comboPanelData != null ? _comboPanelData.PitchStep : 0.05f;
+        float maxPitchOffset = _comboPanelData != null ? _comboPanelData.MaxPitchOffset : 0.25f;
+
         // Rising pitch for combo sound
-        float pitch = 1.0f + Mathf.Min(value * 0.05f, 0.25f);
+        float pitch = basePitch + Mathf.Min(value * pitchStep, maxPitchOffset);
         AudioSignals.Instance.onPlaySoundWithPitch?.Invoke(AudioSoundEnums.Combo, pitch);
 
         // Escalating haptic feedback
