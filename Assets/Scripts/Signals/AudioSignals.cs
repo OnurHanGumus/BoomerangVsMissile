@@ -1,4 +1,4 @@
-﻿using Enums;
+using Enums;
 using Extensions;
 using System;
 using System.Collections.Generic;
@@ -9,5 +9,6 @@ namespace Signals
     public class AudioSignals : MonoSingleton<AudioSignals>
     {
         public UnityAction<AudioSoundEnums> onPlaySound = delegate { };
+        public UnityAction<AudioSoundEnums, float> onPlaySoundWithPitch = delegate { };
     }
 }

@@ -331,7 +331,10 @@ namespace Controllers
             _returnSegment = 0;
             _returnProgress = 0f;
 
-            BoomerangSignals.Instance.onCombo?.Invoke(Mathf.Max(0, _manager.PointIndex - 2));
+            if (_manager.PointIndex >= 2)
+            {
+                BoomerangSignals.Instance.onCombo?.Invoke(_manager.PointIndex - 2);
+            }
         }
 
         #endregion
@@ -383,7 +386,10 @@ namespace Controllers
         {
             if (_isEmergencyRecalling)
             {
-                BoomerangSignals.Instance.onCombo?.Invoke(Mathf.Max(0, _manager.PointIndex - 2));
+                if (_manager.PointIndex >= 2)
+                {
+                    BoomerangSignals.Instance.onCombo?.Invoke(_manager.PointIndex - 2);
+                }
                 return;
             }
 
