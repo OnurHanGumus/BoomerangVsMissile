@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 462405097541809776}
-  - component: {fileID: 6920752765459902289}
+  - component: {fileID: 2607675692830767423}
   m_Layer: 0
   m_Name: Mesh
   m_TagString: Untagged
@@ -26,14 +26,14 @@ Transform:
   m_GameObject: {fileID: 946066331516497098}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.019499779, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 4376156655538737444}
   m_Father: {fileID: 3959529065275054138}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6920752765459902289
+--- !u!114 &2607675692830767423
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -44,13 +44,8 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b2dc52004616fd649ba1c36263db2cda, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
-  meshList:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 5098168750234330427}
-  boomerangMesh: {fileID: 946066331516497098}
+  m_EditorClassIdentifier: Assembly-CSharp::Controllers.BoomerangMeshController
+  boomerangMesh: {fileID: 1812860457794753341}
 --- !u!1 &1234550858530899597
 GameObject:
   m_ObjectHideFlags: 0
@@ -78,7 +73,7 @@ Transform:
   m_GameObject: {fileID: 1234550858530899597}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.019499779, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -103,8 +98,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.6317971, y: 0.4026096, z: 0.083250135}
-  m_Center: {x: 0.007514298, y: -0.039450288, z: 0.000000014901161}
+  m_Size: {x: 0.6317971, y: 0.33234987, z: 0.083250135}
+  m_Center: {x: 0, y: -0.14672633, z: 0}
 --- !u!114 &1234550858530899587
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -148,7 +143,7 @@ Transform:
   m_GameObject: {fileID: 1234550860072982636}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.45602, y: 8.97689, z: 0.89391}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -173,7 +168,7 @@ MonoBehaviour:
   IsThrown: 0
   IsRising: 0
   IsFullyCharged: 0
-  meshController: {fileID: 6920752765459902289}
+  meshController: {fileID: 2607675692830767423}
   physicsController: {fileID: 1234550858530899587}
   trajectoryPreviewController: {fileID: 0}
 --- !u!114 &5038337205549022905
@@ -549,7 +544,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4376156655538737444}
   m_Layer: 0
-  m_Name: 3
+  m_Name: Holder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -564,8 +559,8 @@ Transform:
   m_GameObject: {fileID: 5098168750234330427}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0.13199997, z: 0}
-  m_LocalScale: {x: 0.16, y: 0.15999998, z: 0.15999998}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.075, y: 0.075, z: 0.075}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 5062997343474174649}

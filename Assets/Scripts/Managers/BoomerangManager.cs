@@ -12,9 +12,6 @@ namespace Managers
 {
     public class BoomerangManager : MonoBehaviour
     {
-        #region Self Variables
-
-        #region Public Variables
         public List<Vector3> MissilePoints;
         public int PointIndex = 0;
         public bool IsRight = true;
@@ -44,27 +41,18 @@ namespace Managers
                 return (_data != null ? _data.ReturnSpeedMultiplier : 1.25f) + bonus;
             }
         }
-        #endregion
 
-        #region Serialized Variables
         [SerializeField] private BoomerangMeshController meshController;
         [SerializeField] private BoomerangPhysicsController physicsController;
         [SerializeField] private Controllers.Boomerang.TrajectoryPreviewController trajectoryPreviewController;
 
-        #endregion
 
-        #region Private Variables
         private PlayerData _data;
         private BoomerangMovementController _movementController;
-
-        #endregion
-
-        #endregion
 
         private void Awake()
         {
             Init();
-            SubscribeEvents();
         }
 
         private void Init()
@@ -90,13 +78,21 @@ namespace Managers
         }
 
         #region Event Subscription
+        private void OnEnable()
+        {
+            SubscribeEvents();
+
+        }
+
+        private void OnDisable()
+        {
+            UnsubscribeEvents();
+        }
 
         private void SubscribeEvents()
         {
             CoreGameSignals.Instance.onPlay += OnPlay;
-            CoreGameSignals.Instance.onPlay += _movementController.OnPlay;
-            CoreGameSignals.Instance.onPlay += meshController.OnPlay;
-            CoreGameSignals.Instance.onLevelSuccessful += meshController.OnLevelSuccessful;
+            CoreGameSignals.Instance.onPlay += _movementController.OnPlay;;
             CoreGameSignals.Instance.onLevelSuccessful += OnLevelFailedOrSuccessful;
             CoreGameSignals.Instance.onLevelFailed += OnLevelFailedOrSuccessful;
             CoreGameSignals.Instance.onRestartLevel += OnRestartLevel;
@@ -108,8 +104,23 @@ namespace Managers
             BoomerangSignals.Instance.onBoomerangReturning += OnBoomerangReturning;
             BoomerangSignals.Instance.onBoomerangHasReturned += OnBoomerangReturned;
             BoomerangSignals.Instance.onBoomerangHasReturned += _movementController.OnBoomerangHasReturned;
-            BoomerangSignals.Instance.onSelectBoomerang += meshController.OnSelectBoomerang;
-            BoomerangSignals.Instance.onBoomerangStatsChanged += ApplyUpgrades;
+        }
+
+        private void UnsubscribeEvents()
+        {
+            CoreGameSignals.Instance.onPlay -= OnPlay;
+            CoreGameSignals.Instance.onPlay -= _movementController.OnPlay;
+            CoreGameSignals.Instance.onLevelSuccessful -= OnLevelFailedOrSuccessful;
+            CoreGameSignals.Instance.onLevelFailed -= OnLevelFailedOrSuccessful;
+            CoreGameSignals.Instance.onRestartLevel -= OnRestartLevel;
+            CoreGameSignals.Instance.onRestartLevel -= _movementController.OnRestartLevel;
+            InputSignals.Instance.onClicking -= OnAddPoint;
+            InputSignals.Instance.onInputReleased -= OnInputRelease;
+            BoomerangSignals.Instance.onBoomerangNextTarget -= OnBoomerangNextTarget;
+            BoomerangSignals.Instance.onBoomerangNextTarget -= _movementController.OnBoomerangNextTarget;
+            BoomerangSignals.Instance.onBoomerangReturning -= OnBoomerangReturning;
+            BoomerangSignals.Instance.onBoomerangHasReturned -= OnBoomerangReturned;
+            BoomerangSignals.Instance.onBoomerangHasReturned -= _movementController.OnBoomerangHasReturned;
         }
 
         private void OnDestroy()
@@ -155,10 +166,6 @@ namespace Managers
 
         private void OnBoomerangReturning()
         {
-            //if (PointIndex > 1)
-            //{
-            //    //BoomerangSignals.Instance.onCombo?.Invoke(PointIndex - 2);
-            //}
         }
 
         private void OnBoomerangReturned()
