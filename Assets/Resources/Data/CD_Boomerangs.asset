@@ -30,41 +30,272 @@ MonoBehaviour:
     Price: 250
     Icon: {fileID: 21300000, guid: c5c76f5c391749589682feee5544f9f7, type: 3}
     Prefab: {fileID: 7359562933283536233, guid: 61140532366557e43a32efd67efb3bb8, type: 3}
-    Speed: 6.5
-    ReturnSpeedMultiplier: 1.5
+    Speed: 5.8
+    ReturnSpeedMultiplier: 1.35
     Damage: 1
-    SizeMultiplier: 1.1
+    SizeMultiplier: 1.05
     ThemeColor: {r: 0.2, g: 0.9, b: 0.6, a: 1}
   - Id: 2
     Title: Vortex Glaive
-    Description: Reinforced edges for double collision impact.
-    Price: 600
+    Description: Curved blades channeling whirlwind momentum.
+    Price: 500
     Icon: {fileID: 21300000, guid: 1f641fa3641b4a9c8c84c2abb4e6c5e9, type: 3}
     Prefab: {fileID: 8326371004721621578, guid: 16639a049a1de7a49991812ad553522f, type: 3}
-    Speed: 7.5
-    ReturnSpeedMultiplier: 1.75
-    Damage: 2
-    SizeMultiplier: 1.15
-    ThemeColor: {r: 0.9, g: 0.7, b: 0.2, a: 1}
+    Speed: 6.5
+    ReturnSpeedMultiplier: 1.45
+    Damage: 1
+    SizeMultiplier: 1.08
+    ThemeColor: {r: 0.9, g: 0.75, b: 0.2, a: 1}
   - Id: 3
     Title: Crimson Fang
-    Description: Heavy curved scythe with extended sweep radius.
-    Price: 1100
+    Description: Razor-edged scythe with heavy impact.
+    Price: 800
     Icon: {fileID: 21300000, guid: 071a5c9ae467488baa8d997a6d5fb2dc, type: 3}
     Prefab: {fileID: 5115873570973722597, guid: 236640d6b51281545ad2eb8a89bf4e7f, type: 3}
-    Speed: 9
-    ReturnSpeedMultiplier: 2.1
+    Speed: 7.2
+    ReturnSpeedMultiplier: 1.55
     Damage: 2
-    SizeMultiplier: 1.25
+    SizeMultiplier: 1.1
     ThemeColor: {r: 1, g: 0.25, b: 0.35, a: 1}
   - Id: 4
     Title: Cosmic Dominator
-    Description: Ultimate plasma-infused edge dealing 3x devastation.
-    Price: 1800
+    Description: Infused with star-matter kinetic energy.
+    Price: 1200
     Icon: {fileID: 21300000, guid: dd6e82e68e2540aeb13d0be9da84db79, type: 3}
     Prefab: {fileID: 1748504389383352374, guid: e3bcfe65354107942a6bdca2fdd29145, type: 3}
-    Speed: 11
+    Speed: 7.8
+    ReturnSpeedMultiplier: 1.65
+    Damage: 2
+    SizeMultiplier: 1.12
+    ThemeColor: {r: 0.75, g: 0.3, b: 1, a: 1}
+  - Id: 5
+    Title: Solar Flare
+    Description: Radiates intense heat, burning through armor.
+    Price: 1600
+    Icon: {fileID: 21300000, guid: 27707400164c429dba0d41c6cd7ba42c, type: 3}
+    Prefab: {fileID: 6001639602246309680, guid: 02583930e0fd5c84db03df7d1dc82878, type: 3}
+    Speed: 8.4
+    ReturnSpeedMultiplier: 1.75
+    Damage: 2
+    SizeMultiplier: 1.15
+    ThemeColor: {r: 1, g: 0.55, b: 0.1, a: 1}
+  - Id: 6
+    Title: Thunder Wing
+    Description: Shockwave wing with lightning return speed.
+    Price: 2100
+    Icon: {fileID: 21300000, guid: 900007440f914cf2bbbe73127f3841c3, type: 3}
+    Prefab: {fileID: 1510903760207974566, guid: 935eb0bb97cc54d4bb7839aa592b50ca, type: 3}
+    Speed: 9
+    ReturnSpeedMultiplier: 1.85
+    Damage: 2
+    SizeMultiplier: 1.18
+    ThemeColor: {r: 0.1, g: 0.85, b: 1, a: 1}
+  - Id: 7
+    Title: Toxic Viper
+    Description: Venom-coated edge cutting wide swathes.
+    Price: 2600
+    Icon: {fileID: 21300000, guid: 64191809c70941f8a3bad54bfa7c4335, type: 3}
+    Prefab: {fileID: 3962817556403557322, guid: 65cb3e9544ddffd43825ffb5645a3605, type: 3}
+    Speed: 9.5
+    ReturnSpeedMultiplier: 1.95
+    Damage: 2
+    SizeMultiplier: 1.2
+    ThemeColor: {r: 0.4, g: 0.95, b: 0.2, a: 1}
+  - Id: 8
+    Title: Frostbite Shard
+    Description: Crystalline blade slicing with absolute zero chill.
+    Price: 3200
+    Icon: {fileID: 21300000, guid: 0c5b8235b761423baac2ef5983f2d462, type: 3}
+    Prefab: {fileID: 8109159018859616116, guid: 04ddfdbe43cbc574fb13c0b3dc01f108, type: 3}
+    Speed: 10
+    ReturnSpeedMultiplier: 2.05
+    Damage: 2
+    SizeMultiplier: 1.22
+    ThemeColor: {r: 0.5, g: 0.85, b: 1, a: 1}
+  - Id: 9
+    Title: Shadow Phantom
+    Description: Phases through air with stealthy precision.
+    Price: 3800
+    Icon: {fileID: 21300000, guid: 5f365a9b756e46feadce0adbb325a5c1, type: 3}
+    Prefab: {fileID: 4019453805779702877, guid: a22ed4ce4b4e3564fb97ef30a0d975df, type: 3}
+    Speed: 10.4
+    ReturnSpeedMultiplier: 2.15
+    Damage: 2
+    SizeMultiplier: 1.24
+    ThemeColor: {r: 0.6, g: 0.2, b: 0.85, a: 1}
+  - Id: 10
+    Title: Golden Phoenix
+    Description: Mythic crest delivering explosive strikes.
+    Price: 4500
+    Icon: {fileID: 21300000, guid: 3739069eb8274c108eb562355e701543, type: 3}
+    Prefab: {fileID: 956928931719424861, guid: 568937f45284adb4786f38c504cc23f3, type: 3}
+    Speed: 10.8
+    ReturnSpeedMultiplier: 2.25
+    Damage: 3
+    SizeMultiplier: 1.26
+    ThemeColor: {r: 1, g: 0.85, b: 0.2, a: 1}
+  - Id: 11
+    Title: Obsidian Ripper
+    Description: Hardened volcanic rock tearing through targets.
+    Price: 5200
+    Icon: {fileID: 21300000, guid: a6b61211e5a94f858cfe61856f34cf0e, type: 3}
+    Prefab: {fileID: 1823877004989422377, guid: 64c93983eb55bcf4e8a9a1f03b0ae5cf, type: 3}
+    Speed: 11.2
+    ReturnSpeedMultiplier: 2.3
+    Damage: 3
+    SizeMultiplier: 1.28
+    ThemeColor: {r: 0.9, g: 0.2, b: 0.2, a: 1}
+  - Id: 12
+    Title: Plasma Striker
+    Description: Supercharged plasma arc with wide impact zone.
+    Price: 6000
+    Icon: {fileID: 21300000, guid: 644b14c7fe6a4f52b29c79309cf76734, type: 3}
+    Prefab: {fileID: 2929460499409832372, guid: 68e34943f5d0dd346bbef89b410897fc, type: 3}
+    Speed: 11.5
+    ReturnSpeedMultiplier: 2.35
+    Damage: 3
+    SizeMultiplier: 1.3
+    ThemeColor: {r: 1, g: 0.2, b: 0.7, a: 1}
+  - Id: 13
+    Title: Cyber Lotus
+    Description: Precision nanotech rotor with hyper-mobility.
+    Price: 6800
+    Icon: {fileID: 21300000, guid: 9d041c3ec2a546f2a557e9795e6b31b9, type: 3}
+    Prefab: {fileID: 668118317709568152, guid: 3475129e998325b43b99be3e22ee479e, type: 3}
+    Speed: 11.8
+    ReturnSpeedMultiplier: 2.4
+    Damage: 3
+    SizeMultiplier: 1.32
+    ThemeColor: {r: 0.2, g: 0.95, b: 0.85, a: 1}
+  - Id: 14
+    Title: Inferno Comet
+    Description: Meteorite core trailing incandescent sparks.
+    Price: 7700
+    Icon: {fileID: 21300000, guid: ee16ef809cfe49499e4ae08c2453a430, type: 3}
+    Prefab: {fileID: 3689864226606390131, guid: eee496ca0b343e64e97d02940ea88b0a, type: 3}
+    Speed: 12
+    ReturnSpeedMultiplier: 2.45
+    Damage: 3
+    SizeMultiplier: 1.34
+    ThemeColor: {r: 1, g: 0.3, b: 0.1, a: 1}
+  - Id: 15
+    Title: Abyssal Kraken
+    Description: Deep-sea leviathan crest crushing obstacles.
+    Price: 8600
+    Icon: {fileID: 21300000, guid: ce16c1d8d6d2456b8acd5933292800b0, type: 3}
+    Prefab: {fileID: 7973053591209062451, guid: 05df99ab1e8cb9b40815bf107933a181, type: 3}
+    Speed: 12.3
     ReturnSpeedMultiplier: 2.5
     Damage: 3
-    SizeMultiplier: 1.35
-    ThemeColor: {r: 0.75, g: 0.3, b: 1, a: 1}
+    SizeMultiplier: 1.36
+    ThemeColor: {r: 0.1, g: 0.4, b: 0.8, a: 1}
+  - Id: 16
+    Title: Quantum Slicer
+    Description: Warps trajectory space for swift intercepts.
+    Price: 9600
+    Icon: {fileID: 21300000, guid: a9bf9e763e2e4ed19918f9767b510567, type: 3}
+    Prefab: {fileID: 2195662692127935843, guid: ef58cec941ceec14a94ccf6dad4d5197, type: 3}
+    Speed: 12.6
+    ReturnSpeedMultiplier: 2.55
+    Damage: 3
+    SizeMultiplier: 1.38
+    ThemeColor: {r: 0.7, g: 0.5, b: 1, a: 1}
+  - Id: 17
+    Title: Dragon Tooth
+    Description: Carved from ancient dragon bone with immense power.
+    Price: 10700
+    Icon: {fileID: 21300000, guid: 4fbb5337563e421e90380602c2d2950c, type: 3}
+    Prefab: {fileID: 6573949909203007823, guid: eac714b91142f164c99ab7429ae408cb, type: 3}
+    Speed: 12.9
+    ReturnSpeedMultiplier: 2.6
+    Damage: 3
+    SizeMultiplier: 1.4
+    ThemeColor: {r: 1, g: 0.65, b: 0.15, a: 1}
+  - Id: 18
+    Title: Nebula Spiral
+    Description: Spinning gravitational vortex pulling intercept lines.
+    Price: 11900
+    Icon: {fileID: 21300000, guid: eafe19e8983941428e51abe1504465be, type: 3}
+    Prefab: {fileID: 6069581403035780651, guid: 30b1b1f4c2c2fed4ab6a5a9bfd4d9966, type: 3}
+    Speed: 13.1
+    ReturnSpeedMultiplier: 2.65
+    Damage: 3
+    SizeMultiplier: 1.42
+    ThemeColor: {r: 0.3, g: 0.5, b: 1, a: 1}
+  - Id: 19
+    Title: Titanium Crusher
+    Description: Heavy armor-piercing alloy pulverizing all incoming rockets.
+    Price: 13200
+    Icon: {fileID: 21300000, guid: f87b208ac2544b58862b24f480c1f07c, type: 3}
+    Prefab: {fileID: 1789958762951803810, guid: 0b13d6d42e4b42f41bff47d8fa439804, type: 3}
+    Speed: 13.3
+    ReturnSpeedMultiplier: 2.7
+    Damage: 3
+    SizeMultiplier: 1.44
+    ThemeColor: {r: 0.55, g: 0.65, b: 0.8, a: 1}
+  - Id: 20
+    Title: Rune Carver
+    Description: Ancient glyphs resonating with arcane destructive force.
+    Price: 14500
+    Icon: {fileID: 21300000, guid: bae60c4b5d344770b56bc49373155ba6, type: 3}
+    Prefab: {fileID: 1133893475614931423, guid: 303e91259b45dd041aa882a37223b882, type: 3}
+    Speed: 13.5
+    ReturnSpeedMultiplier: 2.75
+    Damage: 4
+    SizeMultiplier: 1.45
+    ThemeColor: {r: 0.15, g: 0.85, b: 0.8, a: 1}
+  - Id: 21
+    Title: Chrono Loop
+    Description: Bends temporal flow for lightning-fast turnaround.
+    Price: 16000
+    Icon: {fileID: 21300000, guid: fe9634893271446c88a5ef63b949ed2a, type: 3}
+    Prefab: {fileID: 2359732562205684842, guid: 76d861a4f85d6354fbb23621464694ee, type: 3}
+    Speed: 13.7
+    ReturnSpeedMultiplier: 2.8
+    Damage: 4
+    SizeMultiplier: 1.46
+    ThemeColor: {r: 0.4, g: 0.9, b: 0.7, a: 1}
+  - Id: 22
+    Title: Void Reaver
+    Description: Collapsing singularity edge swallowing incoming threats.
+    Price: 17600
+    Icon: {fileID: 21300000, guid: bd10b6c431584e1f951138f11cdd1254, type: 3}
+    Prefab: {fileID: 1315642688188308475, guid: 18e321043aaf77642babd1ed02c2a918, type: 3}
+    Speed: 13.9
+    ReturnSpeedMultiplier: 2.85
+    Damage: 4
+    SizeMultiplier: 1.48
+    ThemeColor: {r: 0.7, g: 0.1, b: 0.6, a: 1}
+  - Id: 23
+    Title: Starlight Prism
+    Description: Prismatic crystal focusing beams into explosive impact.
+    Price: 19300
+    Icon: {fileID: 21300000, guid: e51aa1dbc5984c2fa5acfe2ad73561cb, type: 3}
+    Prefab: {fileID: 8364285020603852533, guid: 83d1ad0385e838b4787e6600a0f3895d, type: 3}
+    Speed: 14.1
+    ReturnSpeedMultiplier: 2.9
+    Damage: 4
+    SizeMultiplier: 1.5
+    ThemeColor: {r: 0.6, g: 0.85, b: 1, a: 1}
+  - Id: 24
+    Title: Celestial Wrath
+    Description: Forged in the heart of a supernova. Unstoppable power.
+    Price: 21200
+    Icon: {fileID: 21300000, guid: 3bcdce688ee84b5391bab5515d86fa6c, type: 3}
+    Prefab: {fileID: 4994928663143384947, guid: ccf02f52383cdd74785f728b40c4e9ab, type: 3}
+    Speed: 14.3
+    ReturnSpeedMultiplier: 2.95
+    Damage: 4
+    SizeMultiplier: 1.52
+    ThemeColor: {r: 1, g: 0.75, b: 0.3, a: 1}
+  - Id: 25
+    Title: Omni Annihilator
+    Description: The pinnacle weapon. Maximum speed, devastating sweep, supreme dominance.
+    Price: 23500
+    Icon: {fileID: 21300000, guid: ef83be793bec4a81a7a2ca985454f970, type: 3}
+    Prefab: {fileID: 4707204977931166528, guid: b4ded3a76f0d29e41838e0d4603772f4, type: 3}
+    Speed: 14.5
+    ReturnSpeedMultiplier: 3
+    Damage: 4
+    SizeMultiplier: 1.55
+    ThemeColor: {r: 1, g: 0.15, b: 0.45, a: 1}
