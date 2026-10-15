@@ -23,7 +23,7 @@ MonoBehaviour:
     DefaultMoneyMultiplier: 50
     DefaultComment: COMBO!
     MoneyColorHex: '#FFE600'
-    MoneyTextSizePercent: 70
+    MoneyTextSizePercent: 50
     TierGradients:
     - TopLeft: {r: 0, g: 0.95, b: 1, a: 1}
       TopRight: {r: 0, g: 1, b: 0.7, a: 1}

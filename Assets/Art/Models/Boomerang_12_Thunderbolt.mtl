@@ -1,0 +1,12 @@
+# Blender 3.4.1 MTL File: 'Boomerang_12_Thunderbolt.blend'
+# www.blender.org
+
+newmtl M_Thunderbolt
+Ns 705.600098
+Ka 0.200000 0.200000 0.200000
+Ks 0.880000 0.880000 0.880000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Kd Boomerang_12_Thunderbolt_Albedo.png
+map_Ke Boomerang_12_Thunderbolt_Albedo.png
