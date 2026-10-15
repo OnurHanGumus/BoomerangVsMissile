@@ -9,6 +9,7 @@ using UnityEngine;
 
 namespace Managers
 {
+    [System.Obsolete("Replaced by BoomerangStoreManager")]
     public class BoomerangUpgradeManager : MonoSingleton<BoomerangUpgradeManager>
     {
         #region Serialized Variables

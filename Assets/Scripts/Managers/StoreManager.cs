@@ -16,6 +16,7 @@ using UnityEngine.UI;
 
 namespace Managers
 {
+    [System.Obsolete("Replaced by BoomerangStoreManager")]
     public class StoreManager : MonoBehaviour
     {
         #region Self Variables

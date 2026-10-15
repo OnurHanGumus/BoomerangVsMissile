@@ -1,0 +1,70 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 587135aa6c0a77b4bb21428974ff1204, type: 3}
+  m_Name: CD_Boomerangs
+  m_EditorClassIdentifier: Assembly-CSharp::Data.UnityObject.CD_Boomerangs
+  Boomerangs:
+  - Id: 0
+    Title: Classic Standard
+    Description: Balanced & reliable standard model.
+    Price: 0
+    Icon: {fileID: 21300000, guid: 9a7a672a902432d4182d9f3afbcdba51, type: 3}
+    Prefab: {fileID: 7168731900612373821, guid: c64facde09a1cd042a41542cdb51318a, type: 3}
+    Speed: 5
+    ReturnSpeedMultiplier: 1.25
+    Damage: 1
+    SizeMultiplier: 1
+    ThemeColor: {r: 0.2, g: 0.7, b: 1, a: 1}
+  - Id: 1
+    Title: Aero Talon
+    Description: High-speed aerodynamic interceptor.
+    Price: 250
+    Icon: {fileID: 21300000, guid: c5c76f5c391749589682feee5544f9f7, type: 3}
+    Prefab: {fileID: 7359562933283536233, guid: 61140532366557e43a32efd67efb3bb8, type: 3}
+    Speed: 6.5
+    ReturnSpeedMultiplier: 1.5
+    Damage: 1
+    SizeMultiplier: 1.1
+    ThemeColor: {r: 0.2, g: 0.9, b: 0.6, a: 1}
+  - Id: 2
+    Title: Vortex Glaive
+    Description: Reinforced edges for double collision impact.
+    Price: 600
+    Icon: {fileID: 21300000, guid: 1f641fa3641b4a9c8c84c2abb4e6c5e9, type: 3}
+    Prefab: {fileID: 8326371004721621578, guid: 16639a049a1de7a49991812ad553522f, type: 3}
+    Speed: 7.5
+    ReturnSpeedMultiplier: 1.75
+    Damage: 2
+    SizeMultiplier: 1.15
+    ThemeColor: {r: 0.9, g: 0.7, b: 0.2, a: 1}
+  - Id: 3
+    Title: Crimson Fang
+    Description: Heavy curved scythe with extended sweep radius.
+    Price: 1100
+    Icon: {fileID: 21300000, guid: 071a5c9ae467488baa8d997a6d5fb2dc, type: 3}
+    Prefab: {fileID: 5115873570973722597, guid: 236640d6b51281545ad2eb8a89bf4e7f, type: 3}
+    Speed: 9
+    ReturnSpeedMultiplier: 2.1
+    Damage: 2
+    SizeMultiplier: 1.25
+    ThemeColor: {r: 1, g: 0.25, b: 0.35, a: 1}
+  - Id: 4
+    Title: Cosmic Dominator
+    Description: Ultimate plasma-infused edge dealing 3x devastation.
+    Price: 1800
+    Icon: {fileID: 21300000, guid: dd6e82e68e2540aeb13d0be9da84db79, type: 3}
+    Prefab: {fileID: 1748504389383352374, guid: e3bcfe65354107942a6bdca2fdd29145, type: 3}
+    Speed: 11
+    ReturnSpeedMultiplier: 2.5
+    Damage: 3
+    SizeMultiplier: 1.35
+    ThemeColor: {r: 0.75, g: 0.3, b: 1, a: 1}

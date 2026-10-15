@@ -24,10 +24,8 @@ namespace Managers
         {
             get
             {
-                float bonus = BoomerangUpgradeManager.Instance != null 
-                    ? BoomerangUpgradeManager.Instance.GetTotalBonus(BoomerangUpgradeType.Speed) 
-                    : 0f;
-                return (_data != null ? _data.Speed : 5f) + bonus;
+                var current = BoomerangStoreManager.Instance != null ? BoomerangStoreManager.Instance.CurrentBoomerangData : null;
+                return current != null ? current.Speed : (_data != null ? _data.Speed : 5f);
             }
         }
 
@@ -35,10 +33,17 @@ namespace Managers
         {
             get
             {
-                float bonus = BoomerangUpgradeManager.Instance != null 
-                    ? BoomerangUpgradeManager.Instance.GetTotalBonus(BoomerangUpgradeType.ReturnSpeed) 
-                    : 0f;
-                return (_data != null ? _data.ReturnSpeedMultiplier : 1.25f) + bonus;
+                var current = BoomerangStoreManager.Instance != null ? BoomerangStoreManager.Instance.CurrentBoomerangData : null;
+                return current != null ? current.ReturnSpeedMultiplier : (_data != null ? _data.ReturnSpeedMultiplier : 1.25f);
+            }
+        }
+
+        public int EffectiveDamage
+        {
+            get
+            {
+                var current = BoomerangStoreManager.Instance != null ? BoomerangStoreManager.Instance.CurrentBoomerangData : null;
+                return current != null ? current.Damage : 1;
             }
         }
 
@@ -74,7 +79,7 @@ namespace Managers
 
         private void Start()
         {
-            ApplyUpgrades();
+            ApplyStats();
         }
 
         #region Event Subscription
@@ -104,46 +109,57 @@ namespace Managers
             BoomerangSignals.Instance.onBoomerangReturning += OnBoomerangReturning;
             BoomerangSignals.Instance.onBoomerangHasReturned += OnBoomerangReturned;
             BoomerangSignals.Instance.onBoomerangHasReturned += _movementController.OnBoomerangHasReturned;
+            BoomerangSignals.Instance.onBoomerangStatsChanged += ApplyStats;
         }
 
         private void UnsubscribeEvents()
         {
-            CoreGameSignals.Instance.onPlay -= OnPlay;
-            CoreGameSignals.Instance.onPlay -= _movementController.OnPlay;
-            CoreGameSignals.Instance.onLevelSuccessful -= OnLevelFailedOrSuccessful;
-            CoreGameSignals.Instance.onLevelFailed -= OnLevelFailedOrSuccessful;
-            CoreGameSignals.Instance.onRestartLevel -= OnRestartLevel;
-            CoreGameSignals.Instance.onRestartLevel -= _movementController.OnRestartLevel;
-            InputSignals.Instance.onClicking -= OnAddPoint;
-            InputSignals.Instance.onInputReleased -= OnInputRelease;
-            BoomerangSignals.Instance.onBoomerangNextTarget -= OnBoomerangNextTarget;
-            BoomerangSignals.Instance.onBoomerangNextTarget -= _movementController.OnBoomerangNextTarget;
-            BoomerangSignals.Instance.onBoomerangReturning -= OnBoomerangReturning;
-            BoomerangSignals.Instance.onBoomerangHasReturned -= OnBoomerangReturned;
-            BoomerangSignals.Instance.onBoomerangHasReturned -= _movementController.OnBoomerangHasReturned;
+            if (CoreGameSignals.Instance != null)
+            {
+                CoreGameSignals.Instance.onPlay -= OnPlay;
+                if (_movementController != null) CoreGameSignals.Instance.onPlay -= _movementController.OnPlay;
+                CoreGameSignals.Instance.onLevelSuccessful -= OnLevelFailedOrSuccessful;
+                CoreGameSignals.Instance.onLevelFailed -= OnLevelFailedOrSuccessful;
+                CoreGameSignals.Instance.onRestartLevel -= OnRestartLevel;
+                if (_movementController != null) CoreGameSignals.Instance.onRestartLevel -= _movementController.OnRestartLevel;
+            }
+
+            if (InputSignals.Instance != null)
+            {
+                InputSignals.Instance.onClicking -= OnAddPoint;
+                InputSignals.Instance.onInputReleased -= OnInputRelease;
+            }
+
+            if (BoomerangSignals.Instance != null)
+            {
+                BoomerangSignals.Instance.onBoomerangNextTarget -= OnBoomerangNextTarget;
+                if (_movementController != null) BoomerangSignals.Instance.onBoomerangNextTarget -= _movementController.OnBoomerangNextTarget;
+                BoomerangSignals.Instance.onBoomerangReturning -= OnBoomerangReturning;
+                BoomerangSignals.Instance.onBoomerangHasReturned -= OnBoomerangReturned;
+                if (_movementController != null) BoomerangSignals.Instance.onBoomerangHasReturned -= _movementController.OnBoomerangHasReturned;
+                BoomerangSignals.Instance.onBoomerangStatsChanged -= ApplyStats;
+            }
         }
 
         private void OnDestroy()
         {
-            if (BoomerangSignals.Instance != null)
-            {
-                BoomerangSignals.Instance.onBoomerangStatsChanged -= ApplyUpgrades;
-            }
+            UnsubscribeEvents();
         }
 
         #endregion
 
-        public void ApplyUpgrades()
+        public void ApplyStats()
         {
             Transform parentChild = transform.Find("Parent");
             if (parentChild != null)
             {
-                float sizeBonus = BoomerangUpgradeManager.Instance != null 
-                    ? BoomerangUpgradeManager.Instance.GetTotalBonus(BoomerangUpgradeType.Size) 
-                    : 0f;
-                parentChild.localScale = Vector3.one * (1.0f + sizeBonus);
+                var current = BoomerangStoreManager.Instance != null ? BoomerangStoreManager.Instance.CurrentBoomerangData : null;
+                float sizeMultiplier = current != null ? current.SizeMultiplier : 1.0f;
+                parentChild.localScale = Vector3.one * sizeMultiplier;
             }
         }
+
+        public void ApplyUpgrades() => ApplyStats();
 
         private void OnLevelFailedOrSuccessful()
         {
@@ -152,7 +168,7 @@ namespace Managers
 
         private void OnPlay()
         {
-            ApplyUpgrades();
+            ApplyStats();
             transform.GetChild(0).gameObject.SetActive(true);
             transform.position = new Vector3(_data.BoomerangInitPosX, _data.BoomerangInitPosY, 0);
         }

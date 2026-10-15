@@ -37,7 +37,8 @@ namespace Controllers
             {
                 var boomerangManager = other.GetComponentInParent<BoomerangManager>();
                 bool isFullyCharged = boomerangManager != null && boomerangManager.IsFullyCharged;
-                manager.TakeDamage(isFullyCharged ? 2 : 1);
+                int baseDamage = boomerangManager != null ? boomerangManager.EffectiveDamage : 1;
+                manager.TakeDamage(isFullyCharged ? baseDamage * 2 : baseDamage);
             }
             else if (other.CompareTag("SafeArea"))
             {

@@ -8,6 +8,7 @@ using UnityEngine;
 
 namespace Controllers.UI
 {
+    [System.Obsolete("Replaced by BoomerangStorePanelController")]
     public class StoreUpgradePanelController : MonoBehaviour
     {
         #region Serialized Variables

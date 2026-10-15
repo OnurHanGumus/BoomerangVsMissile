@@ -7,6 +7,7 @@ using UnityEngine.UI;
 
 namespace Controllers.UI
 {
+    [System.Obsolete("Replaced by BoomerangStoreCardUI")]
     public class StoreUpgradeCardUI : MonoBehaviour
     {
         #region Serialized Variables
