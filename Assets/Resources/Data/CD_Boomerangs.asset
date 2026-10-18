@@ -24,6 +24,8 @@ MonoBehaviour:
     Damage: 1
     SizeMultiplier: 1
     ThemeColor: {r: 0.2, g: 0.7, b: 1, a: 1}
+    HandLocalPosition: {x: -0.26, y: 0.146, z: -0.071}
+    HandLocalEulerAngles: {x: 285.76187, y: 130.12737, z: 228.21355}
   - Id: 1
     Title: Aero Talon
     Description: High-speed aerodynamic interceptor.
@@ -35,6 +37,8 @@ MonoBehaviour:
     Damage: 1
     SizeMultiplier: 1.05
     ThemeColor: {r: 0.2, g: 0.9, b: 0.6, a: 1}
+    HandLocalPosition: {x: -0.115, y: 0.124, z: -0.161}
+    HandLocalEulerAngles: {x: 85.540825, y: 119.96165, z: 330.9967}
   - Id: 2
     Title: Vortex Glaive
     Description: Curved blades channeling whirlwind momentum.
@@ -46,6 +50,8 @@ MonoBehaviour:
     Damage: 1
     SizeMultiplier: 1.08
     ThemeColor: {r: 0.9, g: 0.75, b: 0.2, a: 1}
+    HandLocalPosition: {x: -0.164, y: 0.098, z: -0.178}
+    HandLocalEulerAngles: {x: 78.12864, y: 95.478035, z: 281.07846}
   - Id: 3
     Title: Crimson Fang
     Description: Razor-edged scythe with heavy impact.
@@ -57,6 +63,8 @@ MonoBehaviour:
     Damage: 2
     SizeMultiplier: 1.1
     ThemeColor: {r: 1, g: 0.25, b: 0.35, a: 1}
+    HandLocalPosition: {x: -0.1957, y: 0.1471, z: -0.1573}
+    HandLocalEulerAngles: {x: 80.20018, y: 182.85095, z: 34.291348}
   - Id: 4
     Title: Cosmic Dominator
     Description: Infused with star-matter kinetic energy.
@@ -68,6 +76,8 @@ MonoBehaviour:
     Damage: 2
     SizeMultiplier: 1.12
     ThemeColor: {r: 0.75, g: 0.3, b: 1, a: 1}
+    HandLocalPosition: {x: -0.24, y: 0.124, z: -0.146}
+    HandLocalEulerAngles: {x: 87.57182, y: 296.99756, z: 117.9476}
   - Id: 5
     Title: Solar Flare
     Description: Radiates intense heat, burning through armor.
@@ -79,6 +89,8 @@ MonoBehaviour:
     Damage: 2
     SizeMultiplier: 1.15
     ThemeColor: {r: 1, g: 0.55, b: 0.1, a: 1}
+    HandLocalPosition: {x: -0.224, y: 0.148, z: -0.154}
+    HandLocalEulerAngles: {x: 80.95478, y: 278.1632, z: 189.74318}
   - Id: 6
     Title: Thunder Wing
     Description: Shockwave wing with lightning return speed.
@@ -90,6 +102,8 @@ MonoBehaviour:
     Damage: 2
     SizeMultiplier: 1.18
     ThemeColor: {r: 0.1, g: 0.85, b: 1, a: 1}
+    HandLocalPosition: {x: -0.205, y: 0.114, z: -0.025}
+    HandLocalEulerAngles: {x: 286.32816, y: 171.4275, z: 192.50789}
   - Id: 7
     Title: Toxic Viper
     Description: Venom-coated edge cutting wide swathes.
@@ -101,6 +115,8 @@ MonoBehaviour:
     Damage: 2
     SizeMultiplier: 1.2
     ThemeColor: {r: 0.4, g: 0.95, b: 0.2, a: 1}
+    HandLocalPosition: {x: -0.227, y: 0.136, z: 0.045}
+    HandLocalEulerAngles: {x: 85.07173, y: 207.13876, z: 55.991188}
   - Id: 8
     Title: Frostbite Shard
     Description: Crystalline blade slicing with absolute zero chill.
@@ -112,6 +128,8 @@ MonoBehaviour:
     Damage: 2
     SizeMultiplier: 1.22
     ThemeColor: {r: 0.5, g: 0.85, b: 1, a: 1}
+    HandLocalPosition: {x: -0.276, y: 0.188, z: -0.053}
+    HandLocalEulerAngles: {x: 75.13655, y: 261.20087, z: 150.03978}
   - Id: 9
     Title: Shadow Phantom
     Description: Phases through air with stealthy precision.
@@ -123,6 +141,8 @@ MonoBehaviour:
     Damage: 2
     SizeMultiplier: 1.24
     ThemeColor: {r: 0.6, g: 0.2, b: 0.85, a: 1}
+    HandLocalPosition: {x: -0.107, y: 0.142, z: -0.172}
+    HandLocalEulerAngles: {x: 82.50679, y: 261.28857, z: 56.15322}
   - Id: 10
     Title: Golden Phoenix
     Description: Mythic crest delivering explosive strikes.
@@ -134,6 +154,8 @@ MonoBehaviour:
     Damage: 3
     SizeMultiplier: 1.26
     ThemeColor: {r: 1, g: 0.85, b: 0.2, a: 1}
+    HandLocalPosition: {x: -0.0968, y: 0.1388, z: -0.1538}
+    HandLocalEulerAngles: {x: 273.78967, y: 47.112606, z: 245.43}
   - Id: 11
     Title: Obsidian Ripper
     Description: Hardened volcanic rock tearing through targets.
@@ -145,6 +167,8 @@ MonoBehaviour:
     Damage: 3
     SizeMultiplier: 1.28
     ThemeColor: {r: 0.9, g: 0.2, b: 0.2, a: 1}
+    HandLocalPosition: {x: -0.262, y: 0.171, z: -0.154}
+    HandLocalEulerAngles: {x: 80.79566, y: 245.3833, z: 80.091}
   - Id: 12
     Title: Plasma Striker
     Description: Supercharged plasma arc with wide impact zone.
@@ -156,6 +180,8 @@ MonoBehaviour:
     Damage: 3
     SizeMultiplier: 1.3
     ThemeColor: {r: 1, g: 0.2, b: 0.7, a: 1}
+    HandLocalPosition: {x: -0.238, y: 0.137, z: -0.163}
+    HandLocalEulerAngles: {x: 87.03912, y: 195.50125, z: 38.983047}
   - Id: 13
     Title: Cyber Lotus
     Description: Precision nanotech rotor with hyper-mobility.
@@ -167,6 +193,8 @@ MonoBehaviour:
     Damage: 3
     SizeMultiplier: 1.32
     ThemeColor: {r: 0.2, g: 0.95, b: 0.85, a: 1}
+    HandLocalPosition: {x: -0.207, y: 0.135, z: 0.013}
+    HandLocalEulerAngles: {x: 273.31793, y: 171.58533, z: 291.30835}
   - Id: 14
     Title: Inferno Comet
     Description: Meteorite core trailing incandescent sparks.
@@ -178,6 +206,8 @@ MonoBehaviour:
     Damage: 3
     SizeMultiplier: 1.34
     ThemeColor: {r: 1, g: 0.3, b: 0.1, a: 1}
+    HandLocalPosition: {x: -0.2687, y: 0.1425, z: 0.0344}
+    HandLocalEulerAngles: {x: 274.72125, y: 152.15018, z: 4.060449}
   - Id: 15
     Title: Abyssal Kraken
     Description: Deep-sea leviathan crest crushing obstacles.
@@ -189,6 +219,8 @@ MonoBehaviour:
     Damage: 3
     SizeMultiplier: 1.36
     ThemeColor: {r: 0.1, g: 0.4, b: 0.8, a: 1}
+    HandLocalPosition: {x: -0.1729, y: 0.129, z: -0.1076}
+    HandLocalEulerAngles: {x: 272.2788, y: 44.435608, z: 1.5491322}
   - Id: 16
     Title: Quantum Slicer
     Description: Warps trajectory space for swift intercepts.
@@ -200,6 +232,8 @@ MonoBehaviour:
     Damage: 3
     SizeMultiplier: 1.38
     ThemeColor: {r: 0.7, g: 0.5, b: 1, a: 1}
+    HandLocalPosition: {x: -0.104, y: 0.12, z: 0.011}
+    HandLocalEulerAngles: {x: 287.24213, y: 356.6599, z: 322.67957}
   - Id: 17
     Title: Dragon Tooth
     Description: Carved from ancient dragon bone with immense power.
@@ -211,6 +245,8 @@ MonoBehaviour:
     Damage: 3
     SizeMultiplier: 1.4
     ThemeColor: {r: 1, g: 0.65, b: 0.15, a: 1}
+    HandLocalPosition: {x: 0.1727, y: 0.1535, z: 0.1976}
+    HandLocalEulerAngles: {x: 84.79113, y: 74.30435, z: 179.99873}
   - Id: 18
     Title: Nebula Spiral
     Description: Spinning gravitational vortex pulling intercept lines.
@@ -222,6 +258,8 @@ MonoBehaviour:
     Damage: 3
     SizeMultiplier: 1.42
     ThemeColor: {r: 0.3, g: 0.5, b: 1, a: 1}
+    HandLocalPosition: {x: -0.231, y: 0.13, z: -0.157}
+    HandLocalEulerAngles: {x: 279.62616, y: 140.79857, z: 232.24673}
   - Id: 19
     Title: Titanium Crusher
     Description: Heavy armor-piercing alloy pulverizing all incoming rockets.
@@ -233,6 +271,8 @@ MonoBehaviour:
     Damage: 3
     SizeMultiplier: 1.44
     ThemeColor: {r: 0.55, g: 0.65, b: 0.8, a: 1}
+    HandLocalPosition: {x: -0.1, y: 0.132, z: -0.25}
+    HandLocalEulerAngles: {x: 86.65461, y: 252.01747, z: 352.2585}
   - Id: 20
     Title: Rune Carver
     Description: Ancient glyphs resonating with arcane destructive force.
@@ -244,6 +284,8 @@ MonoBehaviour:
     Damage: 4
     SizeMultiplier: 1.45
     ThemeColor: {r: 0.15, g: 0.85, b: 0.8, a: 1}
+    HandLocalPosition: {x: -0.358, y: 0.1376, z: -0.025}
+    HandLocalEulerAngles: {x: 86.10435, y: 329.5808, z: 190.2767}
   - Id: 21
     Title: Chrono Loop
     Description: Bends temporal flow for lightning-fast turnaround.
@@ -255,6 +297,8 @@ MonoBehaviour:
     Damage: 4
     SizeMultiplier: 1.46
     ThemeColor: {r: 0.4, g: 0.9, b: 0.7, a: 1}
+    HandLocalPosition: {x: -0.0167, y: 0.1245, z: -0.195}
+    HandLocalEulerAngles: {x: 87.49587, y: 26.81361, z: 147.8579}
   - Id: 22
     Title: Void Reaver
     Description: Collapsing singularity edge swallowing incoming threats.
@@ -266,6 +310,8 @@ MonoBehaviour:
     Damage: 4
     SizeMultiplier: 1.48
     ThemeColor: {r: 0.7, g: 0.1, b: 0.6, a: 1}
+    HandLocalPosition: {x: -0.081, y: 0.1555, z: -0.2017}
+    HandLocalEulerAngles: {x: 280.49976, y: 58.89793, z: 119.97917}
   - Id: 23
     Title: Starlight Prism
     Description: Prismatic crystal focusing beams into explosive impact.
@@ -277,6 +323,8 @@ MonoBehaviour:
     Damage: 4
     SizeMultiplier: 1.5
     ThemeColor: {r: 0.6, g: 0.85, b: 1, a: 1}
+    HandLocalPosition: {x: -0.193, y: 0.1445, z: 0.052}
+    HandLocalEulerAngles: {x: 276.21814, y: 93.3212, z: 263.43384}
   - Id: 24
     Title: Celestial Wrath
     Description: Forged in the heart of a supernova. Unstoppable power.
@@ -288,6 +336,8 @@ MonoBehaviour:
     Damage: 4
     SizeMultiplier: 1.52
     ThemeColor: {r: 1, g: 0.75, b: 0.3, a: 1}
+    HandLocalPosition: {x: -0.281, y: 0.131, z: -0.092}
+    HandLocalEulerAngles: {x: 274.25528, y: 131.52211, z: 228.10046}
   - Id: 25
     Title: Omni Annihilator
     Description: The pinnacle weapon. Maximum speed, devastating sweep, supreme dominance.
@@ -299,3 +349,5 @@ MonoBehaviour:
     Damage: 4
     SizeMultiplier: 1.55
     ThemeColor: {r: 1, g: 0.15, b: 0.45, a: 1}
+    HandLocalPosition: {x: -0.254, y: 0.107, z: -0.144}
+    HandLocalEulerAngles: {x: 278.70413, y: 176.30818, z: 337.48706}

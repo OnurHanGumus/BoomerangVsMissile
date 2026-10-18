@@ -22,5 +22,9 @@ namespace Data.ValueObject
 
         [Header("Visual Theme")]
         public Color ThemeColor = Color.cyan;
+
+        [Header("Hand Grip Transform")]
+        public Vector3 HandLocalPosition = new Vector3(0.106f, 0.425f, -0.144f);
+        public Vector3 HandLocalEulerAngles = new Vector3(19.138f, 52.601f, -105.943f);
     }
 }

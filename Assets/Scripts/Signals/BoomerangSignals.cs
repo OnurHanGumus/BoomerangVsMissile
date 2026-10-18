@@ -16,5 +16,6 @@ namespace Signals
         public UnityAction<float, float, float, float> onSetChargedArc = delegate { }; 
         public UnityAction onBoomerangStatsChanged = delegate { };
         public UnityAction onEmergencyRecall = delegate { };
+        public UnityAction onPlayerTouchedBoomerang = delegate { };
     }
 }

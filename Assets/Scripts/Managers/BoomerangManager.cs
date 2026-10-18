@@ -47,6 +47,32 @@ namespace Managers
             }
         }
 
+        public Vector3 EffectiveHandLocalPosition
+        {
+            get
+            {
+                var current = BoomerangStoreManager.Instance != null ? BoomerangStoreManager.Instance.CurrentBoomerangData : null;
+                if (current != null && (current.HandLocalPosition != Vector3.zero || current.HandLocalEulerAngles != Vector3.zero))
+                {
+                    return current.HandLocalPosition;
+                }
+                return _data != null ? _data.BoomerangHandLocalPosition : new Vector3(0.106f, 0.425f, -0.144f);
+            }
+        }
+
+        public Vector3 EffectiveHandLocalEulerAngles
+        {
+            get
+            {
+                var current = BoomerangStoreManager.Instance != null ? BoomerangStoreManager.Instance.CurrentBoomerangData : null;
+                if (current != null && (current.HandLocalPosition != Vector3.zero || current.HandLocalEulerAngles != Vector3.zero))
+                {
+                    return current.HandLocalEulerAngles;
+                }
+                return _data != null ? _data.BoomerangHandLocalEulerAngles : new Vector3(19.138f, 52.601f, -105.943f);
+            }
+        }
+
         [SerializeField] private BoomerangMeshController meshController;
         [SerializeField] private BoomerangPhysicsController physicsController;
         [SerializeField] private Controllers.Boomerang.TrajectoryPreviewController trajectoryPreviewController;

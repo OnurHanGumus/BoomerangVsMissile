@@ -48,8 +48,13 @@ namespace Controllers
             else if (other.CompareTag("BoomerangHand"))
             {
                 transform.parent.parent.parent = other.transform;
-                transform.parent.parent.localPosition = _data.BoomerangHandLocalPosition;
-                transform.parent.parent.localEulerAngles = _data.BoomerangHandLocalEulerAngles;
+                transform.parent.parent.localPosition = manager != null
+                    ? manager.EffectiveHandLocalPosition
+                    : _data.BoomerangHandLocalPosition;
+                transform.parent.parent.localEulerAngles = manager != null
+                    ? manager.EffectiveHandLocalEulerAngles
+                    : _data.BoomerangHandLocalEulerAngles;
+                BoomerangSignals.Instance.onPlayerTouchedBoomerang?.Invoke();
             }
         }
     }

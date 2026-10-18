@@ -61,6 +61,8 @@ namespace Managers
             BoomerangSignals.Instance.onBoomerangThrown += OnBoomerangThrown;
             BoomerangSignals.Instance.onBoomerangHasReturned += OnBoomerangHasReturned;
             BoomerangSignals.Instance.onBoomerangReturning += OnBoomerangReturning;
+            BoomerangSignals.Instance.onPlayerTouchedBoomerang += OnPlayerTouchedBoomerang;
+
             PlayerSignals.Instance.onChangePlayerAnimation += animationController.OnChangeAnimation;
             PlayerSignals.Instance.onResetAnimation += animationController.OnResetAnimation;
             PlayerSignals.Instance.onResetAnimator += animationController.OnResetAnimator;
@@ -95,6 +97,11 @@ namespace Managers
             PlayerSignals.Instance.onChangePlayerAnimation?.Invoke(PlayerAnimationStates.Catch);
         }
 
+        private void OnPlayerTouchedBoomerang()
+        {
+            catchObject.SetActive(false);
+        }
+
         private void OnBoomerangReturning()
         {
             catchObject.SetActive(true);
@@ -105,6 +112,8 @@ namespace Managers
         {
             PlayerSignals.Instance.onChangePlayerAnimation?.Invoke(PlayerAnimationStates.Idle);
             PlayerSignals.Instance.onResetAnimator?.Invoke();
+            catchObject.SetActive(false);
+
         }
     }
 }
