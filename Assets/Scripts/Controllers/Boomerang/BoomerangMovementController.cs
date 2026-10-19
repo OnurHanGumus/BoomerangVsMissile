@@ -40,6 +40,8 @@ namespace Controllers
         private bool _isEmergencyRecalling = false;
         private float _progress = 0f;
 
+        private float _currentSpeed;
+
         #endregion
 
         #endregion
@@ -59,6 +61,7 @@ namespace Controllers
             _returnSpline = new CatmullRomSpline();
             BoomerangSignals.Instance.onSetChargedArc += OnSetChargedArc;
             BoomerangSignals.Instance.onEmergencyRecall += OnEmergencyRecall;
+            _currentSpeed = _manager.GetBoomerangData().Speed;
         }
 
         private void OnDestroy()
@@ -129,7 +132,7 @@ namespace Controllers
             Vector3 toTarget = _initializePos - transform.position;
             toTarget.z = 0f;
 
-            float speed = _manager.EffectiveSpeed + (_manager.EffectiveSpeed * _manager.EffectiveReturnSpeedMultiplier);
+            float speed = _currentSpeed * _manager.GetBoomerangData().ReturnSpeedMultiplier;
             Vector3 recallVelocity = toTarget.normalized * speed;
             _rig.linearVelocity = recallVelocity;
 
@@ -180,7 +183,7 @@ namespace Controllers
 
             int index = Mathf.Clamp(_manager.PointIndex, 0, _manager.MissilePoints.Count - 1);
             Vector3 target = _manager.MissilePoints[index];
-            Vector3 dir = (target - transform.position).normalized * (_manager.EffectiveSpeed + (_progress * 10));
+            Vector3 dir = (target - transform.position).normalized * _currentSpeed;
             return new Vector3(dir.x, dir.y, 0f);
         }
 
@@ -249,7 +252,7 @@ namespace Controllers
                 return;
             }
 
-            float currentSpeed = _manager.EffectiveSpeed + (_progress * 10);
+            float currentSpeed = _currentSpeed;
             float segmentLength = _returnSpline.GetSegmentLength(_returnSegment);
             if (segmentLength <= 0.0001f)
             {
@@ -347,6 +350,8 @@ namespace Controllers
 
         public void Thrown()
         {
+            _currentSpeed = _manager.GetBoomerangData().Speed + (_progress * 10);
+
             _manager.IsRising = true;
             _isReturning = false;
             _isPointMissed = false;

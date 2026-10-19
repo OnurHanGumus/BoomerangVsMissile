@@ -20,31 +20,9 @@ namespace Managers
         public bool IsFullyCharged = false;
         public bool IsEmergencyRecalling => _movementController != null && _movementController.IsEmergencyRecalling;
 
-        public float EffectiveSpeed
+        public BoomerangItemData GetBoomerangData()
         {
-            get
-            {
-                var current = BoomerangStoreManager.Instance != null ? BoomerangStoreManager.Instance.CurrentBoomerangData : null;
-                return current != null ? current.Speed : (_data != null ? _data.Speed : 5f);
-            }
-        }
-
-        public float EffectiveReturnSpeedMultiplier
-        {
-            get
-            {
-                var current = BoomerangStoreManager.Instance != null ? BoomerangStoreManager.Instance.CurrentBoomerangData : null;
-                return current != null ? current.ReturnSpeedMultiplier : (_data != null ? _data.ReturnSpeedMultiplier : 1.25f);
-            }
-        }
-
-        public int EffectiveDamage
-        {
-            get
-            {
-                var current = BoomerangStoreManager.Instance != null ? BoomerangStoreManager.Instance.CurrentBoomerangData : null;
-                return current != null ? current.Damage : 1;
-            }
+            return BoomerangStoreManager.Instance.CurrentBoomerangData;
         }
 
         public Vector3 EffectiveHandLocalPosition
