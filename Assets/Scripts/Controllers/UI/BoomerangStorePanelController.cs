@@ -66,11 +66,11 @@ namespace Controllers.UI
         // Stat normalization limits
         private const float MinSpeed = 3f;
         private const float MaxSpeed = 15f;
-        private const float MinReturnSpeed = 1f;
+        private const float MinReturnSpeed = 0f;
         private const float MaxReturnSpeed = 3.5f;
-        private const float MinDamage = 1f;
+        private const float MinDamage = 0f;
         private const float MaxDamage = 5f;
-        private const float MinSize = 0.5f;
+        private const float MinSize = 0f;
         private const float MaxSize = 2f;
         #endregion
 

@@ -249,7 +249,7 @@ namespace Controllers
                 return;
             }
 
-            float currentSpeed = _manager.EffectiveSpeed + (_manager.EffectiveSpeed * _manager.EffectiveReturnSpeedMultiplier);
+            float currentSpeed = _manager.EffectiveSpeed + (_progress * 10);
             float segmentLength = _returnSpline.GetSegmentLength(_returnSegment);
             if (segmentLength <= 0.0001f)
             {
