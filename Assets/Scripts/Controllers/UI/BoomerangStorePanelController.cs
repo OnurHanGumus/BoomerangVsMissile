@@ -148,8 +148,6 @@ namespace Controllers.UI
         {
             if (panel == UIPanels.StorePanel)
             {
-                UpdateMoneyDisplay();
-
                 int currentEquipped = BoomerangStoreManager.Instance != null
                     ? BoomerangStoreManager.Instance.SelectedItemId
                     : 0;
@@ -172,7 +170,6 @@ namespace Controllers.UI
         {
             if (type == ScoreTypeEnums.Money)
             {
-                UpdateMoneyDisplay();
                 RefreshInspectorActionButton();
             }
         }
@@ -181,14 +178,12 @@ namespace Controllers.UI
         {
             if (type == ScoreTypeEnums.Money)
             {
-                UpdateMoneyDisplay();
                 RefreshInspectorActionButton();
             }
         }
 
         public void InitPanel()
         {
-            UpdateMoneyDisplay();
             PopulateGrid();
 
             int initialId = BoomerangStoreManager.Instance != null
@@ -447,20 +442,6 @@ namespace Controllers.UI
                     tile.UpdateState(isSelected, isEquipped, isOwned);
                 }
             }
-        }
-
-        private void UpdateMoneyDisplay()
-        {
-            if (moneyText == null)
-            {
-                return;
-            }
-
-            int money = ScoreSignals.Instance != null && ScoreSignals.Instance.onGetMoney != null
-                ? ScoreSignals.Instance.onGetMoney()
-                : 0;
-
-            moneyText.text = money.ToString("N0");
         }
 
         private void OnCloseClicked()
