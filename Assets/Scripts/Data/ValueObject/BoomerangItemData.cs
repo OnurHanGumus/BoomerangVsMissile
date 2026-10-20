@@ -1,4 +1,6 @@
+using Enums;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Data.ValueObject
@@ -19,6 +21,7 @@ namespace Data.ValueObject
         [Range(1f, 3.5f)] public float ReturnSpeedMultiplier = 1.25f;
         [Range(1, 5)] public int Damage = 1;
         [Range(0.5f, 2f)] public float SizeMultiplier = 1f;
+        public BoomerangTierEnums Tier;
 
         [Header("Visual Theme")]
         public Color ThemeColor = Color.cyan;

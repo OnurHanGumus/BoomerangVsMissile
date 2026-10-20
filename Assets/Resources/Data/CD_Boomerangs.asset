@@ -19,10 +19,11 @@ MonoBehaviour:
     Price: 0
     Icon: {fileID: 21300000, guid: 9a7a672a902432d4182d9f3afbcdba51, type: 3}
     Prefab: {fileID: 7168731900612373821, guid: c64facde09a1cd042a41542cdb51318a, type: 3}
-    Speed: 6
+    Speed: 5
     ReturnSpeedMultiplier: 1
     Damage: 1
-    SizeMultiplier: 0.5
+    SizeMultiplier: 0.55
+    Tier: 0
     ThemeColor: {r: 0.2, g: 0.7, b: 1, a: 1}
     HandLocalPosition: {x: -0.26, y: 0.146, z: -0.071}
     HandLocalEulerAngles: {x: 285.76187, y: 130.12737, z: 228.21355}
@@ -32,10 +33,11 @@ MonoBehaviour:
     Price: 250
     Icon: {fileID: 21300000, guid: c5c76f5c391749589682feee5544f9f7, type: 3}
     Prefab: {fileID: 7359562933283536233, guid: 61140532366557e43a32efd67efb3bb8, type: 3}
-    Speed: 5.8
-    ReturnSpeedMultiplier: 1.25
+    Speed: 6
+    ReturnSpeedMultiplier: 1.5
     Damage: 1
-    SizeMultiplier: 1.05
+    SizeMultiplier: 0.6
+    Tier: 0
     ThemeColor: {r: 0.2, g: 0.9, b: 0.6, a: 1}
     HandLocalPosition: {x: -0.115, y: 0.124, z: -0.161}
     HandLocalEulerAngles: {x: 85.540825, y: 119.96165, z: 330.9967}
@@ -45,10 +47,11 @@ MonoBehaviour:
     Price: 500
     Icon: {fileID: 21300000, guid: 1f641fa3641b4a9c8c84c2abb4e6c5e9, type: 3}
     Prefab: {fileID: 8326371004721621578, guid: 16639a049a1de7a49991812ad553522f, type: 3}
-    Speed: 6.5
-    ReturnSpeedMultiplier: 1.25
+    Speed: 5.8
+    ReturnSpeedMultiplier: 1.6
     Damage: 1
-    SizeMultiplier: 1.08
+    SizeMultiplier: 0.6
+    Tier: 0
     ThemeColor: {r: 0.9, g: 0.75, b: 0.2, a: 1}
     HandLocalPosition: {x: -0.164, y: 0.098, z: -0.178}
     HandLocalEulerAngles: {x: 78.12864, y: 95.478035, z: 281.07846}
@@ -58,10 +61,11 @@ MonoBehaviour:
     Price: 800
     Icon: {fileID: 21300000, guid: 071a5c9ae467488baa8d997a6d5fb2dc, type: 3}
     Prefab: {fileID: 5115873570973722597, guid: 236640d6b51281545ad2eb8a89bf4e7f, type: 3}
-    Speed: 7.2
-    ReturnSpeedMultiplier: 1.25
+    Speed: 5.5
+    ReturnSpeedMultiplier: 1.15
     Damage: 2
-    SizeMultiplier: 1.1
+    SizeMultiplier: 0.7
+    Tier: 0
     ThemeColor: {r: 1, g: 0.25, b: 0.35, a: 1}
     HandLocalPosition: {x: -0.28, y: 0.124, z: -0.021}
     HandLocalEulerAngles: {x: 80.200195, y: 182.85092, z: 34.291336}
@@ -71,10 +75,11 @@ MonoBehaviour:
     Price: 1200
     Icon: {fileID: 21300000, guid: dd6e82e68e2540aeb13d0be9da84db79, type: 3}
     Prefab: {fileID: 1748504389383352374, guid: e3bcfe65354107942a6bdca2fdd29145, type: 3}
-    Speed: 7.8
-    ReturnSpeedMultiplier: 1.25
-    Damage: 2
-    SizeMultiplier: 1.12
+    Speed: 6.5
+    ReturnSpeedMultiplier: 1.1
+    Damage: 1
+    SizeMultiplier: 1
+    Tier: 0
     ThemeColor: {r: 0.75, g: 0.3, b: 1, a: 1}
     HandLocalPosition: {x: -0.24, y: 0.124, z: -0.146}
     HandLocalEulerAngles: {x: 87.57182, y: 296.99756, z: 117.9476}
@@ -84,10 +89,11 @@ MonoBehaviour:
     Price: 1600
     Icon: {fileID: 21300000, guid: 27707400164c429dba0d41c6cd7ba42c, type: 3}
     Prefab: {fileID: 6001639602246309680, guid: 02583930e0fd5c84db03df7d1dc82878, type: 3}
-    Speed: 8.4
-    ReturnSpeedMultiplier: 1.25
+    Speed: 7.4
+    ReturnSpeedMultiplier: 1.1
     Damage: 2
-    SizeMultiplier: 1.15
+    SizeMultiplier: 1
+    Tier: 0
     ThemeColor: {r: 1, g: 0.55, b: 0.1, a: 1}
     HandLocalPosition: {x: -0.224, y: 0.148, z: -0.154}
     HandLocalEulerAngles: {x: 80.95478, y: 278.1632, z: 189.74318}
@@ -97,10 +103,11 @@ MonoBehaviour:
     Price: 2100
     Icon: {fileID: 21300000, guid: 900007440f914cf2bbbe73127f3841c3, type: 3}
     Prefab: {fileID: 1510903760207974566, guid: 935eb0bb97cc54d4bb7839aa592b50ca, type: 3}
-    Speed: 9
-    ReturnSpeedMultiplier: 1.25
+    Speed: 7
+    ReturnSpeedMultiplier: 1.5
     Damage: 2
-    SizeMultiplier: 1.18
+    SizeMultiplier: 1.1
+    Tier: 0
     ThemeColor: {r: 0.1, g: 0.85, b: 1, a: 1}
     HandLocalPosition: {x: -0.205, y: 0.114, z: -0.025}
     HandLocalEulerAngles: {x: 286.32816, y: 171.4275, z: 192.50789}
@@ -110,10 +117,11 @@ MonoBehaviour:
     Price: 2600
     Icon: {fileID: 21300000, guid: 64191809c70941f8a3bad54bfa7c4335, type: 3}
     Prefab: {fileID: 3962817556403557322, guid: 65cb3e9544ddffd43825ffb5645a3605, type: 3}
-    Speed: 9.5
+    Speed: 12
     ReturnSpeedMultiplier: 1.25
-    Damage: 2
+    Damage: 1
     SizeMultiplier: 1.2
+    Tier: 0
     ThemeColor: {r: 0.4, g: 0.95, b: 0.2, a: 1}
     HandLocalPosition: {x: -0.227, y: 0.136, z: 0.045}
     HandLocalEulerAngles: {x: 85.07173, y: 207.13876, z: 55.991188}
@@ -124,9 +132,10 @@ MonoBehaviour:
     Icon: {fileID: 21300000, guid: 0c5b8235b761423baac2ef5983f2d462, type: 3}
     Prefab: {fileID: 8109159018859616116, guid: 04ddfdbe43cbc574fb13c0b3dc01f108, type: 3}
     Speed: 10
-    ReturnSpeedMultiplier: 1.25
+    ReturnSpeedMultiplier: 1.5
     Damage: 2
-    SizeMultiplier: 1.22
+    SizeMultiplier: 1.4
+    Tier: 1
     ThemeColor: {r: 0.5, g: 0.85, b: 1, a: 1}
     HandLocalPosition: {x: -0.276, y: 0.188, z: -0.053}
     HandLocalEulerAngles: {x: 75.13655, y: 261.20087, z: 150.03978}
@@ -136,10 +145,11 @@ MonoBehaviour:
     Price: 3800
     Icon: {fileID: 21300000, guid: 5f365a9b756e46feadce0adbb325a5c1, type: 3}
     Prefab: {fileID: 4019453805779702877, guid: a22ed4ce4b4e3564fb97ef30a0d975df, type: 3}
-    Speed: 10.4
-    ReturnSpeedMultiplier: 1.25
-    Damage: 2
-    SizeMultiplier: 1.24
+    Speed: 9
+    ReturnSpeedMultiplier: 1.5
+    Damage: 3
+    SizeMultiplier: 1.3
+    Tier: 1
     ThemeColor: {r: 0.6, g: 0.2, b: 0.85, a: 1}
     HandLocalPosition: {x: -0.107, y: 0.142, z: -0.172}
     HandLocalEulerAngles: {x: 82.50679, y: 261.28857, z: 56.15322}
@@ -149,10 +159,11 @@ MonoBehaviour:
     Price: 4500
     Icon: {fileID: 21300000, guid: 3739069eb8274c108eb562355e701543, type: 3}
     Prefab: {fileID: 956928931719424861, guid: 568937f45284adb4786f38c504cc23f3, type: 3}
-    Speed: 10.8
+    Speed: 9.5
     ReturnSpeedMultiplier: 1.25
     Damage: 3
-    SizeMultiplier: 1.26
+    SizeMultiplier: 1.3
+    Tier: 1
     ThemeColor: {r: 1, g: 0.85, b: 0.2, a: 1}
     HandLocalPosition: {x: -0.0968, y: 0.1388, z: -0.1538}
     HandLocalEulerAngles: {x: 273.78967, y: 47.112606, z: 245.43}
@@ -162,10 +173,11 @@ MonoBehaviour:
     Price: 5200
     Icon: {fileID: 21300000, guid: a6b61211e5a94f858cfe61856f34cf0e, type: 3}
     Prefab: {fileID: 1823877004989422377, guid: 64c93983eb55bcf4e8a9a1f03b0ae5cf, type: 3}
-    Speed: 11.2
-    ReturnSpeedMultiplier: 1.25
-    Damage: 3
-    SizeMultiplier: 1.28
+    Speed: 10
+    ReturnSpeedMultiplier: 2.5
+    Damage: 2
+    SizeMultiplier: 1
+    Tier: 1
     ThemeColor: {r: 0.9, g: 0.2, b: 0.2, a: 1}
     HandLocalPosition: {x: -0.262, y: 0.171, z: -0.154}
     HandLocalEulerAngles: {x: 80.79566, y: 245.3833, z: 80.091}
@@ -175,10 +187,11 @@ MonoBehaviour:
     Price: 6000
     Icon: {fileID: 21300000, guid: 644b14c7fe6a4f52b29c79309cf76734, type: 3}
     Prefab: {fileID: 2929460499409832372, guid: 68e34943f5d0dd346bbef89b410897fc, type: 3}
-    Speed: 11.5
-    ReturnSpeedMultiplier: 1.25
-    Damage: 3
-    SizeMultiplier: 1.3
+    Speed: 5.5
+    ReturnSpeedMultiplier: 1.3
+    Damage: 1
+    SizeMultiplier: 0.7
+    Tier: 1
     ThemeColor: {r: 1, g: 0.2, b: 0.7, a: 1}
     HandLocalPosition: {x: -0.238, y: 0.137, z: -0.163}
     HandLocalEulerAngles: {x: 87.03912, y: 195.50125, z: 38.983047}
@@ -188,10 +201,11 @@ MonoBehaviour:
     Price: 6800
     Icon: {fileID: 21300000, guid: 9d041c3ec2a546f2a557e9795e6b31b9, type: 3}
     Prefab: {fileID: 668118317709568152, guid: 3475129e998325b43b99be3e22ee479e, type: 3}
-    Speed: 11.8
-    ReturnSpeedMultiplier: 1.25
-    Damage: 3
-    SizeMultiplier: 1.32
+    Speed: 9.5
+    ReturnSpeedMultiplier: 1.4
+    Damage: 4
+    SizeMultiplier: 1.4
+    Tier: 1
     ThemeColor: {r: 0.2, g: 0.95, b: 0.85, a: 1}
     HandLocalPosition: {x: -0.207, y: 0.135, z: 0.013}
     HandLocalEulerAngles: {x: 273.31793, y: 171.58533, z: 291.30835}
@@ -204,7 +218,8 @@ MonoBehaviour:
     Speed: 12
     ReturnSpeedMultiplier: 1.25
     Damage: 3
-    SizeMultiplier: 1.34
+    SizeMultiplier: 1.3
+    Tier: 1
     ThemeColor: {r: 1, g: 0.3, b: 0.1, a: 1}
     HandLocalPosition: {x: -0.2687, y: 0.1425, z: 0.0344}
     HandLocalEulerAngles: {x: 274.72125, y: 152.15018, z: 4.060449}
@@ -215,10 +230,11 @@ MonoBehaviour:
     Price: 8600
     Icon: {fileID: 21300000, guid: ce16c1d8d6d2456b8acd5933292800b0, type: 3}
     Prefab: {fileID: 7973053591209062451, guid: 05df99ab1e8cb9b40815bf107933a181, type: 3}
-    Speed: 12.3
+    Speed: 11
     ReturnSpeedMultiplier: 1.25
-    Damage: 3
-    SizeMultiplier: 1.36
+    Damage: 2
+    SizeMultiplier: 2
+    Tier: 2
     ThemeColor: {r: 0.1, g: 0.4, b: 0.8, a: 1}
     HandLocalPosition: {x: -0.1729, y: 0.129, z: -0.1076}
     HandLocalEulerAngles: {x: 272.2788, y: 44.435608, z: 1.5491322}
@@ -228,10 +244,11 @@ MonoBehaviour:
     Price: 9600
     Icon: {fileID: 21300000, guid: a9bf9e763e2e4ed19918f9767b510567, type: 3}
     Prefab: {fileID: 2195662692127935843, guid: ef58cec941ceec14a94ccf6dad4d5197, type: 3}
-    Speed: 12.6
-    ReturnSpeedMultiplier: 1.25
+    Speed: 11.5
+    ReturnSpeedMultiplier: 2.5
     Damage: 3
-    SizeMultiplier: 1.38
+    SizeMultiplier: 1.4
+    Tier: 2
     ThemeColor: {r: 0.7, g: 0.5, b: 1, a: 1}
     HandLocalPosition: {x: -0.104, y: 0.12, z: 0.011}
     HandLocalEulerAngles: {x: 287.24213, y: 356.6599, z: 322.67957}
@@ -241,10 +258,11 @@ MonoBehaviour:
     Price: 10700
     Icon: {fileID: 21300000, guid: 4fbb5337563e421e90380602c2d2950c, type: 3}
     Prefab: {fileID: 6573949909203007823, guid: eac714b91142f164c99ab7429ae408cb, type: 3}
-    Speed: 12.9
+    Speed: 11
     ReturnSpeedMultiplier: 1.25
-    Damage: 3
-    SizeMultiplier: 1.4
+    Damage: 4
+    SizeMultiplier: 1
+    Tier: 2
     ThemeColor: {r: 1, g: 0.65, b: 0.15, a: 1}
     HandLocalPosition: {x: 0.1727, y: 0.1535, z: 0.1976}
     HandLocalEulerAngles: {x: 84.79113, y: 74.30435, z: 179.99873}
@@ -255,9 +273,10 @@ MonoBehaviour:
     Icon: {fileID: 21300000, guid: eafe19e8983941428e51abe1504465be, type: 3}
     Prefab: {fileID: 6069581403035780651, guid: 30b1b1f4c2c2fed4ab6a5a9bfd4d9966, type: 3}
     Speed: 13.1
-    ReturnSpeedMultiplier: 1.25
-    Damage: 3
-    SizeMultiplier: 1.42
+    ReturnSpeedMultiplier: 1.4
+    Damage: 4
+    SizeMultiplier: 2
+    Tier: 2
     ThemeColor: {r: 0.3, g: 0.5, b: 1, a: 1}
     HandLocalPosition: {x: -0.231, y: 0.13, z: -0.157}
     HandLocalEulerAngles: {x: 279.62616, y: 140.79857, z: 232.24673}
@@ -269,8 +288,9 @@ MonoBehaviour:
     Prefab: {fileID: 1789958762951803810, guid: 0b13d6d42e4b42f41bff47d8fa439804, type: 3}
     Speed: 13.3
     ReturnSpeedMultiplier: 1.25
-    Damage: 3
-    SizeMultiplier: 1.44
+    Damage: 4
+    SizeMultiplier: 2
+    Tier: 2
     ThemeColor: {r: 0.55, g: 0.65, b: 0.8, a: 1}
     HandLocalPosition: {x: -0.1, y: 0.132, z: -0.25}
     HandLocalEulerAngles: {x: 86.65461, y: 252.01747, z: 352.2585}
@@ -281,9 +301,10 @@ MonoBehaviour:
     Icon: {fileID: 21300000, guid: bae60c4b5d344770b56bc49373155ba6, type: 3}
     Prefab: {fileID: 1133893475614931423, guid: 303e91259b45dd041aa882a37223b882, type: 3}
     Speed: 13.5
-    ReturnSpeedMultiplier: 1.25
-    Damage: 4
-    SizeMultiplier: 1.45
+    ReturnSpeedMultiplier: 2.5
+    Damage: 5
+    SizeMultiplier: 1.5
+    Tier: 3
     ThemeColor: {r: 0.15, g: 0.85, b: 0.8, a: 1}
     HandLocalPosition: {x: -0.358, y: 0.1376, z: -0.025}
     HandLocalEulerAngles: {x: 86.10435, y: 329.5808, z: 190.2767}
@@ -293,10 +314,11 @@ MonoBehaviour:
     Price: 16000
     Icon: {fileID: 21300000, guid: fe9634893271446c88a5ef63b949ed2a, type: 3}
     Prefab: {fileID: 2359732562205684842, guid: 76d861a4f85d6354fbb23621464694ee, type: 3}
-    Speed: 13.7
+    Speed: 15
     ReturnSpeedMultiplier: 1.25
-    Damage: 4
+    Damage: 3
     SizeMultiplier: 1.46
+    Tier: 3
     ThemeColor: {r: 0.4, g: 0.9, b: 0.7, a: 1}
     HandLocalPosition: {x: -0.0167, y: 0.1245, z: -0.195}
     HandLocalEulerAngles: {x: 87.49587, y: 26.81361, z: 147.8579}
@@ -309,7 +331,8 @@ MonoBehaviour:
     Speed: 13.9
     ReturnSpeedMultiplier: 1.25
     Damage: 4
-    SizeMultiplier: 1.48
+    SizeMultiplier: 1.7
+    Tier: 3
     ThemeColor: {r: 0.7, g: 0.1, b: 0.6, a: 1}
     HandLocalPosition: {x: -0.081, y: 0.1555, z: -0.2017}
     HandLocalEulerAngles: {x: 280.49976, y: 58.89793, z: 119.97917}
@@ -321,8 +344,9 @@ MonoBehaviour:
     Prefab: {fileID: 8364285020603852533, guid: 83d1ad0385e838b4787e6600a0f3895d, type: 3}
     Speed: 14.1
     ReturnSpeedMultiplier: 1.25
-    Damage: 4
+    Damage: 5
     SizeMultiplier: 1.5
+    Tier: 3
     ThemeColor: {r: 0.6, g: 0.85, b: 1, a: 1}
     HandLocalPosition: {x: -0.193, y: 0.1445, z: 0.052}
     HandLocalEulerAngles: {x: 276.21814, y: 93.3212, z: 263.43384}
@@ -333,9 +357,10 @@ MonoBehaviour:
     Icon: {fileID: 21300000, guid: 3bcdce688ee84b5391bab5515d86fa6c, type: 3}
     Prefab: {fileID: 4994928663143384947, guid: ccf02f52383cdd74785f728b40c4e9ab, type: 3}
     Speed: 14.3
-    ReturnSpeedMultiplier: 1.25
+    ReturnSpeedMultiplier: 3.5
     Damage: 4
     SizeMultiplier: 1.52
+    Tier: 3
     ThemeColor: {r: 1, g: 0.75, b: 0.3, a: 1}
     HandLocalPosition: {x: -0.281, y: 0.131, z: -0.092}
     HandLocalEulerAngles: {x: 274.25528, y: 131.52211, z: 228.10046}
@@ -345,10 +370,11 @@ MonoBehaviour:
     Price: 23500
     Icon: {fileID: 21300000, guid: ef83be793bec4a81a7a2ca985454f970, type: 3}
     Prefab: {fileID: 4707204977931166528, guid: b4ded3a76f0d29e41838e0d4603772f4, type: 3}
-    Speed: 14.5
-    ReturnSpeedMultiplier: 1.25
-    Damage: 4
-    SizeMultiplier: 1.55
+    Speed: 15
+    ReturnSpeedMultiplier: 3.5
+    Damage: 5
+    SizeMultiplier: 2
+    Tier: 3
     ThemeColor: {r: 1, g: 0.15, b: 0.45, a: 1}
     HandLocalPosition: {x: -0.254, y: 0.107, z: -0.144}
     HandLocalEulerAngles: {x: 278.70413, y: 176.30818, z: 337.48706}
