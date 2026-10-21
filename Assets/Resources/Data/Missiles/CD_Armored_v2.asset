@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: CD_Armored_v2
   m_EditorClassIdentifier: 
   Data:
-    BonusHealth: 1
+    BonusHealth: 2

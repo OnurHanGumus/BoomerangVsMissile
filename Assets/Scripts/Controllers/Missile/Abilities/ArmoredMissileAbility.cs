@@ -9,11 +9,11 @@ using UnityEngine;
 
 namespace Controllers.Missile.Abilities
 {
-    public class ArmoredMissileAbility : MonoBehaviour, IMissileDamageHandler, IMissileHealthProvider
+    public class ArmoredMissileAbility : MonoBehaviour, IMissileHealthProvider
     {
         [Header("Armor Data")]
         [SerializeField] private CD_ArmoredMissile cdArmoredMissile;
-
+        [SerializeField] private MissilePhysicsController missilePhysicsController;
         private ArmoredMissileData _data;
         private MissileManager _manager;
         private MeshRenderer _meshRenderer;
@@ -48,20 +48,28 @@ namespace Controllers.Missile.Abilities
                 : new ArmoredMissileData();
         }
 
+        private void OnEnable()
+        {
+            missilePhysicsController.CurrentHealth += _data.BonusHealth;
+            missilePhysicsController.OnHitted += OnDamageTaken;
+        }
+
+        private void OnDisable()
+        {
+            missilePhysicsController.CurrentHealth -= _data.BonusHealth;
+            missilePhysicsController.OnHitted -= OnDamageTaken;
+        }
+
         public int GetAdditionalHealth()
         {
             return Data != null ? Data.BonusHealth : 1;
         }
 
-        public void OnDamageTaken(int damage, int currentHealth)
+        public void OnDamageTaken()
         {
-            // 1. Play metallic deflection sound
             AudioSignals.Instance.onPlaySound(AudioSoundEnums.ShieldBroke);
 
-            // 2. Trigger micro hit-stop & camera shake via signal
             MissileSignals.Instance.onMissileArmorHit?.Invoke();
-
-            // 3. Physical flinch / recoil
             transform.DOPunchScale(Vector3.one * 0.25f, 0.2f, 10, 1).SetUpdate(true);
 
             // 4. Visual flash to indicate armor crack / damaged state

@@ -20,7 +20,6 @@ namespace Managers
 
         #region Public Variables
         public PoolEnums ParticleType;
-        public int CurrentHealth => _currentHealth;
         public bool IsDead => _isDead || !gameObject.activeInHierarchy;
         public MissileData MissileData => _missileData;
 
@@ -34,14 +33,11 @@ namespace Managers
 
         [Header("Legacy Settings (Auto-migrated if abilities not attached)")]
         [SerializeField] private bool isExploder = false;
-        [SerializeField] private bool isArmored = false;
         #endregion
 
         #region Private Variables
         private PlayerData _data;
         private MissileData _missileData;
-        private int _currentHealth = 1;
-        private float _lastDamageTime = -1f;
         private bool _isDead = false;
         private Collider[] _colliders;
 
@@ -64,7 +60,6 @@ namespace Managers
         {
             _isDead = false;
             EnableColliders(true);
-            ResetHealth();
         }
 
         private void OnDisable()
@@ -91,7 +86,6 @@ namespace Managers
                 }
             }
             InitAbilities();
-            ResetHealth();
         }
 
         private void InitAbilities()
@@ -100,10 +94,6 @@ namespace Managers
             if (isExploder && GetComponent<ExploderMissileAbility>() == null)
             {
                 gameObject.AddComponent<ExploderMissileAbility>();
-            }
-            if (isArmored && GetComponent<ArmoredMissileAbility>() == null)
-            {
-                gameObject.AddComponent<ArmoredMissileAbility>();
             }
 
             _abilities = GetComponents<IMissileAbility>();
@@ -121,28 +111,6 @@ namespace Managers
             }
         }
 
-        public void ResetHealth()
-        {
-            int baseHealth = _missileData != null && _missileData.MaxHealth > 0
-                ? _missileData.MaxHealth
-                : 1;
-
-            int extraHealth = 0;
-            if (_healthProviders != null && _healthProviders.Length > 0)
-            {
-                for (int i = 0; i < _healthProviders.Length; i++)
-                {
-                    extraHealth += _healthProviders[i].GetAdditionalHealth();
-                }
-            }
-            else if (isArmored || (_missileData != null && _missileData.IsArmored))
-            {
-                extraHealth = 1;
-            }
-
-            _currentHealth = baseHealth + extraHealth;
-        }
-
         public PlayerData GetData() => Resources.Load<CD_Player>("Data/CD_Player").Data;
 
         #region Event Subscription
@@ -157,35 +125,6 @@ namespace Managers
 
         #endregion
 
-        public void TakeDamage(int damage = 1)
-        {
-            if (!gameObject.activeInHierarchy)
-            {
-                return;
-            }
-
-            if (Time.time - _lastDamageTime < 0.15f)
-            {
-                return;
-            }
-            _lastDamageTime = Time.time;
-
-            _currentHealth -= damage;
-            if (_currentHealth <= 0)
-            {
-                Explode();
-            }
-            else
-            {
-                if (_damageHandlers != null)
-                {
-                    for (int i = 0; i < _damageHandlers.Length; i++)
-                    {
-                        _damageHandlers[i].OnDamageTaken(damage, _currentHealth);
-                    }
-                }
-            }
-        }
 
         public void Explode(bool isLevelEnd = false)
         {

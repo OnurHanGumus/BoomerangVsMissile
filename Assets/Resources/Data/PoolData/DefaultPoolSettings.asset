@@ -33,3 +33,5 @@ MonoBehaviour:
     Amounts: 10
   - TypeData: {fileID: 11400000, guid: 2b9dd07a820b75344a8e9c560ce2f443, type: 2}
     Amounts: 10
+  - TypeData: {fileID: 11400000, guid: 8f7178a4117de994d89bf9d372418aa1, type: 2}
+    Amounts: 10

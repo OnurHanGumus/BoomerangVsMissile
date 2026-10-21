@@ -11,19 +11,23 @@ PrefabInstance:
     - target: {fileID: -4694992830584109621, guid: e4ac8bb04676f944499d7616a9cfeb56, type: 3}
       propertyPath: cdMissile
       value: 
-      objectReference: {fileID: 11400000, guid: ca290f7676ca09149b0e4fe792250ddb, type: 2}
+      objectReference: {fileID: 11400000, guid: 7be229ff5f242754284c6456fe2cdee4, type: 2}
     - target: {fileID: -4694992830584109621, guid: e4ac8bb04676f944499d7616a9cfeb56, type: 3}
-      propertyPath: isArmored
+      propertyPath: isCluster
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -4694992830584109621, guid: e4ac8bb04676f944499d7616a9cfeb56, type: 3}
+      propertyPath: clusterChildCount
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2871933591712752050, guid: e4ac8bb04676f944499d7616a9cfeb56, type: 3}
       propertyPath: m_Mesh
       value: 
-      objectReference: {fileID: 4300000, guid: 93aa6b0374cbc5d429b7fef4523e1650, type: 3}
+      objectReference: {fileID: 4300000, guid: e161d2913bca37a44a645d97c1e0c715, type: 3}
     - target: {fileID: 2882190731887404268, guid: e4ac8bb04676f944499d7616a9cfeb56, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 3fe3bbcc093ebdb4391d77116c4275e0, type: 2}
+      objectReference: {fileID: 2100000, guid: 6c121e11c1fbe994a928335538344c18, type: 2}
     - target: {fileID: 3065065370417937668, guid: e4ac8bb04676f944499d7616a9cfeb56, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -42,11 +46,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3065065370417937668, guid: e4ac8bb04676f944499d7616a9cfeb56, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.3
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3065065370417937668, guid: e4ac8bb04676f944499d7616a9cfeb56, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 4.1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3065065370417937668, guid: e4ac8bb04676f944499d7616a9cfeb56, type: 3}
       propertyPath: m_LocalPosition.z
@@ -86,27 +90,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3065065370417937671, guid: e4ac8bb04676f944499d7616a9cfeb56, type: 3}
       propertyPath: m_Name
-      value: Missile_4_Armored_v2
-      objectReference: {fileID: 0}
-    - target: {fileID: 4573692909795951065, guid: e4ac8bb04676f944499d7616a9cfeb56, type: 3}
-      propertyPath: m_Size.x
-      value: 1.5521758
+      value: Missile_8_Cluster_v2
       objectReference: {fileID: 0}
     - target: {fileID: 4573692909795951065, guid: e4ac8bb04676f944499d7616a9cfeb56, type: 3}
       propertyPath: m_Size.y
-      value: 3.6565208
+      value: 3.1736827
       objectReference: {fileID: 0}
     - target: {fileID: 4573692909795951065, guid: e4ac8bb04676f944499d7616a9cfeb56, type: 3}
       propertyPath: m_Size.z
-      value: 1.4809269
-      objectReference: {fileID: 0}
-    - target: {fileID: 4573692909795951065, guid: e4ac8bb04676f944499d7616a9cfeb56, type: 3}
-      propertyPath: m_Center.x
-      value: 0
+      value: 1.298741
       objectReference: {fileID: 0}
     - target: {fileID: 4573692909795951065, guid: e4ac8bb04676f944499d7616a9cfeb56, type: 3}
       propertyPath: m_Center.y
-      value: -0.5503745
+      value: -0.1105237
       objectReference: {fileID: 0}
     - target: {fileID: 4573692909795951065, guid: e4ac8bb04676f944499d7616a9cfeb56, type: 3}
       propertyPath: m_Center.z
@@ -114,27 +110,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4688291921866703404, guid: e4ac8bb04676f944499d7616a9cfeb56, type: 3}
       propertyPath: m_Size.x
-      value: 0.90059406
+      value: 0.82807606
       objectReference: {fileID: 0}
     - target: {fileID: 4688291921866703404, guid: e4ac8bb04676f944499d7616a9cfeb56, type: 3}
       propertyPath: m_Size.y
-      value: 3.1603909
+      value: 2.720978
       objectReference: {fileID: 0}
     - target: {fileID: 4688291921866703404, guid: e4ac8bb04676f944499d7616a9cfeb56, type: 3}
       propertyPath: m_Size.z
-      value: 0.9056204
+      value: 0.79538226
       objectReference: {fileID: 0}
     - target: {fileID: 4688291921866703404, guid: e4ac8bb04676f944499d7616a9cfeb56, type: 3}
       propertyPath: m_Center.x
-      value: 0.002361443
+      value: 0.0023614466
       objectReference: {fileID: 0}
     - target: {fileID: 4688291921866703404, guid: e4ac8bb04676f944499d7616a9cfeb56, type: 3}
       propertyPath: m_Center.y
-      value: -0.5624816
+      value: -0.09785879
       objectReference: {fileID: 0}
     - target: {fileID: 4688291921866703404, guid: e4ac8bb04676f944499d7616a9cfeb56, type: 3}
       propertyPath: m_Center.z
-      value: 0.0009972602
+      value: 0.0009972751
       objectReference: {fileID: 0}
     - target: {fileID: 7680616756633232136, guid: e4ac8bb04676f944499d7616a9cfeb56, type: 3}
       propertyPath: m_RootOrder
@@ -150,14 +146,14 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 3065065370417937671, guid: e4ac8bb04676f944499d7616a9cfeb56, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 5099251709284902079}
+      addedObject: {fileID: 7414172721353833987}
   m_SourcePrefab: {fileID: 100100000, guid: e4ac8bb04676f944499d7616a9cfeb56, type: 3}
 --- !u!1 &5872852307257060255 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3065065370417937671, guid: e4ac8bb04676f944499d7616a9cfeb56, type: 3}
   m_PrefabInstance: {fileID: 8865860031828940440}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &5099251709284902079
+--- !u!114 &7414172721353833987
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -166,7 +162,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5872852307257060255}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5d2b04a06523684449de62cdea17afeb, type: 3}
+  m_Script: {fileID: 11500000, guid: db9a98b2bfbace14085388043f0e71b5, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Controllers.Missile.Abilities.ArmoredMissileAbility
-  cdArmoredMissile: {fileID: 11400000, guid: df0eb622d911a8942a80682583cd6aec, type: 2}
+  m_EditorClassIdentifier: Assembly-CSharp::Controllers.Missile.Abilities.ClusterMissileAbility
+  cdClusterMissile: {fileID: 11400000, guid: 7268dd73ad805344cb84c68ce9baba7f, type: 2}
