@@ -14,5 +14,7 @@ namespace Enums
         ExplosionPink,
         Confetti,
         Missile_6_Cluster_Small,
+        Missile_7_Armored_v2,
+        Missile_8_Cluster_v2,
     }
 }

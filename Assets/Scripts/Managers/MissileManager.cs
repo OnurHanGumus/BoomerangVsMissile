@@ -50,8 +50,6 @@ namespace Managers
         private IMissileDamageHandler[] _damageHandlers;
         private IMissileHealthProvider[] _healthProviders;
 
-        private bool _hasExploderAbility;
-        private bool _hasArmoredAbility;
         #endregion
 
         #endregion
@@ -113,8 +111,6 @@ namespace Managers
             _damageHandlers = GetComponents<IMissileDamageHandler>();
             _healthProviders = GetComponents<IMissileHealthProvider>();
 
-            _hasExploderAbility = GetComponent<ExploderMissileAbility>() != null;
-            _hasArmoredAbility = GetComponent<ArmoredMissileAbility>() != null;
 
             if (_abilities != null)
             {
