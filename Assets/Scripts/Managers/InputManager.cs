@@ -47,6 +47,7 @@ namespace Managers
         private float _currentReturnSwingDir = 1f;
         private bool _hasSelectedDragDirection = false;
         private float _lastThrowTime = -1f;
+        private bool _isInputEnabled = true;
         #endregion
 
         #endregion
@@ -80,6 +81,11 @@ namespace Managers
 
         private void Update()
         {
+            if (!_isInputEnabled)
+            {
+                return;
+            }
+
             if (!_isBoomerangOnPlayer)
             {
                 if (!_isPlayerDead && !IsPointerOverUIElement() && Input.GetMouseButtonDown(0))
@@ -190,17 +196,25 @@ namespace Managers
         }
         private void OnEnableInput()
         {
-
+            _isInputEnabled = true;
         }
 
         private void OnDisableInput()
         {
-
+            _isInputEnabled = false;
+            if (_lastHitTransform != null)
+            {
+                _lastHitTransform = null;
+                _clickedPoint = Vector3.zero;
+                _chargeTimer = 0f;
+                ResetDragState();
+                InputSignals.Instance.onChargeEnded?.Invoke();
+            }
         }
 
         private void OnPlay()
         {
-
+            _isInputEnabled = true;
         }
 
         private void OnBoomerangReturned()
@@ -218,6 +232,7 @@ namespace Managers
 
         private void OnReset()
         {
+            _isInputEnabled = true;
             _lastHitTransform = null;
             _clickedPoint = Vector3.zero;
             ResetDragState();

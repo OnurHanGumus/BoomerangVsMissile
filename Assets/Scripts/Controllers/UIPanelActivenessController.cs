@@ -18,13 +18,36 @@ namespace Controllers
 
         #endregion
 
+        public void RegisterPanel(UIPanels panelType, CanvasGroup canvasGroup)
+        {
+            if (canvasGroup == null)
+            {
+                return;
+            }
+
+            if (panels == null)
+            {
+                panels = new List<CanvasGroup>();
+            }
+
+            int index = (int)panelType;
+            while (panels.Count <= index)
+            {
+                panels.Add(null);
+            }
+
+            panels[index] = canvasGroup;
+        }
+
         public void OpenMenu(UIPanels storeMenu)
         {
             int index = (int)storeMenu;
             if (index >= 0 && index < panels.Count && panels[index] != null)
             {
+                panels[index].DOKill();
                 panels[index].DOFade(1f, 0.5f).SetEase(Ease.OutBack).SetUpdate(true);
                 panels[index].blocksRaycasts = true;
+                panels[index].interactable = true;
             }
         }
         public void CloseMenu(UIPanels storeMenu)
@@ -32,8 +55,10 @@ namespace Controllers
             int index = (int)storeMenu;
             if (index >= 0 && index < panels.Count && panels[index] != null)
             {
+                panels[index].DOKill();
                 panels[index].DOFade(0f, 0.5f).SetUpdate(true);
                 panels[index].blocksRaycasts = false;
+                panels[index].interactable = false;
             }
         }
     }

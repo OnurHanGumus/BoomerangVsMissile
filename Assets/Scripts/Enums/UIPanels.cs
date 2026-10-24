@@ -17,5 +17,6 @@ namespace Enums
         BoomerangPanel,
         StorePanel,
         SourcesPanel,
+        ApprovalPanel,
     }
 }

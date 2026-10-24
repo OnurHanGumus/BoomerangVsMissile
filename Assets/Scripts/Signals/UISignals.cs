@@ -1,4 +1,4 @@
-﻿using Enums;
+using Enums;
 using Extensions;
 using System;
 using System.Collections.Generic;
@@ -13,5 +13,6 @@ namespace Signals
         public UnityAction<bool> onCloseSuccessfulPanel;
 
         public UnityAction<ScoreTypeEnums, int> onSetChangedText;
+        public UnityAction<string, UnityAction, UnityAction> onOpenApprovalPanel = delegate { };
     }
 }

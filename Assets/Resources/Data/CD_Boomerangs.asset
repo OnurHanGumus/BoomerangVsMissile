@@ -107,7 +107,7 @@ MonoBehaviour:
     ReturnSpeedMultiplier: 1.5
     Damage: 2
     SizeMultiplier: 1.1
-    Tier: 0
+    Tier: 1
     ThemeColor: {r: 0.1, g: 0.85, b: 1, a: 1}
     HandLocalPosition: {x: -0.205, y: 0.114, z: -0.025}
     HandLocalEulerAngles: {x: 286.32816, y: 171.4275, z: 192.50789}
@@ -121,7 +121,7 @@ MonoBehaviour:
     ReturnSpeedMultiplier: 1.25
     Damage: 1
     SizeMultiplier: 1.2
-    Tier: 0
+    Tier: 1
     ThemeColor: {r: 0.4, g: 0.95, b: 0.2, a: 1}
     HandLocalPosition: {x: -0.227, y: 0.136, z: 0.045}
     HandLocalEulerAngles: {x: 85.07173, y: 207.13876, z: 55.991188}
@@ -191,7 +191,7 @@ MonoBehaviour:
     ReturnSpeedMultiplier: 1.3
     Damage: 1
     SizeMultiplier: 0.7
-    Tier: 1
+    Tier: 0
     ThemeColor: {r: 1, g: 0.2, b: 0.7, a: 1}
     HandLocalPosition: {x: -0.238, y: 0.137, z: -0.163}
     HandLocalEulerAngles: {x: 87.03912, y: 195.50125, z: 38.983047}
@@ -205,7 +205,7 @@ MonoBehaviour:
     ReturnSpeedMultiplier: 1.4
     Damage: 4
     SizeMultiplier: 1.4
-    Tier: 1
+    Tier: 2
     ThemeColor: {r: 0.2, g: 0.95, b: 0.85, a: 1}
     HandLocalPosition: {x: -0.207, y: 0.135, z: 0.013}
     HandLocalEulerAngles: {x: 273.31793, y: 171.58533, z: 291.30835}
@@ -219,7 +219,7 @@ MonoBehaviour:
     ReturnSpeedMultiplier: 1.25
     Damage: 3
     SizeMultiplier: 1.3
-    Tier: 1
+    Tier: 2
     ThemeColor: {r: 1, g: 0.3, b: 0.1, a: 1}
     HandLocalPosition: {x: -0.2687, y: 0.1425, z: 0.0344}
     HandLocalEulerAngles: {x: 274.72125, y: 152.15018, z: 4.060449}
@@ -276,7 +276,7 @@ MonoBehaviour:
     ReturnSpeedMultiplier: 1.4
     Damage: 4
     SizeMultiplier: 2
-    Tier: 2
+    Tier: 3
     ThemeColor: {r: 0.3, g: 0.5, b: 1, a: 1}
     HandLocalPosition: {x: -0.231, y: 0.13, z: -0.157}
     HandLocalEulerAngles: {x: 279.62616, y: 140.79857, z: 232.24673}
@@ -290,7 +290,7 @@ MonoBehaviour:
     ReturnSpeedMultiplier: 1.25
     Damage: 4
     SizeMultiplier: 2
-    Tier: 2
+    Tier: 3
     ThemeColor: {r: 0.55, g: 0.65, b: 0.8, a: 1}
     HandLocalPosition: {x: -0.1, y: 0.132, z: -0.25}
     HandLocalEulerAngles: {x: 86.65461, y: 252.01747, z: 352.2585}

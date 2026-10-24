@@ -56,7 +56,7 @@ namespace Managers
 
         private void OnTriggerHitStop(float strength = 0f)
         {
-            if (_isLost)
+            if (_isLost || Time.timeScale == 0f)
             {
                 return;
             }
@@ -68,7 +68,7 @@ namespace Managers
 
         private void RestoreTimeScale()
         {
-            if (_isLost)
+            if (_isLost || Time.timeScale == 0f)
             {
                 return;
             }
@@ -92,6 +92,11 @@ namespace Managers
 
         private void OnClicking(Vector3 empty)
         {
+            if (Time.timeScale == 0f)
+            {
+                return;
+            }
+
             _isClicking = true;
             if (_hitStopTween == null || !_hitStopTween.IsActive() || _hitStopTween.IsComplete())
             {
@@ -102,6 +107,11 @@ namespace Managers
         private void OnInputReleased()
         {
             _isClicking = false;
+            if (Time.timeScale == 0f)
+            {
+                return;
+            }
+
             if (_hitStopTween == null || !_hitStopTween.IsActive() || _hitStopTween.IsComplete())
             {
                 Time.timeScale = _data.NormalTimeScale;

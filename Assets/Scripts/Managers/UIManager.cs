@@ -21,11 +21,13 @@ namespace Managers
         [SerializeField] private HighScorePanelController highScorePanelController;
         [SerializeField] private ComboPanelController comboPanelController;
         [SerializeField] private ChargeSliderController chargeSliderController;
+        [SerializeField] private ApprovalPanelController approvalPanelController;
 
         #endregion
         #region Private Variables
         private UIData _data;
         private bool _isStorePanelOpened = false;
+        private bool _isGameActive = false;
 
         #endregion
         #endregion
@@ -66,6 +68,45 @@ namespace Managers
             BoomerangSignals.Instance.onCombo += comboPanelController.OnCombo;
         }
 
+        private void UnsubscribeEvents()
+        {
+            if (UISignals.Instance != null)
+            {
+                UISignals.Instance.onOpenPanel -= OnOpenPanel;
+                UISignals.Instance.onClosePanel -= OnClosePanel;
+                if (levelPanelController != null)
+                {
+                    UISignals.Instance.onSetChangedText -= levelPanelController.OnScoreUpdateText;
+                }
+            }
+
+            if (CoreGameSignals.Instance != null)
+            {
+                CoreGameSignals.Instance.onPlay -= OnPlay;
+                CoreGameSignals.Instance.onLevelFailed -= OnLevelFailed;
+                CoreGameSignals.Instance.onLevelSuccessful -= OnLevelSuccessful;
+                if (levelPanelController != null)
+                {
+                    CoreGameSignals.Instance.onRestartLevel -= levelPanelController.OnRestartLevel;
+                }
+            }
+
+            if (ScoreSignals.Instance != null && highScorePanelController != null)
+            {
+                ScoreSignals.Instance.onHighScoreChanged -= highScorePanelController.OnUpdateText;
+            }
+
+            if (BoomerangSignals.Instance != null && comboPanelController != null)
+            {
+                BoomerangSignals.Instance.onCombo -= comboPanelController.OnCombo;
+            }
+        }
+
+        private void OnDestroy()
+        {
+            UnsubscribeEvents();
+        }
+
         #endregion
 
         private void OnOpenPanel(UIPanels panelParam)
@@ -80,12 +121,15 @@ namespace Managers
 
         private void OnPlay()
         {
+            _isGameActive = true;
             UISignals.Instance.onClosePanel?.Invoke(UIPanels.StartPanel);
             UISignals.Instance.onOpenPanel?.Invoke(UIPanels.LevelPanel);
         }
 
         private void OnLevelFailed()
         {
+            _isGameActive = false;
+            UISignals.Instance.onClosePanel?.Invoke(UIPanels.ApprovalPanel);
             UISignals.Instance.onClosePanel?.Invoke(UIPanels.LevelPanel);
             UISignals.Instance.onOpenPanel?.Invoke(UIPanels.FailPanel);
             //gameOverPanelController.ShowThePanel();
@@ -93,6 +137,8 @@ namespace Managers
 
         private void OnLevelSuccessful()
         {
+            _isGameActive = false;
+            UISignals.Instance.onClosePanel?.Invoke(UIPanels.ApprovalPanel);
             UISignals.Instance.onClosePanel?.Invoke(UIPanels.LevelPanel);
             UISignals.Instance.onOpenPanel?.Invoke(UIPanels.WinPanel);
         }
@@ -106,6 +152,7 @@ namespace Managers
 
         public void NextLevel()
         {
+            _isGameActive = false;
             CoreGameSignals.Instance.onNextLevel?.Invoke();
             UISignals.Instance.onClosePanel?.Invoke(UIPanels.WinPanel);
             UISignals.Instance.onOpenPanel?.Invoke(UIPanels.StartPanel);
@@ -113,15 +160,45 @@ namespace Managers
 
         public void RestartLevel()
         {
-            CoreGameSignals.Instance.onRestartLevel?.Invoke();
-            UISignals.Instance.onClosePanel?.Invoke(UIPanels.FailPanel);
-            UISignals.Instance.onClosePanel?.Invoke(UIPanels.LevelPanel);
-            UISignals.Instance.onOpenPanel?.Invoke(UIPanels.StartPanel);
+            if (_isGameActive)
+            {
+                RestartButton();
+                return;
+            }
+
+            ExecuteRestartLevel();
         }
 
         public void RestartButton()
         {
-            RestartLevel();
+            Time.timeScale = 0f;
+            InputSignals.Instance.onDisableInput?.Invoke();
+            UISignals.Instance.onOpenApprovalPanel?.Invoke(
+                "Are you sure?",
+                ConfirmRestartLevel,
+                CancelRestartLevel);
+        }
+
+        public void ConfirmRestartLevel()
+        {
+            InputSignals.Instance.onEnableInput?.Invoke();
+            ExecuteRestartLevel();
+        }
+
+        public void CancelRestartLevel()
+        {
+            Time.timeScale = 1f;
+            InputSignals.Instance.onEnableInput?.Invoke();
+        }
+
+        private void ExecuteRestartLevel()
+        {
+            _isGameActive = false;
+            CoreGameSignals.Instance.onRestartLevel?.Invoke();
+            UISignals.Instance.onClosePanel?.Invoke(UIPanels.ApprovalPanel);
+            UISignals.Instance.onClosePanel?.Invoke(UIPanels.FailPanel);
+            UISignals.Instance.onClosePanel?.Invoke(UIPanels.LevelPanel);
+            UISignals.Instance.onOpenPanel?.Invoke(UIPanels.StartPanel);
         }
 
         public void PauseButton()

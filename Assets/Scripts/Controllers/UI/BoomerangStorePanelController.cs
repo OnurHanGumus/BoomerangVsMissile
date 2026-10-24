@@ -278,7 +278,7 @@ namespace Controllers.UI
 
             if (inspectorTierText != null)
             {
-                inspectorTierText.text = $"TIER {data.Id + 1}";
+                inspectorTierText.text = $"TIER {(int)data.Tier + 1}";
             }
 
             // 2. Animate Stat Sliders
@@ -361,7 +361,7 @@ namespace Controllers.UI
             {
                 if (actionButtonText != null)
                 {
-                    actionButtonText.text = "EQUIPPED  ✓";
+                    actionButtonText.text = "EQUIPPED";
                 }
 
                 if (actionButtonBackground != null)
