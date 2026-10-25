@@ -1,0 +1,150 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &2303612422357543592
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -4694992830584109621, guid: e4ac8bb04676f944499d7616a9cfeb56, type: 3}
+      propertyPath: cdMissile
+      value: 
+      objectReference: {fileID: 11400000, guid: 6215875578c151c47b4801e125225748, type: 2}
+    - target: {fileID: 2871933591712752050, guid: e4ac8bb04676f944499d7616a9cfeb56, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 4300054, guid: 86fc77829a6e78d43a007a5d05e6be45, type: 3}
+    - target: {fileID: 2882190731887404268, guid: e4ac8bb04676f944499d7616a9cfeb56, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: e941d0d6425697b499256f89933a0df2, type: 2}
+    - target: {fileID: 3065065370417937668, guid: e4ac8bb04676f944499d7616a9cfeb56, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3065065370417937668, guid: e4ac8bb04676f944499d7616a9cfeb56, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3065065370417937668, guid: e4ac8bb04676f944499d7616a9cfeb56, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3065065370417937668, guid: e4ac8bb04676f944499d7616a9cfeb56, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3065065370417937668, guid: e4ac8bb04676f944499d7616a9cfeb56, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3065065370417937668, guid: e4ac8bb04676f944499d7616a9cfeb56, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3065065370417937668, guid: e4ac8bb04676f944499d7616a9cfeb56, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3065065370417937668, guid: e4ac8bb04676f944499d7616a9cfeb56, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3065065370417937668, guid: e4ac8bb04676f944499d7616a9cfeb56, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3065065370417937668, guid: e4ac8bb04676f944499d7616a9cfeb56, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3065065370417937668, guid: e4ac8bb04676f944499d7616a9cfeb56, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3065065370417937668, guid: e4ac8bb04676f944499d7616a9cfeb56, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3065065370417937668, guid: e4ac8bb04676f944499d7616a9cfeb56, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3065065370417937671, guid: e4ac8bb04676f944499d7616a9cfeb56, type: 3}
+      propertyPath: m_Name
+      value: Missile_11_Zigzag
+      objectReference: {fileID: 0}
+    - target: {fileID: 4573692909795951065, guid: e4ac8bb04676f944499d7616a9cfeb56, type: 3}
+      propertyPath: m_Size.y
+      value: 2.7904818
+      objectReference: {fileID: 0}
+    - target: {fileID: 4573692909795951065, guid: e4ac8bb04676f944499d7616a9cfeb56, type: 3}
+      propertyPath: m_Size.z
+      value: 1.1639364
+      objectReference: {fileID: 0}
+    - target: {fileID: 4573692909795951065, guid: e4ac8bb04676f944499d7616a9cfeb56, type: 3}
+      propertyPath: m_Center.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4688291921866703404, guid: e4ac8bb04676f944499d7616a9cfeb56, type: 3}
+      propertyPath: m_Size.y
+      value: 1.1252592
+      objectReference: {fileID: 0}
+    - target: {fileID: 4688291921866703404, guid: e4ac8bb04676f944499d7616a9cfeb56, type: 3}
+      propertyPath: m_Size.z
+      value: 0.24334958
+      objectReference: {fileID: 0}
+    - target: {fileID: 4688291921866703404, guid: e4ac8bb04676f944499d7616a9cfeb56, type: 3}
+      propertyPath: m_Center.x
+      value: 0.002361443
+      objectReference: {fileID: 0}
+    - target: {fileID: 4688291921866703404, guid: e4ac8bb04676f944499d7616a9cfeb56, type: 3}
+      propertyPath: m_Center.y
+      value: -0.068485826
+      objectReference: {fileID: 0}
+    - target: {fileID: 4688291921866703404, guid: e4ac8bb04676f944499d7616a9cfeb56, type: 3}
+      propertyPath: m_Center.z
+      value: 0.0009972788
+      objectReference: {fileID: 0}
+    - target: {fileID: 6492883792428902309, guid: e4ac8bb04676f944499d7616a9cfeb56, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7680616756633232136, guid: e4ac8bb04676f944499d7616a9cfeb56, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.72
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3065065370417937671, guid: e4ac8bb04676f944499d7616a9cfeb56, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7627306753725832242}
+  m_SourcePrefab: {fileID: 100100000, guid: e4ac8bb04676f944499d7616a9cfeb56, type: 3}
+--- !u!1 &3850964692580226991 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3065065370417937671, guid: e4ac8bb04676f944499d7616a9cfeb56, type: 3}
+  m_PrefabInstance: {fileID: 2303612422357543592}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7627306753725832242
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3850964692580226991}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9150a82aa311e894d960762edc9c6788, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Controllers.Missile.Abilities.ZigzagMissileAbility
+  cdZigzagMissile: {fileID: 11400000, guid: 180b13a2d16bf984ebcece2a2730ce5b, type: 2}
+  leanTarget: {fileID: 5035948125795241229}
+--- !u!4 &5035948125795241229 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6492883792428902309, guid: e4ac8bb04676f944499d7616a9cfeb56, type: 3}
+  m_PrefabInstance: {fileID: 2303612422357543592}
+  m_PrefabAsset: {fileID: 0}

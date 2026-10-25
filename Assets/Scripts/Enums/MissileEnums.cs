@@ -15,6 +15,7 @@ namespace Enums
         Missile_8_Cluster_v2,
         Missile_9_Armored_v3,
         Missile_10_Armored_v4,
+        Missile_11_Zigzag,
 
     }
 }

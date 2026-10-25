@@ -29,4 +29,12 @@ namespace Interfaces
     {
         int GetAdditionalHealth();
     }
+
+    public interface IMissileMovementModifier : IMissileAbility
+    {
+        /// <summary>
+        /// Extra velocity added on top of the base downward velocity every physics tick.
+        /// </summary>
+        Vector3 GetVelocityOffset();
+    }
 }

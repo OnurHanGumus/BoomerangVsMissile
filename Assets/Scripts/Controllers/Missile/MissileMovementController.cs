@@ -1,4 +1,5 @@
 using Data.ValueObject;
+using Interfaces;
 using Managers;
 using UnityEngine;
 
@@ -15,6 +16,7 @@ namespace Controllers.Missile
         private Rigidbody _rigidbody;
         private bool _hasSpeedOverride = false;
         private float _speedOverride = 0f;
+        private IMissileMovementModifier[] _movementModifiers;
         #endregion
 
         private void Awake()
@@ -32,6 +34,7 @@ namespace Controllers.Missile
             {
                 manager = GetComponent<MissileManager>();
             }
+            _movementModifiers = GetComponents<IMissileMovementModifier>();
         }
 
         private void OnEnable()
@@ -59,7 +62,20 @@ namespace Controllers.Missile
             }
 
             float speed = GetCurrentSpeed();
-            _rigidbody.linearVelocity = new Vector3(0, -speed, 0);
+            Vector3 velocity = new Vector3(0, -speed, 0);
+
+            if (_movementModifiers != null)
+            {
+                for (int i = 0; i < _movementModifiers.Length; i++)
+                {
+                    if (_movementModifiers[i] != null)
+                    {
+                        velocity += _movementModifiers[i].GetVelocityOffset();
+                    }
+                }
+            }
+
+            _rigidbody.linearVelocity = velocity;
         }
 
         private void OnDisable()
