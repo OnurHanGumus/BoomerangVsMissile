@@ -16,5 +16,7 @@ namespace Enums
         Missile_6_Cluster_Small,
         Missile_7_Armored_v2,
         Missile_8_Cluster_v2,
+        Missile_9_Armored_v3,
+        Missile_10_Armored_v4,
     }
 }

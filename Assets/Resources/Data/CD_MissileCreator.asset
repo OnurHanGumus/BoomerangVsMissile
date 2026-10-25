@@ -20,7 +20,7 @@ MonoBehaviour:
       - 1
       MissileCreateOffset: 2
     - MissileCount: 8
-      MissileTypeList: 00000000010000000700000004000000
+      MissileTypeList: 00000000010000000800000009000000
       PercentageList:
       - 0.85
       - 0.15

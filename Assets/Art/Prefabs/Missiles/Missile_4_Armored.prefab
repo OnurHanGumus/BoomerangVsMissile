@@ -16,10 +16,22 @@ PrefabInstance:
       propertyPath: isArmored
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2863442729714080952, guid: e4ac8bb04676f944499d7616a9cfeb56, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.17878601
+      objectReference: {fileID: 0}
+    - target: {fileID: 2863442729714080952, guid: e4ac8bb04676f944499d7616a9cfeb56, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.17878601
+      objectReference: {fileID: 0}
+    - target: {fileID: 2863442729714080952, guid: e4ac8bb04676f944499d7616a9cfeb56, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.17878601
+      objectReference: {fileID: 0}
     - target: {fileID: 2871933591712752050, guid: e4ac8bb04676f944499d7616a9cfeb56, type: 3}
       propertyPath: m_Mesh
       value: 
-      objectReference: {fileID: 4300000, guid: 5bb10a455c42fbd4db3364f122c26a79, type: 3}
+      objectReference: {fileID: 4300004, guid: 86fc77829a6e78d43a007a5d05e6be45, type: 3}
     - target: {fileID: 2882190731887404268, guid: e4ac8bb04676f944499d7616a9cfeb56, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -111,6 +123,18 @@ PrefabInstance:
     - target: {fileID: 4573692909795951065, guid: e4ac8bb04676f944499d7616a9cfeb56, type: 3}
       propertyPath: m_Center.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4598847794767305550, guid: e4ac8bb04676f944499d7616a9cfeb56, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.89393
+      objectReference: {fileID: 0}
+    - target: {fileID: 4598847794767305550, guid: e4ac8bb04676f944499d7616a9cfeb56, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.89393
+      objectReference: {fileID: 0}
+    - target: {fileID: 4598847794767305550, guid: e4ac8bb04676f944499d7616a9cfeb56, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.89393
       objectReference: {fileID: 0}
     - target: {fileID: 4688291921866703404, guid: e4ac8bb04676f944499d7616a9cfeb56, type: 3}
       propertyPath: m_Size.x

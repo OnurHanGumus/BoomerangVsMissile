@@ -50,13 +50,13 @@ namespace Controllers.Missile.Abilities
 
         private void OnEnable()
         {
+            missilePhysicsController.CurrentHealth = 1;
             missilePhysicsController.CurrentHealth += _data.BonusHealth;
             missilePhysicsController.OnHitted += OnDamageTaken;
         }
 
         private void OnDisable()
         {
-            missilePhysicsController.CurrentHealth -= _data.BonusHealth;
             missilePhysicsController.OnHitted -= OnDamageTaken;
         }
 
