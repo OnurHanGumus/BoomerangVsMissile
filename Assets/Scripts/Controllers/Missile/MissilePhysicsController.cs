@@ -20,6 +20,8 @@ namespace Controllers
         #endregion
 
         #region Private Variables
+        private const float HitCooldown = 0.30f;
+
         private bool _isFailed = false;
         private float _lastDamageTime = -1f;
         private Collider _selfCollider;
@@ -94,6 +96,16 @@ namespace Controllers
         private void ApplyBoomerangHit(Collider boomerangCollider)
         {
             var boomerangManager = boomerangCollider.GetComponentInParent<BoomerangManager>();
+            if (boomerangManager != null && !boomerangManager.IsThrown)
+            {
+                return;
+            }
+
+            if (!CanAcceptHit())
+            {
+                return;
+            }
+
             bool isFullyCharged = boomerangManager != null && boomerangManager.IsFullyCharged;
             int baseDamage = boomerangManager != null ? boomerangManager.EffectiveDamage : 1;
             MissileHitContext hitContext = new MissileHitContext
@@ -101,7 +113,10 @@ namespace Controllers
                 Damage = isFullyCharged ? baseDamage * 2 : baseDamage,
                 IsFullyCharged = isFullyCharged
             };
-            TakeHit(hitContext);
+
+            _lastDamageTime = Time.time;
+            BoomerangSignals.Instance.onBoomerangNextTarget?.Invoke();
+            ProcessAcceptedHit(hitContext);
         }
 
         private Vector3 GetTouchPointOnSelf(Vector3 boomerangCenter)
@@ -170,17 +185,31 @@ namespace Controllers
 
         public void TakeHit(MissileHitContext ctx)
         {
-            if (!gameObject.activeInHierarchy)
-            {
-                return;
-            }
-
-            if (Time.time - _lastDamageTime < 0.15f)
+            if (!CanAcceptHit())
             {
                 return;
             }
             _lastDamageTime = Time.time;
+            ProcessAcceptedHit(ctx);
+        }
 
+        private bool CanAcceptHit()
+        {
+            if (!gameObject.activeInHierarchy || (manager != null && manager.IsDead))
+            {
+                return false;
+            }
+
+            if (_lastDamageTime >= 0f && Time.time - _lastDamageTime < HitCooldown)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        private void ProcessAcceptedHit(MissileHitContext ctx)
+        {
             if (manager != null && !manager.FilterHit(ref ctx))
             {
                 return;

@@ -1132,6 +1132,7 @@ MonoBehaviour:
   comboPanelController: {fileID: 1566692193}
   chargeSliderController: {fileID: 0}
   approvalPanelController: {fileID: 1430059239}
+  rewardBuffUIController: {fileID: 0}
 --- !u!1 &104751525
 GameObject:
   m_ObjectHideFlags: 0

@@ -50,15 +50,27 @@ namespace Controllers.Missile.Abilities
                 _manager = GetComponent<MissileManager>();
             }
 
-            if (_punchTarget == null)
-            {
-                Transform parentChild = transform.Find("Parent");
-                _punchTarget = parentChild != null ? parentChild : transform;
-            }
-
             if (_meshRenderer == null)
             {
                 _meshRenderer = GetComponentInChildren<MeshRenderer>();
+            }
+
+            if (_punchTarget == null)
+            {
+                Transform meshChild = transform.Find("Parent/Mesh");
+                if (meshChild != null)
+                {
+                    _punchTarget = meshChild;
+                }
+                else if (_meshRenderer != null)
+                {
+                    _punchTarget = _meshRenderer.transform;
+                }
+                else
+                {
+                    Transform parentChild = transform.Find("Parent");
+                    _punchTarget = parentChild != null ? parentChild : transform;
+                }
             }
 
             if (_propertyBlock == null)
