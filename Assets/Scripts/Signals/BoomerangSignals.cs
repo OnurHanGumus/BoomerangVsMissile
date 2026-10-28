@@ -1,6 +1,8 @@
+using Data.ValueObject;
 using Enums;
 using Extensions;
 using System;
+using UnityEngine;
 using UnityEngine.Events;
 
 namespace Signals
@@ -17,5 +19,7 @@ namespace Signals
         public UnityAction onBoomerangStatsChanged = delegate { };
         public UnityAction onEmergencyRecall = delegate { };
         public UnityAction onPlayerTouchedBoomerang = delegate { };
+        public UnityAction<BoomerangStatEnums, RewardMissileData, Vector3> onRewardBuffTriggered = delegate { };
+        public UnityAction<BoomerangStatEnums, int, float, float> onBuffTimerUpdated = delegate { };
     }
 }

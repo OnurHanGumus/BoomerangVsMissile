@@ -2,8 +2,10 @@ using System;
 using System.Collections.Generic;
 using Commands;
 using Controllers;
+using Controllers.Boomerang;
 using Data.UnityObject;
 using Data.ValueObject;
+using DG.Tweening;
 using Enums;
 using Signals;
 using UnityEngine;
@@ -24,6 +26,49 @@ namespace Managers
         {
             return BoomerangStoreManager.Instance.CurrentBoomerangData;
         }
+
+        public int EffectiveDamage
+        {
+            get
+            {
+                var current = BoomerangStoreManager.Instance != null ? BoomerangStoreManager.Instance.CurrentBoomerangData : null;
+                int baseDamage = current != null ? current.Damage : 1;
+                return _buffController != null ? _buffController.ApplyDamageBuff(baseDamage) : baseDamage;
+            }
+        }
+
+        public float EffectiveSpeed
+        {
+            get
+            {
+                var current = BoomerangStoreManager.Instance != null ? BoomerangStoreManager.Instance.CurrentBoomerangData : null;
+                float baseSpeed = current != null ? current.Speed : 5f;
+                return _buffController != null ? _buffController.ApplySpeedBuff(baseSpeed) : baseSpeed;
+            }
+        }
+
+        public float EffectiveReturnSpeedMultiplier
+        {
+            get
+            {
+                var current = BoomerangStoreManager.Instance != null ? BoomerangStoreManager.Instance.CurrentBoomerangData : null;
+                float baseReturnMultiplier = current != null ? current.ReturnSpeedMultiplier : 1f;
+                return _buffController != null ? _buffController.ApplyReturnSpeedBuff(baseReturnMultiplier) : baseReturnMultiplier;
+            }
+        }
+
+        public float EffectiveSizeMultiplier
+        {
+            get
+            {
+                var current = BoomerangStoreManager.Instance != null ? BoomerangStoreManager.Instance.CurrentBoomerangData : null;
+                float baseSize = current != null ? current.SizeMultiplier : 1f;
+                return _buffController != null ? _buffController.ApplySizeBuff(baseSize) : baseSize;
+            }
+        }
+
+        public float BuffReturnSplineMultiplier =>
+            _buffController != null ? _buffController.GetReturnSplineSpeedMultiplier() : 1f;
 
         public Vector3 EffectiveHandLocalPosition
         {
@@ -58,6 +103,8 @@ namespace Managers
 
         private PlayerData _data;
         private BoomerangMovementController _movementController;
+        private BoomerangBuffController _buffController;
+        private Tween _sizeTween;
 
         private void Awake()
         {
@@ -68,6 +115,12 @@ namespace Managers
         {
             _data = GetData();
             _movementController = GetComponent<BoomerangMovementController>();
+            _buffController = GetComponent<BoomerangBuffController>();
+            if (_buffController == null)
+            {
+                _buffController = gameObject.AddComponent<BoomerangBuffController>();
+            }
+
             if (trajectoryPreviewController == null)
             {
                 trajectoryPreviewController = FindFirstObjectByType<Controllers.Boomerang.TrajectoryPreviewController>();
@@ -147,6 +200,7 @@ namespace Managers
 
         private void OnDestroy()
         {
+            _sizeTween?.Kill();
             UnsubscribeEvents();
         }
 
@@ -157,9 +211,20 @@ namespace Managers
             Transform parentChild = transform.Find("Parent");
             if (parentChild != null)
             {
-                var current = BoomerangStoreManager.Instance != null ? BoomerangStoreManager.Instance.CurrentBoomerangData : null;
-                float sizeMultiplier = current != null ? current.SizeMultiplier : 1.0f;
-                parentChild.localScale = Vector3.one * sizeMultiplier;
+                float sizeMultiplier = EffectiveSizeMultiplier;
+                _sizeTween?.Kill();
+                if (IsThrown && parentChild.gameObject.activeInHierarchy)
+                {
+                    _sizeTween = parentChild
+                        .DOScale(Vector3.one * sizeMultiplier, 0.2f)
+                        .SetEase(Ease.OutBack)
+                        .SetUpdate(true)
+                        .SetLink(gameObject);
+                }
+                else
+                {
+                    parentChild.localScale = Vector3.one * sizeMultiplier;
+                }
             }
         }
 
@@ -167,6 +232,7 @@ namespace Managers
 
         private void OnLevelFailedOrSuccessful()
         {
+            _sizeTween?.Kill();
             transform.GetChild(0).gameObject.SetActive(false);
         }
 
@@ -226,6 +292,7 @@ namespace Managers
 
         private void OnRestartLevel()
         {
+            _sizeTween?.Kill();
             transform.GetChild(0).gameObject.SetActive(false);
             transform.parent = null;
             IsRising = false;

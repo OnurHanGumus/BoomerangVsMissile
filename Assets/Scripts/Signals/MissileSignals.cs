@@ -2,6 +2,7 @@ using Enums;
 using Extensions;
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.Events;
 
 namespace Signals
@@ -13,5 +14,7 @@ namespace Signals
         public UnityAction onMissileArmorHit = delegate { };
         public UnityAction<int> onClusterSplit = delegate { };
         public UnityAction onExploderMissileCreated = delegate { };
+        public UnityAction onAegisStateChanged = delegate { };
+        public Func<Vector3, Transform, bool> onIsPointShielded = delegate { return false; };
     }
 }

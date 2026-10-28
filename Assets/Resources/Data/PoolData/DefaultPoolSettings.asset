@@ -41,3 +41,17 @@ MonoBehaviour:
     Amounts: 10
   - TypeData: {fileID: 11400000, guid: 5c23dbdfca538784bb3bd4809151cbaf, type: 2}
     Amounts: 10
+  - TypeData: {fileID: 11400000, guid: 790ac3b42016d554d8862b7292f08ba0, type: 2}
+    Amounts: 10
+  - TypeData: {fileID: 11400000, guid: 9c43d29bcba6413b8cdf82bc491d029f, type: 2}
+    Amounts: 10
+  - TypeData: {fileID: 11400000, guid: fc39a1bd21044003838e0efd0f6c4472, type: 2}
+    Amounts: 10
+  - TypeData: {fileID: 11400000, guid: 9c378e1c9f894318935c9833b2daa481, type: 2}
+    Amounts: 10
+  - TypeData: {fileID: 11400000, guid: 85d35653519c4689a8e12889b91a12c1, type: 2}
+    Amounts: 10
+  - TypeData: {fileID: 11400000, guid: c3d7e8f9a15246ba9c8d7e6f5a4b3210, type: 2}
+    Amounts: 10
+  - TypeData: {fileID: 11400000, guid: 9aabbcddeaef4f0a8b9ccdeeff00e80a, type: 2}
+    Amounts: 10

@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: CD_ArmoredMissile
   m_EditorClassIdentifier: 
   Data:
-    BonusHealth: 1
+    ArmorBreakDealsDamage: 1
+    DeflectPitch: 0.6

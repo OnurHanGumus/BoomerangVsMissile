@@ -22,6 +22,7 @@ namespace Managers
         public PoolEnums ParticleType;
         public bool IsDead => _isDead || !gameObject.activeInHierarchy;
         public MissileData MissileData => _missileData;
+        public MissileHitContext LastHitContext => _lastHitContext;
 
         #endregion
 
@@ -38,11 +39,13 @@ namespace Managers
         #region Private Variables
         private PlayerData _data;
         private MissileData _missileData;
+        private MissileHitContext _lastHitContext;
         private bool _isDead = false;
         private Collider[] _colliders;
 
         private IMissileAbility[] _abilities;
         private IMissileDeathEffect[] _deathEffects;
+        private IMissileDamageFilter[] _damageFilters;
         private IMissileDamageHandler[] _damageHandlers;
         private IMissileHealthProvider[] _healthProviders;
 
@@ -59,6 +62,11 @@ namespace Managers
         private void OnEnable()
         {
             _isDead = false;
+            _lastHitContext = default;
+            if (physicsController != null)
+            {
+                physicsController.ResetHealth(GetMaxHealth());
+            }
             EnableColliders(true);
         }
 
@@ -98,6 +106,7 @@ namespace Managers
 
             _abilities = GetComponents<IMissileAbility>();
             _deathEffects = GetComponents<IMissileDeathEffect>();
+            _damageFilters = GetComponents<IMissileDamageFilter>();
             _damageHandlers = GetComponents<IMissileDamageHandler>();
             _healthProviders = GetComponents<IMissileHealthProvider>();
 
@@ -107,6 +116,55 @@ namespace Managers
                 for (int i = 0; i < _abilities.Length; i++)
                 {
                     _abilities[i].Initialize(this);
+                }
+            }
+        }
+
+        public int GetMaxHealth()
+        {
+            int baseHealth = _missileData != null ? _missileData.MaxHealth : 1;
+            int additionalHealth = 0;
+            if (_healthProviders != null)
+            {
+                for (int i = 0; i < _healthProviders.Length; i++)
+                {
+                    if (_healthProviders[i] != null)
+                    {
+                        additionalHealth += _healthProviders[i].GetAdditionalHealth();
+                    }
+                }
+            }
+            return Mathf.Max(1, baseHealth + additionalHealth);
+        }
+
+        public bool FilterHit(ref MissileHitContext ctx)
+        {
+            _lastHitContext = ctx;
+            if (_damageFilters != null)
+            {
+                for (int i = 0; i < _damageFilters.Length; i++)
+                {
+                    if (_damageFilters[i] != null && !_damageFilters[i].FilterHit(ref ctx))
+                    {
+                        _lastHitContext = ctx;
+                        return false;
+                    }
+                }
+            }
+            _lastHitContext = ctx;
+            return true;
+        }
+
+        public void NotifyDamageTaken(int damage, int currentHealth)
+        {
+            if (_damageHandlers != null)
+            {
+                for (int i = 0; i < _damageHandlers.Length; i++)
+                {
+                    if (_damageHandlers[i] != null)
+                    {
+                        _damageHandlers[i].OnDamageTaken(damage, currentHealth);
+                    }
                 }
             }
         }

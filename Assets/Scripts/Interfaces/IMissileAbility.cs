@@ -1,3 +1,4 @@
+using Data.ValueObject;
 using UnityEngine;
 using Managers;
 
@@ -15,6 +16,14 @@ namespace Interfaces
         /// Returns true if this effect handled custom explosion audio, false otherwise.
         /// </summary>
         bool OnMissileDeath(Vector3 position, bool isLevelEnd);
+    }
+
+    public interface IMissileDamageFilter : IMissileAbility
+    {
+        /// <summary>
+        /// Return false to block or consume the hit before HP is reduced.
+        /// </summary>
+        bool FilterHit(ref MissileHitContext ctx);
     }
 
     public interface IMissileDamageHandler : IMissileAbility

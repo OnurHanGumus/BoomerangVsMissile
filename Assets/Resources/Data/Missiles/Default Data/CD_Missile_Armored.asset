@@ -17,5 +17,4 @@ MonoBehaviour:
     ShakeDuration: 0.18
     HitStopDuration: 0.05
     MaxHealth: 1
-    IsArmored: 1
     Velocity: 2

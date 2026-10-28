@@ -61,7 +61,8 @@ namespace Controllers
             _returnSpline = new CatmullRomSpline();
             BoomerangSignals.Instance.onSetChargedArc += OnSetChargedArc;
             BoomerangSignals.Instance.onEmergencyRecall += OnEmergencyRecall;
-            _currentSpeed = _manager.GetBoomerangData().Speed;
+            BoomerangSignals.Instance.onBoomerangStatsChanged += OnStatsChanged;
+            _currentSpeed = _manager.EffectiveSpeed;
         }
 
         private void OnDestroy()
@@ -70,6 +71,28 @@ namespace Controllers
             {
                 BoomerangSignals.Instance.onSetChargedArc -= OnSetChargedArc;
                 BoomerangSignals.Instance.onEmergencyRecall -= OnEmergencyRecall;
+                BoomerangSignals.Instance.onBoomerangStatsChanged -= OnStatsChanged;
+            }
+        }
+
+        private void OnStatsChanged()
+        {
+            if (_manager == null)
+            {
+                return;
+            }
+
+            if (_manager.IsThrown)
+            {
+                _currentSpeed = _manager.EffectiveSpeed + (_progress * 10f);
+                if (!_isReturning && !_isEmergencyRecalling)
+                {
+                    _currentDir = GetDirection();
+                }
+            }
+            else
+            {
+                _currentSpeed = _manager.EffectiveSpeed;
             }
         }
 
@@ -132,7 +155,10 @@ namespace Controllers
             Vector3 toTarget = _initializePos - transform.position;
             toTarget.z = 0f;
 
-            float speed = _currentSpeed * _manager.GetBoomerangData().ReturnSpeedMultiplier;
+            var boomerangData = _manager.GetBoomerangData();
+            float baseSpeed = boomerangData != null ? boomerangData.Speed : 5f;
+            float baseThrowSpeed = baseSpeed + (_progress * 10f);
+            float speed = Mathf.Min(baseThrowSpeed * _manager.EffectiveReturnSpeedMultiplier, 30f);
             Vector3 recallVelocity = toTarget.normalized * speed;
             _rig.linearVelocity = recallVelocity;
 
@@ -252,7 +278,19 @@ namespace Controllers
                 return;
             }
 
-            float currentSpeed = _currentSpeed;
+            float buffSplineMult = _manager.BuffReturnSplineMultiplier;
+            float currentSpeed;
+            if (buffSplineMult > 1.001f)
+            {
+                var boomerangData = _manager.GetBoomerangData();
+                float baseSpeed = boomerangData != null ? boomerangData.Speed : 5f;
+                currentSpeed = Mathf.Min((baseSpeed + (_progress * 10f)) * buffSplineMult, 26f);
+            }
+            else
+            {
+                currentSpeed = _currentSpeed;
+            }
+
             float segmentLength = _returnSpline.GetSegmentLength(_returnSegment);
             if (segmentLength <= 0.0001f)
             {
@@ -350,7 +388,7 @@ namespace Controllers
 
         public void Thrown()
         {
-            _currentSpeed = _manager.GetBoomerangData().Speed + (_progress * 10);
+            _currentSpeed = _manager.EffectiveSpeed + (_progress * 10);
 
             _manager.IsRising = true;
             _isReturning = false;

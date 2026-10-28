@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: CD_Armored_v3
   m_EditorClassIdentifier: 
   Data:
-    BonusHealth: 3
+    ArmorBreakDealsDamage: 1
+    DeflectPitch: 0.6

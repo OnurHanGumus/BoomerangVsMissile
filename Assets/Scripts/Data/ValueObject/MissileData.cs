@@ -12,8 +12,7 @@ namespace Data.ValueObject
         public float HitStopDuration = 0.05f;
 
         [Header("Armor & Health Settings")]
-        public int MaxHealth = 1;
-        public bool IsArmored = false;
+        [Min(1)] public int MaxHealth = 1;
 
         [Header("Movement Settings")]
         public float Velocity = 2f;

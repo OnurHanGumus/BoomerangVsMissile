@@ -10,10 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3cbce719fe8efe140988ed263de2de12, type: 3}
-  m_Name: CD_Missile_Default
+  m_Name: CD_Missile_Armored_v2
   m_EditorClassIdentifier: 
   Data:
-    ShakeStrength: 0.25
-    ShakeDuration: 0.15
+    ShakeStrength: 0.35
+    ShakeDuration: 0.18
     HitStopDuration: 0.05
+    MaxHealth: 2
     Velocity: 2

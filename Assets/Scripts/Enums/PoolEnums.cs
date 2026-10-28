@@ -19,5 +19,12 @@ namespace Enums
         Missile_9_Armored_v3,
         Missile_10_Armored_v4,
         Missile_11_Zigzag,
+        HitSpark,
+        Missile_12_Default_v2,
+        Missile_13_Default_v3,
+        Missile_14_Default_v4,
+        Missile_15_Aegis,
+        Missile_16_Aegis_v2,
+        Missile_17_Reward,
     }
 }

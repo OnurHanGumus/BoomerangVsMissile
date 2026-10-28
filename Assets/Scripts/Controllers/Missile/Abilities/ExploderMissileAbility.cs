@@ -177,7 +177,7 @@ namespace Controllers.Missile.Abilities
 
             float radius = ExplosionRadius;
             Collider[] colliders = Physics.OverlapSphere(position, radius);
-            HashSet<MissileManager> affectedMissiles = new HashSet<MissileManager>();
+            Dictionary<MissileManager, Vector3> affectedMissiles = new Dictionary<MissileManager, Vector3>();
 
             for (int i = 0; i < colliders.Length; i++)
             {
@@ -192,14 +192,38 @@ namespace Controllers.Missile.Abilities
                 {
                     if (otherMissile.gameObject.activeInHierarchy && otherMissile.gameObject.activeSelf && !otherMissile.IsDead)
                     {
-                        affectedMissiles.Add(otherMissile);
+                        Vector3 contactPoint = col.ClosestPoint(position);
+                        if (!affectedMissiles.ContainsKey(otherMissile))
+                        {
+                            affectedMissiles.Add(otherMissile, contactPoint);
+                        }
+                        else if (!AegisMissileAbility.IsPointShielded(contactPoint, otherMissile.transform))
+                        {
+                            affectedMissiles[otherMissile] = contactPoint;
+                        }
                     }
                 }
             }
 
-            foreach (var missile in affectedMissiles)
+            // Pass 1: Explode missiles whose blast contact point is unshielded (including any Aegis in blast range)
+            foreach (var kvp in affectedMissiles)
             {
-                if (missile != null && missile.gameObject.activeInHierarchy && !missile.IsDead)
+                MissileManager missile = kvp.Key;
+                Vector3 contactPoint = kvp.Value;
+                if (missile != null && missile.gameObject.activeInHierarchy && !missile.IsDead &&
+                    !AegisMissileAbility.IsPointShielded(contactPoint, missile.transform))
+                {
+                    missile.Explode();
+                }
+            }
+
+            // Pass 2: Explode any missiles whose covering Aegis was destroyed in Pass 1
+            foreach (var kvp in affectedMissiles)
+            {
+                MissileManager missile = kvp.Key;
+                Vector3 contactPoint = kvp.Value;
+                if (missile != null && missile.gameObject.activeInHierarchy && !missile.IsDead &&
+                    !AegisMissileAbility.IsPointShielded(contactPoint, missile.transform))
                 {
                     missile.Explode();
                 }

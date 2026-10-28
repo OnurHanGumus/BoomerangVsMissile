@@ -35,6 +35,7 @@ namespace Managers
 
         private bool _isPlayerDead = false;
         private Ray _ray;
+        private readonly RaycastHit[] _raycastHits = new RaycastHit[16];
         private Transform _lastHitTransform;
 
         private bool _isBoomerangOnPlayer = true;
@@ -110,25 +111,17 @@ namespace Managers
 
                 if (_lastHitTransform == null)
                 {
-                    _ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-                    RaycastHit hit;
-                    if (Physics.Raycast(_ray, out hit))
+                    if (TryRaycastUnshieldedClickable(Input.mousePosition, out Transform hitTransform, out Vector3 hitPoint))
                     {
-                        if (hit.collider.CompareTag("Clickable"))
-                        {
-                            Vector3 hitPoint = new Vector3(hit.point.x, hit.point.y, 0f);
-                            _clickedPoint = hitPoint;
-                            _lastHitTransform = hit.transform;
-                            _clickYOffset = hitPoint.y - _lastHitTransform.position.y;
-                            _dragStartWorldPos = GetWorldPointFromMouse(Input.mousePosition);
-                            _hasSelectedDragDirection = false;
-                            _currentReturnSwingDir = BoomerangMovementController.CalculateSwingDirection(_clickedPoint.x);
-                            _chargeTimer = 0f;
-                            InputSignals.Instance.onClicking?.Invoke(hitPoint);
-                            AudioSignals.Instance.onPlaySound(AudioSoundEnums.Pitch);
-
-                        }
+                        _clickedPoint = hitPoint;
+                        _lastHitTransform = hitTransform;
+                        _clickYOffset = hitPoint.y - _lastHitTransform.position.y;
+                        _dragStartWorldPos = GetWorldPointFromMouse(Input.mousePosition);
+                        _hasSelectedDragDirection = false;
+                        _currentReturnSwingDir = BoomerangMovementController.CalculateSwingDirection(_clickedPoint.x);
+                        _chargeTimer = 0f;
+                        InputSignals.Instance.onClicking?.Invoke(hitPoint);
+                        AudioSignals.Instance.onPlaySound(AudioSoundEnums.Pitch);
                     }
                 }
                 else
@@ -185,6 +178,52 @@ namespace Managers
 
 
         }
+
+        private bool TryRaycastUnshieldedClickable(Vector3 screenPosition, out Transform bestTransform, out Vector3 bestHitPoint)
+        {
+            bestTransform = null;
+            bestHitPoint = Vector3.zero;
+
+            if (Camera.main == null)
+            {
+                return false;
+            }
+
+            _ray = Camera.main.ScreenPointToRay(screenPosition);
+            int hitCount = Physics.RaycastNonAlloc(_ray, _raycastHits);
+            if (hitCount <= 0)
+            {
+                return false;
+            }
+
+            float closestDistance = float.MaxValue;
+
+            for (int i = 0; i < hitCount; i++)
+            {
+                RaycastHit candidate = _raycastHits[i];
+                Collider col = candidate.collider;
+                if (col == null || !col.CompareTag("Clickable"))
+                {
+                    continue;
+                }
+
+                Vector3 candidatePoint = new Vector3(candidate.point.x, candidate.point.y, 0f);
+                if (MissileSignals.Instance != null && MissileSignals.Instance.onIsPointShielded(candidatePoint, col.transform))
+                {
+                    continue;
+                }
+
+                if (candidate.distance < closestDistance)
+                {
+                    closestDistance = candidate.distance;
+                    bestTransform = col.transform;
+                    bestHitPoint = candidatePoint;
+                }
+            }
+
+            return bestTransform != null;
+        }
+
         private bool IsPointerOverUIElement()
         {
             var eventData = new PointerEventData(EventSystem.current);

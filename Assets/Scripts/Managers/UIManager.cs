@@ -22,6 +22,7 @@ namespace Managers
         [SerializeField] private ComboPanelController comboPanelController;
         [SerializeField] private ChargeSliderController chargeSliderController;
         [SerializeField] private ApprovalPanelController approvalPanelController;
+        [SerializeField] private RewardBuffUIController rewardBuffUIController;
 
         #endregion
         #region Private Variables
@@ -49,6 +50,18 @@ namespace Managers
                 {
                     GameObject chargeObj = new GameObject("ChargeSliderController");
                     chargeSliderController = chargeObj.AddComponent<ChargeSliderController>();
+                }
+            }
+
+            if (rewardBuffUIController == null)
+            {
+                rewardBuffUIController = FindFirstObjectByType<RewardBuffUIController>();
+                if (rewardBuffUIController == null)
+                {
+                    Transform hudParent = levelPanelController != null ? levelPanelController.transform : transform;
+                    GameObject rewardHudObj = new GameObject("RewardBuffHUD", typeof(RectTransform));
+                    rewardHudObj.transform.SetParent(hudParent, false);
+                    rewardBuffUIController = rewardHudObj.AddComponent<RewardBuffUIController>();
                 }
             }
         }

@@ -101,6 +101,7 @@ GameObject:
   - component: {fileID: 6877862797391950990}
   - component: {fileID: -4694992830584109621}
   - component: {fileID: 4573692909795951065}
+  - component: {fileID: 5423785880616565285}
   m_Layer: 0
   m_Name: MissileBase
   m_TagString: Clickable
@@ -190,6 +191,18 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 2.7904816, z: 1}
   m_Center: {x: 0, y: -0.1105237, z: 0}
+--- !u!114 &5423785880616565285
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3065065370417937671}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7edbff0e70cce044a9db7770f1f46b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Controllers.Missile.Abilities.MissileHitFeedbackAbility
 --- !u!1 &3072293780664512101
 GameObject:
   m_ObjectHideFlags: 0
