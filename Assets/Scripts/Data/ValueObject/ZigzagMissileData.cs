@@ -13,11 +13,12 @@ namespace Data.ValueObject
         public bool StartTowardScreenCenter = true;
 
         [Header("Obstacle Detection")]
-        public float LookAheadDistance = 0.75f;
+        public float LookAheadDistance = 0.45f;
         public float BodyHalfWidth = 0.3f;
-        public float CheckBelowHeight = 0.9f;
-        public float CheckAboveHeight = 2.2f;
+        public float CheckBelowHeight = 1.0f;
+        public float CheckAboveHeight = 0.5f;
         public float FlipCooldown = 0.2f;
+        public float HysteresisMargin = 0.15f;
 
         [Header("Visual Lean")]
         public float LeanAngle = 20f;

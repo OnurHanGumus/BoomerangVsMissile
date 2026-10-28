@@ -17,10 +17,11 @@ MonoBehaviour:
     TravelHalfWidth: 1.8
     ScreenEdgeMargin: 0.75
     StartTowardScreenCenter: 1
-    LookAheadDistance: 0.75
+    LookAheadDistance: 0.45
     BodyHalfWidth: 0.3
-    CheckBelowHeight: 0.9
-    CheckAboveHeight: 2.2
+    CheckBelowHeight: 1
+    CheckAboveHeight: 0.5
     FlipCooldown: 0.2
+    HysteresisMargin: 0.15
     LeanAngle: 25
     LeanSmoothTime: 0.14

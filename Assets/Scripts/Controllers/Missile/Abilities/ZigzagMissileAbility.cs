@@ -36,7 +36,8 @@ namespace Controllers.Missile.Abilities
 
         private MissileManager _manager;
         private ZigzagMissileData _data;
-        private readonly Collider[] _overlapBuffer = new Collider[16];
+        private Transform _physicsTransform;
+        private readonly Collider[] _overlapBuffer = new Collider[32];
 
         private float _spawnX;
         private float _minX;
@@ -72,6 +73,14 @@ namespace Controllers.Missile.Abilities
             if (leanTarget == null)
             {
                 leanTarget = transform.Find("Parent");
+            }
+            if (_physicsTransform == null)
+            {
+                _physicsTransform = transform.Find("Parent/Physics");
+                if (_physicsTransform == null)
+                {
+                    _physicsTransform = transform.Find("Physics");
+                }
             }
             LoadData();
         }
@@ -131,6 +140,10 @@ namespace Controllers.Missile.Abilities
             {
                 leanTarget.localRotation = Quaternion.identity;
             }
+            if (_physicsTransform != null)
+            {
+                _physicsTransform.rotation = Quaternion.identity;
+            }
         }
 
         private void Update()
@@ -149,6 +162,19 @@ namespace Controllers.Missile.Abilities
             float smoothTime = Mathf.Max(0.01f, Data.LeanSmoothTime);
             _currentLeanAngle = Mathf.SmoothDampAngle(_currentLeanAngle, targetAngle, ref _leanVelocity, smoothTime);
             leanTarget.localRotation = Quaternion.Euler(0f, 0f, _currentLeanAngle);
+
+            if (_physicsTransform != null)
+            {
+                _physicsTransform.rotation = Quaternion.identity;
+            }
+        }
+
+        private void LateUpdate()
+        {
+            if (_physicsTransform != null)
+            {
+                _physicsTransform.rotation = Quaternion.identity;
+            }
         }
 
         private void ComputeHorizontalBounds(out float minX, out float maxX)
@@ -196,14 +222,17 @@ namespace Controllers.Missile.Abilities
             }
 
             float currentX = transform.position.x;
+            bool canFlipByCooldown = Time.time - _lastFlipTime >= Data.FlipCooldown;
 
             if (_isHolding)
             {
-                if (!IsAtEdge(_direction, currentX) && !IsSideBlocked(_direction))
+                // Resume in current direction if that direction has cleared
+                if (!IsAtEdge(_direction, currentX) && !IsSideBlocked(_direction, isExitingHold: true))
                 {
                     _isHolding = false;
                 }
-                else if (!IsAtEdge(-_direction, currentX) && !IsSideBlocked(-_direction))
+                // Or resume in opposite direction if clear AND cooldown elapsed (prevents high-frequency vibration)
+                else if (canFlipByCooldown && !IsAtEdge(-_direction, currentX) && !IsSideBlocked(-_direction, isExitingHold: true))
                 {
                     _direction = -_direction;
                     _isHolding = false;
@@ -228,7 +257,7 @@ namespace Controllers.Missile.Abilities
             if (IsSideBlocked(_direction))
             {
                 int opposite = -_direction;
-                bool canFlip = Time.time - _lastFlipTime >= Data.FlipCooldown
+                bool canFlip = canFlipByCooldown
                                && !IsAtEdge(opposite, currentX)
                                && !IsSideBlocked(opposite);
 
@@ -249,9 +278,9 @@ namespace Controllers.Missile.Abilities
             return (dir > 0 && currentX >= _maxX) || (dir < 0 && currentX <= _minX);
         }
 
-        private bool IsSideBlocked(int dir)
+        private bool IsSideBlocked(int dir, bool isExitingHold = false)
         {
-            GetScanBox(dir, out Vector3 boxCenter, out Vector3 halfExtents);
+            GetScanBox(dir, out Vector3 boxCenter, out Vector3 halfExtents, isExitingHold);
 
             int hitCount = Physics.OverlapBoxNonAlloc(
                 boxCenter,
@@ -288,7 +317,9 @@ namespace Controllers.Missile.Abilities
                 }
 
                 float deltaX = (otherMissile.transform.position.x - myX) * dir;
-                if (deltaX >= -InnerScanOffset)
+                // An obstacle must be genuinely located on this side (deltaX > InnerScanOffset)
+                // This prevents missiles directly in the same column from falsely blocking sideways moves.
+                if (deltaX > InnerScanOffset)
                 {
                     return true;
                 }
@@ -297,10 +328,11 @@ namespace Controllers.Missile.Abilities
             return false;
         }
 
-        private void GetScanBox(int dir, out Vector3 center, out Vector3 halfExtents)
+        private void GetScanBox(int dir, out Vector3 center, out Vector3 halfExtents, bool isExitingHold = false)
         {
             Vector3 pos = transform.position;
-            float outerOffset = Mathf.Max(InnerScanOffset + 0.1f, Data.BodyHalfWidth + Data.LookAheadDistance);
+            float extraMargin = isExitingHold ? Data.HysteresisMargin : 0f;
+            float outerOffset = Mathf.Max(InnerScanOffset + 0.1f, Data.BodyHalfWidth + Data.LookAheadDistance + extraMargin);
             float spanX = outerOffset - InnerScanOffset;
             float halfX = spanX * 0.5f;
             float centerX = pos.x + dir * (InnerScanOffset + halfX);
@@ -349,7 +381,7 @@ namespace Controllers.Missile.Abilities
             }
 
             int dir = Application.isPlaying ? _direction : 1;
-            GetScanBox(dir, out Vector3 boxCenter, out Vector3 halfExtents);
+            GetScanBox(dir, out Vector3 boxCenter, out Vector3 halfExtents, _isHolding);
 
             Gizmos.color = _isHolding ? Color.red : Color.yellow;
             Gizmos.DrawWireCube(boxCenter, halfExtents * 2f);
