@@ -64,6 +64,11 @@ namespace Managers
                     rewardBuffUIController = rewardHudObj.AddComponent<RewardBuffUIController>();
                 }
             }
+
+            if (comboPanelController == null)
+            {
+                comboPanelController = FindFirstObjectByType<ComboPanelController>();
+            }
         }
 
         private UIData GetData() => Resources.Load<CD_UI>("Data/CD_UI").Data;
@@ -76,9 +81,16 @@ namespace Managers
             CoreGameSignals.Instance.onPlay += OnPlay;
             CoreGameSignals.Instance.onLevelFailed += OnLevelFailed;
             CoreGameSignals.Instance.onLevelSuccessful += OnLevelSuccessful;
-            CoreGameSignals.Instance.onRestartLevel += levelPanelController.OnRestartLevel;
+            if (levelPanelController != null)
+            {
+                CoreGameSignals.Instance.onRestartLevel += levelPanelController.OnRestartLevel;
+            }
+            if (comboPanelController != null)
+            {
+                CoreGameSignals.Instance.onRestartLevel += comboPanelController.OnRestartLevel;
+                BoomerangSignals.Instance.onCombo += comboPanelController.OnCombo;
+            }
             ScoreSignals.Instance.onHighScoreChanged += highScorePanelController.OnUpdateText;
-            BoomerangSignals.Instance.onCombo += comboPanelController.OnCombo;
         }
 
         private void UnsubscribeEvents()
@@ -101,6 +113,10 @@ namespace Managers
                 if (levelPanelController != null)
                 {
                     CoreGameSignals.Instance.onRestartLevel -= levelPanelController.OnRestartLevel;
+                }
+                if (comboPanelController != null)
+                {
+                    CoreGameSignals.Instance.onRestartLevel -= comboPanelController.OnRestartLevel;
                 }
             }
 
@@ -208,6 +224,12 @@ namespace Managers
         {
             _isGameActive = false;
             CoreGameSignals.Instance.onRestartLevel?.Invoke();
+
+            if (comboPanelController != null && comboPanelController.IsVisible)
+            {
+                comboPanelController.CloseComboPanel();
+            }
+
             UISignals.Instance.onClosePanel?.Invoke(UIPanels.ApprovalPanel);
             UISignals.Instance.onClosePanel?.Invoke(UIPanels.FailPanel);
             UISignals.Instance.onClosePanel?.Invoke(UIPanels.LevelPanel);

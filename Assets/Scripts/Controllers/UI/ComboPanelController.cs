@@ -12,6 +12,7 @@ public class ComboPanelController : MonoBehaviour
     #region Self Variables
 
     #region Public Variables
+    public bool IsVisible => _isShowing || (comboPanel != null && comboPanel.localScale.sqrMagnitude > 0.001f);
     #endregion
 
     #region SerializeField Variables
@@ -174,7 +175,7 @@ public class ComboPanelController : MonoBehaviour
         PitchSignals.Instance.onPlayPitch?.Invoke(PitchEnums.Combo);
     }
 
-    public void OnRestartLevel()
+    public void CloseComboPanel()
     {
         _isShowing = false;
         _comboSequence?.Kill();
@@ -184,6 +185,12 @@ public class ComboPanelController : MonoBehaviour
             comboPanel.localScale = Vector3.zero;
         }
     }
+
+    public void OnRestartLevel()
+    {
+        CloseComboPanel();
+    }
+
 
     private void OnDestroy()
     {
