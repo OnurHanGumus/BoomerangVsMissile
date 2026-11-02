@@ -23,6 +23,7 @@ namespace Managers
         [SerializeField] private ChargeSliderController chargeSliderController;
         [SerializeField] private ApprovalPanelController approvalPanelController;
         [SerializeField] private RewardBuffUIController rewardBuffUIController;
+        [SerializeField] private EnergyPanelController energyPanelController;
 
         #endregion
         #region Private Variables
@@ -68,6 +69,11 @@ namespace Managers
             if (comboPanelController == null)
             {
                 comboPanelController = FindFirstObjectByType<ComboPanelController>();
+            }
+
+            if (energyPanelController == null)
+            {
+                energyPanelController = FindFirstObjectByType<EnergyPanelController>();
             }
         }
 
@@ -174,6 +180,16 @@ namespace Managers
 
         public void Play()
         {
+            if (_isGameActive)
+            {
+                return;
+            }
+
+            if (EnergySignals.Instance != null && !EnergySignals.Instance.onTryConsumeEnergy(1))
+            {
+                return;
+            }
+
             CoreGameSignals.Instance.onPlay?.Invoke();
             UISignals.Instance.onClosePanel?.Invoke(UIPanels.StorePanel);
             _isStorePanelOpened = false;

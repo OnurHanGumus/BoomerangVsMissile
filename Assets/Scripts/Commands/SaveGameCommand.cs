@@ -1,4 +1,4 @@
-﻿using Enums;
+using Enums;
 using Keys;
 using System.Collections.Generic;
 
@@ -13,6 +13,10 @@ namespace Commands
         public void OnSaveList(SaveLoadStates states, List<int> newList, string fileName = "SaveFile")
         {
             ES3.Save(states.ToString(), newList, fileName + ".es3");
+        }
+        public void OnSaveLong(SaveLoadStates states, long newValue, string fileName = "SaveFile")
+        {
+            ES3.Save(states.ToString(), newValue, fileName + ".es3");
         }
     }
 }

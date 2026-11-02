@@ -20,6 +20,7 @@ public class PoolManager : MonoBehaviour
 
     private Dictionary<PoolEnums, List<GameObject>> _poolDictionary = new Dictionary<PoolEnums, List<GameObject>>();
     private Dictionary<PoolEnums, GameObject> _prefabDictionary = new Dictionary<PoolEnums, GameObject>();
+    private readonly Dictionary<GameObject, Vector3> _initialLocalScales = new Dictionary<GameObject, Vector3>();
 
     private int _totalPooledObjectCount = 0;
     private int _createdPooledObjectCount = 0;
@@ -64,6 +65,7 @@ public class PoolManager : MonoBehaviour
     private void OnDestroy()
     {
         UnsubscribeEvents();
+        _initialLocalScales.Clear();
     }
 
     #endregion
@@ -145,6 +147,7 @@ public class PoolManager : MonoBehaviour
                     {
                         GameObject obj = Instantiate(pooledObj.TypeData.Prefab, transform);
                         obj.SetActive(false);
+                        _initialLocalScales[obj] = obj.transform.localScale;
                         _poolDictionary[type].Add(obj);
                         CreatedPoolObjectCount++;
 
@@ -260,6 +263,7 @@ public class PoolManager : MonoBehaviour
 
         GameObject expandedObject = Instantiate(prefab, transform);
         expandedObject.SetActive(false);
+        _initialLocalScales[expandedObject] = expandedObject.transform.localScale;
 
         if (!_poolDictionary.ContainsKey(type))
         {
@@ -327,7 +331,14 @@ public class PoolManager : MonoBehaviour
         {
             if (obj != null)
             {
-                obj.transform.localScale = Vector3.one;
+                if (_initialLocalScales.TryGetValue(obj, out Vector3 originalScale))
+                {
+                    obj.transform.localScale = originalScale;
+                }
+                else
+                {
+                    obj.transform.localScale = Vector3.one;
+                }
                 obj.SetActive(false);
             }
         }

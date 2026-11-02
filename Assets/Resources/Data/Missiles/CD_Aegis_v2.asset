@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: CD_Aegis_v2
   m_EditorClassIdentifier: Assembly-CSharp::Data.UnityObject.CD_AegisMissile
   Data:
-    ShieldRadius: 4.5
+    ShieldRadius: 8
     PulseSpeed: 3
-    PulseScaleAmount: 0.03
+    PulseScaleAmount: 0

@@ -45,11 +45,7 @@ namespace Controllers.Missile.Abilities
         private AegisMissileData _data;
         private MissileManager _manager;
         private Transform _cachedPhysicsTransform;
-        private float _cachedParentLossyScale = 0.8f;
-        private float _popInScale = 1f;
         private float _pulseTimer;
-        private bool _hasCachedParentScale;
-        private Tween _popInTween;
         #endregion
 
         #endregion
@@ -73,10 +69,16 @@ namespace Controllers.Missile.Abilities
                 return false;
             }
 
-            for (int i = 0; i < ActiveGenerators.Count; i++)
+            for (int i = ActiveGenerators.Count - 1; i >= 0; i--)
             {
                 AegisMissileAbility gen = ActiveGenerators[i];
-                if (gen == null || !gen.isActiveAndEnabled || !gen.gameObject.activeInHierarchy)
+                if (gen == null)
+                {
+                    ActiveGenerators.RemoveAt(i);
+                    continue;
+                }
+
+                if (!gen.isActiveAndEnabled || !gen.gameObject.activeInHierarchy)
                 {
                     continue;
                 }
@@ -118,7 +120,6 @@ namespace Controllers.Missile.Abilities
                 _manager = GetComponent<MissileManager>();
             }
 
-            RegisteredAegisTransforms.Add(transform);
             if (_cachedPhysicsTransform == null)
             {
                 MissilePhysicsController physicsCtrl = GetComponentInChildren<MissilePhysicsController>(true);
@@ -130,11 +131,6 @@ namespace Controllers.Missile.Abilities
                 {
                     _cachedPhysicsTransform = transform.Find("Parent/Physics");
                 }
-            }
-
-            if (_cachedPhysicsTransform != null)
-            {
-                RegisteredAegisTransforms.Add(_cachedPhysicsTransform);
             }
 
             if (MissileSignals.Instance != null)
@@ -185,21 +181,43 @@ namespace Controllers.Missile.Abilities
                 bubbleVisual.localPosition = Vector3.zero;
                 bubbleVisual.localRotation = Quaternion.identity;
             }
+        }
 
-            if (!_hasCachedParentScale && bubbleVisual.parent != null)
+        private float GetParentLossyScale()
+        {
+            if (bubbleVisual != null && bubbleVisual.parent != null)
             {
                 float parentScale = Mathf.Abs(bubbleVisual.parent.lossyScale.x);
                 if (parentScale > 0.001f)
                 {
-                    _cachedParentLossyScale = parentScale;
-                    _hasCachedParentScale = true;
+                    return parentScale;
                 }
+            }
+            return 1f;
+        }
+
+        private void RegisterTransforms()
+        {
+            RegisteredAegisTransforms.Add(transform);
+            if (_cachedPhysicsTransform != null)
+            {
+                RegisteredAegisTransforms.Add(_cachedPhysicsTransform);
+            }
+        }
+
+        private void UnregisterTransforms()
+        {
+            RegisteredAegisTransforms.Remove(transform);
+            if (_cachedPhysicsTransform != null)
+            {
+                RegisteredAegisTransforms.Remove(_cachedPhysicsTransform);
             }
         }
 
         private void OnEnable()
         {
             EnsureInitialized();
+            RegisterTransforms();
 
             if (!ActiveGenerators.Contains(this))
             {
@@ -207,22 +225,12 @@ namespace Controllers.Missile.Abilities
             }
 
             _pulseTimer = 0f;
-            _popInTween?.Kill();
-            _popInScale = 0.2f;
 
             if (bubbleVisual != null)
             {
                 bubbleVisual.gameObject.SetActive(true);
                 UpdateBubbleScale();
             }
-
-            _popInTween = DOVirtual.Float(0.2f, 1f, 0.22f, value =>
-            {
-                _popInScale = value;
-                UpdateBubbleScale();
-            })
-            .SetEase(Ease.OutBack)
-            .SetLink(gameObject);
 
             if (MissileSignals.Instance != null)
             {
@@ -249,16 +257,17 @@ namespace Controllers.Missile.Abilities
                 return;
             }
 
-            float parentScale = _cachedParentLossyScale > 0.001f ? _cachedParentLossyScale : 0.8f;
+            float parentScale = GetParentLossyScale();
             float baseLocalDiameter = (ShieldRadius * 2f) / parentScale;
             float pulseMultiplier = 1f + Mathf.Sin(_pulseTimer) * Data.PulseScaleAmount;
-            float finalScale = baseLocalDiameter * _popInScale * pulseMultiplier;
+            float finalScale = baseLocalDiameter * pulseMultiplier;
             bubbleVisual.localScale = new Vector3(finalScale, finalScale, finalScale);
         }
 
         public bool OnMissileDeath(Vector3 position, bool isLevelEnd)
         {
             UnregisterGenerator(notify: true);
+            UnregisterTransforms();
 
             if (!isLevelEnd)
             {
@@ -283,19 +292,14 @@ namespace Controllers.Missile.Abilities
 
         private void OnDisable()
         {
-            _popInTween?.Kill();
             UnregisterGenerator(notify: true);
+            UnregisterTransforms();
         }
 
         private void OnDestroy()
         {
-            _popInTween?.Kill();
             UnregisterGenerator(notify: false);
-            RegisteredAegisTransforms.Remove(transform);
-            if (_cachedPhysicsTransform != null)
-            {
-                RegisteredAegisTransforms.Remove(_cachedPhysicsTransform);
-            }
+            UnregisterTransforms();
         }
 
         private void UnregisterGenerator(bool notify)

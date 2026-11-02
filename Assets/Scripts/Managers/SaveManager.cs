@@ -34,9 +34,12 @@ namespace Managers
         private void SubscribeEvents()
         {
             SaveSignals.Instance.onSave += OnSaveData;
+            SaveSignals.Instance.onSaveLong += OnSaveLong;
             SaveSignals.Instance.onChangeSoundState += OnSaveData;
             SaveSignals.Instance.onChangePitchState += OnSaveData;
             SaveSignals.Instance.onGetScore += OnGetData;
+            SaveSignals.Instance.onGetIntWithDefault += OnGetIntWithDefault;
+            SaveSignals.Instance.onGetLong += OnGetLong;
             SaveSignals.Instance.onGetSoundState += OnGetData;
             SaveSignals.Instance.onGetPitchState += OnGetData;
             SaveSignals.Instance.onBuyItem += OnSaveList;
@@ -47,9 +50,12 @@ namespace Managers
             if (SaveSignals.Instance != null)
             {
                 SaveSignals.Instance.onSave -= OnSaveData;
+                SaveSignals.Instance.onSaveLong -= OnSaveLong;
                 SaveSignals.Instance.onChangeSoundState -= OnSaveData;
                 SaveSignals.Instance.onChangePitchState -= OnSaveData;
                 SaveSignals.Instance.onGetScore -= OnGetData;
+                SaveSignals.Instance.onGetIntWithDefault -= OnGetIntWithDefault;
+                SaveSignals.Instance.onGetLong -= OnGetLong;
                 SaveSignals.Instance.onGetSoundState -= OnGetData;
                 SaveSignals.Instance.onGetPitchState -= OnGetData;
                 SaveSignals.Instance.onBuyItem -= OnSaveList;
@@ -73,9 +79,24 @@ namespace Managers
             _saveGameCommand.OnSaveData(saveType, value, saveFiles.ToString());
         }
 
+        private void OnSaveLong(long value, SaveLoadStates saveType, SaveFiles saveFiles)
+        {
+            _saveGameCommand.OnSaveLong(saveType, value, saveFiles.ToString());
+        }
+
         private int OnGetData(SaveLoadStates state, SaveFiles file)
         {
             return _loadGameCommand.OnLoadGameData(state, file.ToString());
+        }
+
+        private int OnGetIntWithDefault(SaveLoadStates state, int defaultValue, SaveFiles file)
+        {
+            return _loadGameCommand.OnLoadGameDataWithDefault(state, defaultValue, file.ToString());
+        }
+
+        private long OnGetLong(SaveLoadStates state, SaveFiles file)
+        {
+            return _loadGameCommand.OnLoadLong(state, 0L, file.ToString());
         }
 
         private void OnSaveList(List<int> newList, SaveLoadStates saveType, SaveFiles saveFiles)

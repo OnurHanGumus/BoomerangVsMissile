@@ -21,9 +21,11 @@ namespace Controllers
 
         #region Private Variables
         private const float HitCooldown = 0.30f;
+        private const float ShieldDeflectCooldown = 0.20f;
 
         private bool _isFailed = false;
         private float _lastDamageTime = -1f;
+        private float _lastShieldDeflectFeedbackTime = -1f;
         private Collider _selfCollider;
         private bool _waitingForUnshieldedStay = false;
         #endregion
@@ -47,6 +49,7 @@ namespace Controllers
                 if (IsTouchPointShielded(touchPoint))
                 {
                     _waitingForUnshieldedStay = true;
+                    PlayShieldDeflectionFeedback(touchPoint);
                     return;
                 }
 
@@ -151,6 +154,35 @@ namespace Controllers
             return MissileSignals.Instance != null && MissileSignals.Instance.onIsPointShielded(touchPoint, transform);
         }
 
+        private void PlayShieldDeflectionFeedback(Vector3 touchPoint)
+        {
+            if (Time.time - _lastShieldDeflectFeedbackTime < ShieldDeflectCooldown)
+            {
+                return;
+            }
+            _lastShieldDeflectFeedbackTime = Time.time;
+
+            if (AudioSignals.Instance != null)
+            {
+                AudioSignals.Instance.onPlaySound?.Invoke(AudioSoundEnums.ShieldBroke);
+            }
+
+            if (PitchSignals.Instance != null)
+            {
+                PitchSignals.Instance.onPlayPitch?.Invoke(PitchEnums.ShieldBroke);
+            }
+
+            if (PoolSignals.Instance != null)
+            {
+                GameObject spark = PoolSignals.Instance.onGetObject?.Invoke(PoolEnums.HitSpark);
+                if (spark != null)
+                {
+                    spark.transform.position = touchPoint;
+                    spark.SetActive(true);
+                }
+            }
+        }
+
         public void OnPlay()
         {
             
@@ -165,12 +197,14 @@ namespace Controllers
         {
             _isFailed = false;
             _waitingForUnshieldedStay = false;
+            _lastShieldDeflectFeedbackTime = -1f;
         }
 
         public void ResetHealth(int maxHealth)
         {
             CurrentHealth = Mathf.Max(1, maxHealth);
             _lastDamageTime = -1f;
+            _lastShieldDeflectFeedbackTime = -1f;
             _waitingForUnshieldedStay = false;
         }
 

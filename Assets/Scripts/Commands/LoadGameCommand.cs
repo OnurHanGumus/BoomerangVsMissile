@@ -28,5 +28,13 @@ namespace Commands
             //if (!ES3.FileExists(fileName + ".es3")) { return new List<int>() { 1, 0, 0, 0 }; }
             return ES3.Load<List<int>>(saveLoadStates.ToString(), fileName + ".es3", new List<int>() { 1, 0, 0, 0 });
         }
+        public int OnLoadGameDataWithDefault(SaveLoadStates saveLoadStates, int defaultValue, string fileName = "SaveFile")
+        {
+            return ES3.Load<int>(saveLoadStates.ToString(), fileName + ".es3", defaultValue);
+        }
+        public long OnLoadLong(SaveLoadStates saveLoadStates, long defaultValue = 0L, string fileName = "SaveFile")
+        {
+            return ES3.Load<long>(saveLoadStates.ToString(), fileName + ".es3", defaultValue);
+        }
     }
 }

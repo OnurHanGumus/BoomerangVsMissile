@@ -14,5 +14,7 @@ namespace Enums
         BuyItem,
         SelectedItem,
         BoomerangUpgrades,
+        Energy,
+        EnergyNextRestoreTicks,
     }
 }
