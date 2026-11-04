@@ -1,0 +1,71 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7463f776b4bb81e4db912534b9f55c9f, type: 3}
+  m_Name: CD_FortuneWheel
+  m_EditorClassIdentifier: Assembly-CSharp::Data.UnityObject.CD_FortuneWheel
+  Data:
+    CooldownHours: 24
+    SpinDuration: 4.2
+    MinFullSpins: 5
+    MaxFullSpins: 7
+    JitterDegrees: 9
+    Sectors:
+    - PrizeType: 0
+      Amount: 100
+      Weight: 2
+      CustomLabel: 100
+      CustomIcon: {fileID: 0}
+    - PrizeType: 1
+      Amount: 1
+      Weight: 25
+      CustomLabel: +1
+      CustomIcon: {fileID: 0}
+    - PrizeType: 0
+      Amount: 25
+      Weight: 18
+      CustomLabel: 25
+      CustomIcon: {fileID: 0}
+    - PrizeType: 0
+      Amount: 10
+      Weight: 35
+      CustomLabel: 10
+      CustomIcon: {fileID: 0}
+    - PrizeType: 1
+      Amount: 2
+      Weight: 10
+      CustomLabel: +2
+      CustomIcon: {fileID: 0}
+    - PrizeType: 0
+      Amount: 50
+      Weight: 6
+      CustomLabel: 50
+      CustomIcon: {fileID: 0}
+    - PrizeType: 1
+      Amount: 1
+      Weight: 25
+      CustomLabel: +1
+      CustomIcon: {fileID: 0}
+    - PrizeType: 0
+      Amount: 25
+      Weight: 18
+      CustomLabel: 25
+      CustomIcon: {fileID: 0}
+    - PrizeType: 0
+      Amount: 10
+      Weight: 35
+      CustomLabel: 10
+      CustomIcon: {fileID: 0}
+    - PrizeType: 1
+      Amount: 3
+      Weight: 4
+      CustomLabel: +3
+      CustomIcon: {fileID: 0}

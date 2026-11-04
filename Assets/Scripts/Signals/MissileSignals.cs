@@ -10,6 +10,7 @@ namespace Signals
     public class MissileSignals : MonoSingleton<MissileSignals>
     {
         public UnityAction<float> onMissileDestroyed = delegate { };
+        public UnityAction<MissileEnums> onMissileKilled = delegate { };
         public UnityAction onExploderMissileDestroyed = delegate { };
         public UnityAction onMissileArmorHit = delegate { };
         public UnityAction<int> onClusterSplit = delegate { };

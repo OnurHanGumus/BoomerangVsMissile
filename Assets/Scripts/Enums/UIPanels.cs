@@ -18,5 +18,7 @@ namespace Enums
         StorePanel,
         SourcesPanel,
         ApprovalPanel,
+        FortuneWheelPanel,
+        WeeklyTaskPanel,
     }
 }

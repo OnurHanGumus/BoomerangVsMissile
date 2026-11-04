@@ -12,6 +12,10 @@ PrefabInstance:
       propertyPath: cdMissile
       value: 
       objectReference: {fileID: 11400000, guid: 98a9bacbdaed4f08899aabccddfee808, type: 2}
+    - target: {fileID: -4694992830584109621, guid: e4ac8bb04676f944499d7616a9cfeb56, type: 3}
+      propertyPath: missileType
+      value: 16
+      objectReference: {fileID: 0}
     - target: {fileID: 2792723430650525906, guid: e4ac8bb04676f944499d7616a9cfeb56, type: 3}
       propertyPath: m_Range
       value: 2

@@ -23,6 +23,42 @@ namespace Data.ValueObject
         [Range(0.5f, 2f)] public float SizeMultiplier = 1f;
         public BoomerangTierEnums Tier;
 
+        [Header("Unlock Requirements")]
+        [Tooltip("Optional custom level requirement. Set to -1 to inherit tier unlock level.")]
+        public int CustomUnlockLevel = -1;
+
+        public int GetUnlockLevel(UnityObject.CD_Boomerangs config = null)
+        {
+            if (CustomUnlockLevel >= 0)
+            {
+                return CustomUnlockLevel;
+            }
+
+            if (config != null)
+            {
+                return config.GetRequiredUnlockLevel(Tier);
+            }
+
+            return GetDefaultTierUnlockLevel(Tier);
+        }
+
+        public static int GetDefaultTierUnlockLevel(BoomerangTierEnums tier)
+        {
+            switch (tier)
+            {
+                case BoomerangTierEnums.Tier1:
+                    return 0;
+                case BoomerangTierEnums.Tier2:
+                    return 35;
+                case BoomerangTierEnums.Tier3:
+                    return 160;
+                case BoomerangTierEnums.Tier4:
+                    return 400;
+                default:
+                    return 0;
+            }
+        }
+
         [Header("Visual Theme")]
         public Color ThemeColor = Color.cyan;
 

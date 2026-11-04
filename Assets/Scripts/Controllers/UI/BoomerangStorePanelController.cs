@@ -46,6 +46,7 @@ namespace Controllers.UI
         [SerializeField] private Color equipColor = new Color(0.15f, 0.65f, 0.95f, 1f);
         [SerializeField] private Color equippedColor = new Color(0.45f, 0.42f, 0.30f, 0.6f);
         [SerializeField] private Color disabledColor = new Color(0.35f, 0.35f, 0.4f, 0.5f);
+        [SerializeField] private Color lockedColor = new Color(0.35f, 0.22f, 0.25f, 0.8f);
 
         [Header("Bottom Grid Section")]
         [SerializeField] private GameObject tilePrefab;
@@ -252,6 +253,9 @@ namespace Controllers.UI
                 return;
             }
 
+            bool isUnlocked = BoomerangStoreManager.Instance == null || BoomerangStoreManager.Instance.IsBoomerangUnlocked(id);
+            int unlockLevel = BoomerangStoreManager.Instance != null ? BoomerangStoreManager.Instance.GetUnlockLevel(id) : 0;
+
             // 1. Update Weapon Visuals
             if (inspectorIcon != null && data.Icon != null)
             {
@@ -278,7 +282,15 @@ namespace Controllers.UI
 
             if (inspectorTierText != null)
             {
-                inspectorTierText.text = $"TIER {(int)data.Tier + 1}";
+                int tierNumber = (int)data.Tier + 1;
+                if (!isUnlocked)
+                {
+                    inspectorTierText.text = $"TIER {tierNumber}  •  <color=#FF6666>LOCKED (LV {unlockLevel})</color>";
+                }
+                else
+                {
+                    inspectorTierText.text = $"TIER {tierNumber}";
+                }
             }
 
             // 2. Animate Stat Sliders
@@ -337,7 +349,9 @@ namespace Controllers.UI
 
             bool isOwned = BoomerangStoreManager.Instance.IsOwned(_inspectedId);
             bool isEquipped = BoomerangStoreManager.Instance.IsEquipped(_inspectedId);
+            bool isUnlocked = BoomerangStoreManager.Instance.IsBoomerangUnlocked(_inspectedId);
             bool canAfford = BoomerangStoreManager.Instance.CanAfford(_inspectedId);
+            int unlockLevel = BoomerangStoreManager.Instance.GetUnlockLevel(_inspectedId);
 
             CD_Boomerangs config = BoomerangStoreManager.Instance.Config;
             BoomerangItemData data = config != null ? config.GetBoomerang(_inspectedId) : null;
@@ -345,17 +359,34 @@ namespace Controllers.UI
 
             if (!isOwned)
             {
-                if (actionButtonText != null)
+                if (!isUnlocked)
                 {
-                    actionButtonText.text = price > 0 ? $"BUY  {price}" : "CLAIM FREE";
-                }
+                    if (actionButtonText != null)
+                    {
+                        actionButtonText.text = "LOCKED";
+                    }
 
-                if (actionButtonBackground != null)
+                    if (actionButtonBackground != null)
+                    {
+                        actionButtonBackground.color = lockedColor;
+                    }
+
+                    actionButton.interactable = false;
+                }
+                else
                 {
-                    actionButtonBackground.color = canAfford ? buyColor : disabledColor;
-                }
+                    if (actionButtonText != null)
+                    {
+                        actionButtonText.text = price > 0 ? $"BUY  {price}" : "CLAIM FREE";
+                    }
 
-                actionButton.interactable = canAfford;
+                    if (actionButtonBackground != null)
+                    {
+                        actionButtonBackground.color = canAfford ? buyColor : disabledColor;
+                    }
+
+                    actionButton.interactable = canAfford;
+                }
             }
             else if (isEquipped)
             {
@@ -404,9 +435,15 @@ namespace Controllers.UI
             }
 
             bool isOwned = BoomerangStoreManager.Instance.IsOwned(_inspectedId);
+            bool isUnlocked = BoomerangStoreManager.Instance.IsBoomerangUnlocked(_inspectedId);
 
             if (!isOwned)
             {
+                if (!isUnlocked)
+                {
+                    return;
+                }
+
                 bool bought = BoomerangStoreManager.Instance.TryBuyBoomerang(_inspectedId);
                 if (bought)
                 {
@@ -438,8 +475,10 @@ namespace Controllers.UI
                     bool isSelected = tile.BoomerangId == _inspectedId;
                     bool isEquipped = BoomerangStoreManager.Instance.IsEquipped(tile.BoomerangId);
                     bool isOwned = BoomerangStoreManager.Instance.IsOwned(tile.BoomerangId);
+                    bool isUnlocked = BoomerangStoreManager.Instance.IsBoomerangUnlocked(tile.BoomerangId);
+                    int unlockLevel = BoomerangStoreManager.Instance.GetUnlockLevel(tile.BoomerangId);
 
-                    tile.UpdateState(isSelected, isEquipped, isOwned);
+                    tile.UpdateState(isSelected, isEquipped, isOwned, !isUnlocked, unlockLevel);
                 }
             }
         }

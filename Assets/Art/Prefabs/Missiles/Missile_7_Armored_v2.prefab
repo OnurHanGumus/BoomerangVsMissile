@@ -106,6 +106,10 @@ PrefabInstance:
       propertyPath: isArmored
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -4694992830584109621, guid: e4ac8bb04676f944499d7616a9cfeb56, type: 3}
+      propertyPath: missileType
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 2871933591712752050, guid: e4ac8bb04676f944499d7616a9cfeb56, type: 3}
       propertyPath: m_Mesh
       value: 

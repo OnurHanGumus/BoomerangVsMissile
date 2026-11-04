@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
@@ -38,8 +38,8 @@ namespace Managers
         private int _destroyedMissileCount = 0;
         private float _lastPosX = float.MinValue;
 
-        private float _percentageIndex = 0;
-        private List<Range> _rangeList;
+        private List<float> _cumulativeWeights;
+        private float _totalWeight = 0f;
         private bool _isLevelFailed = false;
         private bool _isLevelCompleted = false;
         private EnumCastCommand _enumCastCommand;
@@ -58,7 +58,7 @@ namespace Managers
         private void Init()
         {
             _data = GetData();
-            _rangeList = new List<Range>(); 
+            _cumulativeWeights = new List<float>(); 
             _enumCastCommand = new EnumCastCommand();
         }
 
@@ -266,16 +266,16 @@ namespace Managers
         {
             var typeList = _data.MissileData[_levelId].MissileTypeList;
             int typeCount = typeList != null ? typeList.Count : 0;
-            if (typeCount <= 1 || _rangeList.Count == 0)
+            if (typeCount <= 1 || _cumulativeWeights == null || _cumulativeWeights.Count == 0 || _totalWeight <= 0f)
             {
                 return 0;
             }
 
-            int rand = Random.Range(0, 100);
+            float rand = Random.Range(0f, _totalWeight);
 
             for (int i = 0; i < typeCount; i++)
             {
-                if (i < _rangeList.Count && rand >= _rangeList[i].Start.Value && rand <= _rangeList[i].End.Value)
+                if (i < _cumulativeWeights.Count && rand < _cumulativeWeights[i])
                 {
                     return i;
                 }
@@ -286,8 +286,12 @@ namespace Managers
 
         private void SetRange()
         {
-            _percentageIndex = 0;
-            _rangeList.Clear();
+            if (_cumulativeWeights == null)
+            {
+                _cumulativeWeights = new List<float>();
+            }
+            _cumulativeWeights.Clear();
+            _totalWeight = 0f;
 
             var levelData = _data.MissileData[_levelId];
             var typeList = levelData.MissileTypeList;
@@ -298,8 +302,6 @@ namespace Managers
                 return;
             }
 
-            float addedValue = 0f;
-
             for (int i = 0; i < typeCount; i++)
             {
                 float weight = 1f;
@@ -307,27 +309,14 @@ namespace Managers
                 {
                     weight = levelData.PercentageList[i];
                 }
-                addedValue += weight;
+                if (weight < 0f) weight = 0f;
+                _totalWeight += weight;
+                _cumulativeWeights.Add(_totalWeight);
             }
 
-            if (addedValue <= 0f)
+            if (_totalWeight <= 0f)
             {
-                addedValue = 1f;
-            }
-
-            float unitValue = 100f / addedValue;
-
-            for (int i = 0; i < typeCount; i++)
-            {
-                float weight = 1f;
-                if (levelData.PercentageList != null && i < levelData.PercentageList.Count)
-                {
-                    weight = levelData.PercentageList[i];
-                }
-
-                int endValue = (int)(_percentageIndex + unitValue * weight);
-                _rangeList.Add(new Range((int)_percentageIndex, endValue));
-                _percentageIndex = endValue;
+                _totalWeight = 1f;
             }
         }
 
@@ -419,16 +408,16 @@ namespace Managers
 
         private void OnLevelSuccess()
         {
-            _percentageIndex = 0;
-            _rangeList.Clear();
+            _totalWeight = 0f;
+            if (_cumulativeWeights != null) _cumulativeWeights.Clear();
             ResetSettings();
         }
 
         private void OnLevelFailed()
         {
             _isLevelFailed = true;
-            _percentageIndex = 0;
-            _rangeList.Clear();
+            _totalWeight = 0f;
+            if (_cumulativeWeights != null) _cumulativeWeights.Clear();
             ResetSettings();
         }
 

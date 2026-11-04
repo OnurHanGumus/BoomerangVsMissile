@@ -7,6 +7,7 @@ namespace Data.ValueObject
     public class EnergyData
     {
         [Header("Capacity & Cost")]
+        [Tooltip("Energy threshold for auto-regeneration. Gaining energy beyond this threshold is uncapped.")]
         public int MaxEnergy = 5;
         public int InitialEnergy = 5;
         public int EnergyCostPerStart = 1;

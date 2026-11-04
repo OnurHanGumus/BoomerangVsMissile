@@ -21,5 +21,9 @@ namespace Signals
         public UnityAction onPlayerTouchedBoomerang = delegate { };
         public UnityAction<BoomerangStatEnums, RewardMissileData, Vector3> onRewardBuffTriggered = delegate { };
         public UnityAction<BoomerangStatEnums, int, float, float> onBuffTimerUpdated = delegate { };
+
+        public Func<int, bool> onIsBoomerangUnlocked = delegate { return true; };
+        public Func<BoomerangTierEnums, bool> onIsTierUnlocked = delegate { return true; };
+        public Func<int, int> onGetBoomerangUnlockLevel = delegate { return 0; };
     }
 }

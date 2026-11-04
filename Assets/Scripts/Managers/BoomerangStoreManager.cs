@@ -65,6 +65,9 @@ namespace Managers
         private void SubscribeEvents()
         {
             SaveSignals.Instance.onInitializeBoughtItems += OnInitializeBoughtItems;
+            BoomerangSignals.Instance.onIsBoomerangUnlocked += IsBoomerangUnlocked;
+            BoomerangSignals.Instance.onIsTierUnlocked += IsTierUnlocked;
+            BoomerangSignals.Instance.onGetBoomerangUnlockLevel += GetUnlockLevel;
         }
 
         private void UnsubscribeEvents()
@@ -73,10 +76,18 @@ namespace Managers
             {
                 SaveSignals.Instance.onInitializeBoughtItems -= OnInitializeBoughtItems;
             }
+
+            if (BoomerangSignals.Instance != null)
+            {
+                BoomerangSignals.Instance.onIsBoomerangUnlocked -= IsBoomerangUnlocked;
+                BoomerangSignals.Instance.onIsTierUnlocked -= IsTierUnlocked;
+                BoomerangSignals.Instance.onGetBoomerangUnlockLevel -= GetUnlockLevel;
+            }
         }
 
-        private void OnDestroy()
+        protected override void OnDestroy()
         {
+            base.OnDestroy();
             UnsubscribeEvents();
         }
         #endregion
@@ -178,6 +189,88 @@ namespace Managers
             EnsureOwnershipListLength();
         }
 
+        public int GetCurrentPlayerLevel()
+        {
+            if (LevelSignals.Instance != null && LevelSignals.Instance.onGetLevelId != null)
+            {
+                int level = LevelSignals.Instance.onGetLevelId();
+                if (level > 0)
+                {
+                    return level;
+                }
+            }
+
+            try
+            {
+                if (ES3.KeyExists("Level", SaveFileName))
+                {
+                    return ES3.Load<int>("Level", SaveFileName, 0);
+                }
+                if (ES3.KeyExists("Level"))
+                {
+                    return ES3.Load<int>("Level", 0);
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.LogWarning($"[BoomerangStoreManager] Failed to load Level from ES3: {e.Message}");
+            }
+
+            return 0;
+        }
+
+        public bool IsTierUnlocked(BoomerangTierEnums tier)
+        {
+            int currentLevel = GetCurrentPlayerLevel();
+            int requiredLevel = cdBoomerangs != null 
+                ? cdBoomerangs.GetRequiredUnlockLevel(tier) 
+                : BoomerangItemData.GetDefaultTierUnlockLevel(tier);
+
+            return currentLevel >= requiredLevel;
+        }
+
+        public int GetUnlockLevel(int id)
+        {
+            BoomerangItemData data = GetBoomerangData(id);
+            if (data == null)
+            {
+                return 0;
+            }
+
+            return data.GetUnlockLevel(cdBoomerangs);
+        }
+
+        public int GetTierUnlockLevel(BoomerangTierEnums tier)
+        {
+            return cdBoomerangs != null 
+                ? cdBoomerangs.GetRequiredUnlockLevel(tier) 
+                : BoomerangItemData.GetDefaultTierUnlockLevel(tier);
+        }
+
+        public bool IsBoomerangUnlocked(int id)
+        {
+            // Starter boomerang is always unlocked
+            if (id == 0)
+            {
+                return true;
+            }
+
+            // Already owned weapons are always unlocked to preserve player progression
+            if (IsOwned(id))
+            {
+                return true;
+            }
+
+            BoomerangItemData data = GetBoomerangData(id);
+            if (data == null)
+            {
+                return false;
+            }
+
+            int requiredLevel = data.GetUnlockLevel(cdBoomerangs);
+            return GetCurrentPlayerLevel() >= requiredLevel;
+        }
+
         public bool IsOwned(int id)
         {
             EnsureOwnershipListLength();
@@ -211,6 +304,12 @@ namespace Managers
             {
                 SelectBoomerang(id);
                 return true;
+            }
+
+            if (!IsBoomerangUnlocked(id))
+            {
+                Debug.LogWarning($"[BoomerangStoreManager] Boomerang {id} is locked by level requirement.");
+                return false;
             }
 
             BoomerangItemData data = cdBoomerangs != null ? cdBoomerangs.GetBoomerang(id) : null;

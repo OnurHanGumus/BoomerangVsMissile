@@ -20,6 +20,7 @@ namespace Managers
 
         #region Public Variables
         public PoolEnums ParticleType;
+        public MissileEnums MissileType => missileType;
         public bool IsDead => _isDead || !gameObject.activeInHierarchy;
         public MissileData MissileData => _missileData;
         public MissileHitContext LastHitContext => _lastHitContext;
@@ -27,6 +28,7 @@ namespace Managers
         #endregion
 
         #region Serialized Variables
+        [SerializeField] private MissileEnums missileType = MissileEnums.Missile_1_Default;
         [SerializeField] private MissileMovementController movementController;
         [SerializeField] private MissilePhysicsController physicsController;
         [SerializeField] private MissileLightController lightController;
@@ -197,6 +199,7 @@ namespace Managers
             if (!isLevelEnd)
             {
                 MissileSignals.Instance.onMissileDestroyed?.Invoke(shakeStrength);
+                MissileSignals.Instance.onMissileKilled?.Invoke(missileType);
             }
 
             GameObject particle = PoolSignals.Instance.onGetObject?.Invoke(ParticleType);
@@ -259,5 +262,27 @@ namespace Managers
             }
             Explode(isLevelEnd: true);
         }
+
+#if UNITY_EDITOR
+        private void OnValidate()
+        {
+            if (gameObject == null || string.IsNullOrEmpty(gameObject.name))
+            {
+                return;
+            }
+
+            string normalizedObjName = gameObject.name.Replace(" ", "_").Replace("(Clone)", "").Trim();
+            if (!normalizedObjName.StartsWith("Missile_", StringComparison.OrdinalIgnoreCase) ||
+                normalizedObjName.Equals("MissileBase", StringComparison.OrdinalIgnoreCase))
+            {
+                return;
+            }
+
+            if (Enum.TryParse(normalizedObjName, true, out MissileEnums parsedType) && parsedType != missileType)
+            {
+                Debug.LogWarning($"[MissileManager] Prefab '{gameObject.name}' has missileType set to '{missileType}', expected '{parsedType}'.", this);
+            }
+        }
+#endif
     }
 }

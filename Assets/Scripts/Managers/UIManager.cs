@@ -24,6 +24,7 @@ namespace Managers
         [SerializeField] private ApprovalPanelController approvalPanelController;
         [SerializeField] private RewardBuffUIController rewardBuffUIController;
         [SerializeField] private EnergyPanelController energyPanelController;
+        [SerializeField] private FortuneWheelPanelController fortuneWheelPanelController;
 
         #endregion
         #region Private Variables
@@ -74,6 +75,11 @@ namespace Managers
             if (energyPanelController == null)
             {
                 energyPanelController = FindFirstObjectByType<EnergyPanelController>();
+            }
+
+            if (fortuneWheelPanelController == null)
+            {
+                fortuneWheelPanelController = FindFirstObjectByType<FortuneWheelPanelController>();
             }
         }
 
@@ -282,6 +288,18 @@ namespace Managers
             UISignals.Instance.onClosePanel?.Invoke(UIPanels.StorePanel);
             UISignals.Instance.onOpenPanel?.Invoke(UIPanels.StartPanel);
             _isStorePanelOpened = false;
+        }
+
+        public void FortuneWheelButton()
+        {
+            UISignals.Instance.onOpenPanel?.Invoke(UIPanels.FortuneWheelPanel);
+            UISignals.Instance.onClosePanel?.Invoke(UIPanels.StartPanel);
+        }
+
+        public void CloseFortuneWheelButton()
+        {
+            UISignals.Instance.onClosePanel?.Invoke(UIPanels.FortuneWheelPanel);
+            UISignals.Instance.onOpenPanel?.Invoke(UIPanels.StartPanel);
         }
     }
 }

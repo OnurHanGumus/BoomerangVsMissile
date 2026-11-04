@@ -101,6 +101,10 @@ PrefabInstance:
       propertyPath: cdMissile
       value: 
       objectReference: {fileID: 11400000, guid: 7e82b4c9d1354a2f8b6c7d8e9f012345, type: 2}
+    - target: {fileID: -4694992830584109621, guid: e4ac8bb04676f944499d7616a9cfeb56, type: 3}
+      propertyPath: missileType
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 2871933591712752050, guid: e4ac8bb04676f944499d7616a9cfeb56, type: 3}
       propertyPath: m_Mesh
       value: 

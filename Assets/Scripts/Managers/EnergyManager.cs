@@ -123,11 +123,11 @@ namespace Managers
                 return;
             }
 
-            int initialDefault = Mathf.Clamp(_data.InitialEnergy, 0, _data.MaxEnergy);
+            int initialDefault = Mathf.Max(0, _data.InitialEnergy);
             _currentEnergy = SaveSignals.Instance != null
                 ? SaveSignals.Instance.onGetIntWithDefault(SaveLoadStates.Energy, initialDefault, SaveFiles.SaveFile)
                 : initialDefault;
-            _currentEnergy = Mathf.Clamp(_currentEnergy, 0, _data.MaxEnergy);
+            _currentEnergy = Mathf.Max(0, _currentEnergy);
 
             _nextRestoreUtcTicks = SaveSignals.Instance != null
                 ? SaveSignals.Instance.onGetLong(SaveLoadStates.EnergyNextRestoreTicks, SaveFiles.SaveFile)
@@ -149,7 +149,6 @@ namespace Managers
 
             if (_currentEnergy >= maxEnergy)
             {
-                _currentEnergy = maxEnergy;
                 if (_nextRestoreUtcTicks != 0L)
                 {
                     _nextRestoreUtcTicks = 0L;
@@ -271,7 +270,7 @@ namespace Managers
             EvaluateRegeneration(false);
 
             int maxEnergy = Mathf.Max(1, _data.MaxEnergy);
-            _currentEnergy = Mathf.Min(maxEnergy, _currentEnergy + amount);
+            _currentEnergy += amount;
 
             if (_currentEnergy >= maxEnergy && _nextRestoreUtcTicks != 0L)
             {

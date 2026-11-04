@@ -16,5 +16,6 @@ namespace Enums
         BoomerangUpgrades,
         Energy,
         EnergyNextRestoreTicks,
+        DailyWheelLastSpinTicks,
     }
 }

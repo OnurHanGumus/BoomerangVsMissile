@@ -29,6 +29,7 @@ namespace Controllers.UI
         [SerializeField] private Color selectedBorderColor = new Color(0.2f, 0.85f, 1f, 1f);
         [SerializeField] private Color unownedTileColor = new Color(0.08f, 0.1f, 0.15f, 0.85f);
         [SerializeField] private Color ownedTileColor = new Color(0.12f, 0.16f, 0.24f, 0.95f);
+        [SerializeField] private Color lockedTileColor = new Color(0.04f, 0.05f, 0.08f, 0.95f);
         #endregion
 
         #region Private Variables
@@ -64,7 +65,7 @@ namespace Controllers.UI
             }
         }
 
-        public void UpdateState(bool isSelected, bool isEquipped, bool isOwned)
+        public void UpdateState(bool isSelected, bool isEquipped, bool isOwned, bool isLockedByLevel = false, int unlockLevel = 0)
         {
             if (selectedBorder != null)
             {
@@ -78,17 +79,32 @@ namespace Controllers.UI
 
             if (lockOverlay != null)
             {
+                // Lock overlay covers unowned as well as level-locked boomerangs
                 lockOverlay.SetActive(!isOwned);
             }
 
             if (priceText != null && _data != null)
             {
-                priceText.text = _data.Price > 0 ? _data.Price.ToString() : "FREE";
+                if (isLockedByLevel)
+                {
+                    priceText.text = $"LV {unlockLevel}";
+                }
+                else
+                {
+                    priceText.text = _data.Price > 0 ? _data.Price.ToString() : "FREE";
+                }
             }
 
             if (tileBackground != null)
             {
-                tileBackground.color = isOwned ? ownedTileColor : unownedTileColor;
+                if (isLockedByLevel)
+                {
+                    tileBackground.color = lockedTileColor;
+                }
+                else
+                {
+                    tileBackground.color = isOwned ? ownedTileColor : unownedTileColor;
+                }
             }
         }
 

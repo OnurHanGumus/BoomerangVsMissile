@@ -12,6 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 587135aa6c0a77b4bb21428974ff1204, type: 3}
   m_Name: CD_Boomerangs
   m_EditorClassIdentifier: Assembly-CSharp::Data.UnityObject.CD_Boomerangs
+  Tier1UnlockLevel: 0
+  Tier2UnlockLevel: 35
+  Tier3UnlockLevel: 160
+  Tier4UnlockLevel: 400
   Boomerangs:
   - Id: 0
     Title: Classic V-Curve

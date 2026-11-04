@@ -17,6 +17,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -4694992830584109621, guid: e4ac8bb04676f944499d7616a9cfeb56, type: 3}
+      propertyPath: missileType
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: -4694992830584109621, guid: e4ac8bb04676f944499d7616a9cfeb56, type: 3}
       propertyPath: clusterChildCount
       value: 1
       objectReference: {fileID: 0}

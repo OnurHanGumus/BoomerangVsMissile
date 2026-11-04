@@ -74,7 +74,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3065065370417937671, guid: e4ac8bb04676f944499d7616a9cfeb56, type: 3}
       propertyPath: m_Name
-      value: Missile0
+      value: Missile_1_Default
       objectReference: {fileID: 0}
     - target: {fileID: 7680616756633232136, guid: e4ac8bb04676f944499d7616a9cfeb56, type: 3}
       propertyPath: m_RootOrder

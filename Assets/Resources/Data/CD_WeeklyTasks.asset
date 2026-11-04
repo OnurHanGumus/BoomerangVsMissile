@@ -1,0 +1,205 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5d593cbd7c510a499960f70f3fe210b, type: 3}
+  m_Name: CD_WeeklyTasks
+  m_EditorClassIdentifier: Assembly-CSharp::Data.UnityObject.CD_WeeklyTasks
+  Data:
+    MinLateJoinScale: 0.4
+    LevelScaleDivisor: 250
+    MaxLevelScaleMultiplier: 1.75
+    EasyRewardMin: 50
+    EasyRewardMax: 100
+    MediumRewardMin: 150
+    MediumRewardMax: 300
+    HardRewardMin: 400
+    HardRewardMax: 600
+    RewardRoundStep: 10
+    GrandPrizeReward: 1500
+    EasyComboIndexMin: 1
+    EasyComboIndexMax: 2
+    MediumComboIndexMin: 2
+    MediumComboIndexMax: 3
+    HardComboIndexMin: 3
+    HardComboIndexMax: 4
+    Definitions:
+    - Type: 0
+      Category: 0
+      Weight: 10
+      DescriptionFormat: Enter the game on {0} days
+      EasyTargetMin: 3
+      EasyTargetMax: 5
+      MediumTargetMin: 5
+      MediumTargetMax: 7
+      HardTargetMin: 7
+      HardTargetMax: 7
+    - Type: 1
+      Category: 0
+      Weight: 14
+      DescriptionFormat: Complete {0} levels
+      EasyTargetMin: 4
+      EasyTargetMax: 7
+      MediumTargetMin: 10
+      MediumTargetMax: 16
+      HardTargetMin: 20
+      HardTargetMax: 30
+    - Type: 2
+      Category: 3
+      Weight: 10
+      DescriptionFormat: Win {0} levels in a row
+      EasyTargetMin: 2
+      EasyTargetMax: 3
+      MediumTargetMin: 4
+      MediumTargetMax: 6
+      HardTargetMin: 7
+      HardTargetMax: 10
+    - Type: 3
+      Category: 0
+      Weight: 10
+      DescriptionFormat: Spin the Fortune Wheel {0} times
+      EasyTargetMin: 1
+      EasyTargetMax: 2
+      MediumTargetMin: 3
+      MediumTargetMax: 4
+      HardTargetMin: 5
+      HardTargetMax: 6
+    - Type: 4
+      Category: 1
+      Weight: 15
+      DescriptionFormat: Destroy {0} missiles
+      EasyTargetMin: 60
+      EasyTargetMax: 120
+      MediumTargetMin: 180
+      MediumTargetMax: 300
+      HardTargetMin: 350
+      HardTargetMax: 550
+    - Type: 5
+      Category: 1
+      Weight: 18
+      DescriptionFormat: Explode {0} {1}
+      EasyTargetMin: 15
+      EasyTargetMax: 30
+      MediumTargetMin: 35
+      MediumTargetMax: 65
+      HardTargetMin: 75
+      HardTargetMax: 120
+    - Type: 6
+      Category: 1
+      Weight: 12
+      DescriptionFormat: Break {0} missile armor plates
+      EasyTargetMin: 10
+      EasyTargetMax: 20
+      MediumTargetMin: 25
+      MediumTargetMax: 45
+      HardTargetMin: 55
+      HardTargetMax: 90
+    - Type: 7
+      Category: 1
+      Weight: 10
+      DescriptionFormat: Collect {0} Reward Missile buffs
+      EasyTargetMin: 2
+      EasyTargetMax: 4
+      MediumTargetMin: 5
+      MediumTargetMax: 9
+      HardTargetMin: 10
+      HardTargetMax: 15
+    - Type: 8
+      Category: 3
+      Weight: 14
+      DescriptionFormat: Reach "{1}" combo {0} times
+      EasyTargetMin: 4
+      EasyTargetMax: 7
+      MediumTargetMin: 4
+      MediumTargetMax: 7
+      HardTargetMin: 3
+      HardTargetMax: 5
+    - Type: 9
+      Category: 3
+      Weight: 11
+      DescriptionFormat: Complete {0} levels without Emergency Recall
+      EasyTargetMin: 2
+      EasyTargetMax: 4
+      MediumTargetMin: 5
+      MediumTargetMax: 8
+      HardTargetMin: 9
+      HardTargetMax: 14
+    - Type: 10
+      Category: 2
+      Weight: 18
+      DescriptionFormat: Pass {0} levels with "{1}"
+      EasyTargetMin: 2
+      EasyTargetMax: 4
+      MediumTargetMin: 4
+      MediumTargetMax: 7
+      HardTargetMin: 8
+      HardTargetMax: 12
+    - Type: 11
+      Category: 2
+      Weight: 10
+      DescriptionFormat: Pass levels using {0} different boomerangs
+      EasyTargetMin: 2
+      EasyTargetMax: 2
+      MediumTargetMin: 2
+      MediumTargetMax: 3
+      HardTargetMin: 3
+      HardTargetMax: 4
+    MissileDisplayList:
+    - Type: 0
+      DisplayName: Standard Missiles
+      Icon: {fileID: 0}
+    - Type: 1
+      DisplayName: Fast Small Missiles
+      Icon: {fileID: 0}
+    - Type: 2
+      DisplayName: Exploder Missiles
+      Icon: {fileID: 0}
+    - Type: 3
+      DisplayName: Armored Missiles
+      Icon: {fileID: 0}
+    - Type: 4
+      DisplayName: Cluster Missiles
+      Icon: {fileID: 0}
+    - Type: 5
+      DisplayName: Mini Cluster Missiles
+      Icon: {fileID: 0}
+    - Type: 6
+      DisplayName: Heavy Armored Mk.II Missiles
+      Icon: {fileID: 0}
+    - Type: 7
+      DisplayName: Cluster Mk.II Missiles
+      Icon: {fileID: 0}
+    - Type: 8
+      DisplayName: Armored Mk.III Missiles
+      Icon: {fileID: 0}
+    - Type: 9
+      DisplayName: Juggernaut Armored Missiles
+      Icon: {fileID: 0}
+    - Type: 10
+      DisplayName: Zigzag Missiles
+      Icon: {fileID: 0}
+    - Type: 11
+      DisplayName: Ballistic Mk.II Missiles
+      Icon: {fileID: 0}
+    - Type: 12
+      DisplayName: Ballistic Mk.III Missiles
+      Icon: {fileID: 0}
+    - Type: 13
+      DisplayName: Apex Ballistic Missiles
+      Icon: {fileID: 0}
+    - Type: 14
+      DisplayName: Aegis Shield Missiles
+      Icon: {fileID: 0}
+    - Type: 15
+      DisplayName: Aegis Mk.II Missiles
+      Icon: {fileID: 0}
+    - Type: 16
+      DisplayName: Reward Supply Missiles
+      Icon: {fileID: 0}

@@ -111,17 +111,6 @@ public class ComboPanelController : MonoBehaviour
         commentTxt.ForceMeshUpdate();
     }
 
-    private VertexGradient GetTierGradient(int value)
-    {
-        if (_comboPanelData != null && _comboPanelData.TierGradients != null && _comboPanelData.TierGradients.Count > 0)
-        {
-            int index = Mathf.Clamp(value, 0, _comboPanelData.TierGradients.Count - 1);
-            return _comboPanelData.TierGradients[index].ToVertexGradient();
-        }
-
-        return new VertexGradient(Color.white, Color.white, Color.white, Color.white);
-    }
-
     private void PlayComboAnimation()
     {
         float targetScale = _comboPanelData != null ? _comboPanelData.TargetScale : 1f;
@@ -190,7 +179,6 @@ public class ComboPanelController : MonoBehaviour
     {
         CloseComboPanel();
     }
-
 
     private void OnDestroy()
     {
