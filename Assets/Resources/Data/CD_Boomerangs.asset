@@ -28,13 +28,14 @@ MonoBehaviour:
     Damage: 1
     SizeMultiplier: 0.55
     Tier: 0
+    CustomUnlockLevel: -1
     ThemeColor: {r: 0.2, g: 0.7, b: 1, a: 1}
     HandLocalPosition: {x: -0.26, y: 0.146, z: -0.071}
     HandLocalEulerAngles: {x: 285.76187, y: 130.12737, z: 228.21355}
   - Id: 12
     Title: Traditional Kylie Boomerang
     Description: Supercharged plasma arc with wide impact zone.
-    Price: 6000
+    Price: 3150
     Icon: {fileID: 21300000, guid: 644b14c7fe6a4f52b29c79309cf76734, type: 3}
     Prefab: {fileID: 2929460499409832372, guid: 68e34943f5d0dd346bbef89b410897fc, type: 3}
     Speed: 5.5
@@ -42,13 +43,14 @@ MonoBehaviour:
     Damage: 1
     SizeMultiplier: 0.7
     Tier: 0
+    CustomUnlockLevel: -1
     ThemeColor: {r: 1, g: 0.2, b: 0.7, a: 1}
     HandLocalPosition: {x: -0.238, y: 0.137, z: -0.163}
     HandLocalEulerAngles: {x: 87.03912, y: 195.50125, z: 38.983047}
   - Id: 1
     Title: Aero Talon
     Description: High-speed aerodynamic interceptor.
-    Price: 250
+    Price: 3200
     Icon: {fileID: 21300000, guid: c5c76f5c391749589682feee5544f9f7, type: 3}
     Prefab: {fileID: 7359562933283536233, guid: 61140532366557e43a32efd67efb3bb8, type: 3}
     Speed: 6
@@ -56,13 +58,14 @@ MonoBehaviour:
     Damage: 1
     SizeMultiplier: 0.6
     Tier: 0
+    CustomUnlockLevel: -1
     ThemeColor: {r: 0.2, g: 0.9, b: 0.6, a: 1}
     HandLocalPosition: {x: -0.115, y: 0.124, z: -0.161}
     HandLocalEulerAngles: {x: 85.540825, y: 119.96165, z: 330.9967}
   - Id: 2
     Title: Quad-Blade X-Cross
     Description: Curved blades channeling whirlwind momentum.
-    Price: 500
+    Price: 3200
     Icon: {fileID: 21300000, guid: 1f641fa3641b4a9c8c84c2abb4e6c5e9, type: 3}
     Prefab: {fileID: 8326371004721621578, guid: 16639a049a1de7a49991812ad553522f, type: 3}
     Speed: 5.8
@@ -70,13 +73,14 @@ MonoBehaviour:
     Damage: 1
     SizeMultiplier: 0.6
     Tier: 0
+    CustomUnlockLevel: -1
     ThemeColor: {r: 0.9, g: 0.75, b: 0.2, a: 1}
     HandLocalPosition: {x: -0.164, y: 0.098, z: -0.178}
     HandLocalEulerAngles: {x: 78.12864, y: 95.478035, z: 281.07846}
   - Id: 3
     Title: Asymmetric Hook / Scythe
     Description: Razor-edged scythe with heavy impact.
-    Price: 800
+    Price: 3400
     Icon: {fileID: 21300000, guid: 071a5c9ae467488baa8d997a6d5fb2dc, type: 3}
     Prefab: {fileID: 5115873570973722597, guid: 236640d6b51281545ad2eb8a89bf4e7f, type: 3}
     Speed: 5.5
@@ -84,13 +88,14 @@ MonoBehaviour:
     Damage: 2
     SizeMultiplier: 0.7
     Tier: 0
+    CustomUnlockLevel: -1
     ThemeColor: {r: 1, g: 0.25, b: 0.35, a: 1}
     HandLocalPosition: {x: -0.28, y: 0.124, z: -0.021}
     HandLocalEulerAngles: {x: 80.200195, y: 182.85092, z: 34.291336}
   - Id: 4
     Title: Deep U-Arc / Omega
     Description: Infused with star-matter kinetic energy.
-    Price: 1200
+    Price: 3550
     Icon: {fileID: 21300000, guid: dd6e82e68e2540aeb13d0be9da84db79, type: 3}
     Prefab: {fileID: 1748504389383352374, guid: e3bcfe65354107942a6bdca2fdd29145, type: 3}
     Speed: 6.5
@@ -98,13 +103,14 @@ MonoBehaviour:
     Damage: 1
     SizeMultiplier: 1
     Tier: 0
+    CustomUnlockLevel: -1
     ThemeColor: {r: 0.75, g: 0.3, b: 1, a: 1}
     HandLocalPosition: {x: -0.24, y: 0.124, z: -0.146}
     HandLocalEulerAngles: {x: 87.57182, y: 296.99756, z: 117.9476}
   - Id: 5
     Title: 'S-Wave Reverse Curve '
     Description: Radiates intense heat, burning through armor.
-    Price: 1600
+    Price: 4000
     Icon: {fileID: 21300000, guid: 27707400164c429dba0d41c6cd7ba42c, type: 3}
     Prefab: {fileID: 6001639602246309680, guid: 02583930e0fd5c84db03df7d1dc82878, type: 3}
     Speed: 7.4
@@ -112,6 +118,7 @@ MonoBehaviour:
     Damage: 2
     SizeMultiplier: 1
     Tier: 0
+    CustomUnlockLevel: -1
     ThemeColor: {r: 1, g: 0.55, b: 0.1, a: 1}
     HandLocalPosition: {x: -0.224, y: 0.148, z: -0.154}
     HandLocalEulerAngles: {x: 80.95478, y: 278.1632, z: 189.74318}
@@ -126,6 +133,7 @@ MonoBehaviour:
     Damage: 2
     SizeMultiplier: 1.1
     Tier: 1
+    CustomUnlockLevel: -1
     ThemeColor: {r: 0.1, g: 0.85, b: 1, a: 1}
     HandLocalPosition: {x: -0.205, y: 0.114, z: -0.025}
     HandLocalEulerAngles: {x: 286.32816, y: 171.4275, z: 192.50789}
@@ -140,6 +148,7 @@ MonoBehaviour:
     Damage: 1
     SizeMultiplier: 1.2
     Tier: 1
+    CustomUnlockLevel: -1
     ThemeColor: {r: 0.4, g: 0.95, b: 0.2, a: 1}
     HandLocalPosition: {x: -0.227, y: 0.136, z: 0.045}
     HandLocalEulerAngles: {x: 85.07173, y: 207.13876, z: 55.991188}
@@ -154,6 +163,7 @@ MonoBehaviour:
     Damage: 2
     SizeMultiplier: 1.4
     Tier: 1
+    CustomUnlockLevel: -1
     ThemeColor: {r: 0.5, g: 0.85, b: 1, a: 1}
     HandLocalPosition: {x: -0.276, y: 0.188, z: -0.053}
     HandLocalEulerAngles: {x: 75.13655, y: 261.20087, z: 150.03978}
@@ -168,6 +178,7 @@ MonoBehaviour:
     Damage: 3
     SizeMultiplier: 1.3
     Tier: 1
+    CustomUnlockLevel: -1
     ThemeColor: {r: 0.6, g: 0.2, b: 0.85, a: 1}
     HandLocalPosition: {x: -0.107, y: 0.142, z: -0.172}
     HandLocalEulerAngles: {x: 82.50679, y: 261.28857, z: 56.15322}
@@ -182,6 +193,7 @@ MonoBehaviour:
     Damage: 3
     SizeMultiplier: 1.3
     Tier: 1
+    CustomUnlockLevel: -1
     ThemeColor: {r: 1, g: 0.85, b: 0.2, a: 1}
     HandLocalPosition: {x: -0.0968, y: 0.1388, z: -0.1538}
     HandLocalEulerAngles: {x: 273.78967, y: 47.112606, z: 245.43}
@@ -196,6 +208,7 @@ MonoBehaviour:
     Damage: 2
     SizeMultiplier: 1
     Tier: 1
+    CustomUnlockLevel: -1
     ThemeColor: {r: 0.9, g: 0.2, b: 0.2, a: 1}
     HandLocalPosition: {x: -0.262, y: 0.171, z: -0.154}
     HandLocalEulerAngles: {x: 80.79566, y: 245.3833, z: 80.091}
@@ -210,6 +223,7 @@ MonoBehaviour:
     Damage: 4
     SizeMultiplier: 1.4
     Tier: 2
+    CustomUnlockLevel: -1
     ThemeColor: {r: 0.2, g: 0.95, b: 0.85, a: 1}
     HandLocalPosition: {x: -0.207, y: 0.135, z: 0.013}
     HandLocalEulerAngles: {x: 273.31793, y: 171.58533, z: 291.30835}
@@ -224,6 +238,7 @@ MonoBehaviour:
     Damage: 3
     SizeMultiplier: 1.3
     Tier: 2
+    CustomUnlockLevel: -1
     ThemeColor: {r: 1, g: 0.3, b: 0.1, a: 1}
     HandLocalPosition: {x: -0.2687, y: 0.1425, z: 0.0344}
     HandLocalEulerAngles: {x: 274.72125, y: 152.15018, z: 4.060449}
@@ -239,6 +254,7 @@ MonoBehaviour:
     Damage: 2
     SizeMultiplier: 2
     Tier: 2
+    CustomUnlockLevel: -1
     ThemeColor: {r: 0.1, g: 0.4, b: 0.8, a: 1}
     HandLocalPosition: {x: -0.1729, y: 0.129, z: -0.1076}
     HandLocalEulerAngles: {x: 272.2788, y: 44.435608, z: 1.5491322}
@@ -253,6 +269,7 @@ MonoBehaviour:
     Damage: 3
     SizeMultiplier: 1.4
     Tier: 2
+    CustomUnlockLevel: -1
     ThemeColor: {r: 0.7, g: 0.5, b: 1, a: 1}
     HandLocalPosition: {x: -0.104, y: 0.12, z: 0.011}
     HandLocalEulerAngles: {x: 287.24213, y: 356.6599, z: 322.67957}
@@ -267,6 +284,7 @@ MonoBehaviour:
     Damage: 4
     SizeMultiplier: 1
     Tier: 2
+    CustomUnlockLevel: -1
     ThemeColor: {r: 1, g: 0.65, b: 0.15, a: 1}
     HandLocalPosition: {x: 0.1727, y: 0.1535, z: 0.1976}
     HandLocalEulerAngles: {x: 84.79113, y: 74.30435, z: 179.99873}
@@ -281,6 +299,7 @@ MonoBehaviour:
     Damage: 4
     SizeMultiplier: 2
     Tier: 3
+    CustomUnlockLevel: -1
     ThemeColor: {r: 0.3, g: 0.5, b: 1, a: 1}
     HandLocalPosition: {x: -0.231, y: 0.13, z: -0.157}
     HandLocalEulerAngles: {x: 279.62616, y: 140.79857, z: 232.24673}
@@ -295,6 +314,7 @@ MonoBehaviour:
     Damage: 4
     SizeMultiplier: 2
     Tier: 3
+    CustomUnlockLevel: -1
     ThemeColor: {r: 0.55, g: 0.65, b: 0.8, a: 1}
     HandLocalPosition: {x: -0.1, y: 0.132, z: -0.25}
     HandLocalEulerAngles: {x: 86.65461, y: 252.01747, z: 352.2585}
@@ -309,6 +329,7 @@ MonoBehaviour:
     Damage: 5
     SizeMultiplier: 1.5
     Tier: 3
+    CustomUnlockLevel: -1
     ThemeColor: {r: 0.15, g: 0.85, b: 0.8, a: 1}
     HandLocalPosition: {x: -0.358, y: 0.1376, z: -0.025}
     HandLocalEulerAngles: {x: 86.10435, y: 329.5808, z: 190.2767}
@@ -323,6 +344,7 @@ MonoBehaviour:
     Damage: 3
     SizeMultiplier: 1.46
     Tier: 3
+    CustomUnlockLevel: -1
     ThemeColor: {r: 0.4, g: 0.9, b: 0.7, a: 1}
     HandLocalPosition: {x: -0.0167, y: 0.1245, z: -0.195}
     HandLocalEulerAngles: {x: 87.49587, y: 26.81361, z: 147.8579}
@@ -337,6 +359,7 @@ MonoBehaviour:
     Damage: 4
     SizeMultiplier: 1.7
     Tier: 3
+    CustomUnlockLevel: -1
     ThemeColor: {r: 0.7, g: 0.1, b: 0.6, a: 1}
     HandLocalPosition: {x: -0.081, y: 0.1555, z: -0.2017}
     HandLocalEulerAngles: {x: 280.49976, y: 58.89793, z: 119.97917}
@@ -351,6 +374,7 @@ MonoBehaviour:
     Damage: 5
     SizeMultiplier: 1.5
     Tier: 3
+    CustomUnlockLevel: -1
     ThemeColor: {r: 0.6, g: 0.85, b: 1, a: 1}
     HandLocalPosition: {x: -0.193, y: 0.1445, z: 0.052}
     HandLocalEulerAngles: {x: 276.21814, y: 93.3212, z: 263.43384}
@@ -365,6 +389,7 @@ MonoBehaviour:
     Damage: 4
     SizeMultiplier: 1.52
     Tier: 3
+    CustomUnlockLevel: -1
     ThemeColor: {r: 1, g: 0.75, b: 0.3, a: 1}
     HandLocalPosition: {x: -0.281, y: 0.131, z: -0.092}
     HandLocalEulerAngles: {x: 274.25528, y: 131.52211, z: 228.10046}
@@ -379,6 +404,7 @@ MonoBehaviour:
     Damage: 5
     SizeMultiplier: 2
     Tier: 3
+    CustomUnlockLevel: -1
     ThemeColor: {r: 1, g: 0.15, b: 0.45, a: 1}
     HandLocalPosition: {x: -0.254, y: 0.107, z: -0.144}
     HandLocalEulerAngles: {x: 278.70413, y: 176.30818, z: 337.48706}

@@ -13,10 +13,12 @@ MonoBehaviour:
   m_Name: CD_Energy
   m_EditorClassIdentifier: Assembly-CSharp::Data.UnityObject.CD_Energy
   Data:
-    MaxEnergy: 5
-    InitialEnergy: 5
+    MaxEnergy: 8
+    InitialEnergy: 8
     EnergyCostPerStart: 1
     RegenCooldownSeconds: 1200
     IsTutorialFree: 1
     EnableCoinRefillPrompt: 1
     CoinRefillCost: 100
+    EnableRewardedAdCoinPrompt: 1
+    RewardedAdCoinAmount: 100

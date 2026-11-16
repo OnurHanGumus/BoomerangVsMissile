@@ -107,7 +107,7 @@ namespace Controllers.UI
                 if (cardBackground != null) cardBackground.color = ClaimedCardColor;
                 if (claimButton != null) claimButton.interactable = false;
                 if (claimButtonBackground != null) claimButtonBackground.color = ClaimedButtonColor;
-                if (claimButtonText != null) claimButtonText.text = "CLAIMED";
+                if (claimButtonText != null) claimButtonText.text = "TAKEN";
             }
             else if (task.IsClaimable)
             {
@@ -121,7 +121,7 @@ namespace Controllers.UI
                 if (cardBackground != null) cardBackground.color = DefaultCardColor;
                 if (claimButton != null) claimButton.interactable = false;
                 if (claimButtonBackground != null) claimButtonBackground.color = LockedButtonColor;
-                if (claimButtonText != null) claimButtonText.text = "IN PROGRESS";
+                if (claimButtonText != null) claimButtonText.text = "CLAIM";
             }
         }
 

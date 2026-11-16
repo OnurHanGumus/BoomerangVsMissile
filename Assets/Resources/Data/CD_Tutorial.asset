@@ -11,8 +11,9 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 131673a608b6f3b44aeca1fb6135ea8f, type: 3}
   m_Name: CD_Tutorial
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Assembly-CSharp::Data.UnityObject.CD_Tutorial
   Data:
     TextList:
-    - "Click a missile to \n hit it"
-    - "Click and Drag \nbetween missiles."
+    - "Click a missile to \n hit it. "
+    - "'Click' and 'Hold' \nto a missile to explode one more missile\n on boomerangs
+      return sequence."

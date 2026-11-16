@@ -23,5 +23,10 @@ namespace Data.ValueObject
         [Tooltip("If true, offers +1 Energy refill for coins via ApprovalPanel when at 0 energy and player can afford it.")]
         public bool EnableCoinRefillPrompt = true;
         public int CoinRefillCost = 100;
+
+        [Header("Rewarded Ad Refill")]
+        [Tooltip("If true, offers watching a rewarded ad for coins via ApprovalPanel when at 0 energy and player cannot afford coin refill.")]
+        public bool EnableRewardedAdCoinPrompt = true;
+        public int RewardedAdCoinAmount = 100;
     }
 }

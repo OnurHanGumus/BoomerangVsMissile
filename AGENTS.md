@@ -63,7 +63,6 @@ The codebase is built on an **Observer / SignalBus Pattern** combined with **Com
 All signal buses inherit from [MonoSingleton\<T\>](file:///d:/Level_Up_Projects/BoomerangVsMissile/Assets/Scripts/Extensions/MonoSingleton.cs) in namespace `Signals`.
 - Delegates are pre-initialized with empty lambdas (e.g. `public UnityAction onPlay = delegate { };` or `public Func<int> onGetMoney = delegate { return 0; };`), preventing null pointer exceptions during invocation.
 - Subscriptions should occur in `Awake()` or `OnEnable()`, and **must be unsubscribed in `OnDestroy()` or `OnDisable()`**.
-- Always check `if (SignalBus.Instance != null)` before unsubscribing in `OnDestroy()` to avoid spawning dummy instances during scene teardown.
 
 **Key Signals:**
 - [CoreGameSignals](file:///d:/Level_Up_Projects/BoomerangVsMissile/Assets/Scripts/Signals/CoreGameSignals.cs): `onPlay`, `onReset`, `onLevelInitialize`, `onClearActiveLevel`, `onNextLevel`, `onRestartLevel`, `onLevelSuccessful`, `onLevelFailed`.
@@ -233,10 +232,7 @@ namespace Controllers.Boomerang
 
         private void UnsubscribeEvents()
         {
-            if (CoreGameSignals.Instance != null)
-            {
-                CoreGameSignals.Instance.onPlay -= OnPlay;
-            }
+            CoreGameSignals.Instance.onPlay -= OnPlay;
         }
 
         private void OnDestroy()
@@ -267,7 +263,7 @@ namespace Controllers.Boomerang
   - Prefer `FindFirstObjectByType<T>()` / `FindObjectsByType<T>(FindObjectsSortMode.None)` over deprecated `FindObjectOfType<T>()`.
   - Use `_rigidbody.linearVelocity` instead of `_rigidbody.velocity` (Unity 6 physics standard).
 - Never place hardcoded asset string paths in deep logic without fallbacks or centralization.
-- Always check component existence before using (`GetComponent` or `TryGetComponent`).
+- **Do not add null checks:** Null checks cause errors to be overlooked instead of surfacing the exact location of the problem.
 
 ---
 
@@ -309,7 +305,9 @@ When working on this repository, all AI agents **MUST** respect the following co
 2. **Minimal Disruption Principle:**
    - Modify only what has been explicitly requested.
    - Preserve existing comments, docstrings, and animator event callbacks (e.g. [PlayerAnimatorEvent.cs](file:///d:/Level_Up_Projects/BoomerangVsMissile/Assets/Scripts/AnimatorEvents/PlayerAnimatorEvent.cs)).
-3. **Safety First:**
+3. **No Null Checks:**
+   - Do not add null checks, as they cause errors to be overlooked instead of surfacing the exact location of the problem.
+4. **Safety First:**
    - If any change has the potential to break scene references, prefab links, or save files, **request user permission before proceeding**.
-4. **Documentation Compliance:**
+5. **Documentation Compliance:**
    - Maintain forward-slash clickable markdown links with `file:///` format for all mentioned scripts and assets.

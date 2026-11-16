@@ -11,19 +11,19 @@ namespace Extensions
         {
             get
             {
-                if (_isQuitting)
-                {
-                    return null;
-                }
-
                 if (_instance == null)
                 {
 #if UNITY_2023_1_OR_NEWER
-                    _instance = FindFirstObjectByType<T>();
+                    T found = FindFirstObjectByType<T>();
 #else
-                    _instance = FindObjectOfType<T>();
+                    T found = FindObjectOfType<T>();
 #endif
-                    if (_instance == null && !_isQuitting)
+                    if (found != null)
+                    {
+                        _instance = found;
+                        _isQuitting = false;
+                    }
+                    else if (!_isQuitting && ReferenceEquals(_instance, null))
                     {
                         GameObject newGo = new GameObject(typeof(T).Name);
                         _instance = newGo.AddComponent<T>();
@@ -54,10 +54,6 @@ namespace Extensions
 
         protected virtual void OnDestroy()
         {
-            if (_instance == this)
-            {
-                _instance = null;
-            }
         }
     }
 }

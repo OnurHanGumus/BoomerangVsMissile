@@ -32,6 +32,7 @@ namespace Controllers.UI
 
         [Header("Grand Prize Section")]
         [SerializeField] private Slider grandPrizeProgressSlider;
+        [SerializeField] private TextMeshProUGUI grandPrizeProgressCountText;
         [SerializeField] private TextMeshProUGUI grandPrizeProgressText;
         [SerializeField] private TextMeshProUGUI grandPrizeRewardText;
         [SerializeField] private Button grandPrizeClaimButton;
@@ -215,6 +216,11 @@ namespace Controllers.UI
                 grandPrizeProgressSlider.value = normalized;
             }
 
+            if (grandPrizeProgressCountText != null)
+            {
+                grandPrizeProgressCountText.text = $"{completedCount}/{totalCount}";
+            }
+
             if (grandPrizeProgressText != null)
             {
                 grandPrizeProgressText.text = $"GRAND PRIZE PROGRESS: {completedCount}/{totalCount}";
@@ -223,7 +229,7 @@ namespace Controllers.UI
             int grandReward = WeeklyTaskSignals.Instance != null ? WeeklyTaskSignals.Instance.onGetGrandPrizeReward() : 1500;
             if (grandPrizeRewardText != null)
             {
-                grandPrizeRewardText.text = $"+{grandReward} COINS";
+                grandPrizeRewardText.text = $"+{grandReward}";
             }
 
             bool isClaimed = WeeklyTaskSignals.Instance != null && WeeklyTaskSignals.Instance.onIsGrandPrizeClaimed();

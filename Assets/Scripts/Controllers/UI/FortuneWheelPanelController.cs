@@ -535,8 +535,8 @@ namespace Controllers.UI
             // Display congratulatory prize result
             FortuneWheelSectorData prize = _data.Sectors[wonSectorIndex];
             string rewardMessage = prize.PrizeType == FortuneWheelPrizeType.Coin
-                ? $"🎉 You won {prize.Amount} Coins!"
-                : $"🎉 You won +{prize.Amount} Life!";
+                ? $"You won {prize.Amount} Coins!"
+                : $"You won +{prize.Amount} Life!";
 
             if (resultText != null)
             {

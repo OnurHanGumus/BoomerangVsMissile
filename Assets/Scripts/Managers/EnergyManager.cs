@@ -1,6 +1,7 @@
 using System;
 using Data.UnityObject;
 using Data.ValueObject;
+using DG.Tweening;
 using Enums;
 using Signals;
 using UnityEngine;
@@ -43,6 +44,8 @@ namespace Managers
         private void Init()
         {
             _data = GetData();
+            // Ensure AdRewardedManager instance is initialized to preload ads
+            _ = AdRewardedManager.Instance;
         }
 
         private EnergyData GetData()
@@ -215,16 +218,18 @@ namespace Managers
                 EnergySignals.Instance.onInsufficientEnergy?.Invoke();
                 PitchSignals.Instance.onPlayPitch?.Invoke(PitchEnums.Lose);
 
+                int currentMoney = ScoreSignals.Instance != null ? ScoreSignals.Instance.onGetMoney() : 0;
+
                 if (_data.EnableCoinRefillPrompt &&
                     _data.CoinRefillCost > 0 &&
-                    ScoreSignals.Instance != null &&
-                    ScoreSignals.Instance.onGetMoney() >= _data.CoinRefillCost &&
-                    UISignals.Instance != null)
+                    currentMoney >= _data.CoinRefillCost)
                 {
-                    UISignals.Instance.onOpenApprovalPanel?.Invoke(
-                        $"Out of Energy!\nBuy +1 Energy for {_data.CoinRefillCost} Coins?",
-                        OnConfirmCoinRefill,
-                        null);
+                    PromptCoinRefill();
+                }
+                else if (_data.EnableRewardedAdCoinPrompt &&
+                         _data.RewardedAdCoinAmount > 0)
+                {
+                    PromptRewardedAdForCoins();
                 }
 
                 return false;
@@ -245,10 +250,67 @@ namespace Managers
             return true;
         }
 
+        private void PromptCoinRefill()
+        {
+            if (UISignals.Instance != null)
+            {
+                UISignals.Instance.onOpenApprovalPanel?.Invoke(
+                    $"Out of Energy!\nBuy +1 Energy for {_data.CoinRefillCost} Coins?",
+                    OnConfirmCoinRefill,
+                    null);
+            }
+        }
+
+        private void PromptRewardedAdForCoins()
+        {
+            if (UISignals.Instance != null)
+            {
+                UISignals.Instance.onOpenApprovalPanel?.Invoke(
+                    $"Out of Energy & Not Enough Coins!\nWatch an ad to get +{_data.RewardedAdCoinAmount} Coins?",
+                    OnConfirmWatchAdForCoins,
+                    null);
+            }
+        }
+
+        private void OnConfirmWatchAdForCoins()
+        {
+            AudioSignals.Instance.onPlaySound?.Invoke(AudioSoundEnums.Click);
+            PitchSignals.Instance.onPlayPitch?.Invoke(PitchEnums.Click);
+
+            if (AdSignals.Instance != null)
+            {
+                AdSignals.Instance.onShowRewardedAd?.Invoke(OnRewardedAdCompleted, null);
+            }
+        }
+
+        private void OnRewardedAdCompleted()
+        {
+            int rewardAmount = Mathf.Max(1, _data.RewardedAdCoinAmount);
+            if (ScoreSignals.Instance != null)
+            {
+                ScoreSignals.Instance.onScoreIncrease?.Invoke(ScoreTypeEnums.Money, rewardAmount);
+            }
+
+            AudioSignals.Instance.onPlaySound?.Invoke(AudioSoundEnums.Win);
+            PitchSignals.Instance.onPlayPitch?.Invoke(PitchEnums.Win);
+
+            Debug.Log($"[EnergyManager] Rewarded ad completed. Added {rewardAmount} Coins. Current balance: {ScoreSignals.Instance?.onGetMoney()} Coins.");
+
+            // Immediately re-open "Buy +1 Energy for 100 Coins?" prompt after ad closes
+            if (_data.EnableCoinRefillPrompt &&
+                _data.CoinRefillCost > 0 &&
+                ScoreSignals.Instance != null &&
+                ScoreSignals.Instance.onGetMoney() >= _data.CoinRefillCost)
+            {
+                DOVirtual.DelayedCall(0.12f, PromptCoinRefill, true);
+            }
+        }
+
         private void OnConfirmCoinRefill()
         {
             if (ScoreSignals.Instance == null || ScoreSignals.Instance.onGetMoney() < _data.CoinRefillCost)
             {
+                Debug.LogWarning("[EnergyManager] Cannot confirm coin refill: Insufficient money.");
                 return;
             }
 
@@ -256,6 +318,7 @@ namespace Managers
             AudioSignals.Instance.onPlaySound?.Invoke(AudioSoundEnums.Click);
             PitchSignals.Instance.onPlayPitch?.Invoke(PitchEnums.Click);
 
+            Debug.Log("[EnergyManager] Coin refill confirmed. Adding +1 Energy.");
             OnAddEnergy(1);
         }
 
@@ -280,6 +343,8 @@ namespace Managers
 
             SaveCurrentEnergy();
             BroadcastState(true);
+
+            Debug.Log($"[EnergyManager] Added +{amount} Energy. Current Energy: {_currentEnergy}/{maxEnergy}");
         }
 
         private int OnGetCurrentEnergy()

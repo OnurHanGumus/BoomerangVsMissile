@@ -25,6 +25,8 @@ namespace Managers
         [SerializeField] private RewardBuffUIController rewardBuffUIController;
         [SerializeField] private EnergyPanelController energyPanelController;
         [SerializeField] private FortuneWheelPanelController fortuneWheelPanelController;
+        [SerializeField] private StartPanelController startPanelController;
+        [SerializeField] private WinPanelController winPanelController;
 
         #endregion
         #region Private Variables
@@ -80,6 +82,19 @@ namespace Managers
             if (fortuneWheelPanelController == null)
             {
                 fortuneWheelPanelController = FindFirstObjectByType<FortuneWheelPanelController>();
+            }
+
+            if (startPanelController == null)
+            {
+                startPanelController = FindFirstObjectByType<StartPanelController>();
+                if (startPanelController == null)
+                {
+                    GameObject startPanelObj = GameObject.Find("StartPanel");
+                    if (startPanelObj != null)
+                    {
+                        startPanelController = startPanelObj.AddComponent<StartPanelController>();
+                    }
+                }
             }
         }
 

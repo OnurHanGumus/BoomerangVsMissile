@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Enums;
 using Extensions;
 using Keys;
@@ -18,6 +18,7 @@ public class TargetFramerateController : MonoBehaviour
     private void Awake()
     {
         Application.targetFrameRate = 120;
+        Screen.fullScreen = true;
 
     }
 }

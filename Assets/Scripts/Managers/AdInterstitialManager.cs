@@ -11,13 +11,24 @@ using GoogleMobileAds.Api;
 
 public class AdInterstitialManager : MonoBehaviour
 {
-    [SerializeField] private bool isTest = true;
+    #region Self Variables
 
+    #region Serialized Variables
+    [SerializeField] private bool isTest = true;
+    [SerializeField] private int levelsRequiredForAd = 2;
+    #endregion
+
+    #region Private Variables
     private string _testInterstitialId = "ca-app-pub-3940256099942544/1033173712",
                        _interstitialId = "ca-app-pub-4708991160900195/1593992855";
     private InterstitialAd _interstitialAd = null;
     private AdRequest _adRequest = null;
     private bool _isFirstTime = true;
+    private int _passedLevelsCount;
+    private bool _isLastLevelSuccessful;
+    #endregion
+
+    #endregion
 
     private void Awake()
     {
@@ -31,17 +42,43 @@ public class AdInterstitialManager : MonoBehaviour
     private void SubscribeEvents()
     {
         CoreGameSignals.Instance.onPlay += OnPlay;
+        CoreGameSignals.Instance.onLevelSuccessful += OnLevelSuccessful;
+        CoreGameSignals.Instance.onLevelFailed += OnLevelFailed;
+    }
+
+    private void UnsubscribeEvents()
+    {
+        CoreGameSignals.Instance.onPlay -= OnPlay;
+        CoreGameSignals.Instance.onLevelSuccessful -= OnLevelSuccessful;
+        CoreGameSignals.Instance.onLevelFailed -= OnLevelFailed;
+    }
+
+    private void OnDestroy()
+    {
+        UnsubscribeEvents();
     }
 
     #endregion
 
     private void OnPlay()
     {
+        _isLastLevelSuccessful = false;
         if (!_isFirstTime)
         {
             RequestAd();
+            _isFirstTime = true;
         }
-        _isFirstTime = false;
+    }
+
+    private void OnLevelSuccessful()
+    {
+        _passedLevelsCount++;
+        _isLastLevelSuccessful = true;
+    }
+
+    private void OnLevelFailed()
+    {
+        _isLastLevelSuccessful = false;
     }
 
     private void Init()
@@ -73,9 +110,18 @@ public class AdInterstitialManager : MonoBehaviour
 
     public void ShowAd()
     {
+        if (!_isLastLevelSuccessful || _passedLevelsCount < levelsRequiredForAd)
+        {
+            return;
+        }
+
+        _passedLevelsCount = 0;
+        _isLastLevelSuccessful = false;
+
         if (_interstitialAd != null && _interstitialAd.CanShowAd())
         {
             _interstitialAd.Show();
+            _isFirstTime = false;
         }
     }
 

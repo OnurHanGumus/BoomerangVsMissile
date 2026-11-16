@@ -195,7 +195,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0.9, g: 0.65, b: 0.1, a: 0.95}
+  m_Color: {r: 0.9, g: 0.65, b: 0.1, a: 0.2}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -286,8 +286,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278190080
-  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
+    rgba: 3724541952
+  m_fontColor: {r: 0, g: 0, b: 0, a: 0.87058824}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -498,6 +498,7 @@ MonoBehaviour:
   selectedBorderColor: {r: 0.2, g: 0.85, b: 1, a: 1}
   unownedTileColor: {r: 0.08, g: 0.1, b: 0.15, a: 0.85}
   ownedTileColor: {r: 0.12, g: 0.16, b: 0.24, a: 0.95}
+  lockedTileColor: {r: 0.04, g: 0.05, b: 0.08, a: 0.95}
 --- !u!1 &3925545667582472388
 GameObject:
   m_ObjectHideFlags: 0
