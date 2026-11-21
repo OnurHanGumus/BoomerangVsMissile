@@ -17,5 +17,6 @@ namespace Enums
         Energy,
         EnergyNextRestoreTicks,
         DailyWheelLastSpinTicks,
+        MusicVolume,
     }
 }

@@ -37,11 +37,13 @@ namespace Managers
             SaveSignals.Instance.onSaveLong += OnSaveLong;
             SaveSignals.Instance.onChangeSoundState += OnSaveData;
             SaveSignals.Instance.onChangePitchState += OnSaveData;
+            SaveSignals.Instance.onChangeMusicVolume += OnSaveFloat;
             SaveSignals.Instance.onGetScore += OnGetData;
             SaveSignals.Instance.onGetIntWithDefault += OnGetIntWithDefault;
             SaveSignals.Instance.onGetLong += OnGetLong;
             SaveSignals.Instance.onGetSoundState += OnGetData;
             SaveSignals.Instance.onGetPitchState += OnGetData;
+            SaveSignals.Instance.onGetMusicVolume += OnGetMusicVolume;
             SaveSignals.Instance.onBuyItem += OnSaveList;
         }
 
@@ -53,11 +55,13 @@ namespace Managers
                 SaveSignals.Instance.onSaveLong -= OnSaveLong;
                 SaveSignals.Instance.onChangeSoundState -= OnSaveData;
                 SaveSignals.Instance.onChangePitchState -= OnSaveData;
+                SaveSignals.Instance.onChangeMusicVolume -= OnSaveFloat;
                 SaveSignals.Instance.onGetScore -= OnGetData;
                 SaveSignals.Instance.onGetIntWithDefault -= OnGetIntWithDefault;
                 SaveSignals.Instance.onGetLong -= OnGetLong;
                 SaveSignals.Instance.onGetSoundState -= OnGetData;
                 SaveSignals.Instance.onGetPitchState -= OnGetData;
+                SaveSignals.Instance.onGetMusicVolume -= OnGetMusicVolume;
                 SaveSignals.Instance.onBuyItem -= OnSaveList;
             }
         }
@@ -84,6 +88,11 @@ namespace Managers
             _saveGameCommand.OnSaveLong(saveType, value, saveFiles.ToString());
         }
 
+        private void OnSaveFloat(float value, SaveLoadStates saveType, SaveFiles saveFiles)
+        {
+            _saveGameCommand.OnSaveFloat(saveType, value, saveFiles.ToString());
+        }
+
         private int OnGetData(SaveLoadStates state, SaveFiles file)
         {
             return _loadGameCommand.OnLoadGameData(state, file.ToString());
@@ -97,6 +106,11 @@ namespace Managers
         private long OnGetLong(SaveLoadStates state, SaveFiles file)
         {
             return _loadGameCommand.OnLoadLong(state, 0L, file.ToString());
+        }
+
+        private float OnGetMusicVolume(SaveLoadStates state, SaveFiles file)
+        {
+            return _loadGameCommand.OnLoadFloat(state, 0.2f, file.ToString());
         }
 
         private void OnSaveList(List<int> newList, SaveLoadStates saveType, SaveFiles saveFiles)

@@ -18,5 +18,9 @@ namespace Commands
         {
             ES3.Save(states.ToString(), newValue, fileName + ".es3");
         }
+        public void OnSaveFloat(SaveLoadStates states, float newValue, string fileName = "SaveFile")
+        {
+            ES3.Save(states.ToString(), newValue, fileName + ".es3");
+        }
     }
 }

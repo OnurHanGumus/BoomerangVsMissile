@@ -10,5 +10,6 @@ namespace Signals
     {
         public UnityAction<AudioSoundEnums> onPlaySound = delegate { };
         public UnityAction<AudioSoundEnums, float> onPlaySoundWithPitch = delegate { };
+        public UnityAction<float> onChangeMusicVolume = delegate { };
     }
 }

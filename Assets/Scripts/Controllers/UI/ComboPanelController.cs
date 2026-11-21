@@ -104,7 +104,7 @@ public class ComboPanelController : MonoBehaviour
         commentTxt.enableVertexGradient = true;
         //commentTxt.colorGradient = GetTierGradient(value);
 
-        string hexColor = _comboPanelData != null ? _comboPanelData.MoneyColorHex : "#FFE600";
+        string hexColor = _comboPanelData != null ? _comboPanelData.MoneyColorHex : "#FFFFFFFF";
         int sizePercent = _comboPanelData != null ? _comboPanelData.MoneyTextSizePercent : 70;
 
         commentTxt.text = $"<b>{comment.ToUpper()}</b>\n<size={sizePercent}%><color={hexColor}>+{earnedMoney} Money</color></size>";

@@ -12,24 +12,27 @@ public class OptionsPanelController : MonoBehaviour
     #region Public Variables
     #endregion
     #region SerializeField Variables
-    [SerializeField] private Toggle soundToggle;
     [SerializeField] private Toggle pitchToggle;
+    [SerializeField] private Slider musicVolumeSlider;
+    [SerializeField] private float maxMusicVolume = 0.2f;
     [SerializeField] private AudioSource audioSource;
     #endregion
     #region Private Variables
-    private bool _audioSourceActiveness;
     private bool _pitchActiveness;
+    private float _musicVolume;
     #endregion
     #endregion
 
     private void Start()
     {
-        _audioSourceActiveness = SaveSignals.Instance.onGetSoundState(SaveLoadStates.SoundState, SaveFiles.GameOptions) == 1;
-        if (soundToggle != null)
-        {
-            soundToggle.isOn = _audioSourceActiveness;
-        }
-        SetAudioSource();
+        musicVolumeSlider.minValue = 0f;
+        musicVolumeSlider.maxValue = maxMusicVolume;
+        _musicVolume = Mathf.Clamp(
+            SaveSignals.Instance.onGetMusicVolume(SaveLoadStates.MusicVolume, SaveFiles.GameOptions),
+            0f,
+            maxMusicVolume);
+        musicVolumeSlider.SetValueWithoutNotify(_musicVolume);
+        musicVolumeSlider.onValueChanged.AddListener(OnMusicVolumeChanged);
 
         if (pitchToggle != null)
         {
@@ -39,14 +42,16 @@ public class OptionsPanelController : MonoBehaviour
         }
     }
 
-    public void OnValueChanged()
+    private void OnDestroy()
     {
-        if (soundToggle != null)
-        {
-            _audioSourceActiveness = soundToggle.isOn;
-            SaveSignals.Instance.onChangeSoundState?.Invoke(_audioSourceActiveness ? 1 : 0, SaveLoadStates.SoundState, SaveFiles.GameOptions);
-            SetAudioSource();
-        }
+        musicVolumeSlider.onValueChanged.RemoveListener(OnMusicVolumeChanged);
+    }
+
+    private void OnMusicVolumeChanged(float value)
+    {
+        _musicVolume = Mathf.Clamp(value, 0f, maxMusicVolume);
+        AudioSignals.Instance.onChangeMusicVolume(_musicVolume);
+        SaveSignals.Instance.onChangeMusicVolume(_musicVolume, SaveLoadStates.MusicVolume, SaveFiles.GameOptions);
     }
 
     public void OnPitchValueChanged()
@@ -72,12 +77,6 @@ public class OptionsPanelController : MonoBehaviour
         UISignals.Instance.onClosePanel?.Invoke(UIPanels.OptionsPanel);
         UISignals.Instance.onOpenPanel?.Invoke(UIPanels.StartPanel);
 
-    }
-    private void SetAudioSource()
-    {
-        //audioSource.enabled = _audioSourceActiveness;
-        //AudioListener.pause = _audioSourceActiveness;
-        AudioListener.volume = _audioSourceActiveness ? 1 : 0;
     }
 
 

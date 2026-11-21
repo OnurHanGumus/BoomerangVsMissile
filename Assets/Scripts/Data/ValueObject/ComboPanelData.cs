@@ -47,7 +47,7 @@ namespace Data.ValueObject
         public string DefaultComment = "COMBO!";
 
         [Header("Text Display Settings")]
-        public string MoneyColorHex = "#FFE600";
+        public string MoneyColorHex = "#FFFFFFFF";
         public int MoneyTextSizePercent = 70;
 
         [Header("Tier Gradients")]

@@ -16,5 +16,5 @@ MonoBehaviour:
     ShakeStrength: 0.35
     ShakeDuration: 0.18
     HitStopDuration: 0.05
-    MaxHealth: 1
+    MaxHealth: 4
     Velocity: 2

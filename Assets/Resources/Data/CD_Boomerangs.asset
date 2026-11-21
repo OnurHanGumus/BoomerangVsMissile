@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Data.UnityObject.CD_Boomerangs
   Tier1UnlockLevel: 0
   Tier2UnlockLevel: 35
-  Tier3UnlockLevel: 160
-  Tier4UnlockLevel: 400
+  Tier3UnlockLevel: 120
+  Tier4UnlockLevel: 250
   Boomerangs:
   - Id: 0
     Title: Classic V-Curve
@@ -125,7 +125,7 @@ MonoBehaviour:
   - Id: 6
     Title: Stealth Batwing Faceted
     Description: Shockwave wing with lightning return speed.
-    Price: 2100
+    Price: 8000
     Icon: {fileID: 21300000, guid: 900007440f914cf2bbbe73127f3841c3, type: 3}
     Prefab: {fileID: 1510903760207974566, guid: 935eb0bb97cc54d4bb7839aa592b50ca, type: 3}
     Speed: 7
@@ -140,7 +140,7 @@ MonoBehaviour:
   - Id: 7
     Title: Halo Flying Ring / Aerobie
     Description: Venom-coated edge cutting wide swathes.
-    Price: 2600
+    Price: 12000
     Icon: {fileID: 21300000, guid: 64191809c70941f8a3bad54bfa7c4335, type: 3}
     Prefab: {fileID: 3962817556403557322, guid: 65cb3e9544ddffd43825ffb5645a3605, type: 3}
     Speed: 12
@@ -155,7 +155,7 @@ MonoBehaviour:
   - Id: 8
     Title: Crescent Moon Arc
     Description: Crystalline blade slicing with absolute zero chill.
-    Price: 3200
+    Price: 15000
     Icon: {fileID: 21300000, guid: 0c5b8235b761423baac2ef5983f2d462, type: 3}
     Prefab: {fileID: 8109159018859616116, guid: 04ddfdbe43cbc574fb13c0b3dc01f108, type: 3}
     Speed: 10
@@ -170,7 +170,7 @@ MonoBehaviour:
   - Id: 9
     Title: Viking Battleaxe Boomerang
     Description: Phases through air with stealthy precision.
-    Price: 3800
+    Price: 18000
     Icon: {fileID: 21300000, guid: 5f365a9b756e46feadce0adbb325a5c1, type: 3}
     Prefab: {fileID: 4019453805779702877, guid: a22ed4ce4b4e3564fb97ef30a0d975df, type: 3}
     Speed: 9
@@ -185,7 +185,7 @@ MonoBehaviour:
   - Id: 10
     Title: Knight Sword Boomerang
     Description: Mythic crest delivering explosive strikes.
-    Price: 4500
+    Price: 18500
     Icon: {fileID: 21300000, guid: 3739069eb8274c108eb562355e701543, type: 3}
     Prefab: {fileID: 956928931719424861, guid: 568937f45284adb4786f38c504cc23f3, type: 3}
     Speed: 9.5
@@ -200,7 +200,7 @@ MonoBehaviour:
   - Id: 11
     Title: Cyberpunk Neon Boomerang
     Description: Hardened volcanic rock tearing through targets.
-    Price: 5200
+    Price: 20000
     Icon: {fileID: 21300000, guid: a6b61211e5a94f858cfe61856f34cf0e, type: 3}
     Prefab: {fileID: 1823877004989422377, guid: 64c93983eb55bcf4e8a9a1f03b0ae5cf, type: 3}
     Speed: 10

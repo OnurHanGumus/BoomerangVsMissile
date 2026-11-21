@@ -36,5 +36,9 @@ namespace Commands
         {
             return ES3.Load<long>(saveLoadStates.ToString(), fileName + ".es3", defaultValue);
         }
+        public float OnLoadFloat(SaveLoadStates saveLoadStates, float defaultValue = 0f, string fileName = "SaveFile")
+        {
+            return ES3.Load<float>(saveLoadStates.ToString(), fileName + ".es3", defaultValue);
+        }
     }
 }
