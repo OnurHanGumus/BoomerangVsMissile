@@ -15,11 +15,21 @@ public class LevelPanelController : MonoBehaviour
     #endregion
     #region SerializeField Variables
     [SerializeField] private TextMeshProUGUI scoreText;
+    [SerializeField] private RectTransform coinIconTransform;
     [SerializeField] private GameObject restartButton;
     #endregion
     #region Private Variables
-
-
+    private Vector3 _initialCoinIconScale;
+    private Vector3 _initialScoreTextScale;
+    private float _coinRollDuration;
+    private int _displayedScore;
+    private bool _hasInitializedScore;
+    private Tween _coinRollTween;
+    private Tween _coinIconTween;
+    private Tween _scoreTextTween;
+    private bool _hasCoinRollTween;
+    private bool _hasCoinIconTween;
+    private bool _hasScoreTextTween;
     #endregion
     #endregion
     private void Awake()
@@ -40,8 +50,9 @@ public class LevelPanelController : MonoBehaviour
 
     private void Init()
     {
-
-
+        _initialCoinIconScale = coinIconTransform.localScale;
+        _initialScoreTextScale = scoreText.rectTransform.localScale;
+        _coinRollDuration = Resources.Load<CD_UI>("Data/CD_UI").Data.CoinRollDuration;
     }
 
     #region Event Subscription
@@ -78,6 +89,7 @@ public class LevelPanelController : MonoBehaviour
     private void OnDestroy()
     {
         UnsubscribeEvents();
+        KillCoinTweens();
     }
     #endregion
 
@@ -85,7 +97,68 @@ public class LevelPanelController : MonoBehaviour
     {
         if (type.Equals(ScoreTypeEnums.Money))
         {
-            scoreText.text = score.ToString();
+            if (!_hasInitializedScore)
+            {
+                _displayedScore = score;
+                _hasInitializedScore = true;
+                scoreText.text = score.ToString();
+                return;
+            }
+
+            if (score == _displayedScore)
+            {
+                return;
+            }
+
+            KillCoinTweens();
+
+            _coinRollTween = DOTween.To(
+                    () => _displayedScore,
+                    value =>
+                    {
+                        _displayedScore = value;
+                        scoreText.text = value.ToString();
+                    },
+                    score,
+                    _coinRollDuration)
+                .SetEase(Ease.OutCubic)
+                .SetUpdate(true);
+            _hasCoinRollTween = true;
+
+            coinIconTransform.localScale = _initialCoinIconScale;
+            _coinIconTween = coinIconTransform
+                .DOPunchScale(_initialCoinIconScale * 0.22f, 0.28f, 6, 0.8f)
+                .SetUpdate(true);
+            _hasCoinIconTween = true;
+
+            scoreText.rectTransform.localScale = _initialScoreTextScale;
+            _scoreTextTween = scoreText.rectTransform
+                .DOPunchScale(_initialScoreTextScale * 0.10f, 0.22f, 5, 0.8f)
+                .SetUpdate(true);
+            _hasScoreTextTween = true;
+        }
+    }
+
+    private void KillCoinTweens()
+    {
+        if (_hasCoinRollTween)
+        {
+            _coinRollTween.Kill();
+            _hasCoinRollTween = false;
+        }
+
+        if (_hasCoinIconTween)
+        {
+            _coinIconTween.Kill();
+            _hasCoinIconTween = false;
+            coinIconTransform.localScale = _initialCoinIconScale;
+        }
+
+        if (_hasScoreTextTween)
+        {
+            _scoreTextTween.Kill();
+            _hasScoreTextTween = false;
+            scoreText.rectTransform.localScale = _initialScoreTextScale;
         }
     }
 

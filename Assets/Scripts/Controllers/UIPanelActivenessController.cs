@@ -1,7 +1,6 @@
 using System.Collections.Generic;
-using DG.Tweening;
+using Controllers.UI;
 using Enums;
-using Managers;
 using UnityEngine;
 
 namespace Controllers
@@ -42,24 +41,13 @@ namespace Controllers
         public void OpenMenu(UIPanels storeMenu)
         {
             int index = (int)storeMenu;
-            if (index >= 0 && index < panels.Count && panels[index] != null)
-            {
-                panels[index].DOKill();
-                panels[index].DOFade(1f, 0.5f).SetEase(Ease.OutBack).SetUpdate(true);
-                panels[index].blocksRaycasts = true;
-                panels[index].interactable = true;
-            }
+            panels[index].GetComponent<UIPanelAnimator>().AnimateOpen();
         }
+
         public void CloseMenu(UIPanels storeMenu)
         {
             int index = (int)storeMenu;
-            if (index >= 0 && index < panels.Count && panels[index] != null)
-            {
-                panels[index].DOKill();
-                panels[index].DOFade(0f, 0.5f).SetUpdate(true);
-                panels[index].blocksRaycasts = false;
-                panels[index].interactable = false;
-            }
+            panels[index].GetComponent<UIPanelAnimator>().AnimateClose();
         }
     }
 }

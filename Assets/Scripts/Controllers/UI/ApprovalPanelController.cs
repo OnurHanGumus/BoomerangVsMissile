@@ -133,13 +133,6 @@ namespace Controllers.UI
                 noButtonText.text = string.IsNullOrEmpty(noLabel) ? defaultNoText : noLabel;
             }
 
-            if (dialogContainer != null)
-            {
-                dialogContainer.DOKill();
-                dialogContainer.localScale = Vector3.one * 0.85f;
-                dialogContainer.DOScale(Vector3.one, 0.25f).SetEase(Ease.OutBack).SetUpdate(true);
-            }
-
             UISignals.Instance.onOpenPanel?.Invoke(UIPanels.ApprovalPanel);
         }
 

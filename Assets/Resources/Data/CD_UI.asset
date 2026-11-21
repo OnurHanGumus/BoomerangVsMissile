@@ -15,3 +15,11 @@ MonoBehaviour:
   Data:
     AnimationTime: 0.5
     ComboInputIncreaseAmount: 2
+    PanelOpenDuration: 0.3
+    PanelCloseDuration: 0.2
+    PopStartScaleMultiplier: 0.85
+    PopCloseScaleMultiplier: 0.92
+    ButtonPressScaleMultiplier: 0.92
+    ButtonPressDuration: 0.08
+    ButtonReleaseDuration: 0.2
+    CoinRollDuration: 0.35
