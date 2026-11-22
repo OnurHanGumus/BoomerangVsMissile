@@ -49,11 +49,17 @@ namespace Controllers.UI
 
         [Header("Buttons & Texts")]
         [SerializeField] private Button spinButton;
+        [SerializeField] private Image spinButtonImage;
         [SerializeField] private TextMeshProUGUI spinButtonText;
         [SerializeField] private Button closeButton;
         [SerializeField] private TextMeshProUGUI resultText;
         [SerializeField] private TextMeshProUGUI titleText;
         [SerializeField] private TextMeshProUGUI subtitleText;
+
+        [Header("Spin Button Semantic Sprites")]
+        [SerializeField] private Sprite spinAvailableSprite;
+        [SerializeField] private Sprite spinActiveSprite;
+        [SerializeField] private Sprite spinCooldownSprite;
 
         [Header("Data (Optional Override)")]
         [SerializeField] private CD_FortuneWheel fortuneWheelConfig;
@@ -69,6 +75,8 @@ namespace Controllers.UI
         private List<FortuneWheelSectorUI> _spawnedSectors = new List<FortuneWheelSectorUI>();
         private Coroutine _spinCoroutine;
         private float _cooldownUpdateTimer;
+        private Tween _pointerFlickTween;
+        private bool _hasPointerFlickTween;
         #endregion
 
         #endregion
@@ -203,6 +211,11 @@ namespace Controllers.UI
 
         private void OnDestroy()
         {
+            if (_hasPointerFlickTween)
+            {
+                _pointerFlickTween.Kill();
+                _hasPointerFlickTween = false;
+            }
             UnsubscribeEvents();
         }
         #endregion
@@ -434,6 +447,9 @@ namespace Controllers.UI
                 spinButtonText.text = "SPINNING...";
             }
 
+            spinButtonImage.sprite = spinActiveSprite;
+            spinButtonImage.color = Color.white;
+
             if (resultText != null)
             {
                 resultText.text = "";
@@ -491,13 +507,14 @@ namespace Controllers.UI
                     wheelTransform.localEulerAngles = new Vector3(0f, 0f, currentZ);
                 }
 
-                // Sector boundary tick audio and haptics
+                // Sector boundary tick audio, haptics, and tactile pointer flick
                 int currentSectorUnderPointer = Mathf.FloorToInt(((currentClockwise + (degreesPerSector * 0.5f)) / degreesPerSector)) % sectorCount;
                 if (currentSectorUnderPointer != lastSectorTick)
                 {
                     lastSectorTick = currentSectorUnderPointer;
                     AudioSignals.Instance.onPlaySound?.Invoke(AudioSoundEnums.Click);
                     PitchSignals.Instance.onPlayPitch?.Invoke(PitchEnums.Click);
+                    //TriggerPointerFlick();
                 }
 
                 yield return null;
@@ -511,6 +528,23 @@ namespace Controllers.UI
             }
 
             OnSpinEnded(targetSector);
+        }
+
+        private void TriggerPointerFlick()
+        {
+            if (_hasPointerFlickTween)
+            {
+                _pointerFlickTween.Kill();
+                _hasPointerFlickTween = false;
+            }
+
+            RectTransform pointerRect = pointerImage.rectTransform;
+            pointerRect.localEulerAngles = new Vector3(0f, 0f, -22f);
+            _pointerFlickTween = pointerRect
+                .DOLocalRotate(Vector3.zero, 0.14f)
+                .SetEase(Ease.OutBack)
+                .SetUpdate(true);
+            _hasPointerFlickTween = true;
         }
 
         private void OnSpinEnded(int wonSectorIndex)
@@ -550,6 +584,9 @@ namespace Controllers.UI
             {
                 spinButtonText.text = "CLAIM";
             }
+
+            spinButtonImage.sprite = spinAvailableSprite;
+            spinButtonImage.color = Color.white;
 
             if (spinButton != null)
             {
@@ -670,6 +707,8 @@ namespace Controllers.UI
             {
                 if (spinButtonText != null) spinButtonText.text = "CLAIM";
                 if (spinButton != null) spinButton.interactable = true;
+                spinButtonImage.sprite = spinAvailableSprite;
+                spinButtonImage.color = Color.white;
                 return;
             }
 
@@ -678,6 +717,8 @@ namespace Controllers.UI
             {
                 if (spinButtonText != null) spinButtonText.text = "FREE SPIN";
                 if (spinButton != null) spinButton.interactable = true;
+                spinButtonImage.sprite = spinAvailableSprite;
+                spinButtonImage.color = Color.white;
                 if (resultText != null && string.IsNullOrEmpty(resultText.text))
                 {
                     resultText.text = "Spin to win Coins & Lives!";
@@ -689,6 +730,8 @@ namespace Controllers.UI
                 string formatted = string.Format("{0:D2}:{1:D2}:{2:D2}", span.Hours, span.Minutes, span.Seconds);
                 if (spinButtonText != null) spinButtonText.text = $"NEXT IN {formatted}";
                 if (spinButton != null) spinButton.interactable = false;
+                spinButtonImage.sprite = spinCooldownSprite;
+                spinButtonImage.color = new Color(0.84f, 0.88f, 0.92f, 0.90f);
             }
         }
         #endregion

@@ -24,17 +24,25 @@ namespace Controllers.UI
         [SerializeField] private Button claimButton;
         [SerializeField] private Image claimButtonBackground;
         [SerializeField] private TextMeshProUGUI claimButtonText;
+
+        [Header("Semantic Ribbon Sprites")]
+        [SerializeField] private Sprite defaultCardSprite;
+        [SerializeField] private Sprite claimedCardSprite;
+        [SerializeField] private Sprite claimableButtonSprite;
+        [SerializeField] private Sprite slateButtonSprite;
         #endregion
 
         #region Private Variables
         private int _slotIndex = -1;
-        private static readonly Color DefaultCardColor = new Color(0.11f, 0.14f, 0.22f, 0.96f);
-        private static readonly Color ClaimableCardColor = new Color(0.14f, 0.25f, 0.22f, 0.98f);
-        private static readonly Color ClaimedCardColor = new Color(0.08f, 0.10f, 0.15f, 0.72f);
+        private Tween _progressTween;
+        private bool _hasProgressTween;
+        private static readonly Color DefaultCardColor = new Color(1f, 1f, 1f, 1f);
+        private static readonly Color ClaimableCardColor = new Color(1f, 1f, 1f, 1f);
+        private static readonly Color ClaimedCardColor = new Color(0.86f, 0.89f, 0.94f, 0.82f);
 
-        private static readonly Color LockedButtonColor = new Color(0.24f, 0.28f, 0.36f, 1f);
-        private static readonly Color ClaimableButtonColor = new Color(0.16f, 0.78f, 0.38f, 1f);
-        private static readonly Color ClaimedButtonColor = new Color(0.18f, 0.22f, 0.28f, 0.85f);
+        private static readonly Color LockedButtonColor = new Color(0.84f, 0.88f, 0.92f, 0.90f);
+        private static readonly Color ClaimableButtonColor = new Color(1f, 1f, 1f, 1f);
+        private static readonly Color ClaimedButtonColor = new Color(0.78f, 0.82f, 0.86f, 0.80f);
         #endregion
 
         #endregion
@@ -89,7 +97,17 @@ namespace Controllers.UI
 
             if (progressSlider != null)
             {
-                progressSlider.value = task.NormalizedProgress;
+                if (_hasProgressTween)
+                {
+                    _progressTween.Kill();
+                    _hasProgressTween = false;
+                }
+
+                _progressTween = progressSlider
+                    .DOValue(task.NormalizedProgress, 0.25f)
+                    .SetEase(Ease.OutQuad)
+                    .SetUpdate(true);
+                _hasProgressTween = true;
             }
 
             if (progressCountText != null)
@@ -104,23 +122,47 @@ namespace Controllers.UI
 
             if (task.IsClaimed)
             {
-                if (cardBackground != null) cardBackground.color = ClaimedCardColor;
+                if (cardBackground != null)
+                {
+                    cardBackground.sprite = claimedCardSprite;
+                    cardBackground.color = ClaimedCardColor;
+                }
                 if (claimButton != null) claimButton.interactable = false;
-                if (claimButtonBackground != null) claimButtonBackground.color = ClaimedButtonColor;
+                if (claimButtonBackground != null)
+                {
+                    claimButtonBackground.sprite = slateButtonSprite;
+                    claimButtonBackground.color = ClaimedButtonColor;
+                }
                 if (claimButtonText != null) claimButtonText.text = "TAKEN";
             }
             else if (task.IsClaimable)
             {
-                if (cardBackground != null) cardBackground.color = ClaimableCardColor;
+                if (cardBackground != null)
+                {
+                    cardBackground.sprite = defaultCardSprite;
+                    cardBackground.color = ClaimableCardColor;
+                }
                 if (claimButton != null) claimButton.interactable = true;
-                if (claimButtonBackground != null) claimButtonBackground.color = ClaimableButtonColor;
+                if (claimButtonBackground != null)
+                {
+                    claimButtonBackground.sprite = claimableButtonSprite;
+                    claimButtonBackground.color = ClaimableButtonColor;
+                }
                 if (claimButtonText != null) claimButtonText.text = "CLAIM";
             }
             else
             {
-                if (cardBackground != null) cardBackground.color = DefaultCardColor;
+                if (cardBackground != null)
+                {
+                    cardBackground.sprite = defaultCardSprite;
+                    cardBackground.color = DefaultCardColor;
+                }
                 if (claimButton != null) claimButton.interactable = false;
-                if (claimButtonBackground != null) claimButtonBackground.color = LockedButtonColor;
+                if (claimButtonBackground != null)
+                {
+                    claimButtonBackground.sprite = slateButtonSprite;
+                    claimButtonBackground.color = LockedButtonColor;
+                }
                 if (claimButtonText != null) claimButtonText.text = "CLAIM";
             }
         }
@@ -141,6 +183,11 @@ namespace Controllers.UI
 
         private void OnDestroy()
         {
+            if (_hasProgressTween)
+            {
+                _progressTween.Kill();
+                _hasProgressTween = false;
+            }
             transform.DOKill();
         }
     }

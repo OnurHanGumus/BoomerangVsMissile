@@ -340,7 +340,20 @@ namespace Managers
             }
             SetRange();
             _isCreatingContinue = true;
+            BroadcastWaveProgress();
             StartCoroutine(InstantiateMissile());
+        }
+
+        private void BroadcastWaveProgress()
+        {
+            if (isTutorial)
+            {
+                MissileSignals.Instance.onWaveProgressChanged(0, 0);
+                return;
+            }
+
+            int totalRequired = _data.MissileData[_levelId].MissileCount + _additionalClusterMissiles;
+            MissileSignals.Instance.onWaveProgressChanged(_destroyedMissileCount, totalRequired);
         }
 
         private void OnClusterSplit(int childCount)
@@ -349,6 +362,7 @@ namespace Managers
             {
                 _additionalClusterMissiles += (childCount);
                 Debug.Log("cluster +1");
+                BroadcastWaveProgress();
             }
         }
 
@@ -359,6 +373,7 @@ namespace Managers
                 ++_destroyedMissileCount;
             }
             Debug.Log("destroyed missile count: " + _destroyedMissileCount + " additional: " + _additionalClusterMissiles + "\n instantiated missile count: " + _index);
+            BroadcastWaveProgress();
             CheckWinCondition();
         }
 

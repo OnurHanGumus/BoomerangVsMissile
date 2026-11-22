@@ -16,6 +16,7 @@ namespace Signals
         public UnityAction<int> onClusterSplit = delegate { };
         public UnityAction onExploderMissileCreated = delegate { };
         public UnityAction onAegisStateChanged = delegate { };
+        public UnityAction<int, int> onWaveProgressChanged = delegate { };
         public Func<Vector3, Transform, bool> onIsPointShielded = delegate { return false; };
     }
 }

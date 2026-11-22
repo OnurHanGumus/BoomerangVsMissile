@@ -607,14 +607,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05044718cb137ac479b8b6c8419179c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Controllers.UI.WeeklyTaskCardUI
-  cardBackground: {fileID: 0}
+  cardBackground: {fileID: 8435832684099279680}
   descriptionText: {fileID: 2517976384476305106}
   progressSlider: {fileID: 8994125934914903417}
   progressCountText: {fileID: 6852364657904448292}
   rewardAmountText: {fileID: 7185427614519297892}
   claimButton: {fileID: 6919618927873756122}
-  claimButtonBackground: {fileID: 0}
+  claimButtonBackground: {fileID: 4377249981629787373}
   claimButtonText: {fileID: 3798649877956625879}
+  defaultCardSprite: {fileID: 21300000, guid: ab8d9fa3ff1a42769e63cd00a038387f, type: 3}
+  claimedCardSprite: {fileID: 21300000, guid: 85ecfa3ed471db24390bb266984344dd, type: 3}
+  claimableButtonSprite: {fileID: 21300000, guid: 55e9f9b1e3e2a584dafbe96cadbd4240, type: 3}
+  slateButtonSprite: {fileID: 21300000, guid: 85ecfa3ed471db24390bb266984344dd, type: 3}
 --- !u!1 &3246840805883360844
 GameObject:
   m_ObjectHideFlags: 0
@@ -825,7 +829,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1.4
+  m_PixelsPerUnitMultiplier: 1.65
 --- !u!1 &3957988302550825566
 GameObject:
   m_ObjectHideFlags: 0
@@ -973,6 +977,7 @@ GameObject:
   - component: {fileID: 4819253336234261195}
   - component: {fileID: 6984133814009127082}
   - component: {fileID: 6919618927873756122}
+  - component: {fileID: 5637198641746965413}
   m_Layer: 0
   m_Name: ClaimButton
   m_TagString: Untagged
@@ -1034,7 +1039,7 @@ MonoBehaviour:
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_DisabledColor: {r: 0.92, g: 0.94, b: 0.96, a: 0.96}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -1053,6 +1058,23 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &5637198641746965413
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4223778163107242317}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8fdd6fc12c96ce46bc853ec83d8dcb4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Controllers.UI.UIButtonAnimator
+  targetTransform: {fileID: 4819253336234261195}
+  useGlobalDefaults: 1
+  pressScaleMultiplier: 0.92
+  pressDuration: 0.08
+  releaseDuration: 0.2
 --- !u!1 &5065431767035659198
 GameObject:
   m_ObjectHideFlags: 0
@@ -1112,7 +1134,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0.85882354, g: 0.98039216, b: 0.36078432, a: 1}
+  m_Color: {r: 0.16, g: 0.85, b: 0.6, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

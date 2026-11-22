@@ -41,12 +41,18 @@ namespace Controllers.UI
         [SerializeField] private TextMeshProUGUI actionButtonText;
         [SerializeField] private Image actionButtonBackground;
 
+        [Header("Action Button Semantic Sprites")]
+        [SerializeField] private Sprite buyRibbonSprite;
+        [SerializeField] private Sprite equipRibbonSprite;
+        [SerializeField] private Sprite slateRibbonSprite;
+        [SerializeField] private Sprite lockedRibbonSprite;
+
         [Header("Button Colors")]
-        [SerializeField] private Color buyColor = new Color(0.18f, 0.72f, 0.35f, 1f);
-        [SerializeField] private Color equipColor = new Color(0.15f, 0.65f, 0.95f, 1f);
-        [SerializeField] private Color equippedColor = new Color(0.45f, 0.42f, 0.30f, 0.6f);
-        [SerializeField] private Color disabledColor = new Color(0.35f, 0.35f, 0.4f, 0.5f);
-        [SerializeField] private Color lockedColor = new Color(0.35f, 0.22f, 0.25f, 0.8f);
+        [SerializeField] private Color buyColor = new Color(1f, 1f, 1f, 1f);
+        [SerializeField] private Color equipColor = new Color(1f, 1f, 1f, 1f);
+        [SerializeField] private Color equippedColor = new Color(0.90f, 0.93f, 0.96f, 0.90f);
+        [SerializeField] private Color disabledColor = new Color(0.80f, 0.84f, 0.88f, 0.82f);
+        [SerializeField] private Color lockedColor = new Color(0.94f, 0.94f, 0.94f, 0.92f);
 
         [Header("Bottom Grid Section")]
         [SerializeField] private GameObject tilePrefab;
@@ -155,6 +161,23 @@ namespace Controllers.UI
 
                 InspectBoomerang(currentEquipped, false);
                 RefreshAllTiles();
+                PlayTilesStaggerEntrance();
+            }
+        }
+
+        private void PlayTilesStaggerEntrance()
+        {
+            int animatedCount = Mathf.Min(_spawnedTiles.Count, 12);
+            for (int i = 0; i < animatedCount; i++)
+            {
+                Transform tileTransform = _spawnedTiles[i].transform;
+                tileTransform.DOKill();
+                tileTransform.localScale = Vector3.one * 0.86f;
+                tileTransform
+                    .DOScale(Vector3.one, 0.24f)
+                    .SetDelay(0.06f + i * 0.025f)
+                    .SetEase(Ease.OutBack)
+                    .SetUpdate(true);
             }
         }
 
@@ -368,6 +391,7 @@ namespace Controllers.UI
 
                     if (actionButtonBackground != null)
                     {
+                        actionButtonBackground.sprite = lockedRibbonSprite;
                         actionButtonBackground.color = lockedColor;
                     }
 
@@ -382,6 +406,7 @@ namespace Controllers.UI
 
                     if (actionButtonBackground != null)
                     {
+                        actionButtonBackground.sprite = canAfford ? buyRibbonSprite : slateRibbonSprite;
                         actionButtonBackground.color = canAfford ? buyColor : disabledColor;
                     }
 
@@ -397,6 +422,7 @@ namespace Controllers.UI
 
                 if (actionButtonBackground != null)
                 {
+                    actionButtonBackground.sprite = slateRibbonSprite;
                     actionButtonBackground.color = equippedColor;
                 }
 
@@ -411,6 +437,7 @@ namespace Controllers.UI
 
                 if (actionButtonBackground != null)
                 {
+                    actionButtonBackground.sprite = equipRibbonSprite;
                     actionButtonBackground.color = equipColor;
                 }
 

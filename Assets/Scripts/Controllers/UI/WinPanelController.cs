@@ -1,3 +1,4 @@
+using Data.UnityObject;
 using DG.Tweening;
 using Enums;
 using Signals;
@@ -21,6 +22,12 @@ namespace Controllers.UI
 
         #region Private Variables
         private int _lastRewardAmount;
+        private float _rollDuration;
+        private Vector3 _initialRewardScale;
+        private Tween _rollTween;
+        private Tween _punchTween;
+        private bool _hasRollTween;
+        private bool _hasPunchTween;
         #endregion
 
         #endregion
@@ -37,11 +44,14 @@ namespace Controllers.UI
 
         private void OnDisable()
         {
+            KillTweens();
             UnsubscribeEvents();
         }
 
         private void Init()
         {
+            _initialRewardScale = rewardText.rectTransform.localScale;
+            _rollDuration = Resources.Load<CD_UI>("Data/CD_UI").Data.CoinRollDuration;
         }
 
         #region Event Subscription
@@ -76,10 +86,50 @@ namespace Controllers.UI
 
         public void UpdateRewardDisplay(int rewardAmount)
         {
-            rewardText.text = string.Format(rewardFormat, rewardAmount);
-            rewardText.transform.DOKill();
-            rewardText.transform.localScale = Vector3.one;
-            rewardText.transform.DOPunchScale(Vector3.one * 0.2f, 0.35f, 6, 0.5f).SetUpdate(true);
+            KillTweens();
+
+            int displayedValue = 0;
+            rewardText.text = string.Format(rewardFormat, 0);
+            rewardText.rectTransform.localScale = _initialRewardScale;
+
+            float duration = Mathf.Max(0.25f, _rollDuration * 1.4f);
+            _rollTween = DOTween.To(
+                    () => displayedValue,
+                    value =>
+                    {
+                        displayedValue = value;
+                        rewardText.text = string.Format(rewardFormat, value);
+                    },
+                    rewardAmount,
+                    duration)
+                .SetEase(Ease.OutCubic)
+                .SetUpdate(true)
+                .OnComplete(() =>
+                {
+                    _hasRollTween = false;
+                    rewardText.rectTransform.localScale = _initialRewardScale;
+                    _punchTween = rewardText.rectTransform
+                        .DOPunchScale(_initialRewardScale * 0.24f, 0.32f, 6, 0.6f)
+                        .SetUpdate(true);
+                    _hasPunchTween = true;
+                });
+            _hasRollTween = true;
+        }
+
+        private void KillTweens()
+        {
+            if (_hasRollTween)
+            {
+                _rollTween.Kill();
+                _hasRollTween = false;
+            }
+
+            if (_hasPunchTween)
+            {
+                _punchTween.Kill();
+                _hasPunchTween = false;
+                rewardText.rectTransform.localScale = _initialRewardScale;
+            }
         }
     }
 }

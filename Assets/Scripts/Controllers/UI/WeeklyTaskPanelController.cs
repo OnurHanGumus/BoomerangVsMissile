@@ -42,15 +42,21 @@ namespace Controllers.UI
         [Header("Optional Visual Overrides")]
         [SerializeField] private Sprite coinSprite;
         [SerializeField] private TMP_FontAsset fontAsset;
+
+        [Header("Grand Prize Semantic Ribbon Sprites")]
+        [SerializeField] private Sprite grandClaimableButtonSprite;
+        [SerializeField] private Sprite grandSlateButtonSprite;
         #endregion
 
         #region Private Variables
         private readonly List<WeeklyTaskCardUI> _cards = new List<WeeklyTaskCardUI>();
         private float _countdownTimer = 0f;
+        private Tween _grandSliderTween;
+        private bool _hasGrandSliderTween;
 
-        private static readonly Color LockedButtonColor = new Color(0.24f, 0.28f, 0.36f, 1f);
-        private static readonly Color ClaimableGrandButtonColor = new Color(0.95f, 0.68f, 0.12f, 1f);
-        private static readonly Color ClaimedButtonColor = new Color(0.18f, 0.22f, 0.28f, 0.85f);
+        private static readonly Color LockedButtonColor = new Color(0.84f, 0.88f, 0.92f, 0.90f);
+        private static readonly Color ClaimableGrandButtonColor = new Color(1f, 1f, 1f, 1f);
+        private static readonly Color ClaimedButtonColor = new Color(0.78f, 0.82f, 0.86f, 0.80f);
         #endregion
 
         #endregion
@@ -130,6 +136,8 @@ namespace Controllers.UI
                 WeeklyTaskSignals.Instance.onTaskProgressChanged += OnTaskProgressChanged;
                 WeeklyTaskSignals.Instance.onTaskCompleted += OnTaskCompleted;
             }
+
+            UISignals.Instance.onOpenPanel += OnOpenPanel;
         }
 
         private void UnsubscribeEvents()
@@ -140,13 +148,44 @@ namespace Controllers.UI
                 WeeklyTaskSignals.Instance.onTaskProgressChanged -= OnTaskProgressChanged;
                 WeeklyTaskSignals.Instance.onTaskCompleted -= OnTaskCompleted;
             }
+
+            UISignals.Instance.onOpenPanel -= OnOpenPanel;
         }
 
         private void OnDestroy()
         {
+            if (_hasGrandSliderTween)
+            {
+                _grandSliderTween.Kill();
+                _hasGrandSliderTween = false;
+            }
             UnsubscribeEvents();
         }
         #endregion
+
+        private void OnOpenPanel(UIPanels panel)
+        {
+            if (panel == UIPanels.WeeklyTaskPanel)
+            {
+                RefreshAllUI();
+                PlayCardsStaggerEntrance();
+            }
+        }
+
+        private void PlayCardsStaggerEntrance()
+        {
+            for (int i = 0; i < _cards.Count; i++)
+            {
+                Transform cardTransform = _cards[i].transform;
+                cardTransform.DOKill();
+                cardTransform.localScale = Vector3.one * 0.90f;
+                cardTransform
+                    .DOScale(Vector3.one, 0.26f)
+                    .SetDelay(0.06f + i * 0.04f)
+                    .SetEase(Ease.OutBack)
+                    .SetUpdate(true);
+            }
+        }
 
         private void Update()
         {
@@ -213,7 +252,17 @@ namespace Controllers.UI
             float normalized = totalCount > 0 ? Mathf.Clamp01((float)completedCount / totalCount) : 0f;
             if (grandPrizeProgressSlider != null)
             {
-                grandPrizeProgressSlider.value = normalized;
+                if (_hasGrandSliderTween)
+                {
+                    _grandSliderTween.Kill();
+                    _hasGrandSliderTween = false;
+                }
+
+                _grandSliderTween = grandPrizeProgressSlider
+                    .DOValue(normalized, 0.25f)
+                    .SetEase(Ease.OutQuad)
+                    .SetUpdate(true);
+                _hasGrandSliderTween = true;
             }
 
             if (grandPrizeProgressCountText != null)
@@ -238,19 +287,31 @@ namespace Controllers.UI
             if (isClaimed)
             {
                 if (grandPrizeClaimButton != null) grandPrizeClaimButton.interactable = false;
-                if (grandPrizeClaimButtonBackground != null) grandPrizeClaimButtonBackground.color = ClaimedButtonColor;
+                if (grandPrizeClaimButtonBackground != null)
+                {
+                    grandPrizeClaimButtonBackground.sprite = grandSlateButtonSprite;
+                    grandPrizeClaimButtonBackground.color = ClaimedButtonColor;
+                }
                 if (grandPrizeClaimButtonText != null) grandPrizeClaimButtonText.text = "CLAIMED";
             }
             else if (isClaimable)
             {
                 if (grandPrizeClaimButton != null) grandPrizeClaimButton.interactable = true;
-                if (grandPrizeClaimButtonBackground != null) grandPrizeClaimButtonBackground.color = ClaimableGrandButtonColor;
+                if (grandPrizeClaimButtonBackground != null)
+                {
+                    grandPrizeClaimButtonBackground.sprite = grandClaimableButtonSprite;
+                    grandPrizeClaimButtonBackground.color = ClaimableGrandButtonColor;
+                }
                 if (grandPrizeClaimButtonText != null) grandPrizeClaimButtonText.text = "CLAIM PRIZE";
             }
             else
             {
                 if (grandPrizeClaimButton != null) grandPrizeClaimButton.interactable = false;
-                if (grandPrizeClaimButtonBackground != null) grandPrizeClaimButtonBackground.color = LockedButtonColor;
+                if (grandPrizeClaimButtonBackground != null)
+                {
+                    grandPrizeClaimButtonBackground.sprite = grandSlateButtonSprite;
+                    grandPrizeClaimButtonBackground.color = LockedButtonColor;
+                }
                 if (grandPrizeClaimButtonText != null) grandPrizeClaimButtonText.text = $"{completedCount}/{totalCount}";
             }
         }
@@ -271,9 +332,7 @@ namespace Controllers.UI
         {
             if (grandPrizeClaimButton != null)
             {
-                grandPrizeClaimButton.transform.DOKill();
                 grandPrizeClaimButton.transform.localScale = Vector3.one;
-                grandPrizeClaimButton.transform.DOPunchScale(Vector3.one * 0.06f, 0.25f, 6, 0.5f).SetUpdate(true);
             }
 
             WeeklyTaskSignals.Instance.onClaimGrandPrize?.Invoke();
