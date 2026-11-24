@@ -19,7 +19,7 @@ RenderSettings:
   m_FogMode: 1
   m_FogDensity: 0.01
   m_LinearFogStart: 60
-  m_LinearFogEnd: 224
+  m_LinearFogEnd: 360
   m_AmbientSkyColor: {r: 1, g: 0.9406819, b: 0.759434, a: 1}
   m_AmbientEquatorColor: {r: 0.75756335, g: 0.6630473, b: 0.9433962, a: 1}
   m_AmbientGroundColor: {r: 0.6320754, g: 0.6320754, b: 0.6320754, a: 1}
@@ -8622,63 +8622,6 @@ MonoBehaviour:
   button: {fileID: 814920852}
   notificationBadge: {fileID: 0}
   enableAvailablePulse: 0
---- !u!1001 &715333184
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 3850964692580226988, guid: a04d9856ad80a844e9d9be307b2af523, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3850964692580226988, guid: a04d9856ad80a844e9d9be307b2af523, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 13.18
-      objectReference: {fileID: 0}
-    - target: {fileID: 3850964692580226988, guid: a04d9856ad80a844e9d9be307b2af523, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3850964692580226988, guid: a04d9856ad80a844e9d9be307b2af523, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3850964692580226988, guid: a04d9856ad80a844e9d9be307b2af523, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3850964692580226988, guid: a04d9856ad80a844e9d9be307b2af523, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3850964692580226988, guid: a04d9856ad80a844e9d9be307b2af523, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3850964692580226988, guid: a04d9856ad80a844e9d9be307b2af523, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3850964692580226988, guid: a04d9856ad80a844e9d9be307b2af523, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3850964692580226988, guid: a04d9856ad80a844e9d9be307b2af523, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3850964692580226991, guid: a04d9856ad80a844e9d9be307b2af523, type: 3}
-      propertyPath: m_Name
-      value: Missile_11_Zigzag
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: a04d9856ad80a844e9d9be307b2af523, type: 3}
 --- !u!1 &732128244
 GameObject:
   m_ObjectHideFlags: 0
@@ -10829,7 +10772,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 1.2}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &901697476
@@ -10879,13 +10822,13 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 22
-  m_fontSizeBase: 22
+  m_fontSize: 37.8
+  m_fontSizeBase: 37.8
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -12723,6 +12666,50 @@ MonoBehaviour:
   enableSlowRotate: 1
   rotateDegreesPerCycle: -360
   rotateDuration: 14
+--- !u!1 &1069948085
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1069948086}
+  - component: {fileID: 1069948087}
+  m_Layer: 0
+  m_Name: LevelEnvironmentManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1069948086
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1069948085}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1921236443}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1069948087
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1069948085}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49b192acf0353d94ca2809fa99e85781, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Managers.LevelEnvironmentManager
 --- !u!1 &1085219034
 GameObject:
   m_ObjectHideFlags: 0
@@ -14722,6 +14709,7 @@ GameObject:
   - component: {fileID: 1192003799}
   - component: {fileID: 1192003798}
   - component: {fileID: 1192003800}
+  - component: {fileID: 1192003801}
   m_Layer: 0
   m_Name: NotificationBadge
   m_TagString: Untagged
@@ -14738,7 +14726,7 @@ RectTransform:
   m_GameObject: {fileID: 1192003796}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.274, y: 1.274, z: 1.274}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 901697475}
@@ -14811,6 +14799,21 @@ MonoBehaviour:
   enableSlowRotate: 0
   rotateDegreesPerCycle: -360
   rotateDuration: 14
+--- !u!114 &1192003801
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1192003796}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Outline
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 1}
+  m_EffectDistance: {x: 1, y: 1}
+  m_UseGraphicAlpha: 1
 --- !u!1 &1205282304
 GameObject:
   m_ObjectHideFlags: 0
@@ -23193,14 +23196,14 @@ RectTransform:
   m_GameObject: {fileID: 1908027546}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.37, y: 0.39011, z: 0.39011}
+  m_LocalScale: {x: 0.37, y: 0.37, z: 0.39011}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1539712877}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -9.2}
+  m_AnchoredPosition: {x: 0, y: -0.2}
   m_SizeDelta: {x: 1254, y: 1254}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1908027548
@@ -23223,7 +23226,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 782ffd54de4f6144d97b416094340d39, type: 3}
+  m_Sprite: {fileID: -2106598367, guid: 782ffd54de4f6144d97b416094340d39, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -23302,6 +23305,7 @@ Transform:
   - {fileID: 357787157}
   - {fileID: 1456501716}
   - {fileID: 922546176}
+  - {fileID: 1069948086}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1921978647
@@ -24980,7 +24984,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0.5999603}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &2107220649
@@ -29816,4 +29820,3 @@ SceneRoots:
   - {fileID: 5178033274618845320}
   - {fileID: 1454551563}
   - {fileID: 474495989}
-  - {fileID: 715333184}

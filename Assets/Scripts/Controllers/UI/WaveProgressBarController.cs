@@ -96,7 +96,7 @@ namespace Controllers.UI
         private void RefreshLevelLabel()
         {
             int levelId = LevelSignals.Instance.onGetLevelId();
-            levelLabelText.text = $"LVL {levelId}";
+            levelLabelText.text = $"LVL {levelId + 1}";
         }
 
         private void OnWaveProgressChanged(int destroyedCount, int totalCount)

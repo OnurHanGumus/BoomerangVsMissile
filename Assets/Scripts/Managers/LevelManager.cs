@@ -115,6 +115,7 @@ namespace Managers
             int newLevelId = _levelID % Levels.Length;
             _currentModdedLevel = newLevelId;
             levelLoader.InitializeLevel((GameObject)Levels[newLevelId], levelHolder.transform);
+            LevelSignals.Instance.onLevelLoaded(newLevelId);
         }
 
         private int OnGetModdedLevel()
