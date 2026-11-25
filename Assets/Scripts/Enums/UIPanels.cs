@@ -20,5 +20,6 @@ namespace Enums
         ApprovalPanel,
         FortuneWheelPanel,
         WeeklyTaskPanel,
+        LevelSelectionPanel,
     }
 }

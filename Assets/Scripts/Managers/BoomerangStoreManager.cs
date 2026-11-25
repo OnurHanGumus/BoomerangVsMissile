@@ -191,13 +191,10 @@ namespace Managers
 
         public int GetCurrentPlayerLevel()
         {
-            if (LevelSignals.Instance != null && LevelSignals.Instance.onGetLevelId != null)
+            int level = LevelSignals.Instance.onGetMaxReachedLevelId();
+            if (level > 0)
             {
-                int level = LevelSignals.Instance.onGetLevelId();
-                if (level > 0)
-                {
-                    return level;
-                }
+                return level;
             }
 
             try

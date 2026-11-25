@@ -202,7 +202,7 @@ namespace Managers
             EnsureLoaded();
             EvaluateRegeneration(false);
 
-            if (_data.IsTutorialFree && LevelSignals.Instance != null && LevelSignals.Instance.onGetLevelId() == 0)
+            if (_data.IsTutorialFree && LevelSignals.Instance.onGetMaxReachedLevelId() == 0)
             {
                 return true;
             }

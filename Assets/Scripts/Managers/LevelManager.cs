@@ -29,7 +29,8 @@ namespace Managers
 
         #region Private Variables
 
-        private int _levelID;
+        private int _maxReachedLevelId;
+        private int _currentLevelId;
         private LevelData _data;
         private int _currentModdedLevel = 0;
         private bool _isLevelSuccessful = false;
@@ -45,7 +46,8 @@ namespace Managers
 
         private void Init()
         {
-            _levelID = GetActiveLevel();
+            _maxReachedLevelId = GetActiveLevel();
+            _currentLevelId = _maxReachedLevelId;
             _data = GetData();
         }
 
@@ -66,8 +68,27 @@ namespace Managers
             CoreGameSignals.Instance.onLevelSuccessful += OnLevelSuccessful;
             CoreGameSignals.Instance.onRestartLevel += OnRestartLevel;
             LevelSignals.Instance.onGetLevelId += OnGetLevelId;
+            LevelSignals.Instance.onGetMaxReachedLevelId += OnGetMaxReachedLevelId;
             LevelSignals.Instance.onGetCurrentModdedLevel += OnGetModdedLevel;
+            LevelSignals.Instance.onPreviousLevelOpened += OnPreviousLevelOpened;
+        }
 
+        private void UnsubscribeEvents()
+        {
+            CoreGameSignals.Instance.onLevelInitialize -= OnInitializeLevel;
+            CoreGameSignals.Instance.onClearActiveLevel -= OnClearActiveLevel;
+            CoreGameSignals.Instance.onNextLevel -= OnNextLevel;
+            CoreGameSignals.Instance.onLevelSuccessful -= OnLevelSuccessful;
+            CoreGameSignals.Instance.onRestartLevel -= OnRestartLevel;
+            LevelSignals.Instance.onGetLevelId -= OnGetLevelId;
+            LevelSignals.Instance.onGetMaxReachedLevelId -= OnGetMaxReachedLevelId;
+            LevelSignals.Instance.onGetCurrentModdedLevel -= OnGetModdedLevel;
+            LevelSignals.Instance.onPreviousLevelOpened -= OnPreviousLevelOpened;
+        }
+
+        private void OnDestroy()
+        {
+            UnsubscribeEvents();
         }
 
         private void OnLevelSuccessful()
@@ -80,39 +101,58 @@ namespace Managers
         private void Start()
         {
             OnInitializeLevel();
-            TutorialSignals.Instance.onTutorialActive?.Invoke(_levelID == 0);
+            TutorialSignals.Instance.onTutorialActive(_maxReachedLevelId == 0);
         }
 
         private void OnEnable()
         {
-            Debug.Log(_levelID);
+            Debug.Log(_currentLevelId);
         }
 
         private void OnNextLevel()
         {
-            _levelID++;
-            CoreGameSignals.Instance.onClearActiveLevel?.Invoke();
-            CoreGameSignals.Instance.onRestartLevel?.Invoke();
-            SaveSignals.Instance.onSave(_levelID, SaveLoadStates.Level, SaveFiles.SaveFile);
+            if (_currentLevelId != _maxReachedLevelId)
+            {
+                _currentLevelId = _maxReachedLevelId;
+            }
+            else
+            {
+                _maxReachedLevelId++;
+                _currentLevelId = _maxReachedLevelId;
+                SaveSignals.Instance.onSave(_maxReachedLevelId, SaveLoadStates.Level, SaveFiles.SaveFile);
+            }
+
+            CoreGameSignals.Instance.onRestartLevel();
+        }
+
+        private void OnPreviousLevelOpened(int levelId)
+        {
+            _currentLevelId = levelId;
+            CoreGameSignals.Instance.onRestartLevel();
         }
 
         private void OnRestartLevel()
         {
-            CoreGameSignals.Instance.onClearActiveLevel?.Invoke();
-            CoreGameSignals.Instance.onReset?.Invoke();
-            CoreGameSignals.Instance.onLevelInitialize?.Invoke();
+            CoreGameSignals.Instance.onClearActiveLevel();
+            CoreGameSignals.Instance.onReset();
+            CoreGameSignals.Instance.onLevelInitialize();
             _isLevelSuccessful = false;
         }
 
         private int OnGetLevelId()
         {
-            return _levelID;
+            return _currentLevelId;
+        }
+
+        private int OnGetMaxReachedLevelId()
+        {
+            return _maxReachedLevelId;
         }
 
         private void OnInitializeLevel()
         {
             UnityEngine.Object[] Levels = Resources.LoadAll("Levels");
-            int newLevelId = _levelID % Levels.Length;
+            int newLevelId = _currentLevelId % Levels.Length;
             _currentModdedLevel = newLevelId;
             levelLoader.InitializeLevel((GameObject)Levels[newLevelId], levelHolder.transform);
             LevelSignals.Instance.onLevelLoaded(newLevelId);

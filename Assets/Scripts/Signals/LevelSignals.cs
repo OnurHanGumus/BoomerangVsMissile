@@ -11,8 +11,10 @@ namespace Signals
     {
         public Func<int> onGetCurrentModdedLevel = delegate { return 0; };
         public Func<int> onGetLevelId = delegate { return 0; };
+        public Func<int> onGetMaxReachedLevelId = delegate { return 0; };
         public Func<bool> isLevelSuccessful = delegate { return false; };
         public UnityAction<int> onLevelLoaded = delegate { };
+        public UnityAction<int> onPreviousLevelOpened = delegate { };
 
     }
 }

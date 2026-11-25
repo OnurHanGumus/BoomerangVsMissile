@@ -192,17 +192,7 @@ public class LevelPanelController : MonoBehaviour
 
     public void UpdateRestartButtonVisibility()
     {
-        int currentLevelId = GetCurrentLevelId();
-        restartButton.SetActive(currentLevelId != 0);
-    }
-
-    private int GetCurrentLevelId()
-    {
-        if (LevelSignals.Instance != null && LevelSignals.Instance.onGetLevelId != null)
-        {
-            return LevelSignals.Instance.onGetLevelId();
-        }
-
-        return 0;
+        int maxReachedLevelId = LevelSignals.Instance.onGetMaxReachedLevelId();
+        restartButton.SetActive(maxReachedLevelId != 0);
     }
 }

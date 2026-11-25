@@ -304,16 +304,12 @@ namespace Managers
         #region Gameplay Event Handlers
         private bool IsTutorialLevel()
         {
-            return LevelSignals.Instance != null && LevelSignals.Instance.onGetLevelId() == 0;
+            return LevelSignals.Instance.onGetMaxReachedLevelId() == 0;
         }
 
         private int GetCurrentPlayerLevel()
         {
-            if (LevelSignals.Instance != null)
-            {
-                return Mathf.Max(0, LevelSignals.Instance.onGetLevelId());
-            }
-            return 0;
+            return Mathf.Max(0, LevelSignals.Instance.onGetMaxReachedLevelId());
         }
 
         private void OnPlay()
