@@ -45,16 +45,7 @@ namespace Controllers
         {
             if (other.CompareTag("Boomerang"))
             {
-                Vector3 touchPoint = GetTouchPointOnSelf(other.bounds.center);
-                if (IsTouchPointShielded(touchPoint))
-                {
-                    _waitingForUnshieldedStay = true;
-                    PlayShieldDeflectionFeedback(touchPoint);
-                    return;
-                }
-
-                _waitingForUnshieldedStay = false;
-                ApplyBoomerangHit(other);
+                HandleBoomerangTrigger(other, other.bounds.center, trackUnshieldedStay: true);
             }
             else if (other.CompareTag("SafeArea"))
             {
@@ -71,6 +62,33 @@ namespace Controllers
             {
                 manager.Explode();
             }
+        }
+
+        public void HandleSweptBoomerangHit(Collider boomerangCollider, Vector3 contactReferencePoint)
+        {
+            if (!CanAcceptHit())
+            {
+                return;
+            }
+
+            HandleBoomerangTrigger(boomerangCollider, contactReferencePoint, trackUnshieldedStay: false);
+        }
+
+        private void HandleBoomerangTrigger(Collider boomerangCollider, Vector3 contactReferencePoint, bool trackUnshieldedStay)
+        {
+            Vector3 touchPoint = GetTouchPointOnSelf(contactReferencePoint);
+            if (IsTouchPointShielded(touchPoint))
+            {
+                if (trackUnshieldedStay)
+                {
+                    _waitingForUnshieldedStay = true;
+                }
+                PlayShieldDeflectionFeedback(touchPoint);
+                return;
+            }
+
+            _waitingForUnshieldedStay = false;
+            ApplyBoomerangHit(boomerangCollider);
         }
 
         private void OnTriggerStay(Collider other)
