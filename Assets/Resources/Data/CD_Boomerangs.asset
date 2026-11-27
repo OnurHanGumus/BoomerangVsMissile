@@ -408,3 +408,18 @@ MonoBehaviour:
     ThemeColor: {r: 1, g: 0.15, b: 0.45, a: 1}
     HandLocalPosition: {x: -0.254, y: 0.107, z: -0.144}
     HandLocalEulerAngles: {x: 278.70413, y: 176.30818, z: 337.48706}
+  - Id: 26
+    Title: deneme
+    Description: deneme
+    Price: 23800
+    Icon: {fileID: 21300000, guid: 58d3ce53a03544499728e13fb20dd182, type: 3}
+    Prefab: {fileID: 3374490990581000655, guid: 885ec8cb25be10b4d8e0060fe8a893c4, type: 3}
+    Speed: 30
+    ReturnSpeedMultiplier: 5
+    Damage: 10
+    SizeMultiplier: 3
+    Tier: 3
+    CustomUnlockLevel: -1
+    ThemeColor: {r: 1, g: 0.15, b: 0.45, a: 1}
+    HandLocalPosition: {x: -0.254, y: 0.107, z: -0.144}
+    HandLocalEulerAngles: {x: 278.70413, y: 176.30818, z: 337.48706}

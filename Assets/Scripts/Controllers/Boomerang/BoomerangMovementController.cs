@@ -158,7 +158,7 @@ namespace Controllers
             var boomerangData = _manager.GetBoomerangData();
             float baseSpeed = boomerangData != null ? boomerangData.Speed : 5f;
             float baseThrowSpeed = baseSpeed + (_progress * 10f);
-            float speed = Mathf.Min(baseThrowSpeed * _manager.EffectiveReturnSpeedMultiplier, 30f);
+            float speed = baseThrowSpeed * _manager.EffectiveReturnSpeedMultiplier;
             Vector3 recallVelocity = toTarget.normalized * speed;
             _rig.linearVelocity = recallVelocity;
 
