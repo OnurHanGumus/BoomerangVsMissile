@@ -17,10 +17,10 @@ namespace Data.ValueObject
         public GameObject Prefab;
 
         [Header("Weapon Stats")]
-        [Range(3f, 15f)] public float Speed = 5f;
-        [Range(1f, 3.5f)] public float ReturnSpeedMultiplier = 1.25f;
-        [Range(1, 5)] public int Damage = 1;
-        [Range(0.5f, 2f)] public float SizeMultiplier = 1f;
+        [Range(3f, 30f)] public float Speed = 5f;
+        [Range(1f, 5f)] public float ReturnSpeedMultiplier = 1.25f;
+        [Range(1, 10)] public int Damage = 1;
+        [Range(0.5f, 3f)] public float SizeMultiplier = 1f;
         public BoomerangTierEnums Tier;
 
         [Header("Unlock Requirements")]

@@ -399,7 +399,7 @@ MonoBehaviour:
     Price: 23500
     Icon: {fileID: 21300000, guid: ef83be793bec4a81a7a2ca985454f970, type: 3}
     Prefab: {fileID: 4707204977931166528, guid: b4ded3a76f0d29e41838e0d4603772f4, type: 3}
-    Speed: 15
+    Speed: 30
     ReturnSpeedMultiplier: 3.5
     Damage: 5
     SizeMultiplier: 2
