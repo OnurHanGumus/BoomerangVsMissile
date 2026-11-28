@@ -387,7 +387,7 @@ MonoBehaviour:
     Speed: 14.3
     ReturnSpeedMultiplier: 3.5
     Damage: 4
-    SizeMultiplier: 1.52
+    SizeMultiplier: 2.517
     Tier: 3
     CustomUnlockLevel: -1
     ThemeColor: {r: 1, g: 0.75, b: 0.3, a: 1}
@@ -412,14 +412,14 @@ MonoBehaviour:
     Title: deneme
     Description: deneme
     Price: 23800
-    Icon: {fileID: 21300000, guid: 58d3ce53a03544499728e13fb20dd182, type: 3}
-    Prefab: {fileID: 3374490990581000655, guid: 885ec8cb25be10b4d8e0060fe8a893c4, type: 3}
-    Speed: 30
-    ReturnSpeedMultiplier: 5
+    Icon: {fileID: 21300000, guid: c0d79aa7ac029c74fbb144e754526bf6, type: 3}
+    Prefab: {fileID: 8305168317822821725, guid: 6d04f68cfda996545aa8a4559f2050b9, type: 3}
+    Speed: 12.6
+    ReturnSpeedMultiplier: 2.48
     Damage: 10
     SizeMultiplier: 3
     Tier: 3
     CustomUnlockLevel: -1
     ThemeColor: {r: 1, g: 0.15, b: 0.45, a: 1}
-    HandLocalPosition: {x: -0.254, y: 0.107, z: -0.144}
-    HandLocalEulerAngles: {x: 278.70413, y: 176.30818, z: 337.48706}
+    HandLocalPosition: {x: -0.014, y: 0.097, z: 0.017}
+    HandLocalEulerAngles: {x: 83.93334, y: 260.68448, z: 72.820595}
